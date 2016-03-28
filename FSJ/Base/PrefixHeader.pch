@@ -1,0 +1,67 @@
+//
+//  PrefixHeader.pch
+//  FSJ
+//
+//  Created by Monstar on 16/3/4.
+//  Copyright © 2016年 Monstar. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+#ifndef W_H_
+#define W_H_
+#define WIDTH self.view.bounds.size.width
+#define HEIGH self.view.bounds.size.height
+#endif
+#define SystemBlueColor [UIColor colorWithRed:(53/255.0) green:(166/255.0) blue:(187/255.0) alpha:1]
+#define SystemGrayColor [UIColor colorWithRed:(117/255.0) green:(117/255.0) blue:(117/255.0) alpha:1]
+#define SystemWhiteColor [UIColor colorWithRed:(255/255.0) green:(255/255.0) blue:(255/255.0) alpha:1]
+#define SystemGreenColor [UIColor colorWithRed:(130/255.0) green:(191/255.0) blue:(21/255.0) alpha:1]
+#define SystemLightGrayColor [UIColor colorWithRed:(235/255.0) green:(235/255.0) blue:(244/255.0) alpha:1]
+
+//weakSelf宏
+#define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
+#ifdef DEBUG
+#define BaseURL       @"http://192.168.10.124:8080/fsj"
+//#define BaseURL         @"http://infosoul.oicp.net:8080/fsj"
+#define BaseUploadURL   @""
+#else
+#define BaseURL       @"http://192.168.10.124:8080/fsj"
+//#define BaseURL         @"http://infosoul.oicp.net:8080/fsj"
+#define BaseUploadURL   @""
+#endif
+#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://infosoul.oicp.net:8080/fsj/alarm/app/statistics?userName=%@",username];
+//#define BaseImgURL      @"http://infosoul.oicp.net:8080"
+#define BaseImgURL      @"http://192.168.10.124:8080"
+#pragma mark - pod
+#import "Masonry.h"
+#import "SVProgressHUD.h"
+#import <MJExtension.h>
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>
+#import <BaiduMapAPI_Cloud/BMKCloudSearchComponent.h>
+#import <BaiduMapAPI_Radar/BMKRadarComponent.h>
+#import <BaiduMapAPI_Search/BMKSearchComponent.h>
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
+#import <Masonry.h>
+#import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
+#import <MJRefresh/MJRefresh.h>
+#import "EGOCache.h"
+
+#pragma mark - class
+#import "Constants.h"
+#import "AppKeys.h"
+#import "FSJNetWorking.h"
+#import "FSJUserInfo.h"
+
+
+#pragma mark - Category
+#import "UIView+LoadFromNib.h"
+#import "NSString+RegexCategory.h"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
