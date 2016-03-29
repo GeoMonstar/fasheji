@@ -22,17 +22,17 @@
 //weakSelf宏
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #ifdef DEBUG
-#define BaseURL       @"http://192.168.10.124:8080/fsj"
+#define BaseURL       @"http://192.168.10.94:8080/fsj"
 //#define BaseURL         @"http://infosoul.oicp.net:8080/fsj"
 #define BaseUploadURL   @""
 #else
-#define BaseURL       @"http://192.168.10.124:8080/fsj"
+#define BaseURL       @"http://192.168.10.94:8080/fsj"
 //#define BaseURL         @"http://infosoul.oicp.net:8080/fsj"
 #define BaseUploadURL   @""
 #endif
 #define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://infosoul.oicp.net:8080/fsj/alarm/app/statistics?userName=%@",username];
 //#define BaseImgURL      @"http://infosoul.oicp.net:8080"
-#define BaseImgURL      @"http://192.168.10.124:8080"
+#define BaseImgURL      @"http://192.168.10.94:8080"
 #pragma mark - pod
 #import "Masonry.h"
 #import "SVProgressHUD.h"
