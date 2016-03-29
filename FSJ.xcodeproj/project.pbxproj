@@ -43,6 +43,8 @@
 		854D50DF1C966625001C963F /* FSJOneFSJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 854D50DE1C966625001C963F /* FSJOneFSJ.m */; };
 		854D50E31C966813001C963F /* FSJOneFSJTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 854D50E11C966813001C963F /* FSJOneFSJTableViewCell.m */; };
 		854D50E41C966813001C963F /* FSJOneFSJTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 854D50E21C966813001C963F /* FSJOneFSJTableViewCell.xib */; };
+		85778F6B1CAA764A000E9CC8 /* MPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 85778F6A1CAA764A000E9CC8 /* MPush.m */; };
+		85778F6F1CAA77AD000E9CC8 /* Mqtt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85778F6E1CAA77AD000E9CC8 /* Mqtt.a */; };
 		85931B9F1C9CF59600933623 /* fasheji3.png in Resources */ = {isa = PBXBuildFile; fileRef = 85931B9E1C9CF59600933623 /* fasheji3.png */; };
 		859DF5821C89237100107467 /* NSString+RegexCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 859DF5811C89237100107467 /* NSString+RegexCategory.m */; };
 		859DF5891C89245600107467 /* LoginTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 859DF5871C89245600107467 /* LoginTableViewCell.m */; };
@@ -174,6 +176,11 @@
 		854D50E01C966813001C963F /* FSJOneFSJTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJOneFSJTableViewCell.h; sourceTree = "<group>"; };
 		854D50E11C966813001C963F /* FSJOneFSJTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJOneFSJTableViewCell.m; sourceTree = "<group>"; };
 		854D50E21C966813001C963F /* FSJOneFSJTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSJOneFSJTableViewCell.xib; sourceTree = "<group>"; };
+		85778F671CAA764A000E9CC8 /* mopush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mopush.h; sourceTree = "<group>"; };
+		85778F681CAA764A000E9CC8 /* mosquitto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mosquitto.h; sourceTree = "<group>"; };
+		85778F691CAA764A000E9CC8 /* MPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPush.h; sourceTree = "<group>"; };
+		85778F6A1CAA764A000E9CC8 /* MPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPush.m; sourceTree = "<group>"; };
+		85778F6E1CAA77AD000E9CC8 /* Mqtt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = Mqtt.a; sourceTree = "<group>"; };
 		85931B9E1C9CF59600933623 /* fasheji3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fasheji3.png; sourceTree = "<group>"; };
 		859DF5801C89237100107467 /* NSString+RegexCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexCategory.h"; sourceTree = "<group>"; };
 		859DF5811C89237100107467 /* NSString+RegexCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexCategory.m"; sourceTree = "<group>"; };
@@ -259,6 +266,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85778F6F1CAA77AD000E9CC8 /* Mqtt.a in Frameworks */,
 				4FF4B913B182CA2CF13F395D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +284,7 @@
 		7D4CF488D366D52090717CD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				85778F6E1CAA77AD000E9CC8 /* Mqtt.a */,
 				6633CEA03DB939E5B9E68C30 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -342,6 +351,10 @@
 		8528A6021C87E945009A258D /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				85778F671CAA764A000E9CC8 /* mopush.h */,
+				85778F681CAA764A000E9CC8 /* mosquitto.h */,
+				85778F691CAA764A000E9CC8 /* MPush.h */,
+				85778F6A1CAA764A000E9CC8 /* MPush.m */,
 				859DF5801C89237100107467 /* NSString+RegexCategory.h */,
 				859DF5811C89237100107467 /* NSString+RegexCategory.m */,
 				8528A61E1C8815DD009A258D /* GTMDefines.h */,
@@ -382,7 +395,7 @@
 		8528A6221C884736009A258D /* 个人 */ = {
 			isa = PBXGroup;
 			children = (
-				85F5DD501C8FC7B000F2D4FC /* Controller */,
+				85F5DD501C8FC7B000F2D4FC /* VC */,
 				85F5DD4F1C8FC7AB00F2D4FC /* View */,
 				85F5DD4E1C8FC7A400F2D4FC /* Model */,
 			);
@@ -612,7 +625,7 @@
 			name = View;
 			sourceTree = "<group>";
 		};
-		85F5DD501C8FC7B000F2D4FC /* Controller */ = {
+		85F5DD501C8FC7B000F2D4FC /* VC */ = {
 			isa = PBXGroup;
 			children = (
 				85F5DD511C8FC7C400F2D4FC /* FSJMeViewController.h */,
@@ -620,7 +633,7 @@
 				850EAC1C1C9A7D9D002C577E /* FSJChangePersonInfoViewController.h */,
 				850EAC1D1C9A7D9D002C577E /* FSJChangePersonInfoViewController.m */,
 			);
-			name = Controller;
+			name = VC;
 			sourceTree = "<group>";
 		};
 		CDC1E60F0881682BBC22A017 /* Pods */ = {
@@ -848,6 +861,7 @@
 				85F5DD531C8FC7C400F2D4FC /* FSJMeViewController.m in Sources */,
 				851DAEF21CA54760002E8BFD /* FSJOneCity.m in Sources */,
 				859DF5A61C8933BC00107467 /* UIView+LoadFromNib.m in Sources */,
+				85778F6B1CAA764A000E9CC8 /* MPush.m in Sources */,
 				850EAC1E1C9A7D9D002C577E /* FSJChangePersonInfoViewController.m in Sources */,
 				850EAC211C9AB660002C577E /* FSJTongjiViewController.m in Sources */,
 				8528A60D1C880A7E009A258D /* FSJBaseModel.m in Sources */,
@@ -1011,6 +1025,10 @@
 				INFOPLIST_FILE = FSJ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.GOSFSJ.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1030,6 +1048,10 @@
 				INFOPLIST_FILE = FSJ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.GOSFSJ.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

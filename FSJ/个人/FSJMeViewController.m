@@ -98,14 +98,12 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         case 0:
             return 1;
             break;
-            
         case 1:
             return 7;
             break;
         case 2:
             return 1;
             break;
-            
         default:
             return 0;
             break;

@@ -56,7 +56,7 @@
 #import "AppKeys.h"
 #import "FSJNetWorking.h"
 #import "FSJUserInfo.h"
-
+#import "MPush.h"
 
 #pragma mark - Category
 #import "UIView+LoadFromNib.h"

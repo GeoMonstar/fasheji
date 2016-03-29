@@ -8,8 +8,6 @@
 #import "AppDelegate.h"
 #import "FSJLogInViewController.h"
 #import "FSJHomeViewController.h"
-
-
 //#define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
 #define BaiduMapKEy @"G4u27joqchFtv5iVTn5KPwXp"
 @interface AppDelegate ()<BMKGeneralDelegate>{

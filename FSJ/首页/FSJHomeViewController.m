@@ -71,17 +71,7 @@
 @end
 @implementation FSJHomeViewController
 #pragma mark -- 懒加载
-- (UITableView *)mytableView{
-    if (_mytableView == nil) {
-        _mytableView = [[UITableView alloc]initWithFrame:CGRectMake(0, HEIGH/3*2, WIDTH, HEIGH/3) style:UITableViewStylePlain];
-        _mytableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_mytableView registerNib:[UINib nibWithNibName:@"FSJOneFSJTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CELL"];
-        _mytableView.allowsSelection =YES;
-        _mytableView.delegate = self;
-        _mytableView.dataSource = self;
-    }
-    return _mytableView;
-}
+
 - (NSMutableArray *)allsite{
     if (_allsite == nil) {
         _allsite = @[].mutableCopy;
@@ -792,6 +782,19 @@
                 NSLog(@"%@",model.name);
         }
 }
+#pragma mark -- Tableview
+- (UITableView *)mytableView{
+    if (_mytableView == nil) {
+        _mytableView = [[UITableView alloc]initWithFrame:CGRectMake(0, HEIGH/3*2, WIDTH, HEIGH/3) style:UITableViewStyleGrouped];
+        _mytableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_mytableView registerNib:[UINib nibWithNibName:@"FSJOneFSJTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CELL"];
+        _mytableView.allowsSelection =YES;
+        _mytableView.delegate = self;
+        _mytableView.dataSource = self;
+        
+    }
+    return _mytableView;
+}
 - (void)createTableview{
     if (self.mytableView) {
         [self.mytableView removeFromSuperview];
@@ -800,16 +803,61 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [SVProgressHUD dismiss];
     });
+    self.mytableView.frame = CGRectMake(0, HEIGH/3*2, WIDTH, HEIGH/3);
     [self.view addSubview:self.mytableView];
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    
+//}
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return 44;
+//}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.1;
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"cell 数量 == %lu",(unsigned long)self.allsite.count);
-    return self.allsite.count;
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    return 0.1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return 50;
+    }
+    return 45;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
+{
+    switch (sectionIndex) {
+        case 0:
+            return 1;
+            break;
+        case 1:
+            return self.allsite.count;
+            break;
+        default:
+            return 0;
+            break;
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HEADER"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"HEADER"];
+        }
+        cell.backgroundColor = SystemGrayColor;
+        cell.textLabel.text = [NSString stringWithFormat:@"      共搜索到%ld条结果",self.allsite.count];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        
+        return cell;
+    }
+    else{
     static NSString *identifer = @"CELL";
     FSJOneFSJTableViewCell *cell = [self.mytableView dequeueReusableCellWithIdentifier:identifer];
         FSJOneFSJ *model = self.allsite[indexPath.row];
@@ -836,18 +884,23 @@
             break;
         default:
             break;
+        }
+        return cell;
     }
-    return cell;
+    
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"1");
-    
+    if (indexPath.section == 0) {
+        return;
+    }
+    else{
     FSJOneFSJ *model = self.allsite[indexPath.row];
     FSJPeopleManagerDetailViewController *detail = [[FSJPeopleManagerDetailViewController alloc]init];
     detail.DetailInfoType = FSJManageDetail;
     detail.managerID = model.transId;
     [self.navigationController pushViewController:detail animated:YES];
-    //[self presentViewController:detail animated:YES completion:nil];
+    }
 }
 #pragma mark -- 导航
 - (IBAction)UserInfo:(UIButton *)sender {
@@ -891,7 +944,6 @@
     [swipup setDirection:UISwipeGestureRecognizerDirectionUp];
     [self.view addGestureRecognizer:swipup];
 }
-
 - (void)addTableview:(UISwipeGestureRecognizer *)swip{
     NSLog(@"up");
    if (self.mytableView != nil) {
@@ -905,7 +957,6 @@
     NSLog(@"down");
     if (self.mytableView) {
         [UIView animateWithDuration:1 animations:^{
-            // [mytableView removeFromSuperview];
             self.mytableView.frame = CGRectMake(0, HEIGH, WIDTH, HEIGH/3);
         }];
     }
@@ -920,15 +971,14 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 //- (void)addTableview:(UISwipeGestureRecognizer *)swip{
-//    //    if (self.mytableView.frame.origin.y == 0) {
-//    //        fullScreen = YES;
-//    //    }
-//    //if (self.mytableView.frame.origin.y == 0) {
-//    //    return;
-//    // }
-//    // else{
+//        if (self.mytableView.frame.origin.y == 0) {
+//            fullScreen = YES;
+//        }
+//    if (self.mytableView.frame.origin.y == 0) {
+//        return;
+//     }
+//     else{
 //    if (self.mytableView != nil) {
 //        [UIView animateWithDuration:0.6 animations:^{
 //            //[self.view addSubview:self.mytableView];
@@ -938,16 +988,16 @@
 //            self.mytableView.frame = rect;
 //        }];
 //    }
-//    // }
+//     }
 //    NSLog(@"up");
 //}
 //- (void)removeTableview:(UISwipeGestureRecognizer *)swip{
 //    NSLog(@"down");
 //
-//    // if (self.mytableView.frame.origin.y == HEIGH) {
-//    //    return;
-//    //  }
-//    //  else{
+//     if (self.mytableView.frame.origin.y == HEIGH) {
+//        return;
+//      }
+//      else{
 //    if (self.mytableView) {
 //        [UIView animateWithDuration:1 animations:^{
 //            CGRect rect = self.mytableView.frame;
@@ -956,6 +1006,6 @@
 //            self.mytableView.frame = rect;
 //        }];
 //    }
-//    //  }
+//     }
 //}
 @end
