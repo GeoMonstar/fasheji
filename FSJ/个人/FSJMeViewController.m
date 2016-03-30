@@ -64,7 +64,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             if (userInfomodel.photo) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.myTableView reloadData];
-                NSLog(@"最终 == %@",userInfomodel.photo);
+                //NSLog(@"最终 == %@",userInfomodel.photo);
             });
            }
         }
@@ -352,7 +352,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"text/html",@"text/json",@"application/json",@"text/javascript", nil];
     NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,@"/rs/user/upload/photo"];
     NSString *filename = [NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]];
-    NSLog(@"filename = %@", filename);
+   // NSLog(@"filename = %@", filename);
     //参数注意
     NSDictionary *dict = @{@"jwt":self.jwtStr};
         [manager

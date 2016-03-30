@@ -125,7 +125,7 @@ libmopush_EXPORTS int mopush_usrname_pw_set(mopush *mpush, const char *username,
 
 libmopush_EXPORTS int mopush_will_set(mopush *mpush, const char *topic, int payloadlen, const void *payload, int qos, bool retain);
 
-libmopush_EXPORTS int mopush_set_appName(char *appName);
+libmopush_EXPORTS int mopush_set_appName(const char *appName);
 libmopush_EXPORTS void mopush_publish_callback_set(mopush *mpush, void (*on_publish)(mopush *, void *, int));
 int encapayload(mopush *mpush, int len, char *payload, int type);
 libmopush_EXPORTS void mopush_disconnect_callback_set(mopush *mpush, void (*on_disconnect)(mopush*, void *, int));

@@ -272,7 +272,6 @@
                 break;
         }
     }
-
     if (self.DetailInfoType == StationManageDetail){
         switch (indexPath.section) {
             case 0:

@@ -10,10 +10,10 @@
 
 @interface MPush : NSObject
 
-+ (void)registerForClientId:(NSString *)clientId;
++ (void)registerForClientId:(NSString *)clientId withAppName:(NSString *)name;
 + (void)subscribeForArea:(NSString *)area;
 + (void)unsubscribe;
 + (void)setConnectCallback:(void(^)(int))success;
-+ (void)setMessageCallback:(void(^)(NSString *))receiveMessage;
++ (void)setMessageCallback:(void(^)(NSDictionary *))receiveMessage;
 
 @end

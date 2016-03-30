@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface FSJResultList : NSObject
-
+/**
+ *  @brief 台站警告数目
+ */
+@property (nonatomic, copy)NSString *alarmSize;
 /**
  *  @brief  区域ID
  */

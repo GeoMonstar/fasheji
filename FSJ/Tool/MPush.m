@@ -11,8 +11,11 @@
 
 int kQos = 2;
 
-static NSString * const kHost      = @"192.168.10.188";
-static int const kPort             = 1883;
+static NSString * const kHost      = @"119.6.203.24";
+static int const kPort             = 2017;
+
+//static NSString * const kHost      = @"192.168.10.188";
+//static int const kPort             = 1883;
 static int const kKeepAlive        = 60;
 static BOOL const kCleanSession    = NO;
 
@@ -33,8 +36,9 @@ static ReceiveMessage s_receiveMessage;
 
 #pragma mark - API
 
-+ (void)registerForClientId:(NSString *)clientId {
++ (void)registerForClientId:(NSString *)clientId withAppName:(NSString *)name {
     s_clientId = clientId;
+    mopush_set_appName(name.UTF8String);
     [[MPush shareInstance] connect];
 }
 
@@ -74,6 +78,8 @@ static ReceiveMessage s_receiveMessage;
     self = [super init];
     if (self) {
         _mopush = mopush_new(s_clientId.UTF8String, kCleanSession, (__bridge void *)(self));
+//        mopush_connect_callback_set(_mopush, on_connect);
+//        mopush_message_callback_set(_mopush, on_message);
     }
     
     return self;
@@ -81,18 +87,20 @@ static ReceiveMessage s_receiveMessage;
 
 - (void)connect {
     mopush_connect(_mopush, kHost.UTF8String, kPort, kKeepAlive);
-    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_queue_create("com.queue.timer", DISPATCH_QUEUE_CONCURRENT));
-    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
-    dispatch_source_set_event_handler(timer, ^{
+    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_queue_create("com.queue.timer", DISPATCH_QUEUE_CONCURRENT));
+    dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
+    dispatch_source_set_event_handler(_timer, ^{
         if (mopush_loop(_mopush, -1)) {
             mopush_reconnect(_mopush);
         }
     });
-    dispatch_resume(timer);
+    dispatch_resume(_timer);
+    
 }
 
 - (void)subscribeForArea:(NSString *)area {
-    mopush_subscribe(_mopush, NULL, area.UTF8String, kQos);
+    int mid =1;
+    mopush_subscribe(_mopush, &mid, area.UTF8String, kQos);
 }
 
 - (void)unsubscribe {
@@ -103,23 +111,33 @@ static ReceiveMessage s_receiveMessage;
 
 static void on_connect(mopush *mop, void *obj, int rc)
 {
-    s_connectSuccess(rc);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        s_connectSuccess(rc);
+    });
 }
+
 static void on_message(mopush *mop, void *obj, struct mopush_message *message)
 {
-    s_receiveMessage([[NSString alloc] initWithBytes:message->payload
-                                              length:message->payloadlen
-                                            encoding:NSUTF8StringEncoding]);
+    NSString *newMsg = [[NSString alloc] initWithBytes:message->payload
+                                                length:message->payloadlen
+                                              encoding:NSUTF8StringEncoding];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        s_receiveMessage(newMsg);
+    });
 }
+
 - (void)setConnectCallback:(ConnectSuccess)success {
     s_connectSuccess = success;
     mopush_connect_callback_set(_mopush, on_connect);
 }
+
 - (void)setMessageCallback:(ReceiveMessage)receiveMessage {
     s_receiveMessage = receiveMessage;
     mopush_message_callback_set(_mopush, on_message);
 }
+
 #pragma mark - dealloc
+
 - (void)dealloc {
     dispatch_source_cancel(_timer);
     

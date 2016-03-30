@@ -18,7 +18,6 @@
 #define SystemWhiteColor [UIColor colorWithRed:(255/255.0) green:(255/255.0) blue:(255/255.0) alpha:1]
 #define SystemGreenColor [UIColor colorWithRed:(130/255.0) green:(191/255.0) blue:(21/255.0) alpha:1]
 #define SystemLightGrayColor [UIColor colorWithRed:(235/255.0) green:(235/255.0) blue:(244/255.0) alpha:1]
-
 //weakSelf宏
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #ifdef DEBUG
@@ -50,6 +49,7 @@
 #import "UIButton+WebCache.h"
 #import <MJRefresh/MJRefresh.h>
 #import "EGOCache.h"
+
 
 #pragma mark - class
 #import "Constants.h"
