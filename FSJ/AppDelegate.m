@@ -27,8 +27,9 @@
             NSLog(@"启动失败");
     }
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-     NSUserDefaults *userLogin = [NSUserDefaults standardUserDefaults];
-    if ([userLogin boolForKey:@"login"]) {
+    BOOL bo = [[EGOCache globalCache]objectForKey:@"Login"];
+   
+    if (bo) {
         FSJHomeViewController *vc = [[FSJHomeViewController alloc]init];
         self.window.rootViewController = vc;
     }

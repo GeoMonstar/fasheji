@@ -240,10 +240,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
             [SVProgressHUD showSuccessWithStatus:model.message];
-            
-            NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-            [user setBool:NO forKey:@"login"];
-            [user synchronize];
+             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
             });

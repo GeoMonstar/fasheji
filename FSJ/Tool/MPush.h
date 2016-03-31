@@ -14,6 +14,6 @@
 + (void)subscribeForArea:(NSString *)area;
 + (void)unsubscribe;
 + (void)setConnectCallback:(void(^)(int))success;
-+ (void)setMessageCallback:(void(^)(NSDictionary *))receiveMessage;
++ (void)setMessageCallback:(void(^)(NSString *))receiveMessage;
 
 @end

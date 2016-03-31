@@ -35,7 +35,7 @@
     NSString *urlStr =  BaseTongjiurl(userName);
     NSURL *url = [[NSURL alloc] initWithString:urlStr];
     myWeb.scalesPageToFit = YES;
-    myWeb.scrollView.contentSize = CGSizeMake(WIDTH, HEIGH*1.25);
+    myWeb.scrollView.contentSize = CGSizeMake(WIDTH, HEIGH*1.35);
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [myWeb loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0]];

@@ -41,6 +41,7 @@
 		8534BBDF1C9C061300A1EC9B /* hui.png in Resources */ = {isa = PBXBuildFile; fileRef = 8534BBDB1C9C061300A1EC9B /* hui.png */; };
 		8534BBE01C9C061300A1EC9B /* orenge.png in Resources */ = {isa = PBXBuildFile; fileRef = 8534BBDC1C9C061300A1EC9B /* orenge.png */; };
 		8534BBE11C9C061300A1EC9B /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 8534BBDD1C9C061300A1EC9B /* red.png */; };
+		8548A2851CAD00420023894D /* cityData 2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8548A2841CAD00420023894D /* cityData 2.plist */; };
 		854D50DC1C9665FA001C963F /* FSJAllFSJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 854D50DB1C9665FA001C963F /* FSJAllFSJ.m */; };
 		854D50DF1C966625001C963F /* FSJOneFSJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 854D50DE1C966625001C963F /* FSJOneFSJ.m */; };
 		854D50E31C966813001C963F /* FSJOneFSJTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 854D50E11C966813001C963F /* FSJOneFSJTableViewCell.m */; };
@@ -172,6 +173,7 @@
 		8534BBDB1C9C061300A1EC9B /* hui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hui.png; sourceTree = "<group>"; };
 		8534BBDC1C9C061300A1EC9B /* orenge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orenge.png; sourceTree = "<group>"; };
 		8534BBDD1C9C061300A1EC9B /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
+		8548A2841CAD00420023894D /* cityData 2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "cityData 2.plist"; sourceTree = "<group>"; };
 		854D50DA1C9665FA001C963F /* FSJAllFSJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJAllFSJ.h; sourceTree = "<group>"; };
 		854D50DB1C9665FA001C963F /* FSJAllFSJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJAllFSJ.m; sourceTree = "<group>"; };
 		854D50DD1C966625001C963F /* FSJOneFSJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJOneFSJ.h; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 		8528A5D11C87E61D009A258D = {
 			isa = PBXGroup;
 			children = (
+				8548A2841CAD00420023894D /* cityData 2.plist */,
 				8528A5DC1C87E61D009A258D /* FSJ */,
 				8528A5F61C87E61E009A258D /* FSJUITests */,
 				8528A5DB1C87E61D009A258D /* Products */,
@@ -778,6 +781,7 @@
 				85CA7D351C97FBE3005F22C4 /* youxiang.png in Resources */,
 				8534BBC71C9B9CBC00A1EC9B /* trans_status1.png in Resources */,
 				8534BBCC1C9BEE2900A1EC9B /* gudingdianhua.png in Resources */,
+				8548A2851CAD00420023894D /* cityData 2.plist in Resources */,
 				85CA7D281C97FBE3005F22C4 /* gaojing.png in Resources */,
 				8512B9401C929D8F00DCB952 /* FSJMineTableViewCell.xib in Resources */,
 				85A565A01CA0E64F00926106 /* yonghuming1.png in Resources */,
