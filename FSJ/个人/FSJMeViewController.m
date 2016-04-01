@@ -241,6 +241,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         if ([model.status isEqualToString:@"200"]) {
             [SVProgressHUD showSuccessWithStatus:model.message];
              [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            [[EGOCache globalCache]clearCache];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
             });

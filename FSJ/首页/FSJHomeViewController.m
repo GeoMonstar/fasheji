@@ -21,6 +21,7 @@
     BMKLocationService* locService;
     NSMutableArray    *listNormal;
     NSMutableArray    *listError;
+    NSMutableArray    *listidError;
     NSMutableArray    *searchList;
     NSMutableArray    *nameIdDic;
     NSMutableArray    *stationArr;
@@ -32,6 +33,8 @@
     
     NSMutableArray    *cityNormal;
     NSMutableArray    *cityError;
+    NSMutableArray    *cityidNormal;
+    NSMutableArray    *cityidError;
     NSMutableArray    *allcityName;
     NSMutableArray    *allcityModel;
     NSMutableArray    *cityoverlayErr;
@@ -48,6 +51,7 @@
     NSString * staticareaType;
     NSString * staticareaId;
     NSString * staticuserId;
+    NSString * statitopic;
     NSInteger *sizeNo;
     NSInteger *pageNo;
     NSInteger *warnNumber;
@@ -127,12 +131,15 @@
     cityoverlayNor = @[].mutableCopy;
     cityError      = @[].mutableCopy;
     cityNormal     = @[].mutableCopy;
+    cityidError      = @[].mutableCopy;
+    cityidNormal     = @[].mutableCopy;
     allcityName    = @[].mutableCopy;
     allcityModel   = @[].mutableCopy;
     quanjuArr      = @[].mutableCopy;
     nameIdDic      = @[].mutableCopy;
     listNormal     = @[].mutableCopy;
     listError      = @[].mutableCopy;
+    listidError    = @[].mutableCopy;
     stationArr     = @[].mutableCopy;
     stationNormal  = @[].mutableCopy;
     stationError   = @[].mutableCopy;
@@ -145,11 +152,11 @@
     _mapView.zoomEnabled        = YES;
     _geocodesearch = [[BMKGeoCodeSearch alloc]init];
     _geocodesearchCity = [[BMKGeoCodeSearch alloc]init];
-      staticJwt      = [[EGOCache globalCache]stringForKey:@"jwt"];
-      staticareaType = [[EGOCache globalCache]stringForKey:@"areaType"];
-      staticareaId   = [[EGOCache globalCache]stringForKey:@"areaId"];
-      staticuserId   = [[EGOCache globalCache]stringForKey:@"userId"];
-   
+    staticJwt      = [[EGOCache globalCache]stringForKey:@"jwt"];
+    staticareaType = [[EGOCache globalCache]stringForKey:@"areaType"];
+    staticareaId   = [[EGOCache globalCache]stringForKey:@"areaId"];
+    staticuserId   = [[EGOCache globalCache]stringForKey:@"userId"];
+    statitopic     = [NSString stringWithFormat:@"%@/#",[[EGOCache globalCache]stringForKey:@"topic"]];
     
     NSDictionary *dic = @{@"areaId":staticareaId,@"areaType":staticareaType,@"userId":staticuserId,@"jwt":staticJwt};
     [self searchWithModelwith:dic];
@@ -168,40 +175,64 @@
 - (void)receiveWarnNoti{
     [MPush registerForClientId:@"ios0330" withAppName:@"fsj"];
     [MPush setConnectCallback:^(int code) {
-        [MPush subscribeForArea:@"100000/510000/510100/#"];
+        [MPush subscribeForArea:statitopic];
     }];
     [MPush setMessageCallback:^(NSString *mes) {
-        //[[NSNotificationCenter defaultCenter]postNotificationName:@"Warn" object:nil userInfo:@{@"message":mes }];
+    //[[NSNotificationCenter defaultCenter]postNotificationName:@"Warn" object:nil userInfo:@{@"message":mes }];
         [self changeStatusWith:mes];
         //[self scheduleLocalNotificationWith:mes];
-         NSLog(@"警告消息===========%@",mes);
+        NSLog(@"警告消息===========%@",mes);
     }];
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeStatus:) name:@"Warn" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeStatus:) name:@"Warn" object:nil];
 }
 - (void)changeStatusWith:(NSString *)jsonString{
-        NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSData  *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
         NSError *error;
         NSDictionary *resultsDic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
         NSString *contentStr = resultsDic[@"content"];
         NSString *statusStr  = resultsDic[@"status"];
-        NSArray *arr = [contentStr componentsSeparatedByString:@"/"];
+        NSArray  *arr = [contentStr componentsSeparatedByString:@"/"];
         //{"content":"1/11/12/10000","status":"0"}
+    if ([statusStr isEqualToString:@"0"]) {
+        for (BMKPointAnnotation *annoatation in stationError) {
+            if ([annoatation.subtitle isEqualToString:arr.lastObject]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_mapView removeAnnotation:annoatation];
+                    annoatation.title = @"0";
+                    [_mapView addAnnotation:annoatation];
+                });
+                [stationError removeObject:annoatation];
+                [stationNormal addObject:annoatation];
+            }
+        }
+    }
+    if (stationError.count == 0) {
+            for (BMKPolygon * polygon in cityoverlayErr) {
+                if ([polygon.subtitle isEqualToString:arr[2]]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                    [_mapView removeOverlay:polygon];
+                    polygon.title = @"0";
+                    [_mapView addOverlay:polygon];
+                });
+                    [cityoverlayErr removeObject:polygon];
+                    [cityoverlayNor addObject:polygon];
+             }
+        }
+    }
+    if (cityoverlayErr.count == 0) {
+        for (BMKPolygon * polygon in overlayEor) {
+            if ([polygon.subtitle isEqualToString:arr[1]]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_mapView removeOverlay:polygon];
+                    polygon.title = @"0";
+                    [_mapView addOverlay:polygon];
+                });
+                [overlayEor removeObject:polygon];
+                [overlayNor addObject:polygon];
+            }
+        }
+    }    
 }
-//- (void)changeStatus:(NSNotification *)notification{
-    //NSLog(@"通知消息 == %@",[notification.userInfo valueForKey:@"message"]);
-    //NSDictionary *dic = [notification.userInfo valueForKey:@"message"];
-    //NSString *str = dic[@"content"];
-    //NSString *str2 = dic[@"status"];
-//    for (BMKPolygon * polygon in cityoverlayErr) {
-//        if ([polygon.subtitle isEqualToString:@"成都市"]) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [_mapView removeOverlay:polygon];
-//                polygon.title = @"0";
-//                [_mapView addOverlay:polygon];
-//            });
-//        }
-//    }
-//}
 - (void)scheduleLocalNotificationWith:(NSString *)mes{
     UILocalNotification *notification = [[UILocalNotification alloc] init];
     NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:0];
@@ -282,13 +313,13 @@
             
             FSJResultList *listmodel = [FSJResultList initWithDictionary:dic];
             [nameIdDic addObject:listmodel];
-            
             if ([listmodel.status isEqualToString:@"0"]) {
                 [listNormal addObject:listmodel.name];
                 NSLog(@"正常 == %@",listmodel.name);
             }
             else{
                 [listError addObject:listmodel.name];
+                [listidError addObject:listmodel.areaId];
                 NSLog(@"警告 == %@",listmodel.name);
             }
         }
@@ -350,20 +381,20 @@
     NSLog(@"onGetDistrictResult error: %d", error);
     if (error == BMK_SEARCH_NO_ERROR) {
         NSLog(@"\nname:%@\n areaId:%d 中心点 纬度:%lf,经度:%lf 节点数目 = %ld", result.name, (int)result.code, result.center.latitude, result.center.longitude,result.pointsCount);
-        [overlayEor     addObjectsFromArray:[self createPolgonWith:listError  and:result and:@"1" and:YES]];
-        
-        [cityoverlayNor addObjectsFromArray:[self createPolgonWith:cityNormal and:result and:@"" and:NO]];
-        [cityoverlayErr addObjectsFromArray:[self createPolgonWith:cityError  and:result and:@"1" and:NO]];
+       
+        [overlayEor     addObjectsFromArray:[self createPolgonWith:listError andId:listidError and:result and:@"1" and:YES]];
+        [cityoverlayErr addObjectsFromArray:[self createPolgonWith:cityError andId:cityidError and:result and:@"1" and:NO]];
+        [cityoverlayNor addObjectsFromArray:[self createPolgonWith:cityNormal andId:cityidNormal and:result and:@"0" and:NO]];
     }
 }
-- (NSMutableArray *)createPolgonWith:(NSArray *)array and:(BMKDistrictResult *)result and:(NSString *)status and:(BOOL)bol{
+- (NSMutableArray *)createPolgonWith:(NSArray *)array andId:(NSArray *)arrid and:(BMKDistrictResult *)result and:(NSString *)status and:(BOOL)bol{
     NSMutableArray *arr = @[].mutableCopy;
     for (int i = 0; i < array.count; i ++) {
         if ([result.name isEqualToString:array[i]]) {
         BMKPolygon * tempPolgon = [[BMKPolygon alloc]init];
         tempPolgon = [BMKPolygon polygonWithPoints: result.points count:result.pointsCount];
         tempPolgon.title = status;
-        tempPolgon.subtitle = array[i];
+        tempPolgon.subtitle = arrid[i];
             
         [arr addObject:tempPolgon];
             if (bol == YES) {
@@ -447,7 +478,7 @@
 }
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate{
     //NSLog(@"经度 = %f,纬度 = %f",coordinate.latitude,coordinate.longitude);
-    if (_mapView.zoomLevel <= FirstLevel ) {
+    if (_mapView.zoomLevel <= FirstLevel) {
         BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
         reverseGeocodeSearchOption.reverseGeoPoint = coordinate;
         [_geocodesearch reverseGeoCode:reverseGeocodeSearchOption];
@@ -460,7 +491,17 @@
     }
 }
 - (void)mapview:(BMKMapView *)mapView onDoubleClick:(CLLocationCoordinate2D)coordinate {
-   
+    if (_mapView.zoomLevel <= FirstLevel) {
+        BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
+        reverseGeocodeSearchOption.reverseGeoPoint = coordinate;
+        [_geocodesearch reverseGeoCode:reverseGeocodeSearchOption];
+        showProvince = NO;
+    }
+    if (_mapView.zoomLevel  < ThirdtLevel && _mapView.zoomLevel >= SecondLevel) {
+        BMKReverseGeoCodeOption *reverseGeocodeSearchOptionCity = [[BMKReverseGeoCodeOption alloc]init];
+        reverseGeocodeSearchOptionCity.reverseGeoPoint = coordinate;
+        [_geocodesearchCity reverseGeoCode:reverseGeocodeSearchOptionCity];
+    }
 }
 #pragma mark -- 反向地理编码 获得点击地区坐标
 - (void) onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error
@@ -514,7 +555,6 @@
                     }
                 }
             else {
-
                 }
             }
         }else{
@@ -531,21 +571,17 @@
         [stationArr     removeAllObjects];
         [stationError   removeAllObjects];
         [stationNormal  removeAllObjects];
-       // [cityoverlayNor removeAllObjects];
-       //[cityoverlayErr removeAllObjects];
+      //[cityoverlayNor removeAllObjects];
+      //[cityoverlayErr removeAllObjects];
         [cityNormal     removeAllObjects];
         [cityError      removeAllObjects];
     }
     if (searcher == _geocodesearch) {
     for (FSJResultList *tempModle in nameIdDic) {
         if ([tempModle.name isEqualToString:result.address]) {
-            
-              NSDictionary *requestdic = @{@"areaId":tempModle.areaId,@"areaType":@"2",@"userId":staticuserId,@"jwt":staticJwt};
-            
-            [FSJNetWorking networkingGETWithActionType:AreaalarmStatus requestDictionary:requestdic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                
+        NSDictionary *requestdic = @{@"areaId":tempModle.areaId,@"areaType":@"2",@"userId":staticuserId,@"jwt":staticJwt};
+        [FSJNetWorking networkingGETWithActionType:AreaalarmStatus requestDictionary:requestdic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                 FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
-                
                 if ([model.status isEqualToString:@"200"]) {
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         _mapView.zoomLevel = SecondLevel;
@@ -556,10 +592,13 @@
                         [allcityName addObject:cityModel.name];
                         [allcityModel addObject:cityModel];
                         if ([cityModel.status isEqualToString:@"1"]) {
-                            [cityError addObject:cityModel.name];
+                            [cityError   addObject:cityModel.name];
+                            [cityidError addObject:cityModel.areaId];
+                            
                         }
                         else{
-                            [cityNormal addObject:cityModel.name];
+                            [cityNormal   addObject:cityModel.name];
+                            [cityidNormal addObject:cityModel.areaId];
                         }
                     }
                     //dispatch_async(dispatch_get_main_queue(), ^{
@@ -740,11 +779,11 @@
     }
     for (FSJResultList *tempmodel in stationArr) {
         if ([tempmodel.stationId isEqualToString:view.annotation.subtitle]) {
-// }
 //        if ([[tempmodel.lon substringToIndex:8] isEqualToString:[lon substringToIndex:8]] || [[tempmodel.lat substringToIndex:7] isEqualToString:[lat substringToIndex:7]]) {
               NSLog(@"标注 == %@ %@",[tempmodel.lon substringToIndex:8],[tempmodel.lat substringToIndex:7]);
                 [self getallstationInfoWith:tempmodel.stationId andtype:Allstationquery anddicparameter:@"sid"andShowAnno:NO];
-                [self createTableview];
+            
+            
         }
     }
 }
@@ -753,10 +792,12 @@
     if (self.allsite.count >0) {
         [self.allsite removeAllObjects];
     }
+    [SVProgressHUD showWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
     NSDictionary *dic = @{str:ID,@"pageSize":@"8",@"pageNo":@"1",@"jwt":staticJwt};
     [FSJNetWorking networkingGETWithActionType:type requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         FSJAllFSJ *model = [FSJAllFSJ initWithDictionary:responseObject];
         NSLog(@"%@",model.message);
+        [SVProgressHUD dismiss];
         if ([model.status isEqualToString:@"200"]) {
             NSMutableArray *tempArray = [NSMutableArray array];
             for (NSDictionary *dic in model.list) {
@@ -768,12 +809,13 @@
                 [self.allsite addObjectsFromArray:tempArray];
                 if (show) {
                     [self addAnnotataionOnmapWith:self.allsite];
-                    
+                   
                 }
                 else
                 dispatch_async(dispatch_get_main_queue(), ^{
                         [self.mytableView reloadData];
                 });
+                 [self createTableview];
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -814,12 +856,9 @@
     if (self.mytableView) {
         [self.mytableView removeFromSuperview];
     }
-    [SVProgressHUD showWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [SVProgressHUD dismiss];
-    });
-    self.mytableView.frame = CGRectMake(0, HEIGH/3*2, WIDTH, HEIGH/3);
     
+    self.mytableView.frame = CGRectMake(0, HEIGH/3*2, WIDTH, HEIGH/3);
+    //self.mytableView.scrollEnabled = NO;
     [self.view addSubview:self.mytableView];
 }
 
@@ -914,6 +953,8 @@
     detail.managerID = model.transId;
     [self.navigationController pushViewController:detail animated:YES];
     }
+    //取消选中效果
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 #pragma mark -- 导航
 - (IBAction)UserInfo:(UIButton *)sender {
@@ -950,12 +991,15 @@
     singleTap.delaysTouchesEnded = NO;
     //[singleTap requireGestureRecognizerToFail:doubleTap];
      [self.view addGestureRecognizer:singleTap];
+    
     UISwipeGestureRecognizer *swipdown = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(removeTableview:)];
     [swipdown setDirection:UISwipeGestureRecognizerDirectionDown];
-    [self.view addGestureRecognizer:swipdown];
     UISwipeGestureRecognizer *swipup = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(addTableview:)];
     [swipup setDirection:UISwipeGestureRecognizerDirectionUp];
+    swipup.delegate   = self;
+    swipdown.delegate = self;
     [self.view addGestureRecognizer:swipup];
+    [self.view addGestureRecognizer:swipdown];
 }
 - (void)addTableview:(UISwipeGestureRecognizer *)swip{
     NSLog(@"up");
@@ -995,7 +1039,7 @@
 //            rect.size.height += HEIGH/2;
 //            self.mytableView.frame = rect;
 //        }];
-//    }
+//     }
 //  }
 //    NSLog(@"up");
 //}
@@ -1013,7 +1057,19 @@
 //            rect.size.height -= HEIGH/2;
 //            self.mytableView.frame = rect;
 //        }];
-//    }
+//     }
 //  }
 //}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    if ([touch.view isKindOfClass:[UITableView class]]){
+        NSLog(@"111");
+        
+        return NO;
+        
+    }
+    
+    return YES;
+    
+}
 @end

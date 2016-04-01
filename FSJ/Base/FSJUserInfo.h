@@ -17,6 +17,10 @@ typedef NS_ENUM(NSInteger, LoginStatusType) {
 + (FSJUserInfo *)shareInstance;
 #pragma mark -- 登录类
 /**
+ *  @brief  推送频道
+ */
+@property (nonatomic, copy)NSString *topic;
+/**
  *  @brief  告警总量
  */
 @property (nonatomic, copy)NSString *alarmTotal;

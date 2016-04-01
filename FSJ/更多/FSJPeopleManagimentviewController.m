@@ -47,10 +47,7 @@
     self.view.backgroundColor = SystemWhiteColor;
     count = 1;
     [self createUI];
-    NSUserDefaults *userjwt = [NSUserDefaults standardUserDefaults];
-    if ([userjwt valueForKey:@"jwt"]) {
-        jwt = [userjwt valueForKey:@"jwt"];
-    }
+    jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
     [self cteateTableView];  
     
 }
@@ -96,6 +93,7 @@
     count =0;
     isDraggingDown = YES;
      [self startNetworkWith:url andDic:dic];
+    
 }
 // 触底加载数据的方法
 - (void) loadDataWhenReachingBottom {
@@ -115,6 +113,7 @@
 }
 - (void)startNetworkWith:(NSString *)neturl andDic:(NSDictionary *)dict{
     NSLog(@"%ld",(long)count);
+    
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     [SVProgressHUD showWithStatus:@"加载中"];
     [FSJNetWorking networkingGETWithURL:neturl requestDictionary:dict success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -344,5 +343,7 @@
     }
     return url;
 }
-
+- (void)viewWillDisappear:(BOOL)animated{
+    [SVProgressHUD dismiss];
+}
 @end

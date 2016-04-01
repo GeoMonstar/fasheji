@@ -28,10 +28,9 @@
     [myWeb removeFromSuperview];
     myWeb = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH)];
     myWeb.delegate = self;
-    NSUserDefaults *localName = [NSUserDefaults standardUserDefaults];
-    if ([localName valueForKey:@"userId"]) {
-        userName = [localName valueForKey:@"userId"];
-    }
+  
+
+    userName = [[EGOCache globalCache]stringForKey:@"userId"];
     NSString *urlStr =  BaseTongjiurl(userName);
     NSURL *url = [[NSURL alloc] initWithString:urlStr];
     myWeb.scalesPageToFit = YES;

@@ -41,11 +41,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = SystemLightGrayColor;
     self.navigationController.navigationBarHidden = NO;
-   
-    NSUserDefaults *userjwt = [NSUserDefaults standardUserDefaults];
-    if ([userjwt valueForKey:@"jwt"]) {
-        jwtStr = [userjwt valueForKey:@"jwt"];
-    }
+
+    jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
 //    if(self.changeType == Username){
 //        [self createUIwith:@"姓名"];
 //        titleStr = @"更改姓名";

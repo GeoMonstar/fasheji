@@ -34,6 +34,7 @@
         NSLog(@"JSON字符串转换失败:%@ ,error: %@",requestDictionary,error);
     }
     NSString  *getURL =[NSString stringWithFormat:@"%@%@",BaseURL,URL];
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"text/html",@"text/json",@"application/json",@"text/javascript", nil];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];

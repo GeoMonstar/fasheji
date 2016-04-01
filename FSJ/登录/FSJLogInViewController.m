@@ -139,7 +139,7 @@
             [[EGOCache globalCache]setString:model.jwt forKey:@"jwt"];
             [[EGOCache globalCache]setString:model.areaType forKey:@"areaType"];
             [[EGOCache globalCache]setString:model.areaId forKey:@"areaId"];
-
+            [[EGOCache globalCache]setString:model.topic forKey:@"topic"];
                 [self.navigationController pushViewController:home animated:YES];
         }else{
             [SVProgressHUD showInfoWithStatus:model.message];

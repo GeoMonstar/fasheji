@@ -46,14 +46,11 @@
     
     [self createUI];
     self.view.backgroundColor = SystemGrayColor;
-        NSUserDefaults *userjwt = [NSUserDefaults standardUserDefaults];
-    if ([userjwt valueForKey:@"jwt"]) {
-        jwt = [userjwt valueForKey:@"jwt"];
-    }
+    jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
     [self ctreateTableView];
 }
 - (void)ctreateTableView{
-    [SVProgressHUD showWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
        //[self.myTable registerNib:[UINib nibWithNibName:@"FSJPeopleManagerDetailTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CELL"];
        switch (self.DetailInfoType) {
         case 0:
@@ -94,7 +91,6 @@
     [FSJNetWorking networkingGETWithURL:url requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         model = [FSJResultList initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
-            
                 [SVProgressHUD dismiss];
             [self.view addSubview:self.myTable];
             dispatch_async(dispatch_get_main_queue(), ^{
