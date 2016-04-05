@@ -26,11 +26,12 @@
 @implementation FSJChangePersonInfoViewController
 
 - (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
+    [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = NO;
     [self createNav];
 }
 - (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     firstInput = nil;
     secondInput = nil;
     thirdInput = nil;

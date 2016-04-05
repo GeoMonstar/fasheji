@@ -403,7 +403,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void) viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:YES];
+    [super viewWillDisappear:animated];
     
     [SVProgressHUD dismiss];
 }

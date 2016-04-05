@@ -20,7 +20,6 @@
     FSJUserInfo * model;
 }
 @end
-
 @implementation FSJLogInViewController
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -144,14 +143,13 @@
         }else{
             [SVProgressHUD showInfoWithStatus:model.message];
         }
-
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error = %@",error);
         [SVProgressHUD showInfoWithStatus:@"登录失败"];
     }];
 }
 - (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:YES];
+    [super viewWillDisappear:animated];
     userName.text =@"";
     userPwd.text  =@"";
 }

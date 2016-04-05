@@ -53,7 +53,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     self.navigationController.navigationBar.hidden = YES;
 }
 - (void)viewWillDisappear:(BOOL)animated{
-    //myTableView = nil;
+    [super viewWillDisappear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
 - (void)getUserInfo{
