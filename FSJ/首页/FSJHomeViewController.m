@@ -568,6 +568,7 @@ NSString *const kCityNor = @"kCityNor";
         else{
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%u",error]];
             NSLog(@"错误代码 == %u",error);
+            
         }
     }
     if (searcher == _geocodesearch) {
