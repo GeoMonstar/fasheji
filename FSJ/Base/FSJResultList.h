@@ -42,6 +42,10 @@
  */
 @property (nonatomic, copy)NSString *status;
 /**
+ *  @brief  发射站总数量
+ */
+@property (nonatomic, copy)NSString *alarmTotal;
+/**
  *  @brief  区域等级
  */
 @property (nonatomic, copy)NSString *areaType;

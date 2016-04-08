@@ -10,15 +10,15 @@
 #import "FSJHomeViewController.h"
 #import "MPush.h"
 #import "mopush.h"
-//#define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
-#define BaiduMapKEy @"G4u27joqchFtv5iVTn5KPwXp"
+#define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
+//#define BaiduMapKEy @"G4u27joqchFtv5iVTn5KPwXp"
 @interface AppDelegate ()<BMKGeneralDelegate>{
     BMKMapManager * _mapManager;
 }
 @end
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-     
+    [[EGOCache globalCache]clearCache];
     NSString *str = [[NSBundle mainBundle] bundleIdentifier];
     NSLog(@"%@",str);
         _mapManager = [[BMKMapManager alloc]init];

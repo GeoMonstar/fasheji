@@ -17,5 +17,9 @@
 
 @property (nonatomic, copy)NSString *status;
 
+@property (nonatomic, copy)NSString *alarmSize;
+
+@property (nonatomic, copy)NSString *alarmTotal;
+
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @end

@@ -124,21 +124,21 @@
     NSDictionary *loginDict = @{@"userName":userName.text,@"password":userPwd.text};
     [SVProgressHUD showWithStatus:@"正在登录"];
     [FSJNetWorking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-       model = [FSJUserInfo initWithDictionary:responseObject];
+        model = [FSJUserInfo initWithDictionary:responseObject];
 
         if ([model.status isEqualToString: @"200"]) {
                 [SVProgressHUD showSuccessWithStatus:model.message];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
             });
-                FSJHomeViewController *home = [[FSJHomeViewController alloc]init];
-                
+            FSJHomeViewController *home = [[FSJHomeViewController alloc]init];
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:0];
-            [[EGOCache globalCache]setString:model.userId forKey:@"userId"];
-            [[EGOCache globalCache]setString:model.jwt forKey:@"jwt"];
+            [[EGOCache globalCache]setString:model.userId   forKey:@"userId"];
+            [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt"];
             [[EGOCache globalCache]setString:model.areaType forKey:@"areaType"];
-            [[EGOCache globalCache]setString:model.areaId forKey:@"areaId"];
-            [[EGOCache globalCache]setString:model.topic forKey:@"topic"];
+            [[EGOCache globalCache]setString:model.areaId   forKey:@"areaId"];
+            [[EGOCache globalCache]setString:model.topic    forKey:@"topic"];
+            
                 [self.navigationController pushViewController:home animated:YES];
         }else{
             [SVProgressHUD showInfoWithStatus:model.message];
