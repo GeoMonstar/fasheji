@@ -110,7 +110,7 @@
 }
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
-    userName.text =@"admin";
+    userName.text =@"city";
     userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
@@ -138,8 +138,9 @@
             [[EGOCache globalCache]setString:model.areaType forKey:@"areaType"];
             [[EGOCache globalCache]setString:model.areaId   forKey:@"areaId"];
             [[EGOCache globalCache]setString:model.topic    forKey:@"topic"];
+            [[EGOCache globalCache]setString:model.areaName forKey:@"areaname"];
             
-                [self.navigationController pushViewController:home animated:YES];
+            [self.navigationController pushViewController:home animated:YES];
         }else{
             [SVProgressHUD showInfoWithStatus:model.message];
         }

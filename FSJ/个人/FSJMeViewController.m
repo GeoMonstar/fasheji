@@ -336,7 +336,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
                 }
             }
         }];
-          [uploadTask resume];
+        [uploadTask resume];
      
 }
 - (void)doUpload:(NSData *) imageData {

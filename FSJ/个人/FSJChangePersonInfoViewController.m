@@ -54,7 +54,6 @@
 //        titleStr = @"更改手机号";
 //        dicStr = @"mobile";
 //    }
-
     switch (self.changeType ) {
         case 0:
             [self createUIwith:@"姓名"];
@@ -131,7 +130,6 @@
     [codeBtn setTitleColor:SystemBlueColor forState:UIControlStateNormal];
     [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     codeBtn.titleLabel.font = [UIFont systemFontOfSize:10];
-    
     [secondInput addSubview:codeBtn];
     returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(WIDTH *0.1, 120, WIDTH *0.8, 35);
