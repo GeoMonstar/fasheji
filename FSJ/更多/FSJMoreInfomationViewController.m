@@ -85,7 +85,7 @@ static NSString * const reuseIdentifier = @"Cell";
     NSArray *arrayFsz = @[@"人员信息管理",@"发射站管理",@"发射机管理"];
     NSArray *arrayFszimg = @[@"renyuan",@"fashezhan",@"fasheji111"];
     NSArray *arrayWarn = @[@"实时警告",@"警告历史",@"统计"];
-    NSArray *arrayWarnimg = @[@"shishi",@"gaojing",@"tongji"];
+    NSArray *arrayWarnimg = @[@"shishi",@"gaojing1",@"tongji"];
     switch (indexPath.section) {
         case 0:
             cell.infoLabel.text = arrayWarn[indexPath.row];

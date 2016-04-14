@@ -8,6 +8,8 @@
 #import "AppDelegate.h"
 #import "FSJLogInViewController.h"
 #import "FSJHomeViewController.h"
+#import "FSJTabbarViewController.h"
+#import "FSJMapViewController.h"
 #import "MPush.h"
 #import "mopush.h"
 #define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
@@ -29,16 +31,20 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     BOOL bo = [[EGOCache globalCache]objectForKey:@"Login"];
     if (bo) {
-        FSJHomeViewController *vc = [[FSJHomeViewController alloc]init];
+//        FSJTabbarViewController *vc = [[FSJTabbarViewController alloc]init];
+//        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+//        self.window.rootViewController = nav;
+        FSJMapViewController *vc = [[FSJMapViewController alloc]init];
         self.window.rootViewController = vc;
     }
     else{
+        //FSJMapViewController *vc = [[FSJMapViewController alloc]init];
+        
         FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
         self.window.rootViewController = nav;
     }
     [self.window makeKeyAndVisible];
-   
     return YES;
 }
 - (void)applicationWillResignActive:(UIApplication *)application {

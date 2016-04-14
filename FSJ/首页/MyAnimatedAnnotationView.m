@@ -22,6 +22,7 @@
     
         _annotationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
         _annotationImageView.contentMode = UIViewContentModeScaleAspectFit;
+        
         [self addSubview:_annotationImageView];
     }
     return self;

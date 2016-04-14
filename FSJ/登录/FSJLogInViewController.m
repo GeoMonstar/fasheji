@@ -9,7 +9,7 @@
 #define leftMagrin  30
 #define rightMagrin 30
 #define viewHeight  36
-#import "FSJHomeViewController.h"
+#import "FSJMapViewController.h"
 @interface FSJLogInViewController ()<UITextFieldDelegate>{
     UIImageView *mainImgview;
     UITextField *userName;
@@ -110,7 +110,7 @@
 }
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
-    userName.text =@"city";
+    userName.text =@"province";
     userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
@@ -131,7 +131,7 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [SVProgressHUD dismiss];
             });
-            FSJHomeViewController *home = [[FSJHomeViewController alloc]init];
+            FSJMapViewController *vc = [[FSJMapViewController alloc]init];
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:0];
             [[EGOCache globalCache]setString:model.userId   forKey:@"userId"];
             [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt"];
@@ -139,8 +139,7 @@
             [[EGOCache globalCache]setString:model.areaId   forKey:@"areaId"];
             [[EGOCache globalCache]setString:model.topic    forKey:@"topic"];
             [[EGOCache globalCache]setString:model.areaName forKey:@"areaname"];
-            
-            [self.navigationController pushViewController:home animated:YES];
+            [self.navigationController pushViewController:vc animated:YES];
         }else{
             [SVProgressHUD showInfoWithStatus:model.message];
         }
