@@ -42,21 +42,22 @@
                                                     action(index);
                                                     [weakSelf hideMenu];
                                                 }];
-    self.popMenuView.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.9];
+    self.popMenuView.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.0];
     [topview addSubview:self.popMenuView];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.3 animations:^{
-            self.popMenuView.tableView.transform = CGAffineTransformMakeTranslation(0, 0);
-       
+        [UIView animateWithDuration:0.618 animations:^{
+           self.popMenuView.tableView.transform = CGAffineTransformMakeTranslation(0, 0);
+           // self.popMenuView.tableView.transform = CGAffineTransformMakeScale(1, 1);
+            
+            //self.popMenuView.tableView.transform = CGAffineTransformScale(self.popMenuView.tableView.transform, 1, 1);
         }];
     });
-
 }
-
 - (void) hideMenu {
     if (self.popMenuView) {
         [UIView animateWithDuration:0.1 animations:^{
             self.popMenuView.tableView.transform = CGAffineTransformMakeTranslation(0, Popviewheight);
+            
         } completion:^(BOOL finished) {
             //dispatch_async(dispatch_get_main_queue(), ^{
                 [self.popMenuView.tableView removeFromSuperview];

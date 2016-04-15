@@ -10,6 +10,10 @@
 
 @interface FSJResultList : NSObject
 /**
+ *  @brief 所属区域
+ */
+@property (nonatomic, copy)NSString *areaName;
+/**
  *  @brief 台站警告数目
  */
 @property (nonatomic, copy)NSString *alarmSize;

@@ -8,8 +8,8 @@
 
 #import "FSJPeopleManagimentviewController.h"
 #import "FSJPeopleManagerDetailViewController.h"
-
-
+#import "FSJOneFSJTableViewCell.h"
+#import "FSJDetailTableViewCell.h"
 @interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>{
     UISearchBar *mysearchBar;
     
@@ -52,6 +52,7 @@
     
 }
 - (void)cteateTableView{
+    [self.myTable registerNib:[UINib nibWithNibName:@"FSJDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"oneCELL"];
     [self.view addSubview:self.myTable];
     if (self.InfoType == PeopleManage) {
         dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
@@ -161,56 +162,64 @@
     return 2;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+     FSJResultList *model = self.dataArray[indexPath.section];
+    if (self.InfoType == FSJManage) {
+        FSJDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"oneCELL"];
+        
+        cell.topLabel.text = [NSString stringWithFormat:@"%@     所属区域:%@", model.tname,model.areaName];
+        cell.secondLabel.text  = [NSString stringWithFormat:@"所属发射站:%@  功率等级:%@  ", model.sname,model.powerRate];
+
+        //        UIImageView *imgiew = [[UIImageView alloc]initWithFrame:CGRectMake(8, 15,25, 30)];
+        //        [cell.contentView addSubview:imgiew];
+        //        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(45, 0, cell.frame.size.width-40,25)];
+        //        label1.text = [NSString stringWithFormat:@"%@", model.tname];
+        //        label1.font = [UIFont systemFontOfSize:14];
+        //        UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(45, 25, cell.frame.size.width-40,25)];
+        //        label2.text = [NSString stringWithFormat:@"所属发射站:%@   功耗等级:%@",model.sname,model.powerRate];
+        //        label2.font = [UIFont systemFontOfSize:12];
+        //
+        //        [cell addSubview:label1];
+        //        [cell addSubview:label2];
+        //
+        switch (model.state.integerValue) {
+            case 0:
+                cell.headView.image = [UIImage imageNamed:@"green.png"];
+                break;
+            case 1:
+                cell.headView.image = [UIImage imageNamed:@"red"];
+                break;
+            case 2:
+                cell.headView.image = [UIImage imageNamed:@"orenge.png"];
+                break;
+            case 3:
+                cell.headView.image = [UIImage imageNamed:@"hui.png"];
+                break;
+            default:
+                break;
+        }
+        return cell;
+    }
+    else{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL"];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CELL"];
     }
-    FSJResultList *model = self.dataArray[indexPath.section];
+   
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.detailTextLabel.textColor = SystemGrayColor;
     cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
     if (self.InfoType == PeopleManage) {
-        cell.textLabel.text = [NSString stringWithFormat:@"姓名:%@     所属发射站:%@", model.name,model.sname];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"电话号码:%@",model.phone];
+        cell.textLabel.text = [NSString stringWithFormat:@"姓名:%@  所属发射站:%@  ", model.name,model.sname];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"电话号码:%@      所属区域:%@",model.phone,model.areaName];
     }
     if (self.InfoType == StationManage) {
-        cell.textLabel.text = [NSString stringWithFormat:@"%@   负责人:%@", model.name,model.manager];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@     负责人:%@    所属区域:%@", model.name,model.manager,model.areaName];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"地址:%@",model.address];
     }
-    if (self.InfoType == FSJManage) {
-       
-        UIImageView *imgiew = [[UIImageView alloc]initWithFrame:CGRectMake(8, 15,25, 30)];
-        [cell.contentView addSubview:imgiew];
-        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(45, 0, cell.frame.size.width-40,25)];
-        label1.text = [NSString stringWithFormat:@"%@", model.tname];
-        label1.font = [UIFont systemFontOfSize:14];
-        UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(45, 25, cell.frame.size.width-40,25)];
-        label2.text = [NSString stringWithFormat:@"所属发射站:%@   功耗等级:%@",model.sname,model.powerRate];
-        label2.font = [UIFont systemFontOfSize:12];
-
-        [cell addSubview:label1];
-        [cell addSubview:label2];
-        
-        switch (model.state.integerValue) {
-            case 0:
-                imgiew.image = [UIImage imageNamed:@"green.png"];
-                break;
-            case 1:
-                imgiew.image = [UIImage imageNamed:@"red"];
-                break;
-            case 2:
-                imgiew.image = [UIImage imageNamed:@"orenge.png"];
-                break;
-            case 3:
-                imgiew.image = [UIImage imageNamed:@"hui.png"];
-                break;
-            default:
-                break;
-        }
-    }
+    
     if (self.InfoType == Warning || self.InfoType == Warned) {
-        cell.textLabel.text = [NSString stringWithFormat:@"%@  设备IP:%@", model.name,model.ipaddr];
+        cell.textLabel.text = [NSString stringWithFormat:@"设备名称:%@   所属区域:%@", model.tname,model.areaName];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"检测值:%@            %@",model.value,model.time];
 //        UILabel *redLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 24, 30, 25)];
 //        redLabel.textColor = [UIColor redColor];
@@ -219,6 +228,7 @@
 //        [cell.contentView addSubview:redLabel];
     }
     return cell;
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 55;
@@ -256,13 +266,11 @@
         default:
             break;
     }
-   
-    
-  
     [self.navigationController pushViewController:detail animated:YES];
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 - (void)createUI{
-    self.navigationController.navigationBar.hidden = NO;
+   
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
@@ -342,6 +350,10 @@
             break;
     }
     return url;
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+     self.navigationController.navigationBar.hidden = NO;
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

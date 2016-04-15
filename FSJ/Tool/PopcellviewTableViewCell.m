@@ -23,6 +23,7 @@
         self.layer.backgroundColor = [UIColor clearColor].CGColor;
         self.nameLabel.textColor = [UIColor blackColor];
         self.imgView.contentMode = UIViewContentModeScaleAspectFit;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }

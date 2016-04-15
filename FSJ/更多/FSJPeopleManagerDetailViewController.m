@@ -183,7 +183,7 @@
     if(self.DetailInfoType == WarnedDetail){
         switch (indexPath.section) {
             case 0:
-                cell.textLabel.text = model.name;
+                cell.textLabel.text = model.tname;
                 break;
             case 1:
                 switch (model.level.integerValue) {

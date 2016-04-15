@@ -55,6 +55,8 @@
 #import "CYLTabBarController.h"
 #import "WBPopMenuModel.h"
 #import "WBPopMenuSingleton.h"
+#import "CXAlterButton.h"
+#import "CXAlterItemButton.h"
 
 #pragma mark - class
 #import "Constants.h"
@@ -62,11 +64,13 @@
 #import "FSJNetWorking.h"
 #import "FSJUserInfo.h"
 #import "MPush.h"
-
+#import "FSJTabbarBtn.h"
 #pragma mark - Category
+#import "UIButton+Img.h"
 #import "UIView+LoadFromNib.h"
 #import "NSString+RegexCategory.h"
 #import "UIImage+Color.h"
+#import "UIButton+LXMImagePosition.h"
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

@@ -16,6 +16,9 @@
 #import "FSJPeopleManagerDetailViewController.h"
 #import "FSJOneCity.h"
 
+#import "FSJPeopleManagimentviewController.h"
+#import "FSJTongjiViewController.h"
+
 #define tableviewHeight self.view.bounds.size.height/2
 #define tableviewY      self.view.bounds.size.height/2
 #define moveDistance    self.view.bounds.size.height/2
@@ -28,6 +31,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 @interface FSJMapViewController ()<BMKMapViewDelegate,BMKLocationServiceDelegate,BMKDistrictSearchDelegate,BMKGeoCodeSearchDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIGestureRecognizerDelegate>
 {
     
+    NSMutableArray *imageViewArr;
     NSMutableArray *btnArr;
     UINavigationController *nav;
     BMKLocationService* locService;
@@ -91,6 +95,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     NSArray *gaojingimgArr;
     NSArray *shebeiimgArr;
+    
+    NSArray *shebeiTypeArr;
+    NSArray *gaojingTypeArr;
+    UIView *maskview;
 }
 @property (nonatomic, strong)NSMutableArray *allsite;
 @property (nonatomic, strong)UITableView *mytableView;
@@ -343,12 +351,15 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 - (void)viewDidUnload {
     [super viewDidUnload];
 }
+
 #pragma mark -- 控件和事件
 - (void)customUI{
     shebeiArr = @[@"人员信息管理",@"发射站管理",@"发射机管理"];
     shebeiimgArr =@[@"renyuan1.png",@"fashezhan11.png",@"fasheji.png"];
+//    shebeiTypeArr = @[PeopleManage,StationManage,FSJManageDetail];
+    
     gaojingArr = @[@"统计",@"警告查询"];
-    gaojingimgArr = @[@"tongji.png",@"chaxun.png"];
+    gaojingimgArr = @[@"tbtongji.png",@"chaxun.png"];
     WarnStokeColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
     NorStokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:1];
     WarnFillColor  = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.1];
@@ -356,6 +367,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     sizeNo = 0;
     pageNo = 0;
     warnNumber = 0;
+    imageViewArr   = @[].mutableCopy;
     btnArr         = @[].mutableCopy;
     cityoverlayErr = @[].mutableCopy;
     cityoverlayNor = @[].mutableCopy;
@@ -391,7 +403,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     userBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     userBtn.frame = CGRectMake(10, 8, WIDTH * 0.07, HEIGH * 0.04);
-    [userBtn setBackgroundImage:[UIImage imageNamed:@"geren"] forState:UIControlStateNormal];
+    [userBtn setBackgroundImage:[UIImage imageNamed:@"geren1"] forState:UIControlStateNormal];
     [userBtn addTarget:self action:@selector(UserInfo:) forControlEvents:UIControlEventTouchUpInside];
     [BackgroundVIew addSubview:userBtn];
     
@@ -420,22 +432,30 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     NSArray *norimg = @[@"ditu",@"jiankong",@"shebei",@"tbgaojing"];
     NSArray *seletedimg = @[@"ditu1",@"jiankong1",@"shebei1",@"tbgaojing1"];
     NSArray *titleArr  = @[@"地图",@"监控",@"设备",@"告警"];
-    
-    
+    maskview = [[UIView alloc]initWithFrame:CGRectMake(0, Popviewheight * 0.06 + 20, Popviewwidth, Popviewheight * 0.87 -20)];
+    maskview.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.9];
+
     for (int i = 0; i<4; i ++) {
-        CGRect btnFrame = CGRectMake(i * WIDTH/4+WIDTH*0.08 , HEIGH* 0.01, WIDTH/12.5, HEIGH *0.03);
-        UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
-         btn.frame = CGRectMake(i * WIDTH/4+WIDTH*0.08 , HEIGH* 0.01, WIDTH/12.5, HEIGH *0.03);
+        FSJTabbarBtn * btn = [FSJTabbarBtn buttonWithType:UIButtonTypeCustom];
+       
+         //btn.frame = CGRectMake(i * WIDTH/4+WIDTH*0.08 , HEIGH* 0.01, WIDTH/12.5, HEIGH *0.03);
+         btn.frame = CGRectMake(i * WIDTH/4 , 0, WIDTH/4, HEIGH *0.07);
          btn.enabled = YES;
-        [btn setBackgroundImage:[UIImage imageNamed:norimg[i]] forState:UIControlStateNormal];
-        [btn setBackgroundImage:[UIImage imageNamed:seletedimg[i]] forState:UIControlStateSelected];
+        //UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(WIDTH/8-10, 8, 20, 20)];
+         UIImage *btnImg = [UIImage imageNamed:norimg[i]];
+         UIImage *sebtnImg = [UIImage imageNamed:seletedimg[i]];
+        
+       
+        [btn setImage:btnImg forState:UIControlStateNormal];
+        [btn setImage:sebtnImg forState:UIControlStateSelected];
+        
         [btn setTitle:titleArr[i] forState:UIControlStateNormal];
         [btn setFont:[UIFont systemFontOfSize: 10.0]];
-        [btn setTitleEdgeInsets:UIEdgeInsetsMake(HEIGH *0.055, 0, 0, 0)];
+        btn.imageView.backgroundColor = [UIColor clearColor];
+        [btn setTitleEdgeInsets:UIEdgeInsetsMake(HEIGH *0.035,-20, 0, 20)];
         [btn setTitleColor:SystemGrayColor forState:UIControlStateNormal];
         [btn setTitleColor:SystemBlueColor forState:UIControlStateSelected];
-         btn.imageView.contentMode = UIViewContentModeCenter;
-         btn.contentMode = UIViewContentModeCenter;
+        
         [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
          btn.tag = 600 + i;
         [btnArr addObject:btn];
@@ -444,35 +464,43 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     for (UIButton *btn in btnArr) {
         if (btn.tag == 600) {
             btn.selected = YES;
+            
         }
+        
     }
     [self.view addSubview:tabbarBg];
 }
+
 - (void)btnClicked:(UIButton *)sender{
     NSLog(@"clicked");
+  
+    
     if (sender.selected == YES) {
-        
         return;
     }
     else{
+        if (sender.tag == 602 || sender.tag == 603) {
+            [_mapView addSubview:maskview];
+        }
+        else{
+            
+            [maskview removeFromSuperview];
+        }
          [[WBPopMenuSingleton shareManager]hideMenu];
-//        for (UIView *sbview in _mapView.subviews) {
-//            if ([sbview isKindOfClass: NSClassFromString(@"WBPopMenuView")]) {
-//                [sbview removeFromSuperview];
-//            }
-//        }
        for (UIButton *btn in btnArr) {
+
             btn.selected =NO;
             sender.selected = YES;
         }
         if (sender.tag == 602 && sender.selected == YES) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self createPopwithName:shebeiArr andImg:shebeiimgArr];
             });
 
         }
         if (sender.tag == 603 && sender.selected == YES) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                  [self createPopwithName:gaojingArr andImg:gaojingimgArr];
             });
         }
@@ -491,12 +519,36 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [[WBPopMenuSingleton shareManager]showPopMenuSelecteWithFrame:200
                                                              item:obj
                                                            action:^(NSInteger index) {
-                                                               FSJMoreInfomationViewController *more = [[FSJMoreInfomationViewController alloc]init];
-                                                                [self.navigationController pushViewController:more animated:YES];
-                                                           }TopView:_mapView];
-                                                            
+                                                               
+          FSJMoreInfomationViewController *more =[[FSJMoreInfomationViewController alloc]init];
+           [self.navigationController pushViewController:more animated:YES];
+       //if ([nameArr[index] isEqualToString:@"统计"]) {
+         //   FSJTongjiViewController *tongji = [[FSJTongjiViewController alloc]init];
+                                                               
+         //  [self.navigationController pushViewController:tongji animated:YES];
+                                                               
+//           return ;
+//       };
+//   FSJPeopleManagimentviewController *people = [[FSJPeopleManagimentviewController alloc]init];
+//         if ([nameArr[index] isEqualToString:@"人员信息管"]) {
+//                    people.InfoType = PeopleManage;
+//                 [self.navigationController pushViewController:people animated:YES];
+//                                                               };
+//            if ([nameArr[index] isEqualToString:@"发射站管理"]) {
+//                     people.InfoType = StationManage;
+//                 [self.navigationController pushViewController:people animated:YES];
+//                                                               };
+//             if ([nameArr[index] isEqualToString:@"发射机管理"]) {
+//                     people.InfoType = FSJManage;
+//                  [self.navigationController pushViewController:people animated:YES];
+//                                                               };
+//            if ([nameArr[index] isEqualToString:@"警告查询"]) {
+//                     people.InfoType = Warned;
+//                 [self.navigationController pushViewController:people animated:YES];
+//                                                               };
+//      
+            }TopView:_mapView];
 }
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;{
 
     [self.mytableView removeFromSuperview];
@@ -1154,7 +1206,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }
     self.mytableView.frame = CGRectMake(0, tableviewY, WIDTH, tableviewHeight);
     self.mytableView.scrollEnabled = NO;
-    [self.view addSubview:self.mytableView];
+    [_mapView addSubview:self.mytableView];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -1302,7 +1354,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     singleTap.cancelsTouchesInView = NO;
     singleTap.delaysTouchesEnded = NO;
     //[singleTap requireGestureRecognizerToFail:doubleTap];
-    [self.view addGestureRecognizer:singleTap];
+    [_mapView addGestureRecognizer:singleTap];
     UISwipeGestureRecognizer *swipdown = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(removeTableview:)];
     [swipdown setDirection:UISwipeGestureRecognizerDirectionDown];
     UISwipeGestureRecognizer *swipup = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(addTableview:)];
@@ -1317,6 +1369,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)theSingleTap {
     NSLog(@"my handleSingleTap");
+    //[[WBPopMenuSingleton shareManager]hideMenu];
+    [maskview removeFromSuperview];
     [UIView animateWithDuration:1 animations:^{
         CGRect rect = self.mytableView.frame;
         if (rect.origin.y == HEIGH-50) {
@@ -1331,6 +1385,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (void)handleDoubleTap:(UITapGestureRecognizer *)theDoubleTap {
     NSLog(@"my handleDoubleTap");
+     [maskview removeFromSuperview];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -1344,9 +1399,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             [UIView animateWithDuration:0.6 animations:^{
                 //[self.view addSubview:self.mytableView];
                 CGRect rect = self.mytableView.frame;
-                if (rect.origin.y == HEIGH-50-49) {
-                    rect.origin.y -= moveDistance-50-49;
-                    rect.size.height += tableviewHeight-50-49;
+                if (rect.origin.y == HEIGH) {
+                    rect.origin.y -= moveDistance;
+                    rect.size.height += tableviewHeight;
                 }
                 else{
                     rect.origin.y -= moveDistance-20;
@@ -1368,8 +1423,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             [UIView animateWithDuration:1 animations:^{
                 CGRect rect = self.mytableView.frame;
                 if (rect.origin.y == tableviewY) {
-                    rect.origin.y += moveDistance-50-49;
-                    rect.size.height -= tableviewHeight-50-49;
+                    rect.origin.y += moveDistance;
+                    rect.size.height -= tableviewHeight;
                 }
                 else{
                     rect.origin.y += moveDistance-20;
@@ -1380,5 +1435,4 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
     }
 }
-
 @end

@@ -39,7 +39,6 @@
     }
     else{
         //FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-        
         FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
         self.window.rootViewController = nav;
