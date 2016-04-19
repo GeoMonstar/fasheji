@@ -270,7 +270,7 @@
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 - (void)createUI{
-   
+    //self.navigationController.navigationBarHidden = NO;
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
@@ -353,10 +353,11 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-     self.navigationController.navigationBar.hidden = NO;
+   self.navigationController.navigationBarHidden = NO;
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
     [SVProgressHUD dismiss];
 }
 @end

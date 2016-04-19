@@ -27,7 +27,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = NO;
+    self.navigationController.navigationBarHidden = NO;
     [self createNav];
 }
 - (void)viewWillDisappear:(BOOL)animated{
@@ -241,9 +241,9 @@
     UIGraphicsEndImageContext();
     return theImage;
 }
-- (void) viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-    [self.navigationController setNavigationBarHidden:NO];
-}
+//- (void) viewWillLayoutSubviews
+//{
+//    [super viewWillLayoutSubviews];
+//    [self.navigationController setNavigationBarHidden:NO];
+//}
 @end

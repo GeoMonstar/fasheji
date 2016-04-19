@@ -42,7 +42,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBar.hidden = false;
+    self.navigationController.navigationBarHidden = NO;
     
     [self createUI];
     self.view.backgroundColor = SystemGrayColor;
@@ -409,7 +409,7 @@
 }
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    [self.navigationController setNavigationBarHidden:NO];
+    self.navigationController.navigationBarHidden = NO;
 }
 //- (void) viewDidLayoutSubviews
 //{

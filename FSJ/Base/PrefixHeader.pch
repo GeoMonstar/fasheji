@@ -66,6 +66,7 @@
 #import "MPush.h"
 #import "FSJTabbarBtn.h"
 #pragma mark - Category
+#import "LGProgressHud.h"
 #import "UIButton+Img.h"
 #import "UIView+LoadFromNib.h"
 #import "NSString+RegexCategory.h"

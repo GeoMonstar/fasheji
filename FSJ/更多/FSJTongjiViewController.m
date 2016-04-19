@@ -28,19 +28,18 @@
     [myWeb removeFromSuperview];
     myWeb = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH)];
     myWeb.delegate = self;
-  
-
     userName = [[EGOCache globalCache]stringForKey:@"userId"];
     NSString *urlStr =  BaseTongjiurl(userName);
     NSURL *url = [[NSURL alloc] initWithString:urlStr];
     myWeb.scalesPageToFit = YES;
-    myWeb.scrollView.contentSize = CGSizeMake(WIDTH, HEIGH*1.35);
+    myWeb.scrollView.contentSize = CGSizeMake(WIDTH, HEIGH*1.5);
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [myWeb loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0]];
     [self.view addSubview:myWeb];
 }
 - (void)createUI{
+    self.title = @"统计";
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
@@ -50,7 +49,6 @@
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc]initWithCustomView:myButton];
     [myButton addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = item1;
-    self.title = @"统计";
 }
 - (void)backTomain:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];
@@ -64,6 +62,15 @@
        [SVProgressHUD dismiss];
     });
     
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
 

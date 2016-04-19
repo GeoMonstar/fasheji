@@ -72,7 +72,6 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     return 2;
 }
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return 3;

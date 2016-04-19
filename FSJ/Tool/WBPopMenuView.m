@@ -63,9 +63,9 @@
         self.tableView.separatorColor = [UIColor clearColor];
         self.tableView.backgroundView.alpha = 0.0f;
         //self.tableView.layer.cornerRadius = 10.0f;
-        //self.tableView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        //self.tableView.layer.anchorPoint = CGPointMake(0.5,1);
         //self.tableView.transform = CGAffineTransformMakeScale(0.0001, 0.0001);
-        self.tableView.transform = CGAffineTransformMakeTranslation(0,Popviewheight *0.5);
+        self.tableView.transform = CGAffineTransformMakeTranslation(0,Popviewheight *0.9);
         
         self.tableView.rowHeight = PopviewCellheight;
         
@@ -84,9 +84,9 @@
 - (CGRect)menuFramewith:(NSInteger)num {
     
     CGFloat menuX = [UIScreen mainScreen].bounds.size.width  - self.menuWidth;
-    CGFloat menuY = [UIScreen mainScreen].bounds.size.height*0.85 - PopviewCellheight * (num+1);
+    CGFloat menuY = [UIScreen mainScreen].bounds.size.height*0.95 - PopviewCellheight * (3+num);
     CGFloat width = self.menuWidth;
-    CGFloat heigh = PopviewCellheight * (num+1);
+    CGFloat heigh = PopviewCellheight * (num);
     return (CGRect){menuX,menuY,width,heigh};
 }
 #pragma mark 绘制三角形
@@ -124,6 +124,7 @@
 //}
 
 - (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
     [[WBPopMenuSingleton shareManager]hideMenu];
 }
 

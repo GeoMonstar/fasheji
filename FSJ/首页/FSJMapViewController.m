@@ -15,13 +15,12 @@
 #import "FSJMoreInfomationViewController.h"
 #import "FSJPeopleManagerDetailViewController.h"
 #import "FSJOneCity.h"
-
 #import "FSJPeopleManagimentviewController.h"
 #import "FSJTongjiViewController.h"
 
-#define tableviewHeight self.view.bounds.size.height/2
-#define tableviewY      self.view.bounds.size.height/2
-#define moveDistance    self.view.bounds.size.height/2
+#define tableviewHeight self.view.bounds.size.height/4+50
+#define tableviewY      self.view.bounds.size.height/4*3 -50
+#define moveDistance    self.view.bounds.size.height/4
 NSString *keyCityError      = @"kCityError";
 NSString *keyCityNor        = @"kCityNor";
 NSString *keyCityNorID      = @"kCityNorID";
@@ -99,6 +98,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     NSArray *shebeiTypeArr;
     NSArray *gaojingTypeArr;
     UIView *maskview;
+    NSString *tableViewTitle;
 }
 @property (nonatomic, strong)NSMutableArray *allsite;
 @property (nonatomic, strong)UITableView *mytableView;
@@ -126,7 +126,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [super viewWillAppear:YES];
     [_mapView viewWillAppear];
     
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBarHidden = YES;
     _mapView.delegate = self;// 此处记得不用的时候需要置nil，否则影响内存的释放
     locService.delegate = self;
     _geocodesearchCity.delegate = self;
@@ -354,10 +354,14 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 
 #pragma mark -- 控件和事件
 - (void)customUI{
+    UIView *statusView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 20)];
+    statusView.backgroundColor = SystemBlueColor;
+    [self.view addSubview:statusView];
+   // self.view.backgroundColor = SystemBlueColor;
+  [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
     shebeiArr = @[@"人员信息管理",@"发射站管理",@"发射机管理"];
     shebeiimgArr =@[@"renyuan1.png",@"fashezhan11.png",@"fasheji.png"];
-//    shebeiTypeArr = @[PeopleManage,StationManage,FSJManageDetail];
-    
+//  shebeiTypeArr = @[PeopleManage,StationManage,FSJManageDetail];
     gaojingArr = @[@"统计",@"警告查询"];
     gaojingimgArr = @[@"tbtongji.png",@"chaxun.png"];
     WarnStokeColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
@@ -394,11 +398,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     _mapView.zoomEnabled        = YES;
     _geocodesearch = [[BMKGeoCodeSearch alloc]init];
     _geocodesearchCity = [[BMKGeoCodeSearch alloc]init];
-    _mapView =[[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH)];
+    _mapView =[[BMKMapView alloc]initWithFrame:CGRectMake(0, 20, WIDTH, HEIGH)];
     [self.view addSubview:_mapView];
     
     
-    BackgroundVIew = [[UIView alloc]initWithFrame:CGRectMake(0, 20, WIDTH, HEIGH*0.06)];
+    BackgroundVIew = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH*0.06)];
     BackgroundVIew.backgroundColor = SystemBlueColor;
     
     userBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -423,8 +427,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     mainSearchbar.barStyle =UIBarStyleBlack;
     mainSearchbar.showsCancelButton = YES;
     [BackgroundVIew addSubview:mainSearchbar];
-    [self.view addSubview:BackgroundVIew];
-    
+    [_mapView addSubview:BackgroundVIew];
+    //[self.view insertSubview:BackgroundVIew atIndex:0];
     tabbarBg = [[UIView alloc]initWithFrame:CGRectMake(0, HEIGH *0.93, WIDTH,  HEIGH *0.07)];
     //tabbarBg.userInteractionEnabled = NO;
     tabbarBg.backgroundColor = SystemLightGrayColor;
@@ -432,7 +436,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     NSArray *norimg = @[@"ditu",@"jiankong",@"shebei",@"tbgaojing"];
     NSArray *seletedimg = @[@"ditu1",@"jiankong1",@"shebei1",@"tbgaojing1"];
     NSArray *titleArr  = @[@"地图",@"监控",@"设备",@"告警"];
-    maskview = [[UIView alloc]initWithFrame:CGRectMake(0, Popviewheight * 0.06 + 20, Popviewwidth, Popviewheight * 0.87 -20)];
+    maskview = [[UIView alloc]initWithFrame:CGRectMake(0, Popviewheight * 0.06 , Popviewwidth, Popviewheight * 0.87 -20)];
     maskview.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.9];
 
     for (int i = 0; i<4; i ++) {
@@ -448,7 +452,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
        
         [btn setImage:btnImg forState:UIControlStateNormal];
         [btn setImage:sebtnImg forState:UIControlStateSelected];
-        
         [btn setTitle:titleArr[i] forState:UIControlStateNormal];
         [btn setFont:[UIFont systemFontOfSize: 10.0]];
         btn.imageView.backgroundColor = [UIColor clearColor];
@@ -464,9 +467,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     for (UIButton *btn in btnArr) {
         if (btn.tag == 600) {
             btn.selected = YES;
-            
         }
-        
     }
     [self.view addSubview:tabbarBg];
 }
@@ -495,58 +496,57 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         if (sender.tag == 602 && sender.selected == YES) {
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self createPopwithName:shebeiArr andImg:shebeiimgArr];
+                [self createPopwithName:shebeiArr andImg:shebeiimgArr andtag:602];
             });
-
         }
         if (sender.tag == 603 && sender.selected == YES) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                 [self createPopwithName:gaojingArr andImg:gaojingimgArr];
+                [self createPopwithName:gaojingArr andImg:gaojingimgArr andtag: 603];
             });
         }
         if (sender.tag == 600 || sender.tag == 601) {
         }
     }
 }
-- (void)createPopwithName:(NSArray *)nameArr andImg:(NSArray *)imgArr {
+- (void)createPopwithName:(NSArray *)nameArr andImg:(NSArray *)imgArr andtag:(NSInteger) btntag{
     NSMutableArray *obj = [NSMutableArray array];
     for (NSInteger i = 0; i < nameArr.count; i++) {
         WBPopMenuModel * info = [WBPopMenuModel new];
         info.image = imgArr[i];
         info.title = nameArr[i];
         [obj addObject:info];
-    }
+    };
+    
+    FSJTongjiViewController * tongji = [[FSJTongjiViewController alloc]init];
+     FSJPeopleManagimentviewController* people = [[FSJPeopleManagimentviewController alloc]init];
     [[WBPopMenuSingleton shareManager]showPopMenuSelecteWithFrame:200
                                                              item:obj
                                                            action:^(NSInteger index) {
-                                                               
-          FSJMoreInfomationViewController *more =[[FSJMoreInfomationViewController alloc]init];
-           [self.navigationController pushViewController:more animated:YES];
-       //if ([nameArr[index] isEqualToString:@"统计"]) {
-         //   FSJTongjiViewController *tongji = [[FSJTongjiViewController alloc]init];
-                                                               
-         //  [self.navigationController pushViewController:tongji animated:YES];
-                                                               
-//           return ;
-//       };
-//   FSJPeopleManagimentviewController *people = [[FSJPeopleManagimentviewController alloc]init];
-//         if ([nameArr[index] isEqualToString:@"人员信息管"]) {
-//                    people.InfoType = PeopleManage;
-//                 [self.navigationController pushViewController:people animated:YES];
-//                                                               };
-//            if ([nameArr[index] isEqualToString:@"发射站管理"]) {
-//                     people.InfoType = StationManage;
-//                 [self.navigationController pushViewController:people animated:YES];
-//                                                               };
-//             if ([nameArr[index] isEqualToString:@"发射机管理"]) {
-//                     people.InfoType = FSJManage;
-//                  [self.navigationController pushViewController:people animated:YES];
-//                                                               };
-//            if ([nameArr[index] isEqualToString:@"警告查询"]) {
-//                     people.InfoType = Warned;
-//                 [self.navigationController pushViewController:people animated:YES];
-//                                                               };
-//      
+       if ([nameArr[index] isEqualToString:@"统计"]) {
+           [self.navigationController pushViewController:tongji animated:YES];
+       };
+         if ([nameArr[index] isEqualToString:@"人员信息管理"]) {
+                    people.InfoType = PeopleManage;
+            [self.navigationController pushViewController:people animated:YES];
+           };
+            if ([nameArr[index] isEqualToString:@"发射站管理"]) {
+                     people.InfoType = StationManage;
+               [self.navigationController pushViewController:people animated:YES];
+            };
+             if ([nameArr[index] isEqualToString:@"发射机管理"]) {
+                     people.InfoType = FSJManage;
+                [self.navigationController pushViewController:people animated:YES];
+            };
+            if ([nameArr[index] isEqualToString:@"警告查询"]) {
+                     people.InfoType = Warned;
+                 [self.navigationController pushViewController:people animated:YES];
+            };
+                  for (UIButton *btn in btnArr) {
+                      if (btn.tag == btntag) {
+                          btn.selected = NO;
+                           [self btnClicked:btn];
+                      }
+                  }
             }TopView:_mapView];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;{
@@ -576,7 +576,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [SVProgressHUD dismiss];
     });
-    [self getallstationInfoWith:mainSearchbar.text andtype:Allstationquery anddicparameter:@"keyword"andShowAnno:YES];
+    [self getallstationInfoWith:mainSearchbar.text andtype:Allstationquery anddicparameter:@"keyword"andShowAnno:YES ];
 }
 #pragma mark --行政区搜索
 - (void)searchWithModelwith:(NSDictionary *)dic{
@@ -1114,11 +1114,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view{
     //[self getallstationInfoWith:view.annotation.title];
+    
     NSString *lat = [NSString stringWithFormat:@"%lf",view.annotation.coordinate.latitude];
     NSString *lon = [NSString stringWithFormat:@"%lf",view.annotation.coordinate.longitude];
     NSLog(@"annotion == %@ %@",[lon substringToIndex:8],[lat substringToIndex:7]);
     for (FSJOneFSJ *tempmodel in self.allsite) {
-        
         if ([tempmodel.transId isEqualToString:view.annotation.subtitle]) {
             NSLog(@"全局标注 == %@ %@",[tempmodel.lon substringToIndex:8],[tempmodel.lat substringToIndex:7]);
             FSJPeopleManagerDetailViewController *detail = [[FSJPeopleManagerDetailViewController alloc]init];
@@ -1130,32 +1130,37 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }
     for (FSJResultList *tempmodel in stationArr) {
         if ([tempmodel.stationId isEqualToString:view.annotation.subtitle]) {
-            //        if ([[tempmodel.lon substringToIndex:8] isEqualToString:[lon substringToIndex:8]] || [[tempmodel.lat substringToIndex:7] isEqualToString:[lat substringToIndex:7]]) {
+            //if ([[tempmodel.lon substringToIndex:8] isEqualToString:[lon substringToIndex:8]] || [[tempmodel.lat substringToIndex:7] isEqualToString:[lat substringToIndex:7]]) {
             NSLog(@"标注 == %@ %@",[tempmodel.lon substringToIndex:8],[tempmodel.lat substringToIndex:7]);
-            
             [self getallstationInfoWith:tempmodel.stationId andtype:Allstationquery anddicparameter:@"sid"andShowAnno:NO];
+            tableViewTitle = tempmodel.name;
         }
     }
 }
 #pragma mark -- 查看发射机下面的所有发射机信息
-- (void)getallstationInfoWith:(NSString *)ID andtype:(NetworkConnectionActionType)type anddicparameter:(NSString *)str andShowAnno:(BOOL)show{
+- (void)getallstationInfoWith:(NSString *)ID andtype:(NetworkConnectionActionType)type anddicparameter:(NSString *)str andShowAnno:(BOOL)show {
     if (self.allsite.count >0) {
         [self.allsite removeAllObjects];
     }
-    //[SVProgressHUD showWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
+    if (self.mytableView) {
+        self.mytableView.frame = CGRectZero;
+        [self.mytableView removeFromSuperview];
+    }
+    [self createTableview];
+    [LGProgressHud showLoadingHud:self.mytableView withText:@"" textPosition:TextPositionTypeBottle animated:HudAnimatedTypeChangeGradually];
+    
     NSDictionary *dic = @{str:ID,@"pageSize":@"8",@"pageNo":@"1",@"jwt":staticJwt};
     [FSJNetWorking networkingGETWithActionType:type requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         FSJAllFSJ *model = [FSJAllFSJ initWithDictionary:responseObject];
         NSLog(@"%@",model.message);
-        //[SVProgressHUD dismiss];
         if ([model.status isEqualToString:@"200"]) {
             NSMutableArray *tempArray = [NSMutableArray array];
             for (NSDictionary *dic in model.list) {
                 FSJOneFSJ *model = [FSJOneFSJ initWithDictionary:dic];
                 NSLog(@"%@ %@ %@ statue ==%@",model.name ,model.masterPr, model.masterPo, model.status);
-                
-                [tempArray addObject:model];
-                [self.allsite addObjectsFromArray:tempArray];
+                //[tempArray addObject:model];
+                //[self.allsite addObjectsFromArray:tempArray];
+                [self.allsite addObject:model];
                 if (show) {
                     [self addAnnotataionOnmapWith:self.allsite];
                 }
@@ -1163,7 +1168,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.mytableView reloadData];
                     });
-                [self createTableview];
+                [LGProgressHud hideAllHudInView:self.mytableView animated:HudAnimatedTypeNone];
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1206,7 +1211,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }
     self.mytableView.frame = CGRectMake(0, tableviewY, WIDTH, tableviewHeight);
     self.mytableView.scrollEnabled = NO;
-    [_mapView addSubview:self.mytableView];
+    [_mapView insertSubview:self.mytableView belowSubview:tabbarBg];
+    // [self.view insertSubview:self.mytableView belowSubview:maskview];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -1247,17 +1253,24 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
+//        for ( FSJResultList *tempmodel in stationArr) {
+//            
+//            if (tempmodel) {
+//                <#statements#>
+//            }
+        //FSJOneFSJ *model = self.allsite[indexPath.row];
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HEADER"];
         if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"HEADER"];
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"HEADER"];
         }
         cell.backgroundColor = SystemLightGrayColor;
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.textLabel.text = [NSString stringWithFormat:@"共搜索到%ld条结果",self.allsite.count];
+       
+         cell.textLabel.text = [NSString stringWithFormat:@"%@",tableViewTitle];
+         cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        //cell.textLabel.text = model.name;
         return cell;
     }
     else{
-        
         static NSString *identifer = @"CELL";
         FSJOneFSJTableViewCell *cell = [self.mytableView dequeueReusableCellWithIdentifier:identifer];
         FSJOneFSJ *model = self.allsite[indexPath.row];
@@ -1391,7 +1404,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [super didReceiveMemoryWarning];
 }
 - (void)addTableview:(UISwipeGestureRecognizer *)swip{
-    if (self.mytableView.frame.origin.y == 20) {
+    if (self.mytableView.frame.origin.y == 0  ) {
         return;
     }
     else{
@@ -1399,13 +1412,18 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             [UIView animateWithDuration:0.6 animations:^{
                 //[self.view addSubview:self.mytableView];
                 CGRect rect = self.mytableView.frame;
-                if (rect.origin.y == HEIGH) {
-                    rect.origin.y -= moveDistance;
-                    rect.size.height += tableviewHeight;
+                if (rect.origin.y == tableviewY ) {
+                    //HEIGH - HEIGH * 0.07 - 50
+                    rect.origin.y    = 0;
+                    rect.size.height = HEIGH - HEIGH *0.07 ;
+                    //rect.origin.y -= tableviewY - HEIGH *0.06;
+                    //rect.size.height += HEIGH - 20 - HEIGH *0.06 - tableviewHeight ;
                 }
                 else{
-                    rect.origin.y -= moveDistance-20;
-                    rect.size.height += tableviewHeight;
+                    rect.origin.y    = tableviewY;
+                    rect.size.height = tableviewHeight;
+                    //rect.origin.y -= moveDistance - HEIGH * 0.07 - 50 + 50;
+                    //rect.size.height += tableviewHeight - HEIGH * 0.07 - 50 + 50;
                 }
                 self.mytableView.frame = rect;
             }];
@@ -1415,20 +1433,24 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (void)removeTableview:(UISwipeGestureRecognizer *)swip{
     NSLog(@"down");
-    if (self.mytableView.frame.origin.y == HEIGH-50) {
+    if (self.mytableView.frame.origin.y == HEIGH - HEIGH *0.06 - 50) {
         return;
     }
     else{
         if (self.mytableView) {
             [UIView animateWithDuration:1 animations:^{
                 CGRect rect = self.mytableView.frame;
-                if (rect.origin.y == tableviewY) {
-                    rect.origin.y += moveDistance;
-                    rect.size.height -= tableviewHeight;
+                if (rect.origin.y == tableviewY ) {
+                    rect.origin.y    = HEIGH - HEIGH *0.06 - 70;
+                    rect.size.height = HEIGH- tableviewY;
+                    //rect.origin.y += moveDistance - HEIGH * 0.07 -20;
+                    //rect.size.height -= tableviewHeight - HEIGH * 0.07 - 50;
                 }
                 else{
-                    rect.origin.y += moveDistance-20;
-                    rect.size.height -= tableviewHeight;
+                    rect.origin.y    = tableviewY;
+                    rect.size.height = tableviewHeight;
+                    //rect.origin.y    += tableviewY - HEIGH *0.06;
+                    //rect.size.height -=  HEIGH - 20 - HEIGH *0.06 - tableviewHeight;
                 }
                 self.mytableView.frame = rect;
             }];

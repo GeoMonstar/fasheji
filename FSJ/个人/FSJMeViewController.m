@@ -50,11 +50,11 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     [super viewWillAppear:YES];
     [self getUserInfo];
     [self initTableview];
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBarHidden = YES;
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBarHidden = YES;
 }
 - (void)getUserInfo{
     NSDictionary *dic = @{@"jwt":_jwtStr};

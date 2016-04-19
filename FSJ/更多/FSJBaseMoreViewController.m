@@ -19,7 +19,7 @@
     [self customNav];
 }
 - (void)customNav{
-    self.navigationController.navigationBar.hidden = NO;
+    self.navigationController.navigationBarHidden = NO;
     self.title = @"";
     
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
