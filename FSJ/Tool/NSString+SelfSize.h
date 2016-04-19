@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h> 
+
 @interface NSString (SelfSize)
 - (CGSize)getSizeFromSelfWithWidth:(CGFloat)width andFont:(CGFloat)font;
 - (CGSize)getSizeFromSelfWithWidth:(CGFloat)width andUIFont:(UIFont *)font;

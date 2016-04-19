@@ -10,6 +10,7 @@
 
 @interface WBPopMenuModel : NSObject
 
+
 @property (nonatomic ,copy) NSString * image;
 @property (nonatomic ,copy) NSString * title;
 

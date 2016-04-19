@@ -193,27 +193,24 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 #pragma mark -- 警告通知
 - (void)receiveWarnNoti{
+        [MPush registerForClientId:@"ios0330" withAppName:@"fsj"];
+        [MPush setConnectCallback:^(int code) {
+            [MPush subscribeForArea:statitopic];
+        }];
+        [MPush setMessageCallback:^(NSString *mes) {
+            [self changeStatusWith:mes];
     
-    //    [MPush registerForClientId:@"ios0330" withAppName:@"fsj"];
-    //    [MPush setConnectCallback:^(int code) {
-    //        [MPush subscribeForArea:statitopic];
-    //    }];
-    //    [MPush setMessageCallback:^(NSString *mes) {
-    //        [self changeStatusWith:mes];
-    //
-    //        NSLog(@"警告消息===========%@",mes);
-    //    }];
+            NSLog(@"警告消息===========%@",mes);
+        }];
 }
-- (void)changeStatusWith:(NSArray *)jsonString{
-    //        NSData  *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    //        NSError *error;
-    //        NSDictionary *resultsDic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    //
-    //        NSString *contentStr = resultsDic[@"content"];
-    //        NSString *statusStr  = resultsDic[@"status"];
-    
-    NSString *contentStr = jsonString[0];
-    NSString *statusStr  = jsonString[1];
+- (void)changeStatusWith:(NSString *)jsonString{
+            NSData  *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            NSDictionary *resultsDic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+            NSString *contentStr = resultsDic[@"content"];
+            NSString *statusStr  = resultsDic[@"status"];
+//    NSString *contentStr = jsonString[0];
+//    NSString *statusStr  = jsonString[1];
     NSArray  *arr = [contentStr componentsSeparatedByString:@"/"];
     //{"content":"1/11/12/10000","status":"0"}
     if ([statusStr isEqualToString:@"0"]) {
@@ -236,9 +233,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         dispatch_async(dispatch_get_main_queue(), ^{
             [[EGOCache globalCache]setString:[NSString stringWithFormat:@"%ld",(long)num] forKey:arr[2]];
         });
-        //        if (num < 0) {
-        //            return;
-        //        }
         if ([[NSString stringWithFormat:@"%ld",(long)num] isEqualToString:@"0"]) {
             for (BMKPolygon * polygon in cityoverlayErr) {
                 if ([polygon.subtitle isEqualToString:arr[2]]) {
@@ -251,7 +245,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                             [_mapView addOverlay:polygon];
                         }
                     });
-                    //break;
                 }
             }
             NSInteger sheng = [[EGOCache globalCache]stringForKey:arr[1]].integerValue;
@@ -259,10 +252,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             
             //dispatch_async(dispatch_get_main_queue(), ^{
             [[EGOCache globalCache]setString:[NSString stringWithFormat:@"%ld",(long)sheng] forKey:arr[1]];
-            //});
-            //        if (sheng <0) {
-            //            return;
-            //        }
             if ([[NSString stringWithFormat:@"%ld",(long)sheng] isEqualToString:@"0"]) {
                 for (BMKPolygon * polygon in overlayEor) {
                     if ([polygon.subtitle isEqualToString:arr[1]]) {
@@ -275,7 +264,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                             [overlayEor removeObject:polygon];
                             [overlayNor addObject:polygon];
                         });
-                        //break;
                     }
                 }
             }
@@ -358,7 +346,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     statusView.backgroundColor = SystemBlueColor;
     [self.view addSubview:statusView];
    // self.view.backgroundColor = SystemBlueColor;
-  [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
+  //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
     shebeiArr = @[@"人员信息管理",@"发射站管理",@"发射机管理"];
     shebeiimgArr =@[@"renyuan1.png",@"fashezhan11.png",@"fasheji.png"];
 //  shebeiTypeArr = @[PeopleManage,StationManage,FSJManageDetail];
@@ -1147,7 +1135,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         [self.mytableView removeFromSuperview];
     }
     [self createTableview];
-    [LGProgressHud showLoadingHud:self.mytableView withText:@"" textPosition:TextPositionTypeBottle animated:HudAnimatedTypeChangeGradually];
+    [LGProgressHud showLoadingHud:self.mytableView withText:@"" textPosition:TextPositionTypeBottle animated:HudAnimatedTypeTop];
     
     NSDictionary *dic = @{str:ID,@"pageSize":@"8",@"pageNo":@"1",@"jwt":staticJwt};
     [FSJNetWorking networkingGETWithActionType:type requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -1264,10 +1252,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"HEADER"];
         }
         cell.backgroundColor = SystemLightGrayColor;
-       
          cell.textLabel.text = [NSString stringWithFormat:@"%@",tableViewTitle];
          cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        //cell.textLabel.text = model.name;
         return cell;
     }
     else{
@@ -1382,7 +1368,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)theSingleTap {
     NSLog(@"my handleSingleTap");
-    //[[WBPopMenuSingleton shareManager]hideMenu];
     [maskview removeFromSuperview];
     [UIView animateWithDuration:1 animations:^{
         CGRect rect = self.mytableView.frame;
@@ -1410,20 +1395,14 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     else{
         if (self.mytableView != nil) {
             [UIView animateWithDuration:0.6 animations:^{
-                //[self.view addSubview:self.mytableView];
                 CGRect rect = self.mytableView.frame;
                 if (rect.origin.y == tableviewY ) {
-                    //HEIGH - HEIGH * 0.07 - 50
                     rect.origin.y    = 0;
                     rect.size.height = HEIGH - HEIGH *0.07 ;
-                    //rect.origin.y -= tableviewY - HEIGH *0.06;
-                    //rect.size.height += HEIGH - 20 - HEIGH *0.06 - tableviewHeight ;
                 }
                 else{
                     rect.origin.y    = tableviewY;
                     rect.size.height = tableviewHeight;
-                    //rect.origin.y -= moveDistance - HEIGH * 0.07 - 50 + 50;
-                    //rect.size.height += tableviewHeight - HEIGH * 0.07 - 50 + 50;
                 }
                 self.mytableView.frame = rect;
             }];
@@ -1443,14 +1422,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 if (rect.origin.y == tableviewY ) {
                     rect.origin.y    = HEIGH - HEIGH *0.06 - 70;
                     rect.size.height = HEIGH- tableviewY;
-                    //rect.origin.y += moveDistance - HEIGH * 0.07 -20;
-                    //rect.size.height -= tableviewHeight - HEIGH * 0.07 - 50;
                 }
                 else{
                     rect.origin.y    = tableviewY;
                     rect.size.height = tableviewHeight;
-                    //rect.origin.y    += tableviewY - HEIGH *0.06;
-                    //rect.size.height -=  HEIGH - 20 - HEIGH *0.06 - tableviewHeight;
                 }
                 self.mytableView.frame = rect;
             }];

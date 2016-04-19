@@ -10,6 +10,7 @@
 
 @interface LGProgressObject : NSObject
 
+
 @property (nonatomic,assign) long long fileLength;
 @property (nonatomic,assign) long long loadedLength;
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface PopcellviewTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 

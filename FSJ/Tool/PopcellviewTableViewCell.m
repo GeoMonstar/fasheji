@@ -8,6 +8,7 @@
 
 #import "PopcellviewTableViewCell.h"
 
+
 @implementation PopcellviewTableViewCell
 @synthesize nameLabel = _nameLabel;
 @synthesize imgView = _imgView;

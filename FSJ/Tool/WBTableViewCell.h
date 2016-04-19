@@ -22,4 +22,5 @@
 //+ (instancetype)cellAllocWithTableView:(UITableView *)tableView;
 
 
+
 @end

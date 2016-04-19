@@ -11,6 +11,7 @@
 
 @interface WBPopMenuSingleton : NSObject
 
+
 /** 创建单例
  *
  *

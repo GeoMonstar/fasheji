@@ -22,6 +22,7 @@
 
 #define LG_MAO_GAP 5
 
+
 @interface LGProgressHud()
 @property (strong,nonatomic) NSTimer *timer;
 @property (assign,nonatomic) NSInteger  times;

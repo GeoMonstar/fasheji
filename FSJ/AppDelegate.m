@@ -7,8 +7,7 @@
 //
 #import "AppDelegate.h"
 #import "FSJLogInViewController.h"
-#import "FSJHomeViewController.h"
-#import "FSJTabbarViewController.h"
+
 #import "FSJMapViewController.h"
 #import "MPush.h"
 #import "mopush.h"

@@ -14,6 +14,7 @@
 typedef void(^TableViewDidSelectRowAtIndexPath)(NSInteger indexRow);
 
 
+
 @interface WBTableViewDelegate : NSObject <UITableViewDelegate>
 
 

@@ -19,10 +19,8 @@
         [self setBounds:CGRectMake(0.f, 0.f, 30.f, 30.f)];
         self.frame = CGRectMake(0, 0, 40, 40);
         [self setBackgroundColor:[UIColor clearColor]];
-    
         _annotationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
         _annotationImageView.contentMode = UIViewContentModeScaleAspectFit;
-        
         [self addSubview:_annotationImageView];
     }
     return self;

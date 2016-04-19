@@ -13,6 +13,7 @@
 @property (nonatomic, strong) WBPopMenuView * popMenuView;
 @end
 
+
 @implementation WBPopMenuSingleton
 
 + (WBPopMenuSingleton *) shareManager {

@@ -110,7 +110,7 @@
 }
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
-    userName.text =@"admin";
+    userName.text =@"city";
     userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];

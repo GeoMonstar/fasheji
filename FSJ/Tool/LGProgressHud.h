@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "LGProgressObject.h"
-
 typedef enum{
     HudTypeHud,
     HudTypeProgress,
