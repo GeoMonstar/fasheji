@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -17,14 +17,12 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="csf-eE-vce">
                         <rect key="frame" x="12" y="8" width="25" height="27.5"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="25" id="qCh-7h-KT9"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kG5-C0-o0F">
                         <rect key="frame" x="45" y="8" width="80" height="27.5"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="Pqh-lG-N3O"/>
                         </constraints>
@@ -34,13 +32,11 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ail-a3-U2b">
                         <rect key="frame" x="128" y="8" width="184" height="27"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <animations/>
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="ail-a3-U2b" secondAttribute="bottom" id="0OO-Oj-mZq"/>
                     <constraint firstItem="kG5-C0-o0F" firstAttribute="leading" secondItem="csf-eE-vce" secondAttribute="trailing" constant="8" id="556-nb-f2Q"/>
@@ -66,7 +62,6 @@
                     </mask>
                 </variation>
             </tableViewCellContentView>
-            <animations/>
             <connections>
                 <outlet property="UserInfoIcon" destination="csf-eE-vce" id="xCR-5y-yWk"/>
                 <outlet property="UserInfocontent" destination="ail-a3-U2b" id="p0H-aF-b0E"/>

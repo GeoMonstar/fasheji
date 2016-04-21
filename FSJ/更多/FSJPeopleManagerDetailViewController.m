@@ -8,6 +8,7 @@
 
 #import "FSJPeopleManagerDetailViewController.h"
 #import "FSJPeopleManagerDetailTableViewCell.h"
+#import "FSJtoplineTableViewCell.h"
 @interface FSJPeopleManagerDetailViewController ()<UITableViewDataSource,UITableViewDelegate>{
     
     NSString *jwt;
@@ -50,8 +51,8 @@
     [self ctreateTableView];
 }
 - (void)ctreateTableView{
-        [SVProgressHUD showWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
-       //[self.myTable registerNib:[UINib nibWithNibName:@"FSJPeopleManagerDetailTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CELL"];
+       // [SVProgressHUD showWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
+       [self.myTable registerNib:[UINib nibWithNibName:@"FSJtoplineTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"headCELL"];
        switch (self.DetailInfoType) {
         case 0:
             url = @"/rs/app/alarm/info";
@@ -305,28 +306,34 @@
 
     }
     if (self.DetailInfoType == FSJManageDetail){
+        if (indexPath.section == 0) {
+             FSJtoplineTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"headCELL"];
+            cell.topLabel.text = model.tname;
+            cell.topImg.contentMode = UIViewContentModeScaleAspectFit;
+            switch ([model.state integerValue]) {
+                case 0:
+                    cell.topImg.image = [UIImage imageNamed:@"APPgreen.png"];
+                    break;
+                case 1:
+                    cell.topImg.image = [UIImage imageNamed:@"APPred.png"];
+                    break;
+                case 2:
+                    cell.topImg.image = [UIImage imageNamed:@"APPyellow.png"];
+                    break;
+                case 3:
+                    cell.topImg.image = [UIImage imageNamed:@"APPhui.png"];
+                    break;
+                    
+                default:
+                    break;
+            }
+            return cell;
+        }
+       
         switch (indexPath.section) {
-            case 0:
-                cell.textLabel.text = model.tname;
-                cell.imageView.contentMode = UIViewContentModeCenter;
-                switch ([model.state integerValue]) {
-                    case 0:
-                        cell.imageView.image = [UIImage imageNamed:@"green.png"];
-                        break;
-                    case 1:
-                        cell.imageView.image = [UIImage imageNamed:@"red.png"];
-                        break;
-                    case 2:
-                        cell.imageView.image = [UIImage imageNamed:@"orenge.png"];
-                        break;
-                    case 3:
-                        cell.imageView.image = [UIImage imageNamed:@"hui.png"];
-                        break;
-                        
-                    default:
-                        break;
-                }
-                break;
+//            case 0:
+//            
+//                break;
             case 1:
                 cell.textLabel.text = [NSString stringWithFormat:@"所属发射站:%@",model.sname];
                 break;
@@ -375,7 +382,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return 50;
+        return 40;
     }
     else{
         return 36;

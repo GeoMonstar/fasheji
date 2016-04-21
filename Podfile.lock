@@ -21,8 +21,9 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BaiduMapKit (2.10.0)
+  - CYLTabBarController (1.2.7)
   - EGOCache (2.1.3)
-  - Masonry (0.6.4)
+  - Masonry (1.0.0)
   - MBProgressHUD (0.9.2)
   - MJExtension (3.0.10)
   - MJRefresh (3.1.0)
@@ -30,11 +31,12 @@ PODS:
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - SSKeychain (1.4.0)
-  - SVProgressHUD (2.0)
+  - SVProgressHUD (2.0.3)
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
   - BaiduMapKit (= 2.10.0)
+  - CYLTabBarController
   - EGOCache
   - Masonry
   - MBProgressHUD
@@ -47,13 +49,14 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BaiduMapKit: 5df028c6b455d29e68e89694adbcf9d37a4bcc99
+  CYLTabBarController: 639c5eca91cc564671bfd876e5fcc1a39cc49bf7
   EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
-  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
+  Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
-  SVProgressHUD: e9e7c893686a20da55a28015ed384d9425e15479
+  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
 COCOAPODS: 0.39.0

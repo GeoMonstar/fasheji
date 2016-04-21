@@ -17,11 +17,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="121.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hy-Zr-hXR">
+                        <rect key="frame" x="13" y="43" width="243" height="35"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DKg-zK-DQF">
-                        <rect key="frame" x="243" y="5" width="64" height="111.5"/>
+                        <rect key="frame" x="272" y="43" width="35" height="35"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="2kv-vz-r5y"/>
                             <constraint firstAttribute="height" constant="114" id="Ecl-PM-YKN"/>
+                            <constraint firstAttribute="width" constant="35" id="j5P-na-xhn"/>
+                            <constraint firstAttribute="height" constant="35" id="lap-lD-kMp"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -30,13 +39,6 @@
                             </mask>
                         </variation>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hy-Zr-hXR">
-                        <rect key="frame" x="13" y="52.5" width="214" height="17"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="DKg-zK-DQF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="3oh-7X-Nz1"/>
@@ -44,15 +46,24 @@
                     <constraint firstItem="4hy-Zr-hXR" firstAttribute="centerY" secondItem="DKg-zK-DQF" secondAttribute="centerY" id="BKl-BT-K6g"/>
                     <constraint firstAttribute="trailingMargin" secondItem="DKg-zK-DQF" secondAttribute="trailing" constant="5" id="QlI-6K-Tz7"/>
                     <constraint firstItem="4hy-Zr-hXR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="5" id="RWD-mT-mkJ"/>
+                    <constraint firstItem="4hy-Zr-hXR" firstAttribute="centerY" secondItem="DKg-zK-DQF" secondAttribute="centerY" id="Vws-CP-8fv"/>
                     <constraint firstItem="DKg-zK-DQF" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="height" id="ZSu-sX-37V"/>
                     <constraint firstItem="DKg-zK-DQF" firstAttribute="leading" secondItem="4hy-Zr-hXR" secondAttribute="trailing" constant="16" id="cGm-Za-ojh"/>
+                    <constraint firstItem="DKg-zK-DQF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="f1n-gj-ksb"/>
+                    <constraint firstItem="4hy-Zr-hXR" firstAttribute="height" secondItem="DKg-zK-DQF" secondAttribute="height" id="h4b-J8-4Py"/>
                     <constraint firstItem="DKg-zK-DQF" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.2" id="jrr-id-rDV"/>
+                    <constraint firstItem="DKg-zK-DQF" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="nim-fJ-gZJ"/>
                     <constraint firstAttribute="bottomMargin" secondItem="DKg-zK-DQF" secondAttribute="bottomMargin" constant="5" id="qy4-Zb-2mj"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
+                        <exclude reference="BKl-BT-K6g"/>
+                        <exclude reference="3oh-7X-Nz1"/>
                         <exclude reference="8ms-En-Mx1"/>
                         <exclude reference="ZSu-sX-37V"/>
+                        <exclude reference="jrr-id-rDV"/>
+                        <exclude reference="nim-fJ-gZJ"/>
+                        <exclude reference="qy4-Zb-2mj"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>

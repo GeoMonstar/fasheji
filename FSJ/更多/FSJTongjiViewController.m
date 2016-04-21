@@ -71,6 +71,7 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;
+    [SVProgressHUD dismiss];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
 

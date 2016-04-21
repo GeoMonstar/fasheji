@@ -12,5 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headView;
 @property (weak, nonatomic) IBOutlet UILabel *topLabel;
 @property (weak, nonatomic) IBOutlet UILabel *secondLabel;
+@property (weak, nonatomic) IBOutlet UILabel *thridLabel;
+
 
 @end

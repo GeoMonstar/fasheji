@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FSJHeadTableViewCell : UITableViewCell
+@interface FSJTopTableViewCell : UITableViewCell
 //@property (weak, nonatomic) IBOutlet UIImageView *HeadViewimg;
 @property (weak, nonatomic) IBOutlet UIButton *BackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *HeadBtn;

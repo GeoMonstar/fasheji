@@ -11,15 +11,15 @@
 #import "FSJMapViewController.h"
 #import "MPush.h"
 #import "mopush.h"
-#define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
-//#define BaiduMapKEy @"G4u27joqchFtv5iVTn5KPwXp"
+//#define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
+#define BaiduMapKEy @"G4u27joqchFtv5iVTn5KPwXp"
 @interface AppDelegate ()<BMKGeneralDelegate>{
     BMKMapManager * _mapManager;
 }
 @end
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [[EGOCache globalCache]clearCache];
+    
     NSString *str = [[NSBundle mainBundle] bundleIdentifier];
     NSLog(@"%@",str);
         _mapManager = [[BMKMapManager alloc]init];
@@ -67,37 +67,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    NSLog(@"noti:%@",notification);
-    // 这里真实需要处理交互的地方
-    // 获取通知所带的数据
-    NSString *notMess = [notification.userInfo objectForKey:@"key"];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"发射机实时警告"
-                                                    message:notMess
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
-    // 更新显示的徽章个数
-    NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
-    badge++;
     
-    //badge = badge >= 0 ? badge : 0;
-    [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
-    
-    NSArray *localNotifications = [UIApplication sharedApplication].scheduledLocalNotifications;
-    
-    for (UILocalNotification *notification in localNotifications) {
-        NSDictionary *userInfo = notification.userInfo;
-        if (userInfo) {
-            // 根据设置通知参数时指定的key来获取通知参数
-            NSString *info = userInfo[@"key"];
-            // 如果找到需要取消的通知，则取消
-            if (info != nil) {
-                [[UIApplication sharedApplication] cancelLocalNotification:notification];
-                break;
-            }
-        }
-    }
 }
 
 - (void)onGetNetworkState:(int)iError

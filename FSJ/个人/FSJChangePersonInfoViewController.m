@@ -173,15 +173,15 @@
     
     switch (self.changeType) {
         case 1:
-            if (![secondInput.text isMobileNumber]) {
+            if (![firstInput.text isMobileNumber]) {
                 [SVProgressHUD showErrorWithStatus:@"请输入正确手机号"];
-                secondInput.text = @"";
+                firstInput.text = @"";
             };
             break;
         case 3:
-            if (![secondInput.text isEmailAddress]) {
+            if (![firstInput.text isEmailAddress]) {
                 [SVProgressHUD showErrorWithStatus:@"请输入正确邮箱地址"];
-                secondInput.text = @"";
+                firstInput.text = @"";
             };
             break;
             
@@ -195,6 +195,7 @@
     else{
         if ([secondInput.text isEqualToString:@""]) {
             [SVProgressHUD showErrorWithStatus:@"请输入验证码"];
+            
         }else{
             NSDictionary *dic = @{@"jwt":jwtStr,dicStr:firstInput.text};
             [FSJNetWorking networkingPOSTWithActionType:UserInfoChange requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -241,9 +242,5 @@
     UIGraphicsEndImageContext();
     return theImage;
 }
-//- (void) viewWillLayoutSubviews
-//{
-//    [super viewWillLayoutSubviews];
-//    [self.navigationController setNavigationBarHidden:NO];
-//}
+
 @end

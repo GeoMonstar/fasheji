@@ -11,6 +11,15 @@
 @implementation FSJTabbarBtn
 
 - (CGRect)imageRectForContentRect:(CGRect)contentRect{
-    return CGRectMake(Popviewwidth/8-10, 8, 20, 20);
+    CGRect rectBtn = CGRectZero;
+
+    rectBtn =  CGRectMake(Popviewwidth/8-10, Popviewheight*0.01, 20, 20);
+
+    return rectBtn;
+}
+- (CGRect)titleRectForContentRect:(CGRect)contentRect{
+    CGRect rectTitle = CGRectZero;
+    rectTitle = CGRectMake(Popviewwidth/8-10, Popviewheight*0.01 +18,30, 20);
+    return rectTitle;
 }
 @end

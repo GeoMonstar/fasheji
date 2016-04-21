@@ -1,18 +1,17 @@
 //
-//  FSJDetailTableViewCell.m
+//  FSJSecondDetailTableViewCell.m
 //  FSJ
 //
-//  Created by Monstar on 16/4/15.
+//  Created by Monstar on 16/4/20.
 //  Copyright © 2016年 Monstar. All rights reserved.
 //
 
-#import "FSJDetailTableViewCell.h"
+#import "FSJSecondDetailTableViewCell.h"
 
-@implementation FSJDetailTableViewCell
-@synthesize headView = _headView;
-@synthesize topLabel = _topLabel;
+@implementation FSJSecondDetailTableViewCell
+@synthesize topLabel    = _topLabel;
 @synthesize secondLabel = _secondLabel;
-@synthesize thridLabel = _thridLabel;
+@synthesize thirdLabel  = _thirdLabel;
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

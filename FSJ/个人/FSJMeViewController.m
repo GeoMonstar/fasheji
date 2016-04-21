@@ -7,7 +7,7 @@
 //
 
 #import "FSJMeViewController.h"
-#import "FSJHeadTableViewCell.h"
+#import "FSJTopTableViewCell.h"
 #import "FSJMineTableViewCell.h"
 #import "FSJChangePersonInfoViewController.h"
 @interface FSJMeViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
@@ -30,18 +30,16 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         _myTableView.scrollEnabled = NO;
         _myTableView.bounces = NO;
-        [_myTableView registerNib:[UINib nibWithNibName:@"FSJHeadTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:MineHeaderViewCell];
+        [_myTableView registerNib:[UINib nibWithNibName:@"FSJTopTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:MineHeaderViewCell];
         [_myTableView registerNib:[UINib nibWithNibName:@"FSJMineTableViewCell" bundle:[NSBundle mainBundle]]forCellReuseIdentifier:MineInfoTableViewCell];
     }
     return  _myTableView;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-   // iconImg = [UIImage imageNamed:@"yonghutouxiang.png"];
+    //iconImg = [UIImage imageNamed:@"yonghutouxiang.png"];
     UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 20)];
-    
     statusBarView.backgroundColor=SystemBlueColor;
-    
     [self.view addSubview:statusBarView];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
@@ -55,6 +53,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = YES;
+    [SVProgressHUD dismiss];
 }
 - (void)getUserInfo{
     NSDictionary *dic = @{@"jwt":_jwtStr};
@@ -114,7 +113,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section == 0){
-        FSJHeadTableViewCell *cell = [self.myTableView dequeueReusableCellWithIdentifier:MineHeaderViewCell];
+        FSJTopTableViewCell *cell = [self.myTableView dequeueReusableCellWithIdentifier:MineHeaderViewCell];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.BackBtn setBackgroundImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
         cell.BackBtn.contentMode = UIViewContentModeScaleAspectFit;
@@ -240,8 +239,9 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
             [SVProgressHUD showSuccessWithStatus:model.message];
-             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
             [[EGOCache globalCache]clearCache];
+             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
             });

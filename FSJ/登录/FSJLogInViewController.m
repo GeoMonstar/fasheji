@@ -57,6 +57,8 @@
     [loginBtn setTitleColor:SystemWhiteColor forState:UIControlStateNormal];
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
+    loginBtn.layer.cornerRadius = 5;
+    loginBtn.layer.masksToBounds = YES;
     [self.view addSubview:loginBtn];
     
     firstView = [[UIView alloc]initWithFrame:CGRectMake(leftMagrin, HEIGH/2+viewHeight, WIDTH - leftMagrin-rightMagrin, 2)];
@@ -110,7 +112,8 @@
 }
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
-    userName.text =@"city";
+    //userName.text =@"province";
+    //userName.text =@"province";
     userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
@@ -128,10 +131,7 @@
 
         if ([model.status isEqualToString: @"200"]) {
                 [SVProgressHUD showSuccessWithStatus:model.message];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-            });
-           
+            
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:0];
             [[EGOCache globalCache]setString:model.userId   forKey:@"userId"];
             [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt"];
@@ -153,5 +153,6 @@
     [super viewWillDisappear:animated];
     userName.text =@"";
     userPwd.text  =@"";
+    [SVProgressHUD dismiss];
 }
 @end

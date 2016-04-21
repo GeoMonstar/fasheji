@@ -46,7 +46,7 @@
     self.popMenuView.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.0];
     [topview addSubview:self.popMenuView];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.618 animations:^{
+        [UIView animateWithDuration:0.32 animations:^{
            self.popMenuView.tableView.transform = CGAffineTransformMakeTranslation(0, 0);
            // self.popMenuView.tableView.transform = CGAffineTransformMakeScale(1, 1);
             

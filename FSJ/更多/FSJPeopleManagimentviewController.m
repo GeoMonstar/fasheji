@@ -10,6 +10,7 @@
 #import "FSJPeopleManagerDetailViewController.h"
 #import "FSJOneFSJTableViewCell.h"
 #import "FSJDetailTableViewCell.h"
+#import "FSJSecondDetailTableViewCell.h"
 @interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>{
     UISearchBar *mysearchBar;
     
@@ -22,6 +23,7 @@
     FSJResultList *transmodel;
     BOOL isDraggingDown;
     NSMutableArray *tempArr;
+    NSString *placeHolder;
 }
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *myTable;
@@ -48,35 +50,44 @@
     count = 1;
     [self createUI];
     jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
-    [self cteateTableView];  
+    [self cteateTableView];
+    
     
 }
 - (void)cteateTableView{
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"oneCELL"];
+    [self.myTable registerNib:[UINib nibWithNibName:@"FSJSecondDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"twoCELL"];
+    
     [self.view addSubview:self.myTable];
     if (self.InfoType == PeopleManage) {
+        placeHolder = @"请输入发射站名称";
         dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/station/manager/list";
     }
     if (self.InfoType == StationManage) {
+        placeHolder = @"请输入发射站名称";
         dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/station/list";
     }
     if (self.InfoType == FSJManage) {
+        placeHolder = @"请输入发射机名称";
         dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/station/transmitter/list";
     }
     if (self.InfoType == Warning) {
+        placeHolder = @"请输入发射站、发射机名称";
         dic = @{@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/alarm/list";
     }
     if (self.InfoType == Warned) {
+         placeHolder = @"请输入发射站、发射机名称";
         dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/alarm/history/list";
     }
     self.myTable.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self loadDataWhenDraggingDown];
     }];
+     [mysearchBar setPlaceholder:placeHolder];
     // 设置表格视图的触底加载(上拉刷新)
     self.myTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         isDraggingDown = NO;
@@ -115,8 +126,8 @@
 - (void)startNetworkWith:(NSString *)neturl andDic:(NSDictionary *)dict{
     NSLog(@"%ld",(long)count);
     
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
-    [SVProgressHUD showWithStatus:@"加载中"];
+    //[SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
+    //[SVProgressHUD showWithStatus:@"加载中"];
     [FSJNetWorking networkingGETWithURL:neturl requestDictionary:dict success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
          NSMutableArray *tempArray = [NSMutableArray array];
@@ -136,16 +147,16 @@
                     [self.myTable reloadData];
                      [self endRefreshing];
                 });
-                [SVProgressHUD showSuccessWithStatus:model.message];
+               // [SVProgressHUD showSuccessWithStatus:model.message];
                 [mysearchBar resignFirstResponder];
             }else{
-                [SVProgressHUD showInfoWithStatus:@"数据加载完成"];
+               // [SVProgressHUD showInfoWithStatus:@"数据加载完成"];
                 [self endRefreshing];
             }
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+        //[SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
     }];
 
 }
@@ -166,33 +177,21 @@
     if (self.InfoType == FSJManage) {
         FSJDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"oneCELL"];
         
-        cell.topLabel.text = [NSString stringWithFormat:@"%@     所属区域:%@", model.tname,model.areaName];
-        cell.secondLabel.text  = [NSString stringWithFormat:@"所属发射站:%@  功率等级:%@  ", model.sname,model.powerRate];
-
-        //        UIImageView *imgiew = [[UIImageView alloc]initWithFrame:CGRectMake(8, 15,25, 30)];
-        //        [cell.contentView addSubview:imgiew];
-        //        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(45, 0, cell.frame.size.width-40,25)];
-        //        label1.text = [NSString stringWithFormat:@"%@", model.tname];
-        //        label1.font = [UIFont systemFontOfSize:14];
-        //        UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(45, 25, cell.frame.size.width-40,25)];
-        //        label2.text = [NSString stringWithFormat:@"所属发射站:%@   功耗等级:%@",model.sname,model.powerRate];
-        //        label2.font = [UIFont systemFontOfSize:12];
-        //
-        //        [cell addSubview:label1];
-        //        [cell addSubview:label2];
-        //
+        cell.topLabel.text = [NSString stringWithFormat:@"%@ ", model.tname];
+        cell.secondLabel.text  = [NSString stringWithFormat:@"所属区域:%@  ",model.areaName];
+        cell.thridLabel.text = [NSString stringWithFormat:@"所属发射站:%@  功率等级:%@  ", model.sname,model.powerRate];
         switch (model.state.integerValue) {
             case 0:
-                cell.headView.image = [UIImage imageNamed:@"green.png"];
+                cell.headView.image = [UIImage imageNamed:@"APPgreen.png"];
                 break;
             case 1:
-                cell.headView.image = [UIImage imageNamed:@"red"];
+                cell.headView.image = [UIImage imageNamed:@"APPred"];
                 break;
             case 2:
-                cell.headView.image = [UIImage imageNamed:@"orenge.png"];
+                cell.headView.image = [UIImage imageNamed:@"APPyellow.png"];
                 break;
             case 3:
-                cell.headView.image = [UIImage imageNamed:@"hui.png"];
+                cell.headView.image = [UIImage imageNamed:@"APPhui.png"];
                 break;
             default:
                 break;
@@ -200,38 +199,34 @@
         return cell;
     }
     else{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CELL"];
-    }
-   
+    FSJSecondDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"twoCELL"];
+
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.detailTextLabel.textColor = SystemGrayColor;
     cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
     if (self.InfoType == PeopleManage) {
-        cell.textLabel.text = [NSString stringWithFormat:@"姓名:%@  所属发射站:%@  ", model.name,model.sname];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"电话号码:%@      所属区域:%@",model.phone,model.areaName];
+        
+        cell.topLabel.text = [NSString stringWithFormat:@"姓名:%@  所属发射站:%@  ", model.name,model.sname];
+        cell.secondLabel.text = [NSString stringWithFormat:@"所属区域:%@",model.areaName];
+        cell.thirdLabel.text = [NSString stringWithFormat:@"电话号码:%@",model.phone];
     }
     if (self.InfoType == StationManage) {
-        cell.textLabel.text = [NSString stringWithFormat:@"%@     负责人:%@    所属区域:%@", model.name,model.manager,model.areaName];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"地址:%@",model.address];
+        cell.topLabel.text = [NSString stringWithFormat:@"%@     负责人:%@    ", model.name,model.manager];
+        cell.secondLabel.text = [NSString stringWithFormat:@"所属区域:%@",model.areaName];
+        cell.thirdLabel.text = [NSString stringWithFormat:@"地址:%@",model.address];
     }
-    
     if (self.InfoType == Warning || self.InfoType == Warned) {
-        cell.textLabel.text = [NSString stringWithFormat:@"设备名称:%@   所属区域:%@", model.tname,model.areaName];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"检测值:%@            %@",model.value,model.time];
-//        UILabel *redLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 24, 30, 25)];
-//        redLabel.textColor = [UIColor redColor];
-//        redLabel.font = [UIFont systemFontOfSize:12];
-//        redLabel.text = model.value;
-//        [cell.contentView addSubview:redLabel];
+        cell.topLabel.text = [NSString stringWithFormat:@"设备名称:%@", model.tname];
+        cell.secondLabel.text = [NSString stringWithFormat:@"所属区域%@",model.areaName];
+        cell.thirdLabel.text = [NSString stringWithFormat:@"检测值:%@            %@",model.value,model.time];
+        
     }
     return cell;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 55;
+    return 70;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -241,6 +236,7 @@
         case 0:
             detail.DetailInfoType = WarningDetail;
             detail.managerID = transmodel.alarmId;
+            
             break;
         case 1:
             detail.DetailInfoType = WarnedDetail;
@@ -294,7 +290,8 @@
     mysearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,WIDTH*0.65,40)];
     mysearchBar.delegate = self;
     mysearchBar.backgroundColor = SystemWhiteColor;
-    [mysearchBar setPlaceholder:@"输入发射机名字"];
+    
+   //[mysearchBar setPlaceholder:placeHolder];
     mysearchBar.searchBarStyle =UISearchBarStyleDefault;
     mysearchBar.barTintColor = SystemBlueColor;
     mysearchBar.layer.borderColor = SystemBlueColor.CGColor;
@@ -315,7 +312,7 @@
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;{
     if ([mysearchBar.text isEqualToString:@""]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入查询内容"];
+        //[SVProgressHUD showErrorWithStatus:@"请输入查询内容"];
         return;
     }
     else{
