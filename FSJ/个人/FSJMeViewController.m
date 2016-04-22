@@ -310,35 +310,35 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     [self doUpload:data];
      [picker dismissViewControllerAnimated:YES completion:nil];
 }
-- (void)updateData:(NSData *)data{ 
-    NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,@"/rs/user/upload/photo"];
-    NSString *filename = [NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]];
-    NSLog(@"filename = %@", filename);
-    NSDictionary *dict = @{@"jwt":self.jwtStr};
-    NSURLRequest * request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:url parameters:dict   constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:data name:@"file" fileName:@"user.png" mimeType:@"image/jpeg"];
-    }];
-       AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-           NSProgress *progress = nil;
-    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error) {
-            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
-            NSLog(@"Error: %@", error);
-        } else {
-            FSJUserInfo * tempuser = [FSJUserInfo initWithDictionary:responseObject];
-            if ([tempuser.status isEqualToString:@"200"]) {
-                [SVProgressHUD showSuccessWithStatus:@"头像上传成功"];
-                    [self getUserInfo];
-            
-            }else{
-                [SVProgressHUD showErrorWithStatus:tempuser.message];
-                NSLog(@"上传头像错误信息 = %@",tempuser.message);
-                }
-            }
-        }];
-        [uploadTask resume];
-     
-}
+//- (void)updateData:(NSData *)data{ 
+//    NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,@"/rs/user/upload/photo"];
+//    NSString *filename = [NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]];
+//    NSLog(@"filename = %@", filename);
+//    NSDictionary *dict = @{@"jwt":self.jwtStr};
+//    NSURLRequest * request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:url parameters:dict   constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//        [formData appendPartWithFileData:data name:@"file" fileName:@"user.png" mimeType:@"image/jpeg"];
+//    }];
+//       AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+//           NSProgress *progress = nil;
+//    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+//        if (error) {
+//            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+//            NSLog(@"Error: %@", error);
+//        } else {
+//            FSJUserInfo * tempuser = [FSJUserInfo initWithDictionary:responseObject];
+//            if ([tempuser.status isEqualToString:@"200"]) {
+//                [SVProgressHUD showSuccessWithStatus:@"头像上传成功"];
+//                    [self getUserInfo];
+//            
+//            }else{
+//                [SVProgressHUD showErrorWithStatus:tempuser.message];
+//                NSLog(@"上传头像错误信息 = %@",tempuser.message);
+//                }
+//            }
+//        }];
+//        [uploadTask resume];
+//     
+//}
 - (void)doUpload:(NSData *) imageData {
     // [SVProgressHUD showWithStatus:@"头像修改中"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -349,7 +349,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     [manager.requestSerializer didChangeValueForKey:@"timeOut"];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"text/html",@"text/json",@"application/json",@"text/javascript", nil];
     NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,@"/rs/user/upload/photo"];
-    NSString *filename = [NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]];
+    //NSString *filename = [NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]];
    // NSLog(@"filename = %@", filename);
     //参数注意
     NSDictionary *dict = @{@"jwt":self.jwtStr};

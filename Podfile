@@ -9,3 +9,5 @@ pod 'MJRefresh'
 pod 'SSKeychain'
 pod 'BaiduMapKit’,’2.10.0’
 pod 'CYLTabBarController'
+pod 'Pgyer'
+pod 'PgyUpdate'

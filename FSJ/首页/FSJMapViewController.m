@@ -186,17 +186,25 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 #pragma mark -- 警告通知
 - (void)receiveWarnNoti{
-
-        [MPush registerForClientId:@"ios0001" withAppName:@"fsj"];
-        [MPush setConnectCallback:^(int code) {
-            [MPush subscribeForArea:statitopic];
+    
+        [MPush registerForClientId:@"ios0422" withAppName:@"fsj"];
+    
+    
+    [MPush setMessageCallback:^(NSString *mes) {
+        if (mes) {
+            [self changeStatusWith:mes];
+        }
+        NSLog(@"警告消息===========%@",mes);
+    }];
+    
+    [MPush setConnectCallback:^(int code) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [MPush subscribeForArea:statitopic];
+            });
+            
         }];
-        [MPush setMessageCallback:^(NSString *mes) {
-            if (mes) {
-                 [self changeStatusWith:mes];
-            }
-            NSLog(@"警告消息===========%@",mes);
-        }];
+    
+    
 }
 - (void)changeStatusWith:(NSString *)jsonString{
             NSData  *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
@@ -341,9 +349,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     // self.view.backgroundColor = SystemBlueColor;
     //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
     shebeiArr = @[@"人员信息管理",@"发射站管理",@"发射机管理"];
-    shebeiimgArr =@[@"renyuan1.png",@"fashezhan11.png",@"fasheji.png"];
+    shebeiimgArr =@[@"tbrenyuan.png",@"tbfashezhan.png",@"tbfasheji.png"];
     gaojingArr = @[@"统计",@"警告查询"];
-    gaojingimgArr = @[@"tbtongji.png",@"chaxun.png"];
+    gaojingimgArr = @[@"tbtongji.png",@"tbchaxun.png"];
     WarnStokeColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
     NorStokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:1];
     WarnFillColor  = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.1];
@@ -757,9 +765,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 #pragma mark - BMKMapViewDelegate
 - (void)mapViewDidFinishLoading:(BMKMapView *)mapView {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"BMKMapView控件初始化完成" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
+    //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"BMKMapView控件初始化完成" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil];
     //[alert show];
-    alert = nil;
+    //alert = nil;
     _mapView.compassPosition = CGPointMake(15, 90);
 }
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
@@ -776,8 +784,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         if ( _mapView.zoomLevel >= ThirdtLevel) {
             self.mytableView.hidden = NO;
             showCity =YES;
-            [_mapView removeOverlays:cityoverlayNor];
-            [_mapView removeOverlays:cityoverlayErr];
+            //dispatch_async(dispatch_get_main_queue(), ^{
+                [_mapView removeOverlays:cityoverlayNor];
+                [_mapView removeOverlays:cityoverlayErr];
+          //  });
+           
 
             if (showWarn == YES) {
                 [_mapView addAnnotations:stationNormal];
@@ -787,10 +798,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
         else{
             self.mytableView.hidden = YES;
-            dispatch_async(dispatch_get_main_queue(), ^{
+           // dispatch_async(dispatch_get_main_queue(), ^{
                 [_mapView removeAnnotations:stationError];
                 [_mapView removeAnnotations:stationNormal];
-            });
+            //});
         }
     }
     else{
@@ -807,18 +818,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }
 }
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate{
-    //NSLog(@"经度 = %f,纬度 = %f",coordinate.latitude,coordinate.longitude);
-//    if (_mapView.zoomLevel < SecondLevel) {
-//        BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
-//        reverseGeocodeSearchOption.reverseGeoPoint = coordinate;
-//        [_geocodesearch reverseGeoCode:reverseGeocodeSearchOption];
-//        showProvince = NO;
-//    }
-//    if (_mapView.zoomLevel  < ThirdtLevel && _mapView.zoomLevel >= SecondLevel) {
-//        BMKReverseGeoCodeOption *reverseGeocodeSearchOptionCity = [[BMKReverseGeoCodeOption alloc]init];
-//        reverseGeocodeSearchOptionCity.reverseGeoPoint = coordinate;
-//        [_geocodesearchCity reverseGeoCode:reverseGeocodeSearchOptionCity];
-//    }
+
 }
 - (void)mapview:(BMKMapView *)mapView onDoubleClick:(CLLocationCoordinate2D)coordinate {
     if (showPop) {
@@ -834,9 +834,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     if (_mapView.zoomLevel  < ThirdtLevel && _mapView.zoomLevel >= SecondLevel) {
         BMKReverseGeoCodeOption *reverseGeocodeSearchOptionCity = [[BMKReverseGeoCodeOption alloc]init];
         reverseGeocodeSearchOptionCity.reverseGeoPoint = coordinate;
-        
         [_geocodesearchCity reverseGeoCode:reverseGeocodeSearchOptionCity];
-    }
+        }
     }
 }
 #pragma mark -- 反向地理编码 获得点击地区坐标
@@ -902,22 +901,21 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 - (void)onGetGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error
 {
     //清楚标注记录
-    if (stationArr.count >0 || stationError.count>0 || stationNormal.count>0 || cityoverlayErr.count || cityoverlayNor.count > 0 || cityError.count > 0 || cityNormal.count > 0) {
-        [stationArr     removeAllObjects];
-        [stationError   removeAllObjects];
-        [stationNormal  removeAllObjects];
-        // [cityoverlayNor removeAllObjects];
-        // [cityoverlayErr removeAllObjects];
-        [cityNormal     removeAllObjects];
-        [cityError      removeAllObjects];
-    }
     for (FSJResultList *tempModle in nameIdDic) {
         if ([tempModle.name isEqualToString:result.address]) {
-            
             [self getCtiyWithID:@[tempModle.areaId] andName:@[tempModle.name]];
         }
     }
     if (searcher == _geocodesearch) {
+        if (stationArr.count >0 || stationError.count>0 || stationNormal.count>0 || cityoverlayErr.count || cityoverlayNor.count > 0 || cityError.count > 0 || cityNormal.count > 0) {
+            [stationArr     removeAllObjects];
+            [stationError   removeAllObjects];
+            [stationNormal  removeAllObjects];
+            [cityoverlayNor removeAllObjects];
+            [cityoverlayErr removeAllObjects];
+            [cityNormal     removeAllObjects];
+            [cityError      removeAllObjects];
+        }
         NSDictionary *dict = (NSDictionary *)[[EGOCache globalCache]objectForKey:result.address];
         staticAreaname = result.address;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -932,14 +930,14 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         showCity = YES;
     }
     if (searcher == _geocodesearchCity) {
-   
+        _mapView.centerCoordinate = result.location;
+       
         for (FSJOneCity *cityModel in allcityModel) {
             
             if ([cityModel.name isEqualToString:result.address]) {
                 
                 NSDictionary *requestdic = @{@"areaId":cityModel.areaId,@"areaType":@"3",@"userId":staticuserId,@"jwt":staticJwt};
                 [self getCityStationWith:requestdic];
-                _mapView.centerCoordinate = result.location;
             }
         }
         NSLog(@"address = %@, 坐标 = %lf %lf",result.address,result.location.longitude,result.location.latitude);
@@ -947,11 +945,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 #pragma mark -- 获得发射站数据
 - (void)getCityStationWith:(NSDictionary *)dic{
+     _mapView.zoomLevel = ForthLevel - 0.5;
     showWarn = YES;
     if (stationArr.count >0) {
         [stationArr removeAllObjects];
     }
-    _mapView.zoomLevel = ForthLevel + 0.5;
     [_mapView removeOverlays:cityoverlayErr];
     [_mapView removeOverlays:cityoverlayNor];
     [FSJNetWorking networkingGETWithActionType:AreaalarmStatus requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -964,15 +962,12 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                     FSJResultList *listmodel = [FSJResultList initWithDictionary:dic];
                     [stationArr addObject:listmodel];
                 }
-                
                 [_mapView removeAnnotations:quanjuArr];
-                
                 [self addAnimatedAnnotationWith:stationArr];
                 
             }else{
                 NSLog(@"%@",user.message);
             }
-            
         }
         else{
             NSLog(@"%@",responseObject);
@@ -984,34 +979,33 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 #pragma mark -- 添加标注 Annotation
 - (void)addAnimatedAnnotationWith:(NSArray *)array{
     for (FSJResultList *model in stationArr) {
-        if([model.status isEqualToString:@"1"]){
-            BMKPointAnnotation *annotataion = [[BMKPointAnnotation alloc]init];
-            CLLocationCoordinate2D coor;
-            coor.latitude = model.lat.floatValue;
-            coor.longitude = model.lon.floatValue;
-            annotataion.coordinate = coor;
-            
-            _mapView.centerCoordinate = coor;
-            annotataion.title = @"gj";
-            annotataion.subtitle = model.stationId;
-            [_mapView addAnnotation:annotataion];
-            [stationError addObject:annotataion];
-        }
         if ([model.status isEqualToString:@"0"]) {
             BMKPointAnnotation *annotataion = [[BMKPointAnnotation alloc]init];
             CLLocationCoordinate2D coor;
             coor.latitude = model.lat.floatValue;
             coor.longitude = model.lon.floatValue;
             annotataion.coordinate = coor;
-            
             annotataion.title = @"zc";
             annotataion.subtitle = model.stationId;
             [_mapView addAnnotation:annotataion];
-            //_mapView.centerCoordinate = coor;
+            _mapView.centerCoordinate = coor;
             //dispatch_async(dispatch_get_main_queue(), ^{
             [stationNormal addObject:annotataion];
             //});
         }
+        if([model.status isEqualToString:@"1"]){
+            BMKPointAnnotation *annotataion = [[BMKPointAnnotation alloc]init];
+            CLLocationCoordinate2D coor;
+            coor.latitude = model.lat.floatValue;
+            coor.longitude = model.lon.floatValue;
+            annotataion.coordinate = coor;
+           // _mapView.centerCoordinate = coor;
+            annotataion.title = @"gj";
+            annotataion.subtitle = model.stationId;
+            [_mapView addAnnotation:annotataion];
+            [stationError addObject:annotataion];
+        }
+        
     }
 }
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation

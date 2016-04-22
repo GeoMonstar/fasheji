@@ -27,6 +27,8 @@ PODS:
   - MBProgressHUD (0.9.2)
   - MJExtension (3.0.10)
   - MJRefresh (3.1.0)
+  - Pgyer (2.8.4)
+  - PgyUpdate (1.2)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -42,6 +44,8 @@ DEPENDENCIES:
   - MBProgressHUD
   - MJExtension
   - MJRefresh
+  - Pgyer
+  - PgyUpdate
   - SDWebImage
   - SSKeychain
   - SVProgressHUD
@@ -55,6 +59,8 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
+  Pgyer: 26edfcc8da6da6383fabfdbccd2f77c623b9d6eb
+  PgyUpdate: a42e82cec5ad4e992af390e9d494f6fc62db65e4
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4

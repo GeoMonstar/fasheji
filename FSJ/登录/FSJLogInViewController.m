@@ -31,7 +31,6 @@
     [self.view addGestureRecognizer:tap];
     [self createUI];
 }
-
 - (void)createUI{
     mainImgview = [[UIImageView alloc]initWithFrame:CGRectMake(0,0, WIDTH, HEIGH)];
     mainImgview.image = [UIImage imageNamed:@"login.jpg"];
@@ -41,6 +40,7 @@
     userName.placeholder = @"用户名";
     userName.borderStyle = UITextBorderStyleNone;
     userName.backgroundColor = [UIColor clearColor];
+    userName.text =@"city";
     [self.view addSubview:userName];
 
     userPwd = [[UITextField alloc]initWithFrame:CGRectMake(leftMagrin, HEIGH/2 + viewHeight + 24, WIDTH - leftMagrin-rightMagrin, viewHeight)];
@@ -113,7 +113,7 @@
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
     //userName.text =@"province";
-    //userName.text =@"province";
+    
     userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
@@ -130,7 +130,7 @@
         model = [FSJUserInfo initWithDictionary:responseObject];
 
         if ([model.status isEqualToString: @"200"]) {
-                [SVProgressHUD showSuccessWithStatus:model.message];
+            [SVProgressHUD showSuccessWithStatus:model.message];
             
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:0];
             [[EGOCache globalCache]setString:model.userId   forKey:@"userId"];

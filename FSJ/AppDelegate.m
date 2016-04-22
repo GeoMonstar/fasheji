@@ -7,10 +7,7 @@
 //
 #import "AppDelegate.h"
 #import "FSJLogInViewController.h"
-
 #import "FSJMapViewController.h"
-#import "MPush.h"
-#import "mopush.h"
 //#define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
 #define BaiduMapKEy @"G4u27joqchFtv5iVTn5KPwXp"
 @interface AppDelegate ()<BMKGeneralDelegate>{
@@ -20,6 +17,10 @@
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    //carsh
+    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+    //[[PgyManager sharedPgyManager] startManagerWithAppId:PgyAppID];
+    
     NSString *str = [[NSBundle mainBundle] bundleIdentifier];
     NSLog(@"%@",str);
         _mapManager = [[BMKMapManager alloc]init];
@@ -28,11 +29,9 @@
             NSLog(@"启动失败");
     }
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    BOOL bo = [[EGOCache globalCache]objectForKey:@"Login"];
+    BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
     if (bo) {
-//        FSJTabbarViewController *vc = [[FSJTabbarViewController alloc]init];
-//        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
-//        self.window.rootViewController = nav;
+
         FSJMapViewController *vc = [[FSJMapViewController alloc]init];
         self.window.rootViewController = vc;
     }

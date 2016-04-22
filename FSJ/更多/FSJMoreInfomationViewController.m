@@ -27,6 +27,7 @@ static NSString *headerID = @"headerID";
 static NSString *footerID = @"footerID";
 static NSString * const reuseIdentifier = @"Cell";
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
 }
 - (void)viewDidLoad {

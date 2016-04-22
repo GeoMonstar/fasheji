@@ -5,7 +5,7 @@
 //  Created by Leaf on 16/3/28.
 //  Copyright © 2016年 Monstar. All rights reserved.
 //
-
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
 @interface MPush : NSObject

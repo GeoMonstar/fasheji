@@ -5,7 +5,7 @@
 //  Created by Monstar on 16/3/4.
 //  Copyright © 2016年 Monstar. All rights reserved.
 //
-
+#ifdef __OBJC__
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 #ifndef W_H_
@@ -32,17 +32,20 @@
 //weakSelf宏
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #ifdef DEBUG
-#define BaseURL       @"http://192.168.10.94:8080/fsj"
-//#define BaseURL         @"http://infosoul.oicp.net:8080/fsj"
+//#define BaseURL       @"http://192.168.10.94:8080/fsj"
+#define BaseURL     @"http://infosoul.oicp.net:8080/fsj"
 #define BaseUploadURL   @""
 #else
-#define BaseURL       @"http://192.168.10.94:8080/fsj"
-//#define BaseURL         @"http://infosoul.oicp.net:8080/fsj"
+//#define BaseURL       @"http://192.168.10.94:8080/fsj"
+#define BaseURL     @"http://infosoul.oicp.net:8080/fsj"
 #define BaseUploadURL   @""
 #endif
 #define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://infosoul.oicp.net:8080/fsj/alarm/app/statistics?userName=%@",username];
-//#define BaseImgURL      @"http://infosoul.oicp.net:8080"
-#define BaseImgURL      @"http://192.168.10.94:8080"
+#define BaseImgURL  @"http://infosoul.oicp.net:8080"
+//#define BaseImgURL    @"http://192.168.10.94:8080"
+#define PgyAppID  @"85838383eb2e34b6a2b49fa95c94be8b"
+
+
 #pragma mark - pod
 #import "SVProgressHUD.h"
 #import <MJExtension.h>
@@ -62,8 +65,8 @@
 #import "CYLTabBarController.h"
 #import "WBPopMenuModel.h"
 #import "WBPopMenuSingleton.h"
-#import "CXAlterButton.h"
-#import "CXAlterItemButton.h"
+#import <PgySDK/PgyManager.h>
+#import <PgyUpdate/PgyUpdateManager.h>
 
 #pragma mark - class
 #import "Constants.h"
@@ -72,6 +75,7 @@
 #import "FSJUserInfo.h"
 #import "MPush.h"
 #import "FSJTabbarBtn.h"
+
 #pragma mark - Category
 #import "LGProgressHud.h"
 #import "UIButton+Img.h"
@@ -83,3 +87,4 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
 #endif /* PrefixHeader_pch */
+#endif
