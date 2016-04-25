@@ -42,7 +42,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     statusBarView.backgroundColor=SystemBlueColor;
     [self.view addSubview:statusBarView];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
+    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -253,7 +253,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 - (void)changeIcon:(UIButton *)sender{
     UIActionSheet* mysheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"照相",@"从相册中选择", nil];
     mysheet.delegate = self;
-    mysheet.frame = CGRectMake(0, self.view.frame.size.height-200, ViewWidth, 200);
+    mysheet.frame = CGRectMake(0, self.view.frame.size.height-200, WIDTH, 200);
     [mysheet showInView:self.view];
 }
 - (void)backTomain:(UIButton *)sender{

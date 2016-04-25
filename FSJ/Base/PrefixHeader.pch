@@ -45,11 +45,10 @@
 //#define BaseImgURL    @"http://192.168.10.94:8080"
 #define PgyAppID  @"85838383eb2e34b6a2b49fa95c94be8b"
 
-
+#define THWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #pragma mark - pod
 #import "SVProgressHUD.h"
 #import <MJExtension.h>
-#import <BaiduMapAPI_Base/BMKBaseComponent.h>
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>
@@ -62,27 +61,27 @@
 #import "UIButton+WebCache.h"
 #import <MJRefresh/MJRefresh.h>
 #import "EGOCache.h"
-#import "CYLTabBarController.h"
 #import "WBPopMenuModel.h"
 #import "WBPopMenuSingleton.h"
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 
 #pragma mark - class
-#import "Constants.h"
 #import "AppKeys.h"
 #import "FSJNetWorking.h"
 #import "FSJUserInfo.h"
 #import "MPush.h"
 #import "FSJTabbarBtn.h"
-
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #pragma mark - Category
-#import "LGProgressHud.h"
+#import "MQTTKit.h"
 #import "UIButton+Img.h"
 #import "UIView+LoadFromNib.h"
 #import "NSString+RegexCategory.h"
 #import "UIImage+Color.h"
-#import "UIButton+LXMImagePosition.h"
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

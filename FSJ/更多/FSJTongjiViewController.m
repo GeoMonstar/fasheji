@@ -22,7 +22,7 @@
     [super viewDidLoad];
     [self createWeb];
     [self createUI];
-    [SVProgressHUD showInfoWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
+    //[SVProgressHUD showInfoWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
 }
 - (void)createWeb{
     [myWeb removeFromSuperview];

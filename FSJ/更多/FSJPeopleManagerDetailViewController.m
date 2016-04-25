@@ -43,8 +43,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBarHidden = NO;
-    
     [self createUI];
     self.view.backgroundColor = SystemGrayColor;
     jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
@@ -92,7 +90,7 @@
     [FSJNetWorking networkingGETWithURL:url requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         model = [FSJResultList initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
-                [SVProgressHUD dismiss];
+                //[SVProgressHUD dismiss];
             [self.view addSubview:self.myTable];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.myTable reloadData];
@@ -404,33 +402,21 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-
 }
 - (void)backTomain:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    
-    [SVProgressHUD dismiss];
+    //[SVProgressHUD dismiss];
 }
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = NO;
+    
 }
-//- (void) viewDidLayoutSubviews
-//{
-//    [super viewDidLayoutSubviews];
-//    [self.navigationController setNavigationBarHidden:NO];
-//}
 
-/*
-#pragma mark - Navigation
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+
+
 
 @end

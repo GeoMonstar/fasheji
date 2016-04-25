@@ -19,7 +19,7 @@
     
     //carsh
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-    //[[PgyManager sharedPgyManager] startManagerWithAppId:PgyAppID];
+    [[PgyManager sharedPgyManager] startManagerWithAppId:PgyAppID];
     
     NSString *str = [[NSBundle mainBundle] bundleIdentifier];
     NSLog(@"%@",str);
