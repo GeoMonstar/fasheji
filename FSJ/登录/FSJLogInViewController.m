@@ -59,6 +59,7 @@
     [loginBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
     loginBtn.layer.cornerRadius = 5;
     loginBtn.layer.masksToBounds = YES;
+    
     [self.view addSubview:loginBtn];
     
     firstView = [[UIView alloc]initWithFrame:CGRectMake(leftMagrin, HEIGH/2+viewHeight, WIDTH - leftMagrin-rightMagrin, 2)];

@@ -21,5 +21,6 @@ typedef NS_ENUM(NSInteger, MoreInfoType){
     
 };
 @property (nonatomic,assign)MoreInfoType InfoType;
+@property (nonatomic,assign)BOOL showPop;
 //+ (NSString *)actionWithMoreInfoType:(MoreInfoType)actionType;
 @end

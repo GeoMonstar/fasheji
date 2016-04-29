@@ -61,7 +61,22 @@ typedef NS_ENUM(NSInteger, NetworkConnectionActionType){
      *  @brief 查看某个管理人员的具体信息
      */
     GetOneManager,
-    
+    /**
+     *  @brief 功效信息
+     */
+    GetGongxiao,
+    /**
+     *  @brief 功效详情信息
+     */
+    GetGongxiaoDetail,
+    /**
+     *  @brief 整机信息
+     */
+    GetZhengji,
+    /**
+     *  @brief 工作状态
+     */
+    GetGongzuo,
     
 };
 typedef NS_ENUM(NSInteger, UploadActionType) {

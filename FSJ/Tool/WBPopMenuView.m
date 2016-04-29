@@ -85,7 +85,7 @@
 - (CGRect)menuFramewith:(NSInteger)num {
     
     CGFloat menuX = [UIScreen mainScreen].bounds.size.width  - self.menuWidth;
-    CGFloat menuY = [UIScreen mainScreen].bounds.size.height*0.95 - PopviewCellheight * (3+num);
+    CGFloat menuY = [UIScreen mainScreen].bounds.size.height - PopviewCellheight * (2.5+num);
     CGFloat width = self.menuWidth;
     CGFloat heigh = PopviewCellheight * (num);
     return (CGRect){menuX,menuY,width,heigh};

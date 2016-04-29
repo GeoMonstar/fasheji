@@ -29,8 +29,8 @@
 - (void) showPopMenuSelecteWithFrame:(CGFloat)width
                                 item:(NSArray *)item
                               action:(void (^)(NSInteger))action
-                             TopView:(UIView *)topview;
-
+                             TopView:(UIView *)topview
+                               alpha:(double)num;
 
 /** 隐藏菜单
  *

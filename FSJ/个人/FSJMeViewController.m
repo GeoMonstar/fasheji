@@ -116,8 +116,6 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         FSJTopTableViewCell *cell = [self.myTableView dequeueReusableCellWithIdentifier:MineHeaderViewCell];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.BackBtn setBackgroundImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-        cell.BackBtn.contentMode = UIViewContentModeScaleAspectFit;
-         cell.BackBtn.contentMode = UIViewContentModeScaleAspectFit;
         [cell.BackBtn addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];
         cell.backgroundColor = SystemBlueColor;
         cell.BackBtn.tag = 600;
@@ -238,16 +236,15 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     [FSJNetWorking networkingPOSTWithActionType:UserLogoutAction requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
-            [SVProgressHUD showSuccessWithStatus:model.message];
+            //[SVProgressHUD showSuccessWithStatus:model.message];
             [[EGOCache globalCache]clearCache];
              [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)( * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
-            });
+           // });
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"error"]];
+       // [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"error"]];
     }];
 }
 - (void)changeIcon:(UIButton *)sender{

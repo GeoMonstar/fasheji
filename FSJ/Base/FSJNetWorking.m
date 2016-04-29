@@ -215,6 +215,18 @@
         case GetOneManager:
             url = @"/rs/app/station/manager/info";
             break;
+        case GetGongxiao:
+            url = @"/rs/app/device/transmitter";
+            break;
+        case GetGongxiaoDetail:
+            url = @"/rs/app/device/amparam";
+            break;
+        case GetZhengji:
+            url = @"/rs/app/device/master";
+            break;
+        case GetGongzuo:
+            url = @"/rs/app/device/workStatus";
+            break;
         default:
             break;
     }

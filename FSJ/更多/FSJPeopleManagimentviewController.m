@@ -11,9 +11,10 @@
 #import "FSJOneFSJTableViewCell.h"
 #import "FSJDetailTableViewCell.h"
 #import "FSJSecondDetailTableViewCell.h"
+#import "FSJJiankongVC.h"
 @interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>{
     UISearchBar *mysearchBar;
-    
+    FSJJiankongVC* jiankong;
     NSString *jwt;
     //NSMutableArray *dataArray;
     NSDictionary *dic;
@@ -24,6 +25,8 @@
     BOOL isDraggingDown;
     NSMutableArray *tempArr;
     NSString *placeHolder;
+    NSArray *jiankongArr;
+    NSArray *jiankongimgArr;
 }
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *myTable;
@@ -51,13 +54,10 @@
     [self createUI];
     jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
     [self cteateTableView];
-    
-    
 }
 - (void)cteateTableView{
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"oneCELL"];
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJSecondDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"twoCELL"];
-    
     [self.view addSubview:self.myTable];
     if (self.InfoType == PeopleManage) {
         placeHolder = @"请输入发射站名称";
@@ -147,10 +147,10 @@
                     [self.myTable reloadData];
                      [self endRefreshing];
                 });
-               // [SVProgressHUD showSuccessWithStatus:model.message];
+                //[SVProgressHUD showSuccessWithStatus:model.message];
                 [mysearchBar resignFirstResponder];
             }else{
-               // [SVProgressHUD showInfoWithStatus:@"数据加载完成"];
+                //[SVProgressHUD showInfoWithStatus:@"数据加载完成"];
                 [self endRefreshing];
             }
             
@@ -228,15 +228,47 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 70;
 }
+- (void)createPopwithName:(NSArray *)nameArr andImg:(NSArray *)imgArr andtag:(NSInteger) btntag{
+    NSMutableArray *obj = [NSMutableArray array];
+    for (NSInteger i = 0; i < nameArr.count; i++) {
+        WBPopMenuModel * info = [WBPopMenuModel new];
+        info.image = imgArr[i];
+        info.title = nameArr[i];
+        [obj addObject:info];
+    };
+    [[WBPopMenuSingleton shareManager]showPopMenuSelecteWithFrame:200 item:obj action:^(NSInteger index) {
+    if ([nameArr[index] isEqualToString:@"前置放大单元"]) {
+           jiankong.JiankongType = Qianji;
+            };
+    if ([nameArr[index] isEqualToString:@"功率放大单元"]) {
+            jiankong.JiankongType = Moji;
+            };
+    if ([nameArr[index] isEqualToString:@"整机"]) {
+            jiankong.JiankongType = Zhengji;
+            };
+    if ([nameArr[index] isEqualToString:@"工作状态"]) {
+            jiankong.JiankongType = Zhuangtai;
+            };
+        [self.navigationController pushViewController:jiankong animated:YES];
+        }TopView:self.view alpha:0.9];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    if (self.showPop == YES) {
+        transmodel = self.dataArray[indexPath.section];
+        jiankong = [[FSJJiankongVC alloc]init];
+        jiankong.fsjId = transmodel.transId;
+        jiankong.addressId = transmodel.ipAddr;
+        jiankongArr     = @[@"前置放大单元",@"功率放大单元",@"整机",@"工作状态"];
+        jiankongimgArr  = @[@"clt.png",@"cnu",@"zhengji",@"zhuangtai"];
+        [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602];
+    }
+    else{
     detail = [[FSJPeopleManagerDetailViewController alloc]init];
     transmodel = self.dataArray[indexPath.section];
     switch (self.InfoType) {
         case 0:
             detail.DetailInfoType = WarningDetail;
             detail.managerID = transmodel.alarmId;
-            
             break;
         case 1:
             detail.DetailInfoType = WarnedDetail;
@@ -249,7 +281,6 @@
             detail.DetailInfoType = PeopleManageDetail;
             detail.managerID = transmodel.managerId;
             break;
-            
         case 4:
             detail.DetailInfoType = StationManageDetail;
             detail.managerID = transmodel.stationId;
@@ -258,12 +289,12 @@
             detail.DetailInfoType = FSJManageDetail;
             detail.managerID = transmodel.transId;
             break;
-            
         default:
             break;
     }
     [self.navigationController pushViewController:detail animated:YES];
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 - (void)createUI{
     //self.navigationController.navigationBarHidden = NO;

@@ -12,7 +12,6 @@
 @interface FSJPeopleManagerDetailViewController ()<UITableViewDataSource,UITableViewDelegate>{
     
     NSString *jwt;
-   
     FSJResultList *model;
     //NSDictionary *dic;
     NSString *url;
@@ -397,7 +396,6 @@
     [myButton addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = item1;
     self.title = @"详情";
-    
 }
 
 - (void)didReceiveMemoryWarning {

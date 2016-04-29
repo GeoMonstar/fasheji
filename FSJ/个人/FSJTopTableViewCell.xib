@@ -22,30 +22,30 @@
                             <constraint firstAttribute="height" constant="80" id="jv4-O5-tMf"/>
                         </constraints>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gne-mN-XcH">
-                        <rect key="frame" x="18" y="33" width="15" height="15"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gne-mN-XcH" customClass="FSJTabbarBtn">
+                        <rect key="frame" x="18" y="33" width="20" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="15" id="E4M-MJ-RnZ"/>
-                            <constraint firstAttribute="height" constant="15" id="pbt-lD-ZWz"/>
+                            <constraint firstAttribute="width" constant="20" id="E4M-MJ-RnZ"/>
+                            <constraint firstAttribute="height" constant="20" id="pbt-lD-ZWz"/>
                         </constraints>
                         <state key="normal">
                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ljm-Wi-1hE">
-                        <rect key="frame" x="260" y="28" width="30" height="20"/>
+                        <rect key="frame" x="250" y="33" width="40" height="25"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="Edd-N1-uqh"/>
-                            <constraint firstAttribute="width" constant="30" id="tUV-Th-4oy"/>
+                            <constraint firstAttribute="height" constant="25" id="Edd-N1-uqh"/>
+                            <constraint firstAttribute="width" constant="40" id="tUV-Th-4oy"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <state key="normal" title="注销">
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="ljm-Wi-1hE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="20" id="4yz-a0-tfN"/>
+                    <constraint firstItem="ljm-Wi-1hE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="25" id="4yz-a0-tfN"/>
                     <constraint firstItem="gne-mN-XcH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="fDD-XQ-Zn4"/>
                     <constraint firstItem="zcg-0g-Xtf" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="tOf-CA-tXB"/>
                     <constraint firstItem="zcg-0g-Xtf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="xq1-3O-abS"/>

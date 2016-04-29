@@ -19,8 +19,6 @@
     NSString *dicStr;
     NSString *jwtStr;
 }
-
-
 @end
 
 @implementation FSJChangePersonInfoViewController
@@ -191,11 +189,9 @@
     if ([firstInput.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"补全信息"];
     }
-    
     else{
         if ([secondInput.text isEqualToString:@""]) {
             [SVProgressHUD showErrorWithStatus:@"请输入验证码"];
-            
         }else{
             NSDictionary *dic = @{@"jwt":jwtStr,dicStr:firstInput.text};
             [FSJNetWorking networkingPOSTWithActionType:UserInfoChange requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -226,7 +222,6 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 - (void)backTomain:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];

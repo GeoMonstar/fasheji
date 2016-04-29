@@ -70,12 +70,10 @@
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBarHidden = NO;
-    [SVProgressHUD dismiss];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
 
     [SVProgressHUD showErrorWithStatus:@"网络连接失败"];
-    [self createUI];
+    //[self createUI];
 }
 @end
