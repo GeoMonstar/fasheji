@@ -90,39 +90,7 @@
     CGFloat heigh = PopviewCellheight * (num);
     return (CGRect){menuX,menuY,width,heigh};
 }
-#pragma mark 绘制三角形
-//- (void)drawRect:(CGRect)rect
-//
-//{
-//    // 设置背景色
-//    [[UIColor whiteColor] set];
-//    //拿到当前视图准备好的画板
-//    
-//    CGContextRef  context = UIGraphicsGetCurrentContext();
-//    
-//    //利用path进行绘制三角形
-//    
-//    CGContextBeginPath(context);//标记
-//    CGFloat location = [UIScreen mainScreen].bounds.size.width-55;
-//    CGContextMoveToPoint(context,
-//                         location -  10 - 10, 180);//设置起点
-//    
-//    CGContextAddLineToPoint(context,
-//                            location - 2*10 - 10 ,  170);
-//    
-//    CGContextAddLineToPoint(context,
-//                            location - 10 * 3 - 10, 180);
-//    
-//    CGContextClosePath(context);//路径结束标志，不写默认封闭
-//    
-//    [[UIColor whiteColor] setFill];  //设置填充色
-//    
-//    [[UIColor whiteColor] setStroke]; //设置边框颜色
-//    
-//    CGContextDrawPath(context,
-//                      kCGPathFillStroke);//绘制路径path
-//    
-//}
+
 
 - (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     

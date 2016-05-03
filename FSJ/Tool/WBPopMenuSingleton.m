@@ -9,7 +9,9 @@
 #import "WBPopMenuSingleton.h"
 #import "WBPopMenuView.h"
 
-@interface WBPopMenuSingleton ()
+@interface WBPopMenuSingleton (){
+    UITapGestureRecognizer *singleTap;
+}
 @property (nonatomic, strong) WBPopMenuView * popMenuView;
 @end
 
@@ -29,13 +31,15 @@
                                 item:(NSArray *)item
                               action:(void (^)(NSInteger))action
                              TopView:(UIView *)topview
+                               alpha:(double)num
 {
     __weak __typeof(&*self)weakSelf = self;
     if (self.popMenuView != nil) {
         [weakSelf hideMenu];
     }
     UIWindow * window = [[[UIApplication sharedApplication] windows] firstObject];
-    CGRect rect = CGRectMake(0, Popviewheight * 0.06 + 20, Popviewwidth, Popviewheight * 0.87 -20);
+   // CGRect rect = CGRectMake(0, Popviewheight * 0.06 + 20, Popviewwidth, Popviewheight * 0.87 -20);
+    CGRect rect = CGRectMake(0, 0, Popviewwidth, Popviewheight);
     self.popMenuView = [[WBPopMenuView alloc]initWithFrame:rect
                                              menuWidth:width
                                                  items:item
@@ -43,7 +47,14 @@
                                                     action(index);
                                                     [weakSelf hideMenu];
                                                 }];
-    self.popMenuView.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.0];
+    singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    //singleTap.delegate = self;
+    singleTap.cancelsTouchesInView = NO;
+    singleTap.delaysTouchesEnded = NO;
+    //[singleTap requireGestureRecognizerToFail:doubleTap];
+    singleTap.numberOfTapsRequired = 2;
+    [self.popMenuView addGestureRecognizer:singleTap];
+    self.popMenuView.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:num];
     [topview addSubview:self.popMenuView];
     dispatch_async(dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:0.32 animations:^{
@@ -54,19 +65,21 @@
         }];
     });
 }
+- (void)handleSingleTap:(UIGestureRecognizer *)pan{
+    [[WBPopMenuSingleton shareManager]hideMenu];
+}
 - (void) hideMenu {
     if (self.popMenuView) {
         [UIView animateWithDuration:0.1 animations:^{
             self.popMenuView.tableView.transform = CGAffineTransformMakeTranslation(0, Popviewheight);
             
         } completion:^(BOOL finished) {
-            //dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [self.popMenuView.tableView removeFromSuperview];
                 [self.popMenuView removeFromSuperview];
                 self.popMenuView.tableView = nil;
-                
                 self.popMenuView = nil;
-           // });
+           });
         }];
         
     }

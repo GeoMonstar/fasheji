@@ -14,6 +14,8 @@
 
 @property (nonatomic, copy)NSString *transId;
 
+@property (nonatomic, copy)NSString *stationId;
+
 @property (nonatomic, copy)NSString *lon;
 
 @property (nonatomic, copy)NSString *lat;

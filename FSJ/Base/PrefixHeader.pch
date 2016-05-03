@@ -22,22 +22,23 @@
 #define iPhone6plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? (CGSizeEqualToSize(CGSizeMake(1125, 2001), [[UIScreen mainScreen] currentMode].size) || CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size)) : NO)
 
 #define SystemBlueColor [UIColor colorWithRed:(53/255.0) green:(166/255.0) blue:(187/255.0) alpha:1]
+#define SystemLightBlueColor [UIColor colorWithRed:(53/255.0) green:(166/255.0) blue:(187/255.0) alpha:0.86]
 #define SystemGrayColor [UIColor colorWithRed:(117/255.0) green:(117/255.0) blue:(117/255.0) alpha:1]
 #define SystemWhiteColor [UIColor colorWithRed:(255/255.0) green:(255/255.0) blue:(255/255.0) alpha:1]
 #define SystemGreenColor [UIColor colorWithRed:(130/255.0) green:(191/255.0) blue:(21/255.0) alpha:1]
 #define SystemLightGrayColor [UIColor colorWithRed:(235/255.0) green:(235/255.0) blue:(244/255.0) alpha:1]
-#define PopviewCellheight [UIScreen mainScreen].bounds.size.height * 0.08
+#define PopviewCellheight [UIScreen mainScreen].bounds.size.height * 0.1
 #define Popviewheight [UIScreen mainScreen].bounds.size.height
 #define Popviewwidth [UIScreen mainScreen].bounds.size.width
 //weakSelf宏
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #ifdef DEBUG
-//#define BaseURL       @"http://192.168.10.94:8080/fsj"
-#define BaseURL     @"http://infosoul.oicp.net:8080/fsj"
+#define BaseURL       @"http://192.168.10.94:8080/fsj"
+//#define BaseURL     @"http://infosoul.oicp.net:8080/fsj"
 #define BaseUploadURL   @""
 #else
-//#define BaseURL       @"http://192.168.10.94:8080/fsj"
-#define BaseURL     @"http://infosoul.oicp.net:8080/fsj"
+#define BaseURL       @"http://192.168.10.94:8080/fsj"
+//#define BaseURL     @"http://infosoul.oicp.net:8080/fsj"
 #define BaseUploadURL   @""
 #endif
 #define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://infosoul.oicp.net:8080/fsj/alarm/app/statistics?userName=%@",username];

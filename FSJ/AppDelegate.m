@@ -20,7 +20,6 @@
     //carsh
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
     [[PgyManager sharedPgyManager] startManagerWithAppId:PgyAppID];
-    
     NSString *str = [[NSBundle mainBundle] bundleIdentifier];
     NSLog(@"%@",str);
         _mapManager = [[BMKMapManager alloc]init];
@@ -31,12 +30,10 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
     if (bo) {
-
         FSJMapViewController *vc = [[FSJMapViewController alloc]init];
         self.window.rootViewController = vc;
     }
     else{
-        //FSJMapViewController *vc = [[FSJMapViewController alloc]init];
         FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
         self.window.rootViewController = nav;

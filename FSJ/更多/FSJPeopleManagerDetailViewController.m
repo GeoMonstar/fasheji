@@ -326,10 +326,8 @@
             }
             return cell;
         }
-       
         switch (indexPath.section) {
 //            case 0:
-//            
 //                break;
             case 1:
                 cell.textLabel.text = [NSString stringWithFormat:@"所属发射站:%@",model.sname];
@@ -351,7 +349,6 @@
                     default:
                         break;
                 }
-                
                 break;
             case 5:
                 cell.textLabel.text = [NSString stringWithFormat:@"工作模式:%@",model.workMode];
@@ -406,15 +403,9 @@
 }
 - (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    //[SVProgressHUD dismiss];
 }
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = NO;
-    
 }
-
-
-
-
 @end

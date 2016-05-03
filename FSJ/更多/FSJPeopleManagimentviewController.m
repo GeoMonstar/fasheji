@@ -13,20 +13,20 @@
 #import "FSJSecondDetailTableViewCell.h"
 #import "FSJJiankongVC.h"
 @interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>{
-    UISearchBar *mysearchBar;
-    FSJJiankongVC* jiankong;
-    NSString *jwt;
+    UISearchBar     *mysearchBar;
+    FSJJiankongVC   *jiankong;
+    NSString        *jwt;
     //NSMutableArray *dataArray;
-    NSDictionary *dic;
-    NSString *url;
-    NSInteger count;
+    NSDictionary    *dic;
+    NSString        *url;
+    NSInteger       count;
     FSJPeopleManagerDetailViewController *detail;
-    FSJResultList *transmodel;
-    BOOL isDraggingDown;
-    NSMutableArray *tempArr;
-    NSString *placeHolder;
-    NSArray *jiankongArr;
-    NSArray *jiankongimgArr;
+    FSJResultList   *transmodel;
+    BOOL            isDraggingDown;
+    NSMutableArray  *tempArr;
+    NSString        *placeHolder;
+    NSArray         *jiankongArr;
+    NSArray         *jiankongimgArr;
 }
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *myTable;
@@ -105,7 +105,6 @@
     count =0;
     isDraggingDown = YES;
      [self startNetworkWith:url andDic:dic];
-    
 }
 // 触底加载数据的方法
 - (void) loadDataWhenReachingBottom {
@@ -125,14 +124,12 @@
 }
 - (void)startNetworkWith:(NSString *)neturl andDic:(NSDictionary *)dict{
     NSLog(@"%ld",(long)count);
-    
     //[SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     //[SVProgressHUD showWithStatus:@"加载中"];
     [FSJNetWorking networkingGETWithURL:neturl requestDictionary:dict success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
          NSMutableArray *tempArray = [NSMutableArray array];
         if ([model.status isEqualToString:@"200"]) {
-            
             for (NSDictionary *dict in model.list) {
                 FSJResultList *listmodle = [FSJResultList initWithDictionary:dict];
                 [tempArray addObject:listmodle];
@@ -153,12 +150,10 @@
                 //[SVProgressHUD showInfoWithStatus:@"数据加载完成"];
                 [self endRefreshing];
             }
-            
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //[SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
     }];
-
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
@@ -176,7 +171,6 @@
      FSJResultList *model = self.dataArray[indexPath.section];
     if (self.InfoType == FSJManage) {
         FSJDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"oneCELL"];
-        
         cell.topLabel.text = [NSString stringWithFormat:@"%@ ", model.tname];
         cell.secondLabel.text  = [NSString stringWithFormat:@"所属区域:%@  ",model.areaName];
         cell.thridLabel.text = [NSString stringWithFormat:@"所属发射站:%@  功率等级:%@  ", model.sname,model.powerRate];
@@ -200,13 +194,11 @@
     }
     else{
     FSJSecondDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"twoCELL"];
-
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.detailTextLabel.textColor = SystemGrayColor;
     cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
     if (self.InfoType == PeopleManage) {
-        
         cell.topLabel.text = [NSString stringWithFormat:@"姓名:%@  所属发射站:%@  ", model.name,model.sname];
         cell.secondLabel.text = [NSString stringWithFormat:@"所属区域:%@",model.areaName];
         cell.thirdLabel.text = [NSString stringWithFormat:@"电话号码:%@",model.phone];
@@ -313,23 +305,33 @@
     
     UIBarButtonItem *item2 = [[UIBarButtonItem alloc]initWithCustomView:cancel];
     [cancel addTarget:self action:@selector(cancelBtn:) forControlEvents:UIControlEventTouchUpInside];
-    
     self.navigationItem.leftBarButtonItem = item1;
     self.navigationItem.rightBarButtonItem = item2;
-    
     self.navigationController.navigationBar.tintColor = SystemWhiteColor;
-    mysearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,WIDTH*0.65,40)];
+    mysearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,WIDTH*0.65,38)];
     mysearchBar.delegate = self;
-    mysearchBar.backgroundColor = SystemWhiteColor;
+//    mysearchBar.backgroundColor = SystemWhiteColor;
+//    mysearchBar.searchBarStyle =UISearchBarStyleDefault;
+//    mysearchBar.barTintColor = SystemBlueColor;
+//    mysearchBar.layer.borderColor = SystemBlueColor.CGColor;
+//    mysearchBar.layer.borderWidth = 2;
+//    mysearchBar.barStyle =UIBarStyleBlackOpaque;
+//    mysearchBar.layer.cornerRadius = 20;
+//    mysearchBar.layer.masksToBounds = YES;
     
-   //[mysearchBar setPlaceholder:placeHolder];
+    mysearchBar.backgroundColor = [UIColor clearColor];
     mysearchBar.searchBarStyle =UISearchBarStyleDefault;
-    mysearchBar.barTintColor = SystemBlueColor;
+    mysearchBar.barTintColor = [UIColor whiteColor];
+    [mysearchBar setBackgroundImage:[UIImage imageWithColor:SystemWhiteColor]];
     mysearchBar.layer.borderColor = SystemBlueColor.CGColor;
-    mysearchBar.layer.borderWidth = 2;
-    mysearchBar.barStyle =UIBarStyleBlackOpaque;
+    mysearchBar.layer.borderWidth = 0;
+    mysearchBar.layer.cornerRadius = 19;
+    mysearchBar.layer.masksToBounds = YES;
+    mysearchBar.barStyle =UIBarStyleBlack;
+    mysearchBar.showsCancelButton = YES;
+    
     //将搜索条放在一个UIView上
-    UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH*0.65, 40)];
+    UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH*0.65, 38)];
     searchView.backgroundColor = [UIColor clearColor];
     [searchView addSubview:mysearchBar];
     
@@ -343,7 +345,7 @@
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;{
     if ([mysearchBar.text isEqualToString:@""]) {
-        //[SVProgressHUD showErrorWithStatus:@"请输入查询内容"];
+//      [SVProgressHUD showErrorWithStatus:@"请输入查询内容"];
         return;
     }
     else{
@@ -385,7 +387,6 @@
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-   
     [SVProgressHUD dismiss];
 }
 @end
