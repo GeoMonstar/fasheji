@@ -28,7 +28,6 @@
         bgview.backgroundColor = SystemLightBlueColor;
         bgview.layer.cornerRadius = rect.size.height/4;
         bgview.layer.borderWidth = 0;
-        
         CGRect rect1 = rect;
         rect1.origin.x =  rect1.origin.x + rect1.size.width *0.1;
         rect1.size.width = rect1.size.width *0.8;

@@ -37,10 +37,9 @@
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     //CGAffineTransform transform;
     cell.layer.anchorPoint =  CGPointMake(0.5,1);
-     cell.transform = CGAffineTransformMakeScale(0.0001, 0.0001);
+    cell.transform = CGAffineTransformMakeScale(0.0001, 0.0001);
     
     //设置动画时间为0.25秒,xy方向缩放的最终值为1
     [UIView animateWithDuration:1 animations:^{
@@ -55,7 +54,6 @@
 //    }
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     return PopviewCellheight;
 }
 

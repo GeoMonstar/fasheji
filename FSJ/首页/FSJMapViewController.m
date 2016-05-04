@@ -112,8 +112,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 //@property (nonatomic, strong)NSMutableArray *allsite;
 @property (nonatomic, strong)UITableView *mytableView;
 @property (nonatomic, strong)BMKMapView *mapView;
+@property (strong, nonatomic) NSMutableArray *lenovoTableArray;
 @property (weak, nonatomic) IBOutlet UIButton *moreBtn;
-
+@property (nonatomic, strong)UITableView *LenovoTableView;
 #define FirstLevel  6.0f
 #define SecondLevel 9.0f
 #define ThirdtLevel 11.0f
@@ -122,8 +123,20 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 @end
 
 @implementation FSJMapViewController
-
-
+- (NSMutableArray *)lenovoTableArray{
+    if (_lenovoTableArray == nil) {
+        _lenovoTableArray = @[].mutableCopy;
+    }
+    return _lenovoTableArray;
+}
+- (UITableView *)LenovoTableView{
+    if (_LenovoTableView == nil) {
+        _LenovoTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, HEIGH *0.08, WIDTH, HEIGH) style:UITableViewStylePlain];
+        _LenovoTableView.dataSource = self;
+        _LenovoTableView.delegate   = self;
+    }
+    return _LenovoTableView;
+}
 #pragma mark -- 视图周期
 - (BMKMapView *)mapView{
     if (_mapView == nil) {
@@ -414,7 +427,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [userBtn addTarget:self action:@selector(UserInfo:) forControlEvents:UIControlEventTouchUpInside];
     [BackgroundVIew addSubview:userBtn];
     mainSearchbar = [[UISearchBar alloc]initWithFrame:CGRectMake(WIDTH *0.13,HEIGH * 0.01, WIDTH* 0.86, HEIGH *0.06)];
-    mainSearchbar.placeholder = @"查找设备名称、IP地址";
+    mainSearchbar.placeholder = @"查找发射站";
     mainSearchbar.delegate = self;
     mainSearchbar.backgroundColor = [UIColor clearColor];
     mainSearchbar.searchBarStyle =UISearchBarStyleDefault;
@@ -577,8 +590,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }TopView:self.mapView alpha:0];
 }
 #pragma mark --搜索栏
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;{
-
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     if (self.mytableView) {
         self.mytableView.hidden = YES;
         [self.mytableView removeFromSuperview];
@@ -592,11 +604,51 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         return;
     }
     else{
-       // [self startKeywordsquery];
-        
+        //[self removeLayer];
+        //[self getallstationInfoWith:mainSearchbar.text andtype:Allstationquery anddicparameter:@"keyword"andShowAnno:YES andFirst:NO];
     }
     [self.view endEditing:YES];
     
+}
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    mainSearchbar.text = @"";
+    self.LenovoTableView.hidden = YES;
+    self.LenovoTableView = nil;
+    [self removeAnno];
+}
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    NSLog(@"change");
+    if (self.lenovoTableArray.count >0) {
+        [self.lenovoTableArray removeAllObjects];
+    }
+   
+    if (self.mytableView) {
+        self.mytableView.hidden = YES;
+        [self.mytableView removeFromSuperview];
+        self.mytableView = nil;
+    }
+    showWarn = NO;
+    [self.mapView removeAnnotations:stationError];
+    [self.mapView removeAnnotations:stationNormal];
+    
+    for (FSJOneFSJ *model in allname) {
+        if ([model.name containsString:searchText]) {
+            NSLog(@"%@",model.name);
+            [self.lenovoTableArray addObject:model.name];
+        }
+    }
+    if (self.lenovoTableArray.count > 0) {
+        //self.LenovoTableView.hidden = NO;
+        [self removeLayer];
+    }
+    else{
+        NSString *str = @"没有搜索到相关内容";
+        [self.lenovoTableArray addObject:str];
+        //self.LenovoTableView.hidden = YES;
+    }
+    [self.view bringSubviewToFront:self.LenovoTableView];
+    [self.LenovoTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.0];
+    [self.mapView addSubview:self.LenovoTableView];
 }
 - (void)removeAnno{
     showPop = NO;
@@ -637,55 +689,29 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
     }
     if ([staticareaType isEqualToString:@"3"]) {
-        
         [self.mapView addAnnotations:stationNormal];
         [self.mapView addAnnotations:stationError];
     }
     [self.mapView removeAnnotations:quanjuArr];
     [self.view endEditing:YES];
 }
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    mainSearchbar.text = @"";
-    [self removeAnno];
-}
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSLog(@"change");
-    if (self.mytableView) {
-        self.mytableView.hidden = YES;
-        [self.mytableView removeFromSuperview];
-        self.mytableView = nil;
-    }
-    showWarn = NO;
-    [self.mapView removeAnnotations:stationError];
-    [self.mapView removeAnnotations:stationNormal];
-    for (FSJOneFSJ *model in allsite) {
-        if ([model.name containsString:searchText]) {
-            NSLog(@"%@",model.name);
-        }
-    }
-}
-- (void)startKeywordsquery{
+- (void)removeLayer{
     showPop = YES;
-   // if (self.mapView.zoomLevel >=SecondLevel && self.mapView.zoomLevel < ThirdtLevel) {
-        
-        [self.mapView removeOverlays:cityoverlayNor];
-        [self.mapView removeOverlays:cityoverlayErr];
-   // }
-   // if ( self.mapView.zoomLevel >= ThirdtLevel) {
-        
-        [self.mapView removeAnnotations:stationNormal];
-        [self.mapView removeAnnotations:stationError];
-   // }
-   // if(self.mapView.zoomLevel < SecondLevel) {
-        
-        [self.mapView removeOverlays:overlayNor];
-        [self.mapView removeOverlays:overlayEor];
-   // }
-//     showWarn = NO;
-//     showCity = NO;
-//     showProvince = NO;
-    [self getallstationInfoWith:mainSearchbar.text andtype:Allstationquery anddicparameter:@"keyword"andShowAnno:YES andFirst:NO];
+    // if (self.mapView.zoomLevel >=SecondLevel && self.mapView.zoomLevel < ThirdtLevel) {
+    [self.mapView removeOverlays:cityoverlayNor];
+    [self.mapView removeOverlays:cityoverlayErr];
+    // }
+    // if ( self.mapView.zoomLevel >= ThirdtLevel) {
+    [self.mapView removeAnnotations:stationNormal];
+    [self.mapView removeAnnotations:stationError];
+    // }
+    // if(self.mapView.zoomLevel < SecondLevel) {
+    [self.mapView removeOverlays:overlayNor];
+    [self.mapView removeOverlays:overlayEor];
+    // }
+    //     showWarn = NO;
+    //     showCity = NO;
+    //     showProvince = NO;
 }
 #pragma mark --行政区搜索
 - (void)searchWithModelwith:(NSDictionary *)dic{
@@ -1269,8 +1295,20 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     NSString *lat = [NSString stringWithFormat:@"%lf",view.annotation.coordinate.latitude];
     NSString *lon = [NSString stringWithFormat:@"%lf",view.annotation.coordinate.longitude];
     NSLog(@"annotion == %@ %@",[lon substringToIndex:8],[lat substringToIndex:7]);
-    for (FSJOneFSJ *tempmodel in allsite) {
-        if ([tempmodel.stationId isEqualToString:view.annotation.subtitle]) {
+    
+    if ([view.annotation.title isEqualToString:@"zc"] ||  [view.annotation.title isEqualToString:@"gj"]) {
+        for (FSJResultList *tempmodel in stationArr) {
+            if ([tempmodel.stationId isEqualToString:view.annotation.subtitle]) {
+                //if ([[tempmodel.lon substringToIndex:8] isEqualToString:[lon substringToIndex:8]] || [[tempmodel.lat substringToIndex:7] isEqualToString:[lat substringToIndex:7]]) {
+                NSLog(@"标注 == %@ %@",[tempmodel.lon substringToIndex:8],[tempmodel.lat substringToIndex:7]);
+                [self getallstationInfoWith:tempmodel.stationId andtype:Allstationquery anddicparameter:@"sid"andShowAnno:NO andFirst:NO];
+                tableViewTitle = tempmodel.name;
+            }
+        }
+    }
+    else{
+    for (FSJOneFSJ *tempmodel in allname) {
+        if ([tempmodel.stationId isEqualToString:view.annotation.subtitle] ) {
             NSLog(@"全局标注 == %@ %@",[tempmodel.lon substringToIndex:8],[tempmodel.lat substringToIndex:7]);
             FSJPeopleManagerDetailViewController *detail = [[FSJPeopleManagerDetailViewController alloc]init];
             detail.DetailInfoType = StationManageDetail;
@@ -1279,22 +1317,14 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             //return;
         }
     }
-    for (FSJResultList *tempmodel in stationArr) {
-    
-        if ([tempmodel.stationId isEqualToString:view.annotation.subtitle]) {
-            //if ([[tempmodel.lon substringToIndex:8] isEqualToString:[lon substringToIndex:8]] || [[tempmodel.lat substringToIndex:7] isEqualToString:[lat substringToIndex:7]]) {
-            NSLog(@"标注 == %@ %@",[tempmodel.lon substringToIndex:8],[tempmodel.lat substringToIndex:7]);
-            [self getallstationInfoWith:tempmodel.stationId andtype:Allstationquery anddicparameter:@"sid"andShowAnno:NO andFirst:NO];
-            tableViewTitle = tempmodel.name;
-        }
     }
     //[_mapView deselectAnnotation:view.annotation animated:NO];
 }
 #pragma mark -- 查看发射机下面的所有发射机信息
 - (void)getallstationInfoWith:(NSString *)ID andtype:(NetworkConnectionActionType)type anddicparameter:(NSString *)str andShowAnno:(BOOL)show andFirst:(BOOL)first {
-    if (allname.count >0) {
-        [allname removeAllObjects];
-    }
+//    if (allname.count >0) {
+//        [allname removeAllObjects];
+//    }
     if (allsite.count >0) {
         [allsite removeAllObjects];
     }
@@ -1317,8 +1347,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 FSJOneFSJ *model = [FSJOneFSJ initWithDictionary:dic];
                 NSLog(@"%@ %@ %@ statue ==%@",model.name ,model.masterPr, model.masterPo, model.status);
                 [allsite addObject:model];
-//                NSDictionary *dic = @{model.name:model.stationId};
-//                [allname addObject:dic];
+                if (first) {
+                    [allname addObject:model];
+                }
+                
                 }
           
             if (show) {
@@ -1346,6 +1378,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         coor.latitude = model.lat.floatValue;
         coor.longitude = model.lon.floatValue;
         annotataion.coordinate = coor;
+        self.mapView.centerCoordinate = coor;
         annotataion.title = model.status;
         annotataion.subtitle = model.stationId;
         [self.mapView addAnnotation:annotataion];
@@ -1378,6 +1411,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
     return 0.1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -1390,6 +1424,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (indexPath.section == 0) {
         return 50;
     }
@@ -1397,10 +1432,17 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    if (tableView == self.mytableView) {
+        return 2;
+    }
+    else{
+        return 1;
+    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
+    if (tableView == self.mytableView) {
+        
     
     switch (sectionIndex) {
         case 0:
@@ -1414,8 +1456,12 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             return 0;
             break;
     }
+    }else{
+        return self.lenovoTableArray.count;
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == self.mytableView) {
     if (indexPath.section == 0) {
 
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HEADER"];
@@ -1461,9 +1507,22 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
         return cell;
     }
+        
+   }
+    else{
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CELL"];
+        }
+        cell.textLabel.text = self.lenovoTableArray[indexPath.row];
+        return cell;
+    }
+    return 0;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"1");
+    if (tableView == self.mytableView) {
     if (indexPath.section == 0) {
 //        [UIView animateWithDuration:1 animations:^{
 //            CGRect rect = self.mytableView.frame;
@@ -1489,6 +1548,20 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         [self.navigationController pushViewController:detail animated:YES];
     }
     //取消选中效果
+}
+    else{
+        NSMutableArray *arr = @[].mutableCopy;
+        for (FSJOneFSJ *model in allname) {
+            if ([model.name isEqualToString:self.lenovoTableArray[indexPath.row]]) {
+                NSLog(@"%@",model.name);
+                self.LenovoTableView.hidden = YES;
+                [arr addObject:model];
+            }
+        }
+        
+        [self addAnnotataionOnmapWith:arr];
+    
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 #pragma mark -- 导航
@@ -1541,8 +1614,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [swipup setDirection:UISwipeGestureRecognizerDirectionUp];
     swipup.delegate   = self;
     swipdown.delegate = self;
-    //[self.view addGestureRecognizer:swipup];
-    //[self.view addGestureRecognizer:swipdown];
+//    [self.view addGestureRecognizer:swipup];
+//    [self.view addGestureRecognizer:swipdown];
 //    [self.mytableView addGestureRecognizer:swipup];
 //    [self.mytableView addGestureRecognizer:swipdown];
     

@@ -25,7 +25,6 @@
     }
     return self;
 }
-
 - (instancetype) initWithItems:(NSArray *)anItems
                      cellClass:(Class)cellClass
             configureCellBlock:(TableViewCellConfigureBlock)aConfigureCellBlock {
@@ -38,11 +37,7 @@
     }
     return self;
 }
-
-
-
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return self.modelArray.count;
 }
 

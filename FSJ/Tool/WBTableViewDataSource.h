@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PopcellviewTableViewCell.h"
-@class WBPopMenuModel,WBTableViewCell;
+@class WBPopMenuModel,PopcellviewTableViewCell;
 
 
 /**
