@@ -25,6 +25,8 @@
     NSMutableArray *btnArr;
     NSMutableArray *viewArr;
     NSMutableArray *subviewArr;
+    NSMutableArray *indexArr;
+    NSString *  index;
     
 }
 @property (strong,nonatomic) HMSegmentedControl *segmentedControl;
@@ -36,23 +38,35 @@
     viewArr = @[].mutableCopy;
     subviewArr = @[].mutableCopy;
     self.view.backgroundColor = SystemLightGrayColor;
-  [self createUI];
+  index = @"2";
   jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
   mainScro  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH)];
   mainScro.backgroundColor = SystemLightGrayColor;
-  [self createViewWith:@"db"];
-    
+    [self createViewWith:@"db" andfirst:YES];
+     [self createUI];
 }
-- (void)createViewWith:(NSString *)str{
+- (void)createViewWith:(NSString *)str andfirst:(BOOL)first{
     //[SVProgressHUD showWithStatus:@"加载中"];
     switch (self.JiankongType) {
         case Qianji:
-            [self creatViewFirstWith:@"1" andWith:NO];
+            if (first) {
+                 [self creatViewFirstWith:@"clt" andWith:NO];
+            }
+            else{
+                [self shuanxinViewFirstWith:@"1" andWith:NO];
+            }
             navTitle = @"前置放大单元";
             break;
         case Moji:
-            [self creatHeadView];
-            [self creatViewFirstWith:@"2" andWith:YES];
+            if (first) {
+                 [self creatViewFirstWith:@"cnu" andWith:YES];
+            }
+            else{
+                
+                [self shuanxinViewFirstWith:index andWith:YES];
+            }
+           // [self creatHeadView];
+           // [self creatViewFirstWith:@"cnu" andWith:YES];
              navTitle = @"功率放大单元";
             break;
         case Zhuangtai:
@@ -67,10 +81,14 @@
             break;
     }
 }
-- (void)creatHeadView{
-    UIView *view0 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 44)];
-    view0.backgroundColor = SystemWhiteColor;
-    for (int i = 0; i < 4; i ++) {
+- (void)creatHeadViewWith:(NSInteger) num{
+   
+    UIScrollView *scroView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 44)];
+    scroView.contentSize = CGSizeMake(WIDTH/4*num, 44);
+    scroView.backgroundColor = SystemLightGrayColor;
+    scroView.scrollEnabled = YES;
+    scroView.showsHorizontalScrollIndicator = NO;
+    for (int i = 0; i < num; i ++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake( WIDTH/4 *i, 0, WIDTH/4, 42);
         [btn setTitle:[NSString stringWithFormat:@"功放%d",i+1] forState:UIControlStateNormal];
@@ -85,8 +103,8 @@
         [btn addTarget:self action:@selector(changIndex:) forControlEvents:UIControlEventTouchUpInside];
         [btnArr addObject:btn];
         [viewArr addObject:view];
-        [view0 addSubview:view];
-        [view0 addSubview:btn];
+        [scroView addSubview:view];
+        [scroView addSubview:btn];
     }
     for (UIView *view in viewArr) {
         if (view.tag == 500) {
@@ -98,15 +116,12 @@
             btn.selected = YES;
         }
     }
-    
-    [self.view addSubview:view0];
-    
+    [self.view addSubview:scroView];
 }
 - (void)changIndex:(UIButton *)sender{
     if (sender.selected == YES) {
         return;
     }
-    
     else{
         for (UIButton *btn in btnArr) {
             btn.selected = NO;
@@ -118,28 +133,29 @@
                 view.backgroundColor = SystemBlueColor;
             }
         }
-        
-        [self creatViewFirstWith:[NSString stringWithFormat:@"%ld",sender.tag-600+2] andWith:YES];
+       // [self creatViewFirstWith:[NSString stringWithFormat:@"%ld",sender.tag-600+2] andWith:YES];
+        index = [NSString stringWithFormat:@"%ld",sender.tag-600+2];
+        [self shuanxinViewFirstWith:index andWith:YES];
     }
 }
 - (void)creatViewWithModel:(FSJGongxiaoDetail *)model and:(FSJGongxiao *)basemodel and:(BOOL)show and:(NSString *)str{
     for (UIView *view in subviewArr) {
         [view removeFromSuperview];
     }
-    UILabel *label1;
-    if (show) {
-        label1  = [[UILabel alloc]initWithFrame:CGRectMake(WIDTH *0.05, 54,  WIDTH *0.2, 35)];
-    }
-    else{
-        label1 = [[UILabel alloc]initWithFrame:CGRectMake(WIDTH *0.05, 10,  WIDTH *0.2, 35)];
-    }
-    label1.font = [UIFont systemFontOfSize:14];
-    label1.textAlignment = NSTextAlignmentCenter;
-    label1.layer.cornerRadius = 5;
-    label1.layer.masksToBounds = YES;
-    label1.text =[NSString stringWithFormat:@"功放插件%@",str];
-    label1.textColor = SystemWhiteColor;
-    label1.backgroundColor = SystemBlueColor;
+//    UILabel *label1;
+//    if (show) {
+//        label1  = [[UILabel alloc]initWithFrame:CGRectMake(WIDTH *0.05, 54,  WIDTH *0.2, 35)];
+//    }
+//    else{
+//        label1 = [[UILabel alloc]initWithFrame:CGRectMake(WIDTH *0.05, 10,  WIDTH *0.2, 35)];
+//    }
+//    label1.font = [UIFont systemFontOfSize:14];
+//    label1.textAlignment = NSTextAlignmentCenter;
+//    label1.layer.cornerRadius = 5;
+//    label1.layer.masksToBounds = YES;
+//    label1.text =[NSString stringWithFormat:@"功放插件%@",str];
+//    label1.textColor = SystemWhiteColor;
+//    label1.backgroundColor = SystemBlueColor;
     
     NSArray *arr1 =@[MergeStr(@"输出功率(dBm)", model.outputPower),MergeStr(@"温度", model.temperature),MergeStr(@"电压1(V)", model.voltage1),MergeStr(@"AGC电压(V)", model.agcVol)];
     NSArray *arr2 =@[MergeStr(@"输出功率(W)", model.outputPowerW),MergeStr(@"电流(A)", model.current),MergeStr(@"电压2(V)", model.voltage2),MergeStr(@"过激电压(V)", model.extreVol)];
@@ -151,9 +167,14 @@
     NSDictionary *dic = basemodel.table[0];
     NSArray *arr7 = @[@"取样电流表",MergeStr(@"电流索引",[dic objectForKey:@"currentIndex"])];
     NSArray *arr8 = @[@"",MergeStr(@"取样值", [dic objectForKey:@"value"])];
-    
-    UIView *view1 = [self creatViewWith:4 and:(viewSpace+label1.frame.origin.y + label1.frame.size.height) and:arr1 and:arr2];
-    
+    UIView *view1;
+    if (show) {
+         view1 = [self creatViewWith:4 and:54 and:arr1 and:arr2];
+    }
+    else{
+        view1 = [self creatViewWith:4 and:10 and:arr1 and:arr2];
+    }
+   
     UIView *view2 = [self creatViewWith:4 and:(viewSpace+view1.frame.origin.y + view1.frame.size.height) and:arr3 and:arr4];
     UIView *view3 = [self creatViewWith:3 and:(viewSpace+view2.frame.origin.y + view2.frame.size.height) and:arr5 and:arr6];
     UIView *view4 ;
@@ -168,25 +189,46 @@
     [subviewArr addObject:view1];
     [subviewArr addObject:view2];
     [subviewArr addObject:view3];
-    [subviewArr addObject:label1];
-    [self.view addSubview:label1];
+//    [subviewArr addObject:label1];
+//    [self.view addSubview:label1];
     [self.view insertSubview:view1 atIndex:0];
     [self.view insertSubview:view2 atIndex:0];
     [self.view insertSubview:view3 atIndex:0];
-    
     [self.view insertSubview:view4 atIndex:0];
-    
 }
-
-
-- (void)creatViewFirstWith:(NSString *)str andWith:(BOOL)show {
-    
-     NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":@"db",@"jwt":jwtStr,@"index":str};
+- (void)shuanxinViewFirstWith:(NSString *)str andWith:(BOOL)show{
+    NSDictionary *dic= @{@"transId":self.fsjId,@"ip":self.addressId,@"from":@"device",@"jwt":jwtStr,@"index":str};
     [FSJNetWorking networkingGETWithActionType:GetGongxiaoDetail requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-         FSJGongxiao *basemodel = [FSJGongxiao initWithDictionary:responseObject];
-        if ([basemodel.status isEqualToString:@"200"]) {
+        FSJGongxiao *basemodel = [FSJGongxiao initWithDictionary:responseObject];
+        if ([basemodel.status isEqualToString:@"200"]  && basemodel.main != nil) {
             FSJGongxiaoDetail *model = [FSJGongxiaoDetail initWithDictionary:basemodel.main];
             [self creatViewWithModel:model and:basemodel and:show and:str];
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:@"无返回数据"];
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+    }];
+}
+- (void)creatViewFirstWith:(NSString *)str andWith:(BOOL)show{
+    NSDictionary *dic = @{@"transId":self.fsjId,@"jwt":jwtStr,@"type":str};
+    [FSJNetWorking networkingGETWithActionType:GetGongxiao requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+         FSJGongxiao *basemodel = [FSJGongxiao initWithDictionary:responseObject];
+        if ([basemodel.status isEqualToString:@"200"]   && basemodel.main != nil) {
+            if (show) {
+                for (NSDictionary *dic in basemodel.cnu) {
+                 NSString *indexStr = [dic objectForKey:@"ampIndex"];
+                    [indexArr addObject:indexStr];
+                }
+                [self creatHeadViewWith:basemodel.cnu.count];
+            }
+            FSJGongxiaoDetail *model = [FSJGongxiaoDetail initWithDictionary:basemodel.main];
+            [self creatViewWithModel:model and:basemodel and:show and:str];
+        }
+        else{
+         [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
@@ -196,7 +238,7 @@
     NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr};
     [FSJNetWorking networkingGETWithActionType:GetZhengji requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         FSJJiankongBase *basemodel = [FSJJiankongBase initWithDictionary:responseObject];
-        if ([basemodel.status isEqualToString:@"200"]){
+        if ([basemodel.status isEqualToString:@"200"]  && basemodel.data != nil){
             [SVProgressHUD dismiss];
             FSJZhengji *model = [FSJZhengji initWithDictionary:basemodel.data];
             NSArray *arr1 = @[MergeStr(@"发射功率(dBm)", model.po),MergeStr(@"驻波比", model.vswr),MergeStr(@"AGC电压(V)", model.agcVol)];
@@ -213,6 +255,9 @@
             [self.view insertSubview:view1 atIndex:0];
             [self.view insertSubview:view2 atIndex:0];
         }
+        else{
+            [SVProgressHUD showErrorWithStatus:@"无返回数据"];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
     }];
@@ -221,7 +266,7 @@
     NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr };
     [FSJNetWorking networkingGETWithActionType:GetGongzuo requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         FSJJiankongBase *basemodel = [FSJJiankongBase initWithDictionary:responseObject];
-        if ([basemodel.status isEqualToString:@"200"]) {
+        if ([basemodel.status isEqualToString:@"200"] && basemodel.data != nil) {
              [SVProgressHUD dismiss];
             FSJGongzuoStatus *model = [FSJGongzuoStatus initWithDictionary:basemodel.data];
             NSArray *arr = [self getforthWith:model.status];
@@ -243,6 +288,9 @@
             [self.view insertSubview:third atIndex:0];
             [self.view insertSubview:forth atIndex:0];
             [self.view insertSubview:fifth atIndex:0];
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
@@ -326,6 +374,19 @@
     }
      return smallview;
 }
+
+- (void)shuaxin:(UIButton *)sender{
+    for (UIView *view in self.view.subviews) {
+        if (view.frame.origin.y >10 || self.JiankongType!= Moji) {
+             [view removeFromSuperview];
+        }
+    }
+    [self createViewWith:@"device" andfirst:NO];
+}
+- (void)backTomain:(UIButton *)sender{
+     [SVProgressHUD dismiss];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)createUI{
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
@@ -343,16 +404,6 @@
     self.navigationItem.leftBarButtonItem = item1;
     self.navigationItem.rightBarButtonItem = item2;
     self.title = navTitle;
-}
-- (void)shuaxin:(UIButton *)sender{
-    for (UIView *view in self.view.subviews) {
-        [view removeFromSuperview];
-    }
-    [self createViewWith:@"device"];
-}
-- (void)backTomain:(UIButton *)sender{
-     [SVProgressHUD dismiss];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

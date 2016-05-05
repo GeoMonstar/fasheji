@@ -43,7 +43,7 @@
             //tableViewCell.imageView.image =[UIImage imageNamed:model.image];
             //tableViewCell.textLabel.text = model.title;
             tableViewCell.nameLabel.text = model.title;
-            tableViewCell.imgView.image = [UIImage imageNamed:model.image];
+            tableViewCell.imgView.image  = [UIImage imageNamed:model.image];
             
         }];
         self.tableViewDelegate = [[WBTableViewDelegate alloc]initWithDidSelectRowAtIndexPath:^(NSInteger indexRow) {
@@ -85,7 +85,7 @@
 - (CGRect)menuFramewith:(NSInteger)num {
     
     CGFloat menuX = [UIScreen mainScreen].bounds.size.width  - self.menuWidth;
-    CGFloat menuY = [UIScreen mainScreen].bounds.size.height - PopviewCellheight * (2.5+num);
+    CGFloat menuY = [UIScreen mainScreen].bounds.size.height - PopviewCellheight * (1.2+num);
     CGFloat width = self.menuWidth;
     CGFloat heigh = PopviewCellheight * (num);
     return (CGRect){menuX,menuY,width,heigh};

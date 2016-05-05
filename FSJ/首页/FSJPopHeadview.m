@@ -7,7 +7,13 @@
 //
 
 #import "FSJPopHeadview.h"
+@interface FSJPopHeadview()
 
+{
+    UILabel *label1;
+    NSString *str;
+}
+@end
 @implementation FSJPopHeadview
 
 - (instancetype) init {
@@ -19,13 +25,13 @@
 }
 
 
+
 - (instancetype) initWithFrame:(CGRect)frame and:(NSString *)name{
     if (self = [super initWithFrame:frame]) {
-        
         CGRect rect = frame;
         rect.size.height = rect.size.height *0.85;
         UIView *bgview = [[UIView alloc]initWithFrame:rect];
-        bgview.backgroundColor = SystemLightBlueColor;
+        bgview.backgroundColor = SystemBlueColor;
         bgview.layer.cornerRadius = rect.size.height/4;
         bgview.layer.borderWidth = 0;
         CGRect rect1 = rect;

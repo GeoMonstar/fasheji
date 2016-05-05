@@ -12,9 +12,14 @@
 
 - (CGRect)imageRectForContentRect:(CGRect)contentRect{
     CGRect rectBtn = CGRectZero;
-
-    rectBtn =  CGRectMake(Popviewwidth/8-10, Popviewheight*0.008, 25, 25);
-
+    if (iPhone5) {
+         rectBtn =  CGRectMake(Popviewwidth/8-10, Popviewheight*0.007, 23, 23);
+    }
+    else{
+       rectBtn =  CGRectMake(Popviewwidth/8-10, Popviewheight*0.008, 25, 25);
+    }
+   
+    
     return rectBtn;
 }
 - (CGRect)titleRectForContentRect:(CGRect)contentRect{
@@ -22,6 +27,9 @@
     
     if (iPhone6plus) {
         rectTitle = CGRectMake(Popviewwidth/8-10, Popviewheight*0.01 +Popviewheight*0.025,30, 30);
+    }
+    else if (iPhone5){
+     rectTitle = CGRectMake(Popviewwidth/8-12, Popviewheight*0.008 +Popviewheight*0.03,30, 25);
     }
     else{
       rectTitle = CGRectMake(Popviewwidth/8-10, Popviewheight*0.008 +Popviewheight*0.03,30, 25);

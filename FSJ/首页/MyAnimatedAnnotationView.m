@@ -7,25 +7,31 @@
 //
 
 #import "MyAnimatedAnnotationView.h"
-
+#import "FSJMapViewController.h"
 @implementation MyAnimatedAnnotationView
-
 @synthesize annotationImageView = _annotationImageView;
 @synthesize annotationImages = _annotationImages;
+@synthesize headView = _headView;
+@synthesize title = _title;
 - (id)initWithAnnotation:(id<BMKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         //[self setBounds:CGRectMake(0.f, 0.f, 30.f, 30.f)];
         [self setBounds:CGRectMake(0.f, 0.f, 30.f, 30.f)];
-        self.frame = CGRectMake(0, 0, 40, 40);
+        self.frame = CGRectMake(0, 0, 100, 70);
         [self setBackgroundColor:[UIColor clearColor]];
-        _annotationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(7.5, 0, 25, 25)];
+        _annotationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(37.5, 40, 25, 25)];
         _annotationImageView.contentMode = UIViewContentModeScaleAspectFit;
+        CGRect rect = CGRectMake(0, 0, 100, 40);
+        _headView = [[FSJPopHeadview alloc]initWithFrame:rect and:reuseIdentifier];
+        [self addSubview:_headView];
         [self addSubview:_annotationImageView];
     }
     return self;
 }
-
+- (void)setHeadView:(FSJPopHeadview *)headView{
+    _headView = headView;
+}
 - (void)setAnnotationImages:(NSMutableArray *)images {
     _annotationImages = images;
     [self updateImageView];

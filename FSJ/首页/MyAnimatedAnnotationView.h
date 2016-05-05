@@ -7,10 +7,13 @@
 //
 
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
+#import "FSJPopHeadview.h"
 
 @interface MyAnimatedAnnotationView : BMKAnnotationView
 
 @property (nonatomic, strong) NSMutableArray *annotationImages;
-@property (nonatomic, strong) UIImageView *annotationImageView;
+@property (nonatomic, strong) UIImageView    *annotationImageView;
+@property (nonatomic, strong) FSJPopHeadview *headView;
+@property (nonatomic, copy)NSString *title;
 
 @end

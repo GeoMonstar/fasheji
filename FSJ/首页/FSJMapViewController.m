@@ -462,7 +462,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             [btn setFont:[UIFont systemFontOfSize: 13.0]];
         }
         else{
-            [btn setFont:[UIFont systemFontOfSize: 9.0]];
+            [btn setFont:[UIFont systemFontOfSize: 7.0]];
         }
          btn.imageView.backgroundColor = [UIColor clearColor];
         //[btn setTitleEdgeInsets:UIEdgeInsetsMake(HEIGH *0.035,-20, 0, 20)];
@@ -618,10 +618,17 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSLog(@"change");
+     [self.mapView removeAnnotations:quanjuArr];
+    if (quanjuArr.count >0) {
+        [quanjuArr removeAllObjects];
+    }
     if (self.lenovoTableArray.count >0) {
         [self.lenovoTableArray removeAllObjects];
     }
-   
+    if (self.LenovoTableView) {
+        [self.LenovoTableView removeFromSuperview];
+        self.LenovoTableView = nil;
+    }
     if (self.mytableView) {
         self.mytableView.hidden = YES;
         [self.mytableView removeFromSuperview];
@@ -1113,11 +1120,13 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             //获取警告数量
             //warnNumber = (int)[user.alarmTotal integerValue];
             NSMutableArray *tstationArr = @[].mutableCopy;
+            
             if ([user.status isEqualToString:@"200"]) {
                 for (NSDictionary *dic in user.list) {
                     FSJResultList *listmodel = [FSJResultList initWithDictionary:dic];
                     [tstationArr addObject:listmodel];
                 }
+                
                 [self.mapView removeAnnotations:quanjuArr];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.mapView removeOverlays:cityoverlayErr];
@@ -1131,7 +1140,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                         self.mapView.centerCoordinate = coor;
                     }
                 });
+                
                 [stationArr addObjectsFromArray:tstationArr];
+                [tstationArr removeAllObjects];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     if (show) {
                         self.mapView.zoomLevel = ForthLevel - 0.5;
@@ -1183,50 +1194,31 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
 {
     if ([annotation.title isEqualToString:@"zc"]) {
-        NSString *AnnotationViewID1 = @"AnimatedAnnotation1";
+        for (FSJResultList *tempmodel in stationArr) {
+            if ([tempmodel.stationId isEqualToString:annotation.subtitle]){
+        NSString *AnnotationViewID1 = tempmodel.name;
         MyAnimatedAnnotationView *annotationView = nil;
         if (annotationView == nil) {
             annotationView = [[MyAnimatedAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID1];
-            annotationView.canShowCallout = YES;
-            for (FSJResultList *tempmodel in stationArr) {
-                if ([tempmodel.stationId isEqualToString:annotation.subtitle]){
-                    CGRect rect = CGRectMake(0, 0, 100, 40);
-                    FSJPopHeadview *view = [[FSJPopHeadview alloc]initWithFrame:rect and:tempmodel.name];
-                    annotationView.paopaoView = [[BMKActionPaopaoView alloc]initWithCustomView:view];
-//                    UIButton * Cusbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-//                    Cusbutton.frame = CGRectMake(0, 0, 70, 40);
-//                    Cusbutton.backgroundColor = SystemLightBlueColor;
-//                    Cusbutton.titleLabel.font = [UIFont systemFontOfSize:10];
-//                    [Cusbutton setTitle:tempmodel.name forState:UIControlStateNormal];
-//                    annotationView.paopaoView = [[BMKActionPaopaoView alloc]initWithCustomView:Cusbutton];
-                }
-            }
+             //annotationView.title = tempmodel.name;
+             annotationView.canShowCallout = NO;
         }
         NSMutableArray *images = [NSMutableArray array];
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"APPfashezhan"]];
         [images addObject:image];
         annotationView.annotationImages = images;
         return annotationView;
+            }
+        }
     }
     if ([annotation.title isEqualToString:@"gj"]) {
-        NSString *AnnotationViewID2 = @"AnimatedAnnotation2";
+        for (FSJResultList *tempmodel in stationArr) {
+            if ([tempmodel.stationId isEqualToString:annotation.subtitle]){
+        NSString *AnnotationViewID2 = tempmodel.name;
         MyAnimatedAnnotationView *annotationView = nil;
         if (annotationView == nil) {
             annotationView = [[MyAnimatedAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID2];
-            annotationView.canShowCallout = YES;
-            for (FSJResultList *tempmodel in stationArr) {
-                if ([tempmodel.stationId isEqualToString:annotation.subtitle]){
-                    CGRect rect = CGRectMake(0, 0, 100, 40);
-                    FSJPopHeadview *view = [[FSJPopHeadview alloc]initWithFrame:rect and:tempmodel.name];
-                    annotationView.paopaoView = [[BMKActionPaopaoView alloc]initWithCustomView:view];
-//                    UIButton * Cusbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-//                    Cusbutton.frame = CGRectMake(0, 0, 70, 40);
-//                    Cusbutton.backgroundColor = SystemLightBlueColor;
-//                    Cusbutton.titleLabel.font = [UIFont systemFontOfSize:10];
-//                    [Cusbutton setTitle:tempmodel.name forState:UIControlStateNormal];
-//                    annotationView.paopaoView = [[BMKActionPaopaoView alloc]initWithCustomView:Cusbutton];
-                }
-            }
+            annotationView.canShowCallout = NO;
         }
         NSMutableArray *images = [NSMutableArray array];
         for (int i = 0; i < 4; i++) {
@@ -1235,6 +1227,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
         annotationView.annotationImages = images;
         return annotationView;
+            }
+        }
     }
     if ([annotation.title isEqualToString:@"0"]) {
         NSString *AnnotationViewID1 = @"AnimatedAnnotation1";
@@ -1371,6 +1365,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 #pragma mark -- 添加全局标注
 - (void)addAnnotataionOnmapWith:(NSArray *)array{
+   // showPop = YES;
+    if (quanjuArr.count >0) {
+        [quanjuArr removeAllObjects];
+    }
     NSLog(@"全局标注数量为%lu",(unsigned long)array.count);
     for (FSJOneFSJ *model in array) {
         BMKPointAnnotation *annotataion = [[BMKPointAnnotation alloc]init];
@@ -1379,7 +1377,12 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         coor.longitude = model.lon.floatValue;
         annotataion.coordinate = coor;
         self.mapView.centerCoordinate = coor;
-        annotataion.title = model.status;
+        if ([model.status isEqualToString:@"0"]) {
+            annotataion.title = @"zc";
+        }
+        if([model.status isEqualToString:@"1"]){
+            annotataion.title = @"gj";
+        }
         annotataion.subtitle = model.stationId;
         [self.mapView addAnnotation:annotataion];
         [quanjuArr addObject:annotataion];
@@ -1550,7 +1553,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     //取消选中效果
 }
     else{
-        NSMutableArray *arr = @[].mutableCopy;
+                NSMutableArray *arr = @[].mutableCopy;
         for (FSJOneFSJ *model in allname) {
             if ([model.name isEqualToString:self.lenovoTableArray[indexPath.row]]) {
                 NSLog(@"%@",model.name);
@@ -1558,9 +1561,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [arr addObject:model];
             }
         }
+         [self addAnnotataionOnmapWith:arr];
+         [self.view endEditing:YES];
+         mainSearchbar.text = @"";
         
-        [self addAnnotataionOnmapWith:arr];
-    
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
