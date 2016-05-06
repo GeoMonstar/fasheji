@@ -59,23 +59,20 @@
             break;
         case Moji:
             if (first) {
-                 [self creatViewFirstWith:@"cnu" andWith:YES];
+                [self creatViewFirstWith:@"cnu" andWith:YES];
             }
             else{
-                
                 [self shuanxinViewFirstWith:index andWith:YES];
             }
-           // [self creatHeadView];
-           // [self creatViewFirstWith:@"cnu" andWith:YES];
              navTitle = @"功率放大单元";
             break;
         case Zhuangtai:
             [self creatViewFourwith:str];
-            navTitle = @"整机详情";
+            navTitle = @"工作状态详情";
             break;
         case Zhengji:
             [self creatViewThirdwith:str];
-             navTitle = @"工作状态详情";
+             navTitle = @"整机详情";
             break;
         default:
             break;
@@ -206,7 +203,6 @@
         }
         else{
             [SVProgressHUD showErrorWithStatus:@"无返回数据"];
-            
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];

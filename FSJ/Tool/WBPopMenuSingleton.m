@@ -37,7 +37,7 @@
     if (self.popMenuView != nil) {
         [weakSelf hideMenu];
     }
-    UIWindow * window = [[[UIApplication sharedApplication] windows] firstObject];
+    //UIWindow * window = [[[UIApplication sharedApplication] windows] firstObject];
    // CGRect rect = CGRectMake(0, Popviewheight * 0.06 + 20, Popviewwidth, Popviewheight * 0.87 -20);
     CGRect rect = CGRectMake(0, 0, Popviewwidth, Popviewheight);
     self.popMenuView = [[WBPopMenuView alloc]initWithFrame:rect

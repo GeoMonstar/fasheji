@@ -20,7 +20,7 @@
 /**
  *  @brief 功率放大单元
  */
-@property (nonatomic, retain)NSArray *cuns;
+@property (nonatomic, retain)NSArray *cnu;
 
 /**
  *  @brief 前置放大单元

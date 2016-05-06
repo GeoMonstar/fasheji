@@ -88,6 +88,7 @@
         [self loadDataWhenDraggingDown];
     }];
      [mysearchBar setPlaceholder:placeHolder];
+    
     // 设置表格视图的触底加载(上拉刷新)
     self.myTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         isDraggingDown = NO;
@@ -328,7 +329,7 @@
     mysearchBar.layer.cornerRadius = 19;
     mysearchBar.layer.masksToBounds = YES;
     mysearchBar.barStyle =UIBarStyleBlack;
-    mysearchBar.showsCancelButton = YES;
+    mysearchBar.showsCancelButton = NO;
     
     //将搜索条放在一个UIView上
     UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH*0.65, 38)];

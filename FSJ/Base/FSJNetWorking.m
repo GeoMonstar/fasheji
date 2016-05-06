@@ -39,7 +39,7 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"text/html",@"text/json",@"application/json",@"text/javascript", nil];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     [manager GET:getURL parameters:requestDictionary success:^(AFHTTPRequestOperation *  operation, id   responseObject) {
-        NSDictionary *responseDict = @{};
+        NSDictionary *responseDict;
         if ([responseObject isKindOfClass:[NSData class]]) {
             responseDict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
         }else{
@@ -70,7 +70,7 @@
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     [manager GET:URL parameters:requestDictionary success:^(AFHTTPRequestOperation *  operation, id   responseObject) {
         NSLog(@"请求参数字典 == %@  url == %@",requestDictionary,URL);
-        NSDictionary *responseDict = @{};
+        NSDictionary *responseDict;
         if ([responseObject isKindOfClass:[NSData class]]) {
             responseDict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
         }else{
@@ -113,7 +113,7 @@
      request
                                      success:
      ^(AFHTTPRequestOperation *operation, id responseObject) {
-         NSDictionary *responseDict = @{};
+         NSDictionary *responseDict ;
          //返回成功数据
          //NSLog(@"返回数据%@ :%@",actionDict,operation.responseString);
          if ([operation.responseString isEqualToString:@"{}"]||[operation.responseString isEqualToString:@""]||operation.responseString == nil||responseObject == nil) {
@@ -161,7 +161,7 @@
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     
     [manager POST:URL parameters:jsonData success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        NSDictionary *responseDict = @{};
+        NSDictionary *responseDict;
         if ([responseObject isKindOfClass:[NSData class]]) {
             responseDict = [NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
         }else{

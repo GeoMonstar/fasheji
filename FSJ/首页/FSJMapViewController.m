@@ -856,7 +856,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     if (error == BMK_SEARCH_NO_ERROR) {
         [overlayEor  addObjectsFromArray:[self createPolgonWith:listError andId:listidError and:result and:@"1" and:YES]];
         [overlayNor  addObjectsFromArray:[self createPolgonWith:listNormal andId:listidNormal and:result and:@"0" and:YES]];
-        NSDictionary *dic = (NSDictionary *)[[EGOCache globalCache]objectForKey:staticAreaname];
+        //NSDictionary *dic = (NSDictionary *)[[EGOCache globalCache]objectForKey:staticAreaname];
         if ([staticareaType isEqualToString:@"1"]) {
             showCity = YES;
             [cityoverlayErr     addObjectsFromArray:[self createPolgonWith:cityError andId:cityidError and:result and:@"1" and:NO]];
@@ -880,7 +880,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     for (int i = 0; i < array.count; i ++) {
         if ([result.name isEqualToString:array[i]]) {
-            BMKPolygon * tempPolgon = [[BMKPolygon alloc]init];
+            BMKPolygon * tempPolgon ;
             tempPolgon = [FSJTransPoint transferPathStringToPolygon:result.paths];
             tempPolgon.title = status;
             tempPolgon.subtitle = arrid[i];
@@ -1563,7 +1563,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
          [self addAnnotataionOnmapWith:arr];
          [self.view endEditing:YES];
-         mainSearchbar.text = @"";
+         mainSearchbar.text = self.lenovoTableArray[indexPath.row];
         
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
