@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, ChangeInfoType){
     Userpwd
     
 };
-@interface FSJChangePersonInfoViewController : UIViewController
+@interface FSJChangePersonInfoViewController : FSJBaseViewController
 @property (nonatomic,assign)ChangeInfoType changeType;
 @property (nonatomic,strong)NSDictionary *dict;
 @end

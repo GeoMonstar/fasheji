@@ -15,9 +15,10 @@ typedef NS_ENUM(NSInteger,JiankongType){
     Zhuangtai
     
 };
-@interface FSJJiankongVC : UIViewController
+@interface FSJJiankongVC : FSJBaseViewController
 
 @property (nonatomic,assign)JiankongType JiankongType ;
 @property (nonatomic,copy)NSString *fsjId;
 @property (nonatomic,copy)NSString *addressId;
+@property (nonatomic,assign)BOOL showZidong;
 @end

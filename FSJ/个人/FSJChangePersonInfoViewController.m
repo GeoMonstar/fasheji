@@ -151,7 +151,7 @@
                          if ([model.status isEqualToString:@"200"]) {
                              [SVProgressHUD showSuccessWithStatus:model.message];
                          }
-             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                  [self.navigationController popViewControllerAnimated:YES];
              });
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -173,13 +173,15 @@
         case 1:
             if (![firstInput.text isMobileNumber]) {
                 [SVProgressHUD showErrorWithStatus:@"请输入正确手机号"];
-                firstInput.text = @"";
+               firstInput.text = @"";
+                return;
             };
             break;
         case 3:
             if (![firstInput.text isEmailAddress]) {
                 [SVProgressHUD showErrorWithStatus:@"请输入正确邮箱地址"];
                 firstInput.text = @"";
+                return;
             };
             break;
             
@@ -225,6 +227,7 @@
 }
 - (void)backTomain:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];
+    [SVProgressHUD dismiss];
 }
 - (UIImage*) createImageWithColor: (UIColor*) color
 {

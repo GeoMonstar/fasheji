@@ -95,11 +95,20 @@
                 [self.myTable reloadData];
             });
         }
+       
         else{
             [SVProgressHUD showErrorWithStatus:model.message];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+        NSDictionary *dic = operation.responseObject;
+        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

@@ -11,5 +11,5 @@
 @interface FSJPopHeadview : UIView
 
 - (instancetype) initWithFrame:(CGRect)frame and:(NSString *)name;
-- (instancetype) initWithFrame:(CGRect)frame;
+
 @end

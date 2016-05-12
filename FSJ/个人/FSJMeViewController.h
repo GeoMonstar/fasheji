@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FSJMeViewController : UIViewController
+@interface FSJMeViewController : FSJBaseViewController
 
 @property (nonatomic,copy)NSString *jwtStr;
 @end

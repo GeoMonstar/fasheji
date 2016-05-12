@@ -48,7 +48,8 @@
         success(operation,responseDict);
         
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        
+        failure(operation,error);
+
     }];
     return manager;
 }
@@ -79,6 +80,7 @@
             success(operation,responseDict);
         
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        failure(operation,error);
         
     }];
             return manager;

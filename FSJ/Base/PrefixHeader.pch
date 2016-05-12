@@ -33,20 +33,20 @@
 //weakSelf宏
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #ifdef DEBUG
-#define BaseURL       @"http://192.168.10.94:8080/fsj"
-//#define BaseURL     @"http://infosoul.oicp.net:8080/fsj"
+#define BaseURL         @"http://192.168.10.94:8080/fsj"
+//#define BaseURL       @"http://infosoul.oicp.net:8080/fsj"
 #define BaseUploadURL   @""
 #else
-#define BaseURL       @"http://192.168.10.94:8080/fsj"
-//#define BaseURL     @"http://infosoul.oicp.net:8080/fsj"
-#define BaseUploadURL   @""
+#define BaseURL         @"http://192.168.10.94:8080/fsj"
+//#define BaseURL       @"http://infosoul.oicp.net:8080/fsj"
+//#define BaseUploadURL @""
 #endif
 #define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://infosoul.oicp.net:8080/fsj/alarm/app/statistics?userName=%@",username];
-//#define BaseImgURL  @"http://infosoul.oicp.net:8080"
-#define BaseImgURL    @"http://192.168.10.94:8080"
-#define PgyAppID  @"85838383eb2e34b6a2b49fa95c94be8b"
-
+//#define BaseImgURL      @"http://infosoul.oicp.net:8080"
+#define BaseImgURL      @"http://192.168.10.94:8080"
+#define PgyAppID        @"85838383eb2e34b6a2b49fa95c94be8b"
 #define THWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
+#define AccountChanged @"该用户已在其他设备登录"
 #pragma mark - pod
 #import "SVProgressHUD.h"
 #import <MJExtension.h>
@@ -68,7 +68,7 @@
 #import <PgyUpdate/PgyUpdateManager.h>
 //#import "HMSegmentedControl.h"
 #import <HMSegmentedControl.h>
-
+#import "RealReachability.h"
 #pragma mark - class
 #import "AppKeys.h"
 #import "FSJNetWorking.h"
@@ -77,7 +77,8 @@
 #import "FSJTabbarBtn.h"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+//#import <CoreData/CoreData.h>
+#import "FSJBaseViewController.h"
 #pragma mark - Category
 #import "MQTTKit.h"
 #import "UIButton+Img.h"

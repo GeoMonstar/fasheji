@@ -10,7 +10,7 @@
 
 
 
-@interface FSJPeopleManagimentviewController : UIViewController
+@interface FSJPeopleManagimentviewController : FSJBaseViewController
 typedef NS_ENUM(NSInteger, MoreInfoType){
     Warning = 0 ,
     Warned,

@@ -130,7 +130,7 @@
                 view.backgroundColor = SystemBlueColor;
             }
         }
-       // [self creatViewFirstWith:[NSString stringWithFormat:@"%ld",sender.tag-600+2] andWith:YES];
+
         index = [NSString stringWithFormat:@"%ld",sender.tag-600+2];
         [self shuanxinViewFirstWith:index andWith:YES];
     }
@@ -201,11 +201,20 @@
             FSJGongxiaoDetail *model = [FSJGongxiaoDetail initWithDictionary:basemodel.main];
             [self creatViewWithModel:model and:basemodel and:show and:str];
         }
+
         else{
             [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+        NSDictionary *dic = operation.responseObject;
+        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (void)creatViewFirstWith:(NSString *)str andWith:(BOOL)show{
@@ -223,11 +232,20 @@
             FSJGongxiaoDetail *model = [FSJGongxiaoDetail initWithDictionary:basemodel.main];
             [self creatViewWithModel:model and:basemodel and:show and:str];
         }
+       
         else{
          [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+        NSDictionary *dic = operation.responseObject;
+        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (void)creatViewThirdwith:(NSString *)str{
@@ -251,16 +269,26 @@
             [self.view insertSubview:view1 atIndex:0];
             [self.view insertSubview:view2 atIndex:0];
         }
+        
         else{
             [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+        NSDictionary *dic = operation.responseObject;
+        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (void)creatViewFourwith:(NSString *)str{
     NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr };
     [FSJNetWorking networkingGETWithActionType:GetGongzuo requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        
         FSJJiankongBase *basemodel = [FSJJiankongBase initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"] && basemodel.data != nil) {
              [SVProgressHUD dismiss];
@@ -272,7 +300,13 @@
             NSArray *arr4 = @[MergeStr(@"机内温度(℃)", model.temperature),@""];
             NSArray *arr5 = @[MergeStr(@"缺相保护", arr[6])];
             NSArray *arr6 = @[MergeStr(@"视频保护", arr[5])];
-            NSArray *arr7 = @[MergeStr(@"自动切换主设备",  (model.autoSwitch.integerValue>0?@"可以使用":@"禁用")),MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
+            NSArray *arr7 =@[];
+            if (self.showZidong == YES) {
+               arr7 = @[MergeStr(@"自动切换主设备",  (model.autoSwitch.integerValue>0?@"可以使用":@"禁用")),MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
+            }
+            else{
+               arr7 = @[MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
+            }
             NSArray *arr8 = @[MergeStr(@"开机/关机状态", (model.onoffState.integerValue>0?@"关机":@"开机")),MergeStr(@"主机/备机状态", (model.autoSwitch.integerValue>0?@"启用自动切换主备机":@"禁用自动切换主备机")),MergeStr(@"本控/遥控状态", (model.romoteState.integerValue > 0?@"遥控状态":@"本控状态")),MergeStr(@"天线/假负载", (model.anternaState.integerValue>0?@"输出至负载":@"输出至天线"))];
             UIView *first  = [self creatViewWith:3 and:viewSpace and:arr1 and:arr2];
             UIView *second = [self creatViewWith:2 and:(first.frame.origin.y + first.frame.size.height +viewSpace) and:arr3 and:arr4];
@@ -285,11 +319,20 @@
             [self.view insertSubview:forth atIndex:0];
             [self.view insertSubview:fifth atIndex:0];
         }
+     
         else{
             [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+        NSDictionary *dic = operation.responseObject;
+        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (NSArray *)getfirstWith:(NSString*)str{
@@ -403,6 +446,7 @@
 }
 - (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
 }
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];

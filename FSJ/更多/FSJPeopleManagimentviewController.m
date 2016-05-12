@@ -153,7 +153,15 @@
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //[SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
+        NSDictionary *errordic = operation.responseObject;
+        if ([[errordic objectForKey:@"status"] isEqualToString:@"401"] ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -221,7 +229,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 70;
 }
-- (void)createPopwithName:(NSArray *)nameArr andImg:(NSArray *)imgArr andtag:(NSInteger) btntag{
+- (void)createPopwithName:(NSArray *)nameArr andImg:(NSArray *)imgArr andtag:(NSInteger) btntag andShowzidong:(BOOL)show{
     NSMutableArray *obj = [NSMutableArray array];
     for (NSInteger i = 0; i < nameArr.count; i++) {
         WBPopMenuModel * info = [WBPopMenuModel new];
@@ -242,18 +250,34 @@
     if ([nameArr[index] isEqualToString:@"工作状态"]) {
             jiankong.JiankongType = Zhuangtai;
             };
+        if (show == YES) {
+            jiankong.showZidong = YES;
+        }
+        else{
+            jiankong.showZidong = NO;
+        }
         [self.navigationController pushViewController:jiankong animated:YES];
         }TopView:self.view alpha:0.9];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.showPop == YES) {
+        
         transmodel = self.dataArray[indexPath.section];
         jiankong = [[FSJJiankongVC alloc]init];
         jiankong.fsjId = transmodel.transId;
         jiankong.addressId = transmodel.ipAddr;
-        jiankongArr     = @[@"前置放大单元",@"功率放大单元",@"整机",@"工作状态"];
-        jiankongimgArr  = @[@"clt.png",@"cnu",@"zhengji",@"zhuangtai"];
-        [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602];
+        if ([transmodel.powerRate isEqualToString:@"300W"]) {
+            jiankongArr     = @[@"前置放大单元",@"工作状态"];
+            jiankongimgArr  = @[@"clt.png",@"zhuangtai"];
+            [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602 andShowzidong:NO];
+        }
+        else{
+            jiankongArr     = @[@"前置放大单元",@"功率放大单元",@"整机",@"工作状态"];
+            jiankongimgArr  = @[@"clt.png",@"cnu",@"zhengji",@"zhuangtai"];
+            [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602 andShowzidong:YES];
+        
+        }
+        
     }
     else{
     detail = [[FSJPeopleManagerDetailViewController alloc]init];

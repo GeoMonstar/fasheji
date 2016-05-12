@@ -232,6 +232,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 #pragma mark -- 按钮响应
 - (void)logout:(UIButton *)sender{
+     
     [self.navigationController popToRootViewControllerAnimated:YES];
     NSDictionary *dic = @{@"jwt":self.jwtStr};
     [FSJNetWorking networkingPOSTWithActionType:UserLogoutAction requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -242,8 +243,17 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
              [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
 
         }
+      
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-       //[SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"error"]];
+        NSDictionary *dic = operation.responseObject;
+        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (void)changeIcon:(UIButton *)sender{

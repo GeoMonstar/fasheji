@@ -58,6 +58,19 @@
 		8554C8911CCE117F0095D180 /* FSJZhengji.m in Sources */ = {isa = PBXBuildFile; fileRef = 8554C8901CCE117F0095D180 /* FSJZhengji.m */; };
 		8554C8941CCE153F0095D180 /* FSJGongxiao.m in Sources */ = {isa = PBXBuildFile; fileRef = 8554C8931CCE153F0095D180 /* FSJGongxiao.m */; };
 		8554C8971CCE17570095D180 /* FSJGongxiaoDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8554C8961CCE17570095D180 /* FSJGongxiaoDetail.m */; };
+		85589C2B1CDC897200ADAAC1 /* LocalConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C111CDC897200ADAAC1 /* LocalConnection.m */; };
+		85589C2C1CDC897200ADAAC1 /* FSMEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C151CDC897200ADAAC1 /* FSMEngine.m */; };
+		85589C2D1CDC897200ADAAC1 /* FSMStateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C171CDC897200ADAAC1 /* FSMStateUtil.m */; };
+		85589C2E1CDC897200ADAAC1 /* ReachState.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C191CDC897200ADAAC1 /* ReachState.m */; };
+		85589C2F1CDC897200ADAAC1 /* ReachStateLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C1B1CDC897200ADAAC1 /* ReachStateLoading.m */; };
+		85589C301CDC897200ADAAC1 /* ReachStateUnloaded.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C1D1CDC897200ADAAC1 /* ReachStateUnloaded.m */; };
+		85589C311CDC897200ADAAC1 /* ReachStateUnReachable.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C1F1CDC897200ADAAC1 /* ReachStateUnReachable.m */; };
+		85589C321CDC897200ADAAC1 /* ReachStateWIFI.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C211CDC897200ADAAC1 /* ReachStateWIFI.m */; };
+		85589C331CDC897200ADAAC1 /* ReachStateWWAN.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C231CDC897200ADAAC1 /* ReachStateWWAN.m */; };
+		85589C341CDC897200ADAAC1 /* PingFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C261CDC897200ADAAC1 /* PingFoundation.m */; };
+		85589C351CDC897200ADAAC1 /* PingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C281CDC897200ADAAC1 /* PingHelper.m */; };
+		85589C361CDC897200ADAAC1 /* RealReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C2A1CDC897200ADAAC1 /* RealReachability.m */; };
+		85589C391CDC936200ADAAC1 /* FSJBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */; };
 		85743C071CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85743C051CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m */; };
 		85743C081CC726E0007F55B7 /* FSJSecondDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85743C061CC726E0007F55B7 /* FSJSecondDetailTableViewCell.xib */; };
 		858869E01CD095E70066CDCA /* FSJJiankongBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 858869DF1CD095E70066CDCA /* FSJJiankongBase.m */; };
@@ -146,12 +159,12 @@
 		851A2CC21CCB17EE00C955D2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		851A2CC41CCB17FC00C955D2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		851A2CC61CCB180200C955D2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		851A2CC81CCB229E00C955D2 /* MQTTKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQTTKit.h; sourceTree = "<group>"; };
-		851A2CC91CCB229E00C955D2 /* MQTTKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MQTTKit.m; sourceTree = "<group>"; };
+		851A2CC81CCB229E00C955D2 /* MQTTKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MQTTKit.h; path = ../MQTTKit.h; sourceTree = "<group>"; };
+		851A2CC91CCB229E00C955D2 /* MQTTKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MQTTKit.m; path = ../MQTTKit.m; sourceTree = "<group>"; };
 		851DAEF01CA54760002E8BFD /* FSJOneCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJOneCity.h; sourceTree = "<group>"; };
 		851DAEF11CA54760002E8BFD /* FSJOneCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJOneCity.m; sourceTree = "<group>"; };
-		8524DFF81CABAF7700859546 /* MPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPush.h; sourceTree = "<group>"; };
-		8524DFF91CABAF7700859546 /* MPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPush.m; sourceTree = "<group>"; };
+		8524DFF81CABAF7700859546 /* MPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPush.h; path = ../MPush.h; sourceTree = "<group>"; };
+		8524DFF91CABAF7700859546 /* MPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPush.m; path = ../MPush.m; sourceTree = "<group>"; };
 		8528A5DA1C87E61D009A258D /* FSJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8528A5DE1C87E61D009A258D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8528A5E01C87E61D009A258D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -210,6 +223,33 @@
 		8554C8931CCE153F0095D180 /* FSJGongxiao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJGongxiao.m; sourceTree = "<group>"; };
 		8554C8951CCE17570095D180 /* FSJGongxiaoDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJGongxiaoDetail.h; sourceTree = "<group>"; };
 		8554C8961CCE17570095D180 /* FSJGongxiaoDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJGongxiaoDetail.m; sourceTree = "<group>"; };
+		85589C101CDC897200ADAAC1 /* LocalConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalConnection.h; sourceTree = "<group>"; };
+		85589C111CDC897200ADAAC1 /* LocalConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalConnection.m; sourceTree = "<group>"; };
+		85589C131CDC897200ADAAC1 /* FSMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSMDefines.h; sourceTree = "<group>"; };
+		85589C141CDC897200ADAAC1 /* FSMEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSMEngine.h; sourceTree = "<group>"; };
+		85589C151CDC897200ADAAC1 /* FSMEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSMEngine.m; sourceTree = "<group>"; };
+		85589C161CDC897200ADAAC1 /* FSMStateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSMStateUtil.h; sourceTree = "<group>"; };
+		85589C171CDC897200ADAAC1 /* FSMStateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSMStateUtil.m; sourceTree = "<group>"; };
+		85589C181CDC897200ADAAC1 /* ReachState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReachState.h; sourceTree = "<group>"; };
+		85589C191CDC897200ADAAC1 /* ReachState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReachState.m; sourceTree = "<group>"; };
+		85589C1A1CDC897200ADAAC1 /* ReachStateLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReachStateLoading.h; sourceTree = "<group>"; };
+		85589C1B1CDC897200ADAAC1 /* ReachStateLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReachStateLoading.m; sourceTree = "<group>"; };
+		85589C1C1CDC897200ADAAC1 /* ReachStateUnloaded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReachStateUnloaded.h; sourceTree = "<group>"; };
+		85589C1D1CDC897200ADAAC1 /* ReachStateUnloaded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReachStateUnloaded.m; sourceTree = "<group>"; };
+		85589C1E1CDC897200ADAAC1 /* ReachStateUnReachable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReachStateUnReachable.h; sourceTree = "<group>"; };
+		85589C1F1CDC897200ADAAC1 /* ReachStateUnReachable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReachStateUnReachable.m; sourceTree = "<group>"; };
+		85589C201CDC897200ADAAC1 /* ReachStateWIFI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReachStateWIFI.h; sourceTree = "<group>"; };
+		85589C211CDC897200ADAAC1 /* ReachStateWIFI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReachStateWIFI.m; sourceTree = "<group>"; };
+		85589C221CDC897200ADAAC1 /* ReachStateWWAN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReachStateWWAN.h; sourceTree = "<group>"; };
+		85589C231CDC897200ADAAC1 /* ReachStateWWAN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReachStateWWAN.m; sourceTree = "<group>"; };
+		85589C251CDC897200ADAAC1 /* PingFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingFoundation.h; sourceTree = "<group>"; };
+		85589C261CDC897200ADAAC1 /* PingFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PingFoundation.m; sourceTree = "<group>"; };
+		85589C271CDC897200ADAAC1 /* PingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingHelper.h; sourceTree = "<group>"; };
+		85589C281CDC897200ADAAC1 /* PingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PingHelper.m; sourceTree = "<group>"; };
+		85589C291CDC897200ADAAC1 /* RealReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealReachability.h; sourceTree = "<group>"; };
+		85589C2A1CDC897200ADAAC1 /* RealReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealReachability.m; sourceTree = "<group>"; };
+		85589C371CDC936200ADAAC1 /* FSJBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJBaseViewController.h; sourceTree = "<group>"; };
+		85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJBaseViewController.m; sourceTree = "<group>"; };
 		85743C041CC726E0007F55B7 /* FSJSecondDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJSecondDetailTableViewCell.h; sourceTree = "<group>"; };
 		85743C051CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJSecondDetailTableViewCell.m; sourceTree = "<group>"; };
 		85743C061CC726E0007F55B7 /* FSJSecondDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSJSecondDetailTableViewCell.xib; sourceTree = "<group>"; };
@@ -377,6 +417,8 @@
 				8528A5E01C87E61D009A258D /* AppDelegate.h */,
 				8528A5E11C87E61D009A258D /* AppDelegate.m */,
 				859DF5A31C89327800107467 /* PrefixHeader.pch */,
+				85589C371CDC936200ADAAC1 /* FSJBaseViewController.h */,
+				85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */,
 				859DF57F1C8920F300107467 /* 登录 */,
 				8528A6231C884742009A258D /* 首页 */,
 				8528A6221C884736009A258D /* 个人 */,
@@ -411,30 +453,15 @@
 		8528A6021C87E945009A258D /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				85589C0E1CDC897200ADAAC1 /* RealReachability */,
+				85589C0D1CDC88FC00ADAAC1 /* PopView */,
 				8554C87E1CCDC7480095D180 /* FSJTransPoint.h */,
 				8554C87F1CCDC7480095D180 /* FSJTransPoint.mm */,
 				85CBED0E1CCA0D0600C4CD8C /* mosquitto */,
-				85381E0D1CBF7FC70080F027 /* WBPopMenuModel.h */,
-				85381E0E1CBF7FC70080F027 /* WBPopMenuModel.m */,
-				85381E0F1CBF7FC70080F027 /* WBPopMenuSingleton.h */,
-				85381E101CBF7FC70080F027 /* WBPopMenuSingleton.m */,
-				85381E111CBF7FC70080F027 /* WBPopMenuView.h */,
-				85381E121CBF7FC70080F027 /* WBPopMenuView.m */,
-				85381E1F1CBF834D0080F027 /* PopcellviewTableViewCell.h */,
-				85381E201CBF834D0080F027 /* PopcellviewTableViewCell.m */,
-				85381E211CBF834D0080F027 /* PopcellviewTableViewCell.xib */,
-				85381E151CBF7FC70080F027 /* WBTableViewDataSource.h */,
-				85381E161CBF7FC70080F027 /* WBTableViewDataSource.m */,
-				85381E171CBF7FC70080F027 /* WBTableViewDelegate.h */,
-				85381E181CBF7FC70080F027 /* WBTableViewDelegate.m */,
 				855377DE1CC610F700A13942 /* NSString+SelfSize.h */,
 				855377DF1CC610F700A13942 /* NSString+SelfSize.m */,
 				85B8DF581CBE578600532974 /* UIImage+Color.h */,
 				85B8DF591CBE578600532974 /* UIImage+Color.m */,
-				8524DFF81CABAF7700859546 /* MPush.h */,
-				8524DFF91CABAF7700859546 /* MPush.m */,
-				851A2CC81CCB229E00C955D2 /* MQTTKit.h */,
-				851A2CC91CCB229E00C955D2 /* MQTTKit.m */,
 				859DF5801C89237100107467 /* NSString+RegexCategory.h */,
 				859DF5811C89237100107467 /* NSString+RegexCategory.m */,
 				8528A61E1C8815DD009A258D /* GTMDefines.h */,
@@ -518,6 +545,82 @@
 				8554C8961CCE17570095D180 /* FSJGongxiaoDetail.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		85589C0D1CDC88FC00ADAAC1 /* PopView */ = {
+			isa = PBXGroup;
+			children = (
+				85381E0D1CBF7FC70080F027 /* WBPopMenuModel.h */,
+				85381E0E1CBF7FC70080F027 /* WBPopMenuModel.m */,
+				85381E0F1CBF7FC70080F027 /* WBPopMenuSingleton.h */,
+				85381E101CBF7FC70080F027 /* WBPopMenuSingleton.m */,
+				85381E111CBF7FC70080F027 /* WBPopMenuView.h */,
+				85381E121CBF7FC70080F027 /* WBPopMenuView.m */,
+				85381E1F1CBF834D0080F027 /* PopcellviewTableViewCell.h */,
+				85381E201CBF834D0080F027 /* PopcellviewTableViewCell.m */,
+				85381E211CBF834D0080F027 /* PopcellviewTableViewCell.xib */,
+				85381E151CBF7FC70080F027 /* WBTableViewDataSource.h */,
+				85381E161CBF7FC70080F027 /* WBTableViewDataSource.m */,
+				85381E171CBF7FC70080F027 /* WBTableViewDelegate.h */,
+				85381E181CBF7FC70080F027 /* WBTableViewDelegate.m */,
+			);
+			name = PopView;
+			sourceTree = "<group>";
+		};
+		85589C0E1CDC897200ADAAC1 /* RealReachability */ = {
+			isa = PBXGroup;
+			children = (
+				85589C0F1CDC897200ADAAC1 /* Connection */,
+				85589C121CDC897200ADAAC1 /* FSM */,
+				85589C241CDC897200ADAAC1 /* Ping */,
+				85589C291CDC897200ADAAC1 /* RealReachability.h */,
+				85589C2A1CDC897200ADAAC1 /* RealReachability.m */,
+			);
+			path = RealReachability;
+			sourceTree = "<group>";
+		};
+		85589C0F1CDC897200ADAAC1 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				85589C101CDC897200ADAAC1 /* LocalConnection.h */,
+				85589C111CDC897200ADAAC1 /* LocalConnection.m */,
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		85589C121CDC897200ADAAC1 /* FSM */ = {
+			isa = PBXGroup;
+			children = (
+				85589C131CDC897200ADAAC1 /* FSMDefines.h */,
+				85589C141CDC897200ADAAC1 /* FSMEngine.h */,
+				85589C151CDC897200ADAAC1 /* FSMEngine.m */,
+				85589C161CDC897200ADAAC1 /* FSMStateUtil.h */,
+				85589C171CDC897200ADAAC1 /* FSMStateUtil.m */,
+				85589C181CDC897200ADAAC1 /* ReachState.h */,
+				85589C191CDC897200ADAAC1 /* ReachState.m */,
+				85589C1A1CDC897200ADAAC1 /* ReachStateLoading.h */,
+				85589C1B1CDC897200ADAAC1 /* ReachStateLoading.m */,
+				85589C1C1CDC897200ADAAC1 /* ReachStateUnloaded.h */,
+				85589C1D1CDC897200ADAAC1 /* ReachStateUnloaded.m */,
+				85589C1E1CDC897200ADAAC1 /* ReachStateUnReachable.h */,
+				85589C1F1CDC897200ADAAC1 /* ReachStateUnReachable.m */,
+				85589C201CDC897200ADAAC1 /* ReachStateWIFI.h */,
+				85589C211CDC897200ADAAC1 /* ReachStateWIFI.m */,
+				85589C221CDC897200ADAAC1 /* ReachStateWWAN.h */,
+				85589C231CDC897200ADAAC1 /* ReachStateWWAN.m */,
+			);
+			path = FSM;
+			sourceTree = "<group>";
+		};
+		85589C241CDC897200ADAAC1 /* Ping */ = {
+			isa = PBXGroup;
+			children = (
+				85589C251CDC897200ADAAC1 /* PingFoundation.h */,
+				85589C261CDC897200ADAAC1 /* PingFoundation.m */,
+				85589C271CDC897200ADAAC1 /* PingHelper.h */,
+				85589C281CDC897200ADAAC1 /* PingHelper.m */,
+			);
+			path = Ping;
 			sourceTree = "<group>";
 		};
 		859DF57F1C8920F300107467 /* 登录 */ = {
@@ -690,6 +793,10 @@
 				85CBED2C1CCA0D0600C4CD8C /* util_mosq.h */,
 				85CBED2D1CCA0D0600C4CD8C /* will_mosq.c */,
 				85CBED2E1CCA0D0600C4CD8C /* will_mosq.h */,
+				8524DFF81CABAF7700859546 /* MPush.h */,
+				8524DFF91CABAF7700859546 /* MPush.m */,
+				851A2CC81CCB229E00C955D2 /* MQTTKit.h */,
+				851A2CC91CCB229E00C955D2 /* MQTTKit.m */,
 			);
 			path = mosquitto;
 			sourceTree = "<group>";
@@ -919,6 +1026,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85589C341CDC897200ADAAC1 /* PingFoundation.m in Sources */,
 				85D6C7AF1CC0CBD800606270 /* FSJDetailTableViewCell.m in Sources */,
 				85F5DD531C8FC7C400F2D4FC /* FSJMeViewController.m in Sources */,
 				85CBED301CCA0D0600C4CD8C /* memory_mosq.c in Sources */,
@@ -929,18 +1037,25 @@
 				8524DFFA1CABAF7700859546 /* MPush.m in Sources */,
 				85D6C7B91CC0EF6200606270 /* UIButton+Img.m in Sources */,
 				850EAC1E1C9A7D9D002C577E /* FSJChangePersonInfoViewController.m in Sources */,
+				85589C311CDC897200ADAAC1 /* ReachStateUnReachable.m in Sources */,
 				850EAC211C9AB660002C577E /* FSJTongjiViewController.m in Sources */,
+				85589C391CDC936200ADAAC1 /* FSJBaseViewController.m in Sources */,
 				8528A60D1C880A7E009A258D /* FSJBaseModel.m in Sources */,
+				85589C361CDC897200ADAAC1 /* RealReachability.m in Sources */,
 				8528A5E21C87E61D009A258D /* AppDelegate.m in Sources */,
 				85381E191CBF7FC70080F027 /* WBPopMenuModel.m in Sources */,
+				85589C2C1CDC897200ADAAC1 /* FSMEngine.m in Sources */,
 				854D50DF1C966625001C963F /* FSJOneFSJ.m in Sources */,
 				859FD8F51C8E6F3600AFA615 /* FSJResultList.m in Sources */,
 				8512B93A1C929D6800DCB952 /* FSJTopTableViewCell.m in Sources */,
 				85CBED331CCA0D0600C4CD8C /* mosquitto.c in Sources */,
 				8528A60A1C87ECDE009A258D /* FSJUserInfo.m in Sources */,
+				85589C2F1CDC897200ADAAC1 /* ReachStateLoading.m in Sources */,
 				85CBED3A1CCA0D0600C4CD8C /* srv_mosq.c in Sources */,
+				85589C351CDC897200ADAAC1 /* PingHelper.m in Sources */,
 				85B8DF5A1CBE578600532974 /* UIImage+Color.m in Sources */,
 				858AB7CD1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.m in Sources */,
+				85589C2D1CDC897200ADAAC1 /* FSMStateUtil.m in Sources */,
 				8554C88D1CCE0BDC0095D180 /* FSJGongzuoStatus.m in Sources */,
 				8554C8801CCDC7480095D180 /* FSJTransPoint.mm in Sources */,
 				85CBED361CCA0D0600C4CD8C /* read_handle_client.c in Sources */,
@@ -952,6 +1067,7 @@
 				85B7E7031C9D329000D037FE /* FSJBaseNavViewController.m in Sources */,
 				85381E1A1CBF7FC70080F027 /* WBPopMenuSingleton.m in Sources */,
 				859DF5891C89245600107467 /* LoginTableViewCell.m in Sources */,
+				85589C331CDC897200ADAAC1 /* ReachStateWWAN.m in Sources */,
 				85CBED2F1CCA0D0600C4CD8C /* logging_mosq.c in Sources */,
 				85CA7D511C9810E2005F22C4 /* FSJCollectionViewCell.m in Sources */,
 				85CBED391CCA0D0600C4CD8C /* send_mosq.c in Sources */,
@@ -963,11 +1079,14 @@
 				85BCBF3D1C994F2C00686D07 /* FSJBaseMoreViewController.m in Sources */,
 				8512B93F1C929D8F00DCB952 /* FSJMineTableViewCell.m in Sources */,
 				8528A5DF1C87E61D009A258D /* main.m in Sources */,
+				85589C301CDC897200ADAAC1 /* ReachStateUnloaded.m in Sources */,
 				8528A6141C881002009A258D /* FSJNetWorking.m in Sources */,
+				85589C321CDC897200ADAAC1 /* ReachStateWIFI.m in Sources */,
 				85D6C7B31CC0EB7900606270 /* FSJTabbarBtn.m in Sources */,
 				85AAE8F51C917CAF00E6B415 /* MyAnimatedAnnotationView.m in Sources */,
 				850EAC151C9A4C19002C577E /* FSJPeopleManagerDetailViewController.m in Sources */,
 				85381E1E1CBF7FC70080F027 /* WBTableViewDelegate.m in Sources */,
+				85589C2E1CDC897200ADAAC1 /* ReachState.m in Sources */,
 				8528A6211C8815FB009A258D /* GTMBase64.m in Sources */,
 				85381E1B1CBF7FC70080F027 /* WBPopMenuView.m in Sources */,
 				8554C8871CCDFE9F0095D180 /* FSJJiankongVC.m in Sources */,
@@ -985,6 +1104,7 @@
 				854D50E31C966813001C963F /* FSJOneFSJTableViewCell.m in Sources */,
 				8554C8941CCE153F0095D180 /* FSJGongxiao.m in Sources */,
 				85743C071CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m in Sources */,
+				85589C2B1CDC897200ADAAC1 /* LocalConnection.m in Sources */,
 				85381E221CBF834D0080F027 /* PopcellviewTableViewCell.m in Sources */,
 				854D50DC1C9665FA001C963F /* FSJAllFSJ.m in Sources */,
 				85CBED3F1CCA0D0600C4CD8C /* will_mosq.c in Sources */,

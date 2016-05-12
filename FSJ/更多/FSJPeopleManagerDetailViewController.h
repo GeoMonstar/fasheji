@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, DetailInfoType){
     StationManageDetail,
     FSJManageDetail
 };
-@interface FSJPeopleManagerDetailViewController : UIViewController
+@interface FSJPeopleManagerDetailViewController : FSJBaseViewController
 
 
 @property (nonatomic,assign)DetailInfoType DetailInfoType;
