@@ -13,6 +13,7 @@
 @synthesize BackBtn =_BackBtn;
 @synthesize HeadBtn =_HeadBtn;
 @synthesize logoutBtn =_logoutBtn;
+@synthesize BackImg = _BackImg;
 - (void)awakeFromNib {
     // Initialization code
 }

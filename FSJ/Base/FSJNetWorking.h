@@ -1,13 +1,13 @@
 //
-//  FSJNetWorking.h
+//  FSJNetworking.h
 //  FSJ
 //
-//  Created by Monstar on 16/3/3.
+//  Created by Monstar on 16/5/16.
 //  Copyright © 2016年 Monstar. All rights reserved.
 //
 
-#import <AFNetworking/AFNetworking.h>
 #import <Foundation/Foundation.h>
+#import <AFNetworking/AFNetworking.h>
 typedef NS_ENUM(NSInteger, NetworkConnectionActionType){
     /**
      *  @brief  登录 POST
@@ -77,40 +77,37 @@ typedef NS_ENUM(NSInteger, NetworkConnectionActionType){
      *  @brief 工作状态
      */
     GetGongzuo,
+    /**
+     *  @brief 更新
+     */
+    VerisonInfo,
+    /**
+     *  @brief 版本信息
+     */
+    GetVerisonInfo,
     
 };
 typedef NS_ENUM(NSInteger, UploadActionType) {
     UserHeaderImageAction = 1 <<4,
 };
 typedef void(^UploadFormDataBlock) (id<AFMultipartFormData> formData);
-@interface FSJNetWorking : AFHTTPRequestOperationManager
-+ (AFHTTPRequestOperationManager *)networkingGETWithURL:(NSString *)URL
-                                             requestDictionary:(NSDictionary *)requestDictionary
-                                                       success:(void (^)(AFHTTPRequestOperation *operation, NSDictionary* responseObject))success
-                                                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-
-+ (AFHTTPRequestOperation *)networkingPOSTWithActionType:(NetworkConnectionActionType)actionType
-                                           requestDictionary:(NSDictionary *)requestDictionary
-                                                     success:(void (^)(AFHTTPRequestOperation *operation, NSDictionary* responseObject))success
-                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-+ (AFHTTPRequestOperation *)networkingPostIconWithActionType:(NetworkConnectionActionType)actionType
-                                       requestDictionary:(NSDictionary *)requestDictionary
-                                                 success:(void (^)(AFHTTPRequestOperation *operation, NSDictionary* responseObject))success
-                                                 failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-+ (AFHTTPRequestOperationManager *)networkingGETWithActionType:(NetworkConnectionActionType)actionType
-                                   requestDictionary:(NSDictionary *)requestDictionary
-                                             success:(void (^)(AFHTTPRequestOperation *operation, NSDictionary* responseObject))success
-                                             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-+ (void)uploadDataWithActionType:(NetworkConnectionActionType)actionType
-               requestDictionary:(NSDictionary *)requestDictionary
-                  uploadFormData:(NSArray *)imageData
-                         success:(void (^)(id responseObject))success
-                         failure:(void (^)(NSString *error))failure;
-
-+ (void)requestPoliceDataStoreWithParameters:(NSArray *)parameters
-                                  actionType:(NetworkConnectionActionType )actionType
-                               progressBlock:(void (^)(
-                                                       NSUInteger numberOfFinishedOperations,NSUInteger totalNumberOfOperations))progressBlock
-                                  completion:(void (^)(NSArray *results, NSError *error))completion;
+@interface FSJNetworking : AFHTTPSessionManager
++(AFHTTPSessionManager *)networkingGETWithURL:(NSString *)URL
+                            requestDictionary:(NSDictionary *)requestDictionary
+                                      success:(void (^)(NSURLSessionDataTask *operation, NSDictionary* responseObject))success
+                                      failure:(void (^)(NSURLSessionDataTask * operation, NSError *error))failure;
++ (AFHTTPSessionManager *)networkingGETWithActionType:(NetworkConnectionActionType)actionType
+                                    requestDictionary:(NSDictionary *)requestDictionary
+                                              success:(void (^)(NSURLSessionDataTask *operation, NSDictionary* responseObject))success
+                                              failure:(void (^)(NSURLSessionDataTask *operation, NSError *error))failure;
++ (AFHTTPSessionManager *)networkingPOSTWithActionType:(NetworkConnectionActionType)actionType
+                                     requestDictionary:(NSDictionary *)requestDictionary
+                                               success:(void (^)(NSURLSessionDataTask *operation, NSDictionary* responseObject))success
+                                               failure:(void (^)(NSURLSessionDataTask *operation, NSError *error))failure;
++ (AFHTTPSessionManager *)networkingPostIconWithActionType:(NetworkConnectionActionType)actionType
+                                         requestDictionary:(NSDictionary *)requestDictionary
+                                                  formdata:(void (^)(id<AFMultipartFormData>formData))data
+                                                   success:(void (^)(NSURLSessionDataTask *operation,NSDictionary* responseObject))success
+                                                   failure:(void (^)(NSURLSessionDataTask *operation, NSError *error))failure;
 
 @end

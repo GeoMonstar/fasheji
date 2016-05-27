@@ -35,7 +35,6 @@
 		8528A5F81C87E61E009A258D /* FSJUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A5F71C87E61E009A258D /* FSJUITests.m */; };
 		8528A60A1C87ECDE009A258D /* FSJUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6091C87ECDE009A258D /* FSJUserInfo.m */; };
 		8528A60D1C880A7E009A258D /* FSJBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A60C1C880A7E009A258D /* FSJBaseModel.m */; };
-		8528A6141C881002009A258D /* FSJNetWorking.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6131C881002009A258D /* FSJNetWorking.m */; };
 		8528A6171C88128F009A258D /* FSJDES.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6161C88128F009A258D /* FSJDES.m */; };
 		8528A61A1C8812DF009A258D /* CQEncrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6191C8812DF009A258D /* CQEncrypt.m */; };
 		8528A6211C8815FB009A258D /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6201C8815FB009A258D /* GTMBase64.m */; };
@@ -71,6 +70,8 @@
 		85589C351CDC897200ADAAC1 /* PingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C281CDC897200ADAAC1 /* PingHelper.m */; };
 		85589C361CDC897200ADAAC1 /* RealReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C2A1CDC897200ADAAC1 /* RealReachability.m */; };
 		85589C391CDC936200ADAAC1 /* FSJBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */; };
+		856CA1C41CF7E5B0008C6B16 /* FSJUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 856CA1C31CF7E5B0008C6B16 /* FSJUpdateView.m */; };
+		856F3D311CE9CB3400CDCB96 /* FSJNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 856F3D301CE9CB3400CDCB96 /* FSJNetworking.m */; };
 		85743C071CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85743C051CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m */; };
 		85743C081CC726E0007F55B7 /* FSJSecondDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85743C061CC726E0007F55B7 /* FSJSecondDetailTableViewCell.xib */; };
 		858869E01CD095E70066CDCA /* FSJJiankongBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 858869DF1CD095E70066CDCA /* FSJJiankongBase.m */; };
@@ -178,8 +179,6 @@
 		8528A6091C87ECDE009A258D /* FSJUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJUserInfo.m; sourceTree = "<group>"; };
 		8528A60B1C880A7E009A258D /* FSJBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJBaseModel.h; sourceTree = "<group>"; };
 		8528A60C1C880A7E009A258D /* FSJBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJBaseModel.m; sourceTree = "<group>"; };
-		8528A6121C881002009A258D /* FSJNetWorking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJNetWorking.h; sourceTree = "<group>"; };
-		8528A6131C881002009A258D /* FSJNetWorking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJNetWorking.m; sourceTree = "<group>"; };
 		8528A6151C88128F009A258D /* FSJDES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJDES.h; sourceTree = "<group>"; };
 		8528A6161C88128F009A258D /* FSJDES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJDES.m; sourceTree = "<group>"; };
 		8528A6181C8812DF009A258D /* CQEncrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQEncrypt.h; sourceTree = "<group>"; };
@@ -250,6 +249,10 @@
 		85589C2A1CDC897200ADAAC1 /* RealReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealReachability.m; sourceTree = "<group>"; };
 		85589C371CDC936200ADAAC1 /* FSJBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJBaseViewController.h; sourceTree = "<group>"; };
 		85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJBaseViewController.m; sourceTree = "<group>"; };
+		856CA1C21CF7E5B0008C6B16 /* FSJUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJUpdateView.h; sourceTree = "<group>"; };
+		856CA1C31CF7E5B0008C6B16 /* FSJUpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJUpdateView.m; sourceTree = "<group>"; };
+		856F3D2F1CE9CB3400CDCB96 /* FSJNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJNetworking.h; sourceTree = "<group>"; };
+		856F3D301CE9CB3400CDCB96 /* FSJNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJNetworking.m; sourceTree = "<group>"; };
 		85743C041CC726E0007F55B7 /* FSJSecondDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJSecondDetailTableViewCell.h; sourceTree = "<group>"; };
 		85743C051CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJSecondDetailTableViewCell.m; sourceTree = "<group>"; };
 		85743C061CC726E0007F55B7 /* FSJSecondDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSJSecondDetailTableViewCell.xib; sourceTree = "<group>"; };
@@ -494,8 +497,8 @@
 				85BCBF3C1C994F2C00686D07 /* FSJBaseMoreViewController.m */,
 				859DF59D1C892D3D00107467 /* AppKeys.h */,
 				859DF59E1C892D3D00107467 /* AppKeys.m */,
-				8528A6121C881002009A258D /* FSJNetWorking.h */,
-				8528A6131C881002009A258D /* FSJNetWorking.m */,
+				856F3D2F1CE9CB3400CDCB96 /* FSJNetworking.h */,
+				856F3D301CE9CB3400CDCB96 /* FSJNetworking.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -833,6 +836,8 @@
 				8512B93C1C929D8F00DCB952 /* FSJMineTableViewCell.h */,
 				8512B93D1C929D8F00DCB952 /* FSJMineTableViewCell.m */,
 				8512B93E1C929D8F00DCB952 /* FSJMineTableViewCell.xib */,
+				856CA1C21CF7E5B0008C6B16 /* FSJUpdateView.h */,
+				856CA1C31CF7E5B0008C6B16 /* FSJUpdateView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1039,6 +1044,7 @@
 				850EAC1E1C9A7D9D002C577E /* FSJChangePersonInfoViewController.m in Sources */,
 				85589C311CDC897200ADAAC1 /* ReachStateUnReachable.m in Sources */,
 				850EAC211C9AB660002C577E /* FSJTongjiViewController.m in Sources */,
+				856F3D311CE9CB3400CDCB96 /* FSJNetworking.m in Sources */,
 				85589C391CDC936200ADAAC1 /* FSJBaseViewController.m in Sources */,
 				8528A60D1C880A7E009A258D /* FSJBaseModel.m in Sources */,
 				85589C361CDC897200ADAAC1 /* RealReachability.m in Sources */,
@@ -1068,6 +1074,7 @@
 				85381E1A1CBF7FC70080F027 /* WBPopMenuSingleton.m in Sources */,
 				859DF5891C89245600107467 /* LoginTableViewCell.m in Sources */,
 				85589C331CDC897200ADAAC1 /* ReachStateWWAN.m in Sources */,
+				856CA1C41CF7E5B0008C6B16 /* FSJUpdateView.m in Sources */,
 				85CBED2F1CCA0D0600C4CD8C /* logging_mosq.c in Sources */,
 				85CA7D511C9810E2005F22C4 /* FSJCollectionViewCell.m in Sources */,
 				85CBED391CCA0D0600C4CD8C /* send_mosq.c in Sources */,
@@ -1080,7 +1087,6 @@
 				8512B93F1C929D8F00DCB952 /* FSJMineTableViewCell.m in Sources */,
 				8528A5DF1C87E61D009A258D /* main.m in Sources */,
 				85589C301CDC897200ADAAC1 /* ReachStateUnloaded.m in Sources */,
-				8528A6141C881002009A258D /* FSJNetWorking.m in Sources */,
 				85589C321CDC897200ADAAC1 /* ReachStateWIFI.m in Sources */,
 				85D6C7B31CC0EB7900606270 /* FSJTabbarBtn.m in Sources */,
 				85AAE8F51C917CAF00E6B415 /* MyAnimatedAnnotationView.m in Sources */,

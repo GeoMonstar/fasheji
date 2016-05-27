@@ -12,7 +12,7 @@
 @synthesize UserInfoIcon = _UserInfoIcon;
 @synthesize UserInfoname = _UserInfoname;
 @synthesize UserInfocontent = _UserInfocontent;
-
+@synthesize checkLabel = _checkLabel;
 
 - (void)awakeFromNib {
     // Initialization code

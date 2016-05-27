@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *UserInfoIcon;
 @property (weak, nonatomic) IBOutlet UILabel *UserInfoname;
 @property (weak, nonatomic) IBOutlet UILabel *UserInfocontent;
+@property (weak, nonatomic) IBOutlet UILabel *checkLabel;
 
 
 

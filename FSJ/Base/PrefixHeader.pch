@@ -10,8 +10,8 @@
 #define PrefixHeader_pch
 #ifndef W_H_
 #define W_H_
-#define WIDTH self.view.bounds.size.width
-#define HEIGH self.view.bounds.size.height
+#define WIDTH [UIScreen mainScreen].bounds.size.width
+#define HEIGH [UIScreen mainScreen].bounds.size.height
 #endif
 #define iPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
 
@@ -46,6 +46,7 @@
 #define BaseImgURL      @"http://192.168.10.94:8080"
 #define PgyAppID        @"85838383eb2e34b6a2b49fa95c94be8b"
 #define THWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
+///Users/jiangdake/Library/Developer/Xcode/DerivedData
 #define AccountChanged @"该用户已在其他设备登录"
 #pragma mark - pod
 #import "SVProgressHUD.h"
@@ -66,7 +67,7 @@
 #import "WBPopMenuSingleton.h"
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>
-//#import "HMSegmentedControl.h"
+
 #import <HMSegmentedControl.h>
 #import "RealReachability.h"
 #pragma mark - class

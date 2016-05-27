@@ -1,4 +1,4 @@
-pod 'AFNetworking','2.6.3'
+pod 'AFNetworking'
 pod 'Masonry'
 pod 'SVProgressHUD'
 pod 'MBProgressHUD'

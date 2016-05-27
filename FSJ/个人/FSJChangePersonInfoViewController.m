@@ -8,7 +8,7 @@
 
 #import "FSJChangePersonInfoViewController.h"
 
-@interface FSJChangePersonInfoViewController (){
+@interface FSJChangePersonInfoViewController ()<UITextFieldDelegate>{
     UITextField *firstInput;
     UITextField *secondInput;
     UITextField *thirdInput;
@@ -40,7 +40,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = SystemLightGrayColor;
     self.navigationController.navigationBarHidden = NO;
-
+    firstInput.delegate = self;
     jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
 //    if(self.changeType == Username){
 //        [self createUIwith:@"姓名"];
@@ -146,7 +146,7 @@
     if (firstInput.text && secondInput.text && thirdInput.text  ) {
         if ([secondInput.text isEqualToString:thirdInput.text]) {
         NSDictionary *dic = @{@"jwt":jwtStr,@"oldPassword":firstInput.text,@"newPassword":secondInput.text};
-         [FSJNetWorking networkingPOSTWithActionType:UserPwdChange requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+         [FSJNetworking networkingPOSTWithActionType:UserPwdChange requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
              FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
                          if ([model.status isEqualToString:@"200"]) {
                              [SVProgressHUD showSuccessWithStatus:model.message];
@@ -154,7 +154,7 @@
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                  [self.navigationController popViewControllerAnimated:YES];
              });
-         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         } failure:^(NSURLSessionDataTask *operation, NSError *error) {
              [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
          }];
         }
@@ -196,7 +196,7 @@
             [SVProgressHUD showErrorWithStatus:@"请输入验证码"];
         }else{
             NSDictionary *dic = @{@"jwt":jwtStr,dicStr:firstInput.text};
-            [FSJNetWorking networkingPOSTWithActionType:UserInfoChange requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            [FSJNetworking networkingPOSTWithActionType:UserInfoChange requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
                 FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
                         if ([model.status isEqualToString:@"200"]) {
                             [SVProgressHUD showSuccessWithStatus:model.message];
@@ -204,12 +204,13 @@
                      [self.navigationController popViewControllerAnimated:YES];
                      });
                 }
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            } failure:^(NSURLSessionDataTask *operation, NSError *error) {
                 [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
             }];
         }
     }
 }
+
 - (void)createNav{
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];

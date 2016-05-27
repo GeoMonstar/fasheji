@@ -130,7 +130,6 @@
                 view.backgroundColor = SystemBlueColor;
             }
         }
-
         index = [NSString stringWithFormat:@"%ld",sender.tag-600+2];
         [self shuanxinViewFirstWith:index andWith:YES];
     }
@@ -195,7 +194,7 @@
 }
 - (void)shuanxinViewFirstWith:(NSString *)str andWith:(BOOL)show{
     NSDictionary *dic= @{@"transId":self.fsjId,@"ip":self.addressId,@"from":@"device",@"jwt":jwtStr,@"index":str};
-    [FSJNetWorking networkingGETWithActionType:GetGongxiaoDetail requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:GetGongxiaoDetail requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJGongxiao *basemodel = [FSJGongxiao initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.main != nil) {
             FSJGongxiaoDetail *model = [FSJGongxiaoDetail initWithDictionary:basemodel.main];
@@ -205,9 +204,10 @@
         else{
             [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -219,7 +219,7 @@
 }
 - (void)creatViewFirstWith:(NSString *)str andWith:(BOOL)show{
     NSDictionary *dic = @{@"transId":self.fsjId,@"jwt":jwtStr,@"type":str};
-    [FSJNetWorking networkingGETWithActionType:GetGongxiao requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:GetGongxiao requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
          FSJGongxiao *basemodel = [FSJGongxiao initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"]   && basemodel.main != nil) {
             if (show) {
@@ -236,9 +236,10 @@
         else{
          [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -250,7 +251,7 @@
 }
 - (void)creatViewThirdwith:(NSString *)str{
     NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr};
-    [FSJNetWorking networkingGETWithActionType:GetZhengji requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:GetZhengji requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJJiankongBase *basemodel = [FSJJiankongBase initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.data != nil){
             [SVProgressHUD dismiss];
@@ -273,9 +274,10 @@
         else{
             [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -287,7 +289,7 @@
 }
 - (void)creatViewFourwith:(NSString *)str{
     NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr };
-    [FSJNetWorking networkingGETWithActionType:GetGongzuo requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:GetGongzuo requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         
         FSJJiankongBase *basemodel = [FSJJiankongBase initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"] && basemodel.data != nil) {
@@ -323,9 +325,10 @@
         else{
             [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];

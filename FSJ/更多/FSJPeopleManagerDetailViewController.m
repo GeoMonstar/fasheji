@@ -86,7 +86,7 @@
             break;
     }
     NSDictionary *dic = @{head:self.managerID,@"jwt":jwt};
-    [FSJNetWorking networkingGETWithURL:url requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithURL:url requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         model = [FSJResultList initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
                 //[SVProgressHUD dismiss];
@@ -99,9 +99,10 @@
         else{
             [SVProgressHUD showErrorWithStatus:model.message];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];

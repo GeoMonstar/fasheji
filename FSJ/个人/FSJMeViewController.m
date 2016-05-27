@@ -12,9 +12,8 @@
 #import "FSJChangePersonInfoViewController.h"
 @interface FSJMeViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     FSJUserInfo *userInfomodel;
-   // UITableView *myTableView;
     UITapGestureRecognizer *tap;
-   // UIImage *iconImg;
+   
 }
 @property (nonatomic, strong)UITableView *myTableView;
 @end
@@ -28,7 +27,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         _myTableView.delegate = self;
         _myTableView.dataSource = self;
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        _myTableView.scrollEnabled = NO;
+        _myTableView.scrollEnabled = YES;
         _myTableView.bounces = NO;
         [_myTableView registerNib:[UINib nibWithNibName:@"FSJTopTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:MineHeaderViewCell];
         [_myTableView registerNib:[UINib nibWithNibName:@"FSJMineTableViewCell" bundle:[NSBundle mainBundle]]forCellReuseIdentifier:MineInfoTableViewCell];
@@ -41,13 +40,14 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 20)];
     statusBarView.backgroundColor=SystemBlueColor;
     [self.view addSubview:statusBarView];
-    
-    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
+ 
 }
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    [self getUserInfo];
     [self initTableview];
+    [self getUserInfo];
+    
     self.navigationController.navigationBarHidden = YES;
 }
 - (void)viewWillDisappear:(BOOL)animated{
@@ -57,7 +57,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 - (void)getUserInfo{
     NSDictionary *dic = @{@"jwt":_jwtStr};
-    [FSJNetWorking networkingGETWithActionType:UserInfoPreview requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:UserInfoPreview requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         if (responseObject) {
             userInfomodel = [FSJUserInfo initWithDictionary:responseObject];
             if (userInfomodel.photo) {
@@ -70,12 +70,11 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         else{
             NSLog(@"返回数据为空");
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"%@",error);
     }];
 }
 - (void)initTableview{
-   
     [self.view addSubview:self.myTableView];
 }
 #pragma mark UITableView Datasource
@@ -92,7 +91,6 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    
     switch (sectionIndex) {
         case 0:
             return 1;
@@ -101,7 +99,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             return 7;
             break;
         case 2:
-            return 1;
+            return 2;
             break;
         default:
             return 0;
@@ -111,16 +109,20 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.1;
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 5;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section == 0){
         FSJTopTableViewCell *cell = [self.myTableView dequeueReusableCellWithIdentifier:MineHeaderViewCell];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell.BackBtn setBackgroundImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+        //[cell.BackBtn setBackgroundImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+        cell.BackImg.image = [UIImage imageNamed:@"fanhui"];
         [cell.BackBtn addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];
         cell.backgroundColor = SystemBlueColor;
         cell.BackBtn.tag = 600;
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",BaseImgURL,userInfomodel.photo]];
-         cell.HeadBtn.layer.cornerRadius = 40;
+        cell.HeadBtn.layer.cornerRadius = 40;
         cell.HeadBtn.layer.masksToBounds = YES;
        // [cell.HeadBtn setBackgroundImage:iconImg forState:UIControlStateNormal];
         [cell.HeadBtn sd_setBackgroundImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"yonghutouxiang.png"]];
@@ -132,11 +134,17 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         return cell;
     }
     NSArray* temp01 = @[@"用户名:",@"真实姓名:",@"工号:",@"手机号:",@"固机号:",@"邮箱:",@"归属机构:"];
-    NSArray* temp02 = @[@"修改密码"];
+    NSArray* temp02 = @[@"修改密码",@"检查新版本"];
     FSJMineTableViewCell *cell = [self.myTableView dequeueReusableCellWithIdentifier:MineInfoTableViewCell];
     cell.UserInfoIcon.contentMode = UIViewContentModeScaleAspectFit;
     cell.UserInfoname.font = [UIFont systemFontOfSize:14];
     cell.UserInfocontent.font = [UIFont systemFontOfSize:14];
+    cell.checkLabel.hidden = YES;
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    // app build版本
+    
+    
     switch (indexPath.section) {
         case 1:
             cell.UserInfoname.text = temp01[indexPath.row];
@@ -185,6 +193,19 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
                     cell.UserInfoname.text = @"修改密码";
                     cell.UserInfocontent.text = @"";
                     break;
+                case 1:
+                    if ([self.VersionStr isEqualToString: @""]) {
+                        [self.myTableView reloadData];
+                    }
+                    if (![app_Version isEqualToString:self.VersionStr]) {
+                        cell.checkLabel.hidden = NO;
+                        cell.checkLabel.text = @"发现新版本";
+                    }
+                    
+                    cell.UserInfoIcon.image = [UIImage imageNamed:@"banben"];
+                    cell.UserInfoname.text = @"检查新版本";
+                    cell.UserInfocontent.text = @"";
+                    break;
                     
                 default:
                     break;
@@ -196,6 +217,8 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     FSJChangePersonInfoViewController *vc = [[FSJChangePersonInfoViewController alloc]init];
+    //取消选中效果
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 ) {
         return;
     }
@@ -228,25 +251,72 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
  
         vc.changeType = Userpwd;
     }
+    if (indexPath.section == 2 && indexPath.row == 1) {
+        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(updateMethod:)];
+        return;
+    }
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)updateMethod:(id)sender{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    // app build版本
+  
+        if ([app_Version isEqualToString:self.VersionStr]) {
+            UILabel *alertLabel = [[UILabel alloc]initWithFrame:CGRectMake(WIDTH/2-WIDTH*0.35, HEIGH*0.75, WIDTH*0.7, 35)];
+            alertLabel.layer.cornerRadius = 5;
+            alertLabel.layer.masksToBounds = YES;
+            alertLabel.backgroundColor = [UIColor grayColor];
+            alertLabel.textColor = [UIColor whiteColor];
+            alertLabel.textAlignment = NSTextAlignmentCenter;
+            alertLabel.text = @"已经是最新版本";
+            [self.view addSubview:alertLabel];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [alertLabel removeFromSuperview];
+            });
+        }
+        else{
+            NSDictionary *getdic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
+            [FSJNetworking networkingGETWithActionType:GetVerisonInfo requestDictionary:getdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+                NSString *logStr = [responseObject objectForKey:@"log"];
+                
+                UIAlertController *acView = [UIAlertController alertControllerWithTitle:@"发现新版本" message:logStr preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                UIAlertAction *yes = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.pgyer.com/oSSb"]];
+                }];
+                [acView addAction:yes];
+                [acView addAction:no];
+                
+                [self presentViewController:acView animated:YES completion:nil];
+                
+            } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+                NSLog(@"%@",error);
+            }];
+            
+            
+            
+           
+        }
+    
+    
 }
 #pragma mark -- 按钮响应
 - (void)logout:(UIButton *)sender{
      
     [self.navigationController popToRootViewControllerAnimated:YES];
     NSDictionary *dic = @{@"jwt":self.jwtStr};
-    [FSJNetWorking networkingPOSTWithActionType:UserLogoutAction requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingPOSTWithActionType:UserLogoutAction requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
             //[SVProgressHUD showSuccessWithStatus:model.message];
              [[EGOCache globalCache]clearCache];
              [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-
         }
-      
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -346,40 +416,25 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 //     
 //}
 - (void)doUpload:(NSData *) imageData {
-    // [SVProgressHUD showWithStatus:@"头像修改中"];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-    manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
-    [manager.requestSerializer willChangeValueForKey:@"timeOut"];
-    manager.requestSerializer.timeoutInterval = 30.f;
-    [manager.requestSerializer didChangeValueForKey:@"timeOut"];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"text/html",@"text/json",@"application/json",@"text/javascript", nil];
-    NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,@"/rs/user/upload/photo"];
-    //NSString *filename = [NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]];
-   // NSLog(@"filename = %@", filename);
+    [SVProgressHUD showWithStatus:@"头像修改中"];
     //参数注意
     NSDictionary *dict = @{@"jwt":self.jwtStr};
-        [manager
-         POST:url
-         parameters:dict
-         constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-             [formData appendPartWithFileData:imageData name:@"file" fileName:@"user.png" mimeType:@"image/jpeg"];
-         }
-         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             FSJUserInfo * tempuser = [FSJUserInfo initWithDictionary:responseObject];
-             if ([tempuser.status isEqualToString:@"200"]) {
-                 [SVProgressHUD showSuccessWithStatus:@"头像上传成功"];
-                 [self getUserInfo];
-             }else{
-                 [SVProgressHUD showErrorWithStatus:tempuser.message];
-                 NSLog(@"上传头像错误信息 = %@",tempuser.message);
-             }
-         }
-         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                 [SVProgressHUD showErrorWithStatus:@"网络连接失败"];
-                 NSLog(@"%@", error);
-            }
-     ];
+    [FSJNetworking networkingPostIconWithActionType:UserIconUpload requestDictionary:dict formdata:^(id<AFMultipartFormData> formData) {
+         [formData appendPartWithFileData:imageData name:@"file" fileName:@"user.png" mimeType:@"image/jpeg"];
+    } success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+        FSJUserInfo * tempuser = [FSJUserInfo initWithDictionary:responseObject];
+        if ([tempuser.status isEqualToString:@"200"]) {
+            [SVProgressHUD showSuccessWithStatus:@"头像上传成功"];
+            [self getUserInfo];
+        }else{
+            [SVProgressHUD showErrorWithStatus:tempuser.message];
+            NSLog(@"上传头像错误信息 = %@",tempuser.message);
+        }
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"网络连接失败"];
+        NSLog(@"%@", error);
+    }];
+
 }
 @end
 

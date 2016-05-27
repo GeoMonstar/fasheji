@@ -20,6 +20,10 @@
     //carsh
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
     [[PgyManager sharedPgyManager] startManagerWithAppId:PgyAppID];
+    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PgyAppID];
+    //[[PgyUpdateManager sharedPgyManager] checkUpdate];
+    
+    
     NSString *str = [[NSBundle mainBundle] bundleIdentifier];
     NSLog(@"%@",str);
         _mapManager = [[BMKMapManager alloc]init];

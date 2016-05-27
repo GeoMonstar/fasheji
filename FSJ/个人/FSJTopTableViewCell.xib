@@ -16,17 +16,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zcg-0g-Xtf">
-                        <rect key="frame" x="120" y="7" width="80" height="80"/>
+                        <rect key="frame" x="120" y="6" width="80" height="80"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="hmj-DH-86L"/>
                             <constraint firstAttribute="height" constant="80" id="jv4-O5-tMf"/>
                         </constraints>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gne-mN-XcH" customClass="FSJTabbarBtn">
-                        <rect key="frame" x="18" y="33" width="20" height="20"/>
+                        <rect key="frame" x="18" y="33" width="50" height="50"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="E4M-MJ-RnZ"/>
-                            <constraint firstAttribute="height" constant="20" id="pbt-lD-ZWz"/>
+                            <constraint firstAttribute="width" constant="50" id="E4M-MJ-RnZ"/>
+                            <constraint firstAttribute="height" constant="50" id="pbt-lD-ZWz"/>
                         </constraints>
                         <state key="normal">
                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -43,10 +43,19 @@
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dR9-9q-W7P">
+                        <rect key="frame" x="18" y="33" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="FTg-sv-qOx"/>
+                            <constraint firstAttribute="height" constant="20" id="M3t-Fe-c51"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="gne-mN-XcH" firstAttribute="top" secondItem="dR9-9q-W7P" secondAttribute="bottom" constant="-20" id="08s-hh-hTN"/>
                     <constraint firstItem="ljm-Wi-1hE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="25" id="4yz-a0-tfN"/>
                     <constraint firstItem="gne-mN-XcH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="fDD-XQ-Zn4"/>
+                    <constraint firstItem="dR9-9q-W7P" firstAttribute="leading" secondItem="gne-mN-XcH" secondAttribute="trailing" constant="-50" id="mxN-Eg-r9a"/>
                     <constraint firstItem="zcg-0g-Xtf" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="tOf-CA-tXB"/>
                     <constraint firstItem="zcg-0g-Xtf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="xq1-3O-abS"/>
                     <constraint firstAttribute="trailingMargin" secondItem="ljm-Wi-1hE" secondAttribute="trailing" constant="22" id="ygH-T3-0NT"/>
@@ -55,6 +64,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="BackBtn" destination="gne-mN-XcH" id="e2r-Za-SpR"/>
+                <outlet property="BackImg" destination="dR9-9q-W7P" id="UFi-aJ-kNZ"/>
                 <outlet property="HeadBtn" destination="zcg-0g-Xtf" id="QOR-Yh-F9r"/>
                 <outlet property="logoutBtn" destination="ljm-Wi-1hE" id="axj-LV-06T"/>
             </connections>

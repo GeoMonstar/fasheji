@@ -11,4 +11,5 @@
 @interface FSJMeViewController : FSJBaseViewController
 
 @property (nonatomic,copy)NSString *jwtStr;
+@property (nonatomic,copy)NSString *VersionStr;
 @end

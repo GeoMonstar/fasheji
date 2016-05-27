@@ -84,19 +84,20 @@
         dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/alarm/history/list";
     }
+    FSJWeakSelf(weakself);
     self.myTable.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self loadDataWhenDraggingDown];
+        [weakself loadDataWhenDraggingDown];
     }];
      [mysearchBar setPlaceholder:placeHolder];
     
     // 设置表格视图的触底加载(上拉刷新)
     self.myTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         isDraggingDown = NO;
-        if (self.dataArray.count > 0) {
-            [self loadDataWhenReachingBottom];
+        if (weakself.dataArray.count > 0) {
+            [weakself loadDataWhenReachingBottom];
         }
         else {
-            [self endRefreshing];
+            [weakself endRefreshing];
         }
     }];
     [self loadDataWhenDraggingDown];
@@ -112,7 +113,7 @@
     count ++;
     isDraggingDown = NO;
     
-     [self startNetworkWith:url andDic:dic];
+    [self startNetworkWith:url andDic:dic];
 }
 // 结束下拉或上拉刷新状态
 - (void) endRefreshing {
@@ -127,7 +128,7 @@
     NSLog(@"%ld",(long)count);
     //[SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     //[SVProgressHUD showWithStatus:@"加载中"];
-    [FSJNetWorking networkingGETWithURL:neturl requestDictionary:dict success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithURL:neturl requestDictionary:dict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
          NSMutableArray *tempArray = [NSMutableArray array];
         if ([model.status isEqualToString:@"200"]) {
@@ -152,9 +153,10 @@
                 [self endRefreshing];
             }
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSDictionary *errordic = operation.responseObject;
-        if ([[errordic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];

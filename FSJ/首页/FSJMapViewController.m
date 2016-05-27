@@ -107,6 +107,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     NSString *tableViewTitle;
     AppDelegate *appDelegate;
     CLLocationCoordinate2D startpoint;
+    NSString * versionStr;
 }
 //@property (nonatomic, strong)NSMutableArray *allsite;
 @property (nonatomic, strong)UITableView *mytableView;
@@ -202,6 +203,35 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     if ([staticareaType isEqualToString:@"3"]) {
         [self getCityStationWith:dic and:YES];
     }
+    
+   
+        NSString *jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
+        NSDictionary *verdic = @{@"jwt":jwtStr};
+        
+        [FSJNetworking networkingGETWithActionType:VerisonInfo requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+          versionStr   = [[responseObject objectForKey:@"version"]substringFromIndex:1];
+            NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+            NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+            // app build版本
+            
+            if ([app_Version isEqualToString:versionStr]) {
+                [SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
+            }
+            else{
+                UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"新版本可以更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                UIAlertAction *yes = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.pgyer.com/oSSb"]];
+                }];
+                [ac addAction:no];
+                [ac addAction:yes];
+                [self presentViewController:ac animated:YES completion:nil];
+            }
+            
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+    
 }
 //- (void)initMap{
 //
@@ -455,8 +485,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         if (iPhone6plus || iPhone6) {
             [btn setFont:[UIFont systemFontOfSize: 13.0]];
         }
-        else{
-            [btn setFont:[UIFont systemFontOfSize: 7.0]];
+        else if(iPhone5){
+            [btn setFont:[UIFont systemFontOfSize: 8.0]];
+        }
+        else if(iPhone4){
+            [btn setFont:[UIFont systemFontOfSize: 10.0]];
         }
          btn.imageView.backgroundColor = [UIColor clearColor];
         //[btn setTitleEdgeInsets:UIEdgeInsetsMake(HEIGH *0.035,-20, 0, 20)];
@@ -738,7 +771,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 - (void)searchWithModelwith:(NSDictionary *)dic{
 
     showProvince = YES;
-    [FSJNetWorking networkingGETWithActionType:NationalarmStatus requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:NationalarmStatus requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
             for (NSDictionary *dic in model.list) {
@@ -770,10 +803,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         else{
             [SVProgressHUD showErrorWithStatus:model.message];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"%@",error);
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -791,7 +825,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     for (int i = 0; i < arrID.count; i++) {
         NSMutableArray *modelArr = @[].mutableCopy;
         NSDictionary *requestdic = @{@"areaId":arrID[i],@"areaType":@"2",@"userId":staticuserId,@"jwt":staticJwt};
-        [FSJNetWorking networkingGETWithActionType:AreaalarmStatus requestDictionary:requestdic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        [FSJNetworking networkingGETWithActionType:AreaalarmStatus requestDictionary:requestdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
             FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
             if ([model.status isEqualToString:@"200"]) {
 //                [cityNormal   removeAllObjects];
@@ -849,9 +883,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 //                }
             }
           
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSDictionary *dic = operation.responseObject;
-            if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+            NSArray *array = error.userInfo.allValues;
+            NSHTTPURLResponse *response = array[0];
+            if (response.statusCode ==401 ) {
                 [SVProgressHUD showInfoWithStatus:AccountChanged];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -892,7 +927,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         //NSDictionary *dic = (NSDictionary *)[[EGOCache globalCache]objectForKey:staticAreaname];
         if ([staticareaType isEqualToString:@"1"]) {
             showCity = YES;
-            [cityoverlayErr     addObjectsFromArray:[self createPolgonWith:cityError andId:cityidError and:result and:@"1" and:NO]];
+            [cityoverlayErr  addObjectsFromArray:[self createPolgonWith:cityError andId:cityidError and:result and:@"1" and:NO]];
             [cityoverlayNor  addObjectsFromArray:[self createPolgonWith:cityNormal andId:cityNormal and:result and:@"0" and:NO]];
         }
         if ([staticareaType isEqualToString:@"2"]) {
@@ -964,6 +999,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         if (showCity == YES &&!showPop ) {
             [self.mapView addOverlays:cityoverlayNor];
             [self.mapView addOverlays:cityoverlayErr];
+          
             showCity = NO;
         }
         if ( self.mapView.zoomLevel >= ThirdtLevel) {
@@ -1146,7 +1182,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 - (void)getCityStationWith:(NSDictionary *)dic and:(BOOL)show{
         showWarn = YES;
 
-    [FSJNetWorking networkingGETWithActionType:AreaalarmStatus requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:AreaalarmStatus requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         if (responseObject) {
             FSJUserInfo *user = [FSJUserInfo initWithDictionary:responseObject];
             //获取警告数量
@@ -1196,9 +1232,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         else{
             NSLog(@"%@",responseObject);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -1380,7 +1418,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     //[LGProgressHud showLoadingHud:self.mytableView withText:@"" textPosition:TextPositionTypeBottle animated:HudAnimatedTypeTop];
     
     NSDictionary *dic = @{str:ID,@"pageSize":@"8",@"pageNo":@"1",@"jwt":staticJwt};
-    [FSJNetWorking networkingGETWithActionType:type requestDictionary:dic success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:type requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJAllFSJ *model = [FSJAllFSJ initWithDictionary:responseObject];
         NSLog(@"%@",model.message);
         if ([model.status isEqualToString:@"200"]) {
@@ -1408,10 +1446,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             }
         }
 
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
-        NSDictionary *dic = operation.responseObject;
-        if ([[dic objectForKey:@"status"] isEqualToString:@"401"] ) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -1485,7 +1523,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (indexPath.section == 0) {
         return 50;
     }
@@ -1584,7 +1621,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         detail.managerID = model.transId;
         [self.navigationController pushViewController:detail animated:YES];
     }
-    //取消选中效果
+    
 }
     else{
                 NSMutableArray *arr = @[].mutableCopy;
@@ -1600,6 +1637,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
          mainSearchbar.text = self.lenovoTableArray[indexPath.row];
         
     }
+    //取消选中效果
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 #pragma mark -- 导航
@@ -1607,6 +1645,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
        FSJMeViewController *me = [[FSJMeViewController alloc]init];
         me.jwtStr = staticJwt;
+        me.VersionStr = versionStr;
         [self.navigationController pushViewController:me animated:YES];
         [[WBPopMenuSingleton shareManager]hideMenu];
     // [self changeStatusWith:@[@"1/11/12/10001",@"0"]];
