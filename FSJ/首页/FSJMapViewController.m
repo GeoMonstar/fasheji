@@ -19,7 +19,7 @@
 #import "FSJTongjiViewController.h"
 #import "FSJTransPoint.h"
 #import "FSJPopHeadview.h"
-
+#import "FSJNoDataTableViewCell.h"
 #define tableviewHeight self.view.bounds.size.height/4+50
 #define tableviewY      self.view.bounds.size.height/4*3 -50
 #define moveDistance    self.view.bounds.size.height/4
@@ -29,7 +29,7 @@ NSString *keyCityNorID      = @"kCityNorID";
 NSString *keyCityErrorID    = @"kCityErrorID";
 NSString *keyCityErrorCount = @"kCityErrorCount";
 NSString *keyCityNorCount   = @"kCityNorCount";
-@interface FSJMapViewController ()<BMKMapViewDelegate,BMKLocationServiceDelegate,BMKDistrictSearchDelegate,BMKGeoCodeSearchDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIGestureRecognizerDelegate>
+@interface FSJMapViewController ()<BMKMapViewDelegate,BMKLocationServiceDelegate,BMKDistrictSearchDelegate,BMKGeoCodeSearchDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate>
 {
     UIPanGestureRecognizer *cellpan;
     UISwipeGestureRecognizer *swipdown;
@@ -109,7 +109,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     CLLocationCoordinate2D startpoint;
     NSString * versionStr;
 }
-//@property (nonatomic, strong)NSMutableArray *allsite;
+
 @property (nonatomic, strong)UITableView *mytableView;
 @property (nonatomic, strong)BMKMapView *mapView;
 @property (strong, nonatomic) NSMutableArray *lenovoTableArray;
@@ -203,39 +203,36 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     if ([staticareaType isEqualToString:@"3"]) {
         [self getCityStationWith:dic and:YES];
     }
-    
-   
-        NSString *jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
-        NSDictionary *verdic = @{@"jwt":jwtStr};
-        
-        [FSJNetworking networkingGETWithActionType:VerisonInfo requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-          versionStr   = [[responseObject objectForKey:@"version"]substringFromIndex:1];
-            NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-            NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-            // app build版本
-            
-            if ([app_Version isEqualToString:versionStr]) {
-                [SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
-            }
-            else{
-                UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"新版本可以更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-                UIAlertAction *yes = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.pgyer.com/oSSb"]];
-                }];
-                [ac addAction:no];
-                [ac addAction:yes];
-                [self presentViewController:ac animated:YES completion:nil];
-            }
-            
-        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-            NSLog(@"%@",error);
-        }];
-    
+   //[self checkUpdate];
 }
-//- (void)initMap{
-//
-//}
+#pragma mark --检查更新
+- (void)checkUpdate{
+    NSString *jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
+    NSDictionary *verdic = @{@"jwt":jwtStr};
+    [FSJNetworking networkingGETWithActionType:GetVerisonInfo requestDictionary:verdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+        versionStr   = [[responseObject objectForKey:@"version"]substringFromIndex:1];
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        // app build版本
+        
+        if ([app_Version isEqualToString:versionStr]) {
+            // [SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
+        }
+        else{
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"新版本可以更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *yes = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.pgyer.com/oSSb"]];
+            }];
+            [ac addAction:no];
+            [ac addAction:yes];
+            [self presentViewController:ac animated:YES completion:nil];
+        }
+        
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
 #pragma mark -- 警告通知
 - (void)receiveWarnNoti{
     NSLog(@"开始订阅");
@@ -247,7 +244,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakself changeStatusWith:[message payloadString]];
         });
-        
     }];
     [appDelegate.client connectToHost:@"119.6.203.24" completionHandler:^(MQTTConnectionReturnCode code) {
         if (code == ConnectionAccepted) {
@@ -261,8 +257,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             NSDictionary *resultsDic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
             NSString *contentStr = resultsDic[@"content"];
             NSString *statusStr  = resultsDic[@"status"];
-//          NSString *contentStr = jsonString[0];
-//          NSString *statusStr  = jsonString[1];
     NSArray  *arr = [contentStr componentsSeparatedByString:@"/"];
     //{"content":"1/11/12/10000","status":"0"}
     if ([statusStr isEqualToString:@"0"]) {
@@ -463,6 +457,16 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     mainSearchbar.layer.masksToBounds = YES;
     mainSearchbar.barStyle =UIBarStyleBlack;
     mainSearchbar.showsCancelButton = YES;
+    for (UIView* view in mainSearchbar.subviews)
+    {
+        for (UIView *v in view.subviews) {
+            if ( [v isKindOfClass: [UITextField class]] )
+            {
+                UITextField *tf = (UITextField *)v;
+                tf.clearButtonMode = UITextFieldViewModeNever;
+            }
+        }
+    }
     [BackgroundVIew addSubview:mainSearchbar];
     [self.mapView addSubview:BackgroundVIew];
     //[self.view insertSubview:BackgroundVIew atIndex:0];
@@ -510,11 +514,19 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 - (void)btnClicked:(UIButton *)sender{
     NSLog(@"clicked");
     if (sender.selected == YES && sender.tag == 600 ) {
+        //再次点击 tableview消失
+        if (self.mytableView) {
+            self.mytableView.hidden = YES;
+            [self.mytableView removeFromSuperview];
+            self.mytableView = nil;
+        }
         if ([staticareaType isEqualToString:@"1"]) {
             self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
                 self.mapView.zoomLevel = FirstLevel;
             }];
+           
+            
         }
         if ([staticareaType isEqualToString:@"2"]) {
             self.mapView.centerCoordinate = startpoint;
@@ -525,7 +537,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         if ([staticareaType isEqualToString:@"3"]) {
              self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
-                self.mapView.zoomLevel = ForthLevel;
+                self.mapView.zoomLevel = ThirdtLevel;
             }];
         }
     }
@@ -657,6 +669,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [self.view endEditing:YES];
     
 }
+
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     mainSearchbar.text = @"";
     self.LenovoTableView.hidden = YES;
@@ -665,7 +678,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSLog(@"change");
-     [self.mapView removeAnnotations:quanjuArr];
+         [self.mapView removeAnnotations:quanjuArr];
     if (quanjuArr.count >0) {
         [quanjuArr removeAllObjects];
     }
@@ -1192,17 +1205,13 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             if ([user.status isEqualToString:@"200"]) {
                 for (NSDictionary *dic in user.list) {
                     FSJResultList *listmodel = [FSJResultList initWithDictionary:dic];
-                    
                     [tstationArr addObject:listmodel];
                 }
-                
                 [self.mapView removeAnnotations:quanjuArr];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.mapView removeOverlays:cityoverlayErr];
                     [self.mapView removeOverlays:cityoverlayNor];
-                    
                     [self addAnimatedAnnotationWith:tstationArr and:show];
-                    
                     if (show) {
                         CLLocationCoordinate2D coor;
                         FSJResultList *model =  stationArr.firstObject;
@@ -1219,11 +1228,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 
                 [stationArr addObjectsFromArray:tstationArr];
                 [tstationArr removeAllObjects];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    if (show) {
-                        self.mapView.zoomLevel = ForthLevel ;
-                    }
-                });
+//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                    if (show) {
+//                        self.mapView.zoomLevel = ForthLevel ;
+//                    }
+//                });
             }
             else{
                 NSLog(@"%@",user.message);
@@ -1415,8 +1424,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     if (!show && !first) {
         [self  createTableview];
     }    
-    //[LGProgressHud showLoadingHud:self.mytableView withText:@"" textPosition:TextPositionTypeBottle animated:HudAnimatedTypeTop];
-    
+   
     NSDictionary *dic = @{str:ID,@"pageSize":@"8",@"pageNo":@"1",@"jwt":staticJwt};
     [FSJNetworking networkingGETWithActionType:type requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJAllFSJ *model = [FSJAllFSJ initWithDictionary:responseObject];
@@ -1427,17 +1435,18 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 FSJOneFSJ *model = [FSJOneFSJ initWithDictionary:dic];
                 NSLog(@"%@ %@ %@ statue ==%@",model.name ,model.masterPr, model.masterPo, model.status);
                 [allsite addObject:model];
+                
                 if (first) {
                     [allname addObject:model];
                 }
                 
                 }
-          
+            [[EGOCache globalCache]setObject:responseObject forKey:@"array"];
+            
             if (show && !first) {
                 [self addAnnotataionOnmapWith:allsite];
                 
             }
-            
             else{
                  //dispatch_async(dispatch_get_main_queue(), ^{
                   [self.mytableView reloadData];
@@ -1488,10 +1497,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 #pragma mark -- 配置Tableview
 - (UITableView *)mytableView{
     if (_mytableView == nil) {
-        _mytableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableviewY, WIDTH, tableviewHeight) style:UITableViewStyleGrouped];
+        _mytableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _mytableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-       // [_mytableView registerNib:[UINib nibWithNibName:@"FSJOneFSJTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CELL"];
-        _mytableView.allowsSelection =YES;
+                _mytableView.allowsSelection =YES;
         _mytableView.delegate = self;
         _mytableView.dataSource = self;
         [_mytableView addGestureRecognizer:swipup];
@@ -1540,20 +1548,23 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     if (tableView == self.mytableView) {
-        
-    
     switch (sectionIndex) {
         case 0:
             return 1;
             break;
         case 1:
-            return allsite.count;
+            if (allsite.count == 0) {
+                return 1;
+            }
+            else{
+                return allsite.count;
+            }
             
             break;
         default:
             return 0;
             break;
-    }
+        }
     }else{
         return self.lenovoTableArray.count;
     }
@@ -1576,15 +1587,22 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         return cell;
     }
     else{
-        
-        FSJOneFSJTableViewCell *cell = [FSJOneFSJTableViewCell initWith:tableView];
-        cell.item = allsite[indexPath.row];;
-        return cell;
-    }
-        
+       
+        if (allsite.count == 0) {
+            FSJNoDataTableViewCell *cell = [FSJNoDataTableViewCell initWith:tableView];
+            cell.TopLabel.textAlignment = NSTextAlignmentCenter;
+            cell.TopLabel.text = @"无数据";
+            cell.userInteractionEnabled = NO;
+            return cell;
+        }
+        else{
+            FSJOneFSJTableViewCell *cell = [FSJOneFSJTableViewCell initWith:tableView];
+            cell.item = allsite[indexPath.row];;
+            return cell;
+        }
+      }
    }
     else{
-        
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CELL"];
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CELL"];
@@ -1621,10 +1639,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         detail.managerID = model.transId;
         [self.navigationController pushViewController:detail animated:YES];
     }
-    
 }
     else{
-                NSMutableArray *arr = @[].mutableCopy;
+        NSMutableArray *arr = @[].mutableCopy;
         for (FSJOneFSJ *model in allname) {
             if ([model.name isEqualToString:self.lenovoTableArray[indexPath.row]]) {
                 NSLog(@"%@",model.name);
@@ -1635,7 +1652,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
          [self addAnnotataionOnmapWith:arr];
          [self.view endEditing:YES];
          mainSearchbar.text = self.lenovoTableArray[indexPath.row];
-        
     }
     //取消选中效果
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

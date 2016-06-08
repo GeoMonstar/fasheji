@@ -51,11 +51,11 @@
     [super viewDidLoad];
     self.view.backgroundColor = SystemWhiteColor;
     count = 1;
-    [self createUI];
+    [self createNav];
     jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
-    [self cteateTableView];
+    [self createTableView];
 }
-- (void)cteateTableView{
+- (void)createTableView{
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"oneCELL"];
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJSecondDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"twoCELL"];
     [self.view addSubview:self.myTable];
@@ -67,7 +67,8 @@
     if (self.InfoType == StationManage) {
         placeHolder = @"请输入发射站名称";
         dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
-        url = @"/rs/app/station/list";
+        //url = @"/rs/app/station/list";
+         url = @"/rs/app/interest/lis";
     }
     if (self.InfoType == FSJManage) {
         placeHolder = @"请输入发射机名称";
@@ -104,7 +105,7 @@
     [self startNetworkWith:url andDic:dic];
 }
 - (void) loadDataWhenDraggingDown {
-    count =0;
+    count =1;
     isDraggingDown = YES;
      [self startNetworkWith:url andDic:dic];
 }
@@ -129,6 +130,7 @@
     //[SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     //[SVProgressHUD showWithStatus:@"加载中"];
     [FSJNetworking networkingGETWithURL:neturl requestDictionary:dict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+        
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
          NSMutableArray *tempArray = [NSMutableArray array];
         if ([model.status isEqualToString:@"200"]) {
@@ -138,7 +140,7 @@
             }
             if (tempArray.count >0) {
                 
-                if (count == 0 && self.dataArray.count >0) {
+                if (count == 1 && self.dataArray.count >0) {
                     [self.dataArray removeAllObjects];
                 }
                 [self.dataArray addObjectsFromArray:tempArray];
@@ -147,7 +149,8 @@
                      [self endRefreshing];
                 });
                 //[SVProgressHUD showSuccessWithStatus:model.message];
-                [mysearchBar resignFirstResponder];
+                // 键盘控制
+                // [mysearchBar resignFirstResponder];
             }else{
                 //[SVProgressHUD showInfoWithStatus:@"数据加载完成"];
                 [self endRefreshing];
@@ -229,7 +232,7 @@
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 70;
+    return 80;
 }
 - (void)createPopwithName:(NSArray *)nameArr andImg:(NSArray *)imgArr andtag:(NSInteger) btntag andShowzidong:(BOOL)show{
     NSMutableArray *obj = [NSMutableArray array];
@@ -263,22 +266,29 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.showPop == YES) {
-        
         transmodel = self.dataArray[indexPath.section];
-        jiankong = [[FSJJiankongVC alloc]init];
+        jiankong =[[FSJJiankongVC alloc]init];
+        jiankong.showZidong = YES;
+        jiankong.JiankongType = Zhengji;
         jiankong.fsjId = transmodel.transId;
         jiankong.addressId = transmodel.ipAddr;
-        if ([transmodel.powerRate isEqualToString:@"300W"]) {
-            jiankongArr     = @[@"前置放大单元",@"工作状态"];
-            jiankongimgArr  = @[@"clt.png",@"zhuangtai"];
-            [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602 andShowzidong:NO];
-        }
-        else{
-            jiankongArr     = @[@"前置放大单元",@"功率放大单元",@"整机",@"工作状态"];
-            jiankongimgArr  = @[@"clt.png",@"cnu",@"zhengji",@"zhuangtai"];
-            [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602 andShowzidong:YES];
         
-        }
+        [self.navigationController pushViewController:jiankong animated:YES];
+//        transmodel = self.dataArray[indexPath.section];
+//        jiankong = [[FSJJiankongVC alloc]init];
+//        jiankong.fsjId = transmodel.transId;
+//        jiankong.addressId = transmodel.ipAddr;
+//        if ([transmodel.powerRate isEqualToString:@"300W"]) {
+//            jiankongArr     = @[@"前置放大单元",@"工作状态"];
+//            jiankongimgArr  = @[@"clt.png",@"zhuangtai"];
+//            [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602 andShowzidong:NO];
+//        }
+//        else{
+//            jiankongArr     = @[@"前置放大单元",@"功率放大单元",@"整机",@"工作状态"];
+//            jiankongimgArr  = @[@"clt.png",@"cnu",@"zhengji",@"zhuangtai"];
+//            [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602 andShowzidong:YES];
+//        
+//        }
         
     }
     else{
@@ -315,7 +325,7 @@
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-- (void)createUI{
+- (void)createNav{
     //self.navigationController.navigationBarHidden = NO;
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
@@ -327,24 +337,17 @@
     [myButton addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *cancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancel.frame = CGRectMake(0, 0, WIDTH*0.15,  36);
+    cancel.frame = CGRectMake(0, 0, WIDTH*0.10,  15);
     [cancel setTitle:@"取消" forState:UIControlStateNormal];
-    
+    cancel.titleLabel.font = [UIFont systemFontOfSize:14];
     UIBarButtonItem *item2 = [[UIBarButtonItem alloc]initWithCustomView:cancel];
     [cancel addTarget:self action:@selector(cancelBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = item1;
     self.navigationItem.rightBarButtonItem = item2;
     self.navigationController.navigationBar.tintColor = SystemWhiteColor;
-    mysearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,WIDTH*0.65,38)];
+    mysearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,WIDTH*0.73,35)];
+    
     mysearchBar.delegate = self;
-//    mysearchBar.backgroundColor = SystemWhiteColor;
-//    mysearchBar.searchBarStyle =UISearchBarStyleDefault;
-//    mysearchBar.barTintColor = SystemBlueColor;
-//    mysearchBar.layer.borderColor = SystemBlueColor.CGColor;
-//    mysearchBar.layer.borderWidth = 2;
-//    mysearchBar.barStyle =UIBarStyleBlackOpaque;
-//    mysearchBar.layer.cornerRadius = 20;
-//    mysearchBar.layer.masksToBounds = YES;
     
     mysearchBar.backgroundColor = [UIColor clearColor];
     mysearchBar.searchBarStyle =UISearchBarStyleDefault;
@@ -352,16 +355,25 @@
     [mysearchBar setBackgroundImage:[UIImage imageWithColor:SystemWhiteColor]];
     mysearchBar.layer.borderColor = SystemBlueColor.CGColor;
     mysearchBar.layer.borderWidth = 0;
-    mysearchBar.layer.cornerRadius = 19;
+    mysearchBar.layer.cornerRadius = 17.5;
     mysearchBar.layer.masksToBounds = YES;
     mysearchBar.barStyle =UIBarStyleBlack;
     mysearchBar.showsCancelButton = NO;
-    
+    for (UIView* view in mysearchBar.subviews)
+    {
+        for (UIView *v in view.subviews) {
+            if ( [v isKindOfClass: [UITextField class]] )
+            {
+                UITextField *tf = (UITextField *)v;
+                tf.clearButtonMode = UITextFieldViewModeNever;
+            }
+        }
+    }
     //将搜索条放在一个UIView上
-    UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH*0.65, 38)];
+    UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(-20, 0, WIDTH*0.73, 35)];
     searchView.backgroundColor = [UIColor clearColor];
     [searchView addSubview:mysearchBar];
-    
+
     self.navigationItem.titleView = searchView;
 }
 - (void)didReceiveMemoryWarning {
@@ -370,17 +382,23 @@
 - (void)backTomain:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    
+    [self createTableView];
+}
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;{
     if ([mysearchBar.text isEqualToString:@""]) {
 //      [SVProgressHUD showErrorWithStatus:@"请输入查询内容"];
         return;
     }
     else{
-        [self cteateTableView];
+        [self createTableView];
     }
 }
 - (void)cancelBtn:(UIButton *)sender{
     [mysearchBar resignFirstResponder];
+    mysearchBar.text = @"";
+    [self createTableView];
 }
 + (NSString *)actionWithMoreInfoType:(MoreInfoType)actionType{
     NSString *url = @"";
@@ -415,5 +433,6 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
+    //mysearchBar.text = @"";
 }
 @end

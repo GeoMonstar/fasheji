@@ -26,6 +26,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+    
     manager.requestSerializer=[AFJSONRequestSerializer serializer];
     [manager GET:getURL parameters:requestDictionary progress:nil success:^(NSURLSessionDataTask *  task, id   responseObject) {
         success(task,responseObject);
@@ -47,12 +48,13 @@
     }
     NSString  *URL =[NSString stringWithFormat:@"%@%@",BaseURL,[self actionWithConnectionActionType:actionType]];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];//如果报接受类型不一致请替换一致text/html或别的
+    manager.requestSerializer=[AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+    NSLog(@"%@",URL);
     
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-   
     [manager GET:URL parameters:requestDictionary progress:nil success:^(NSURLSessionDataTask *  task, id   responseObject) {
+        
         success(task,responseObject);
     } failure:^(NSURLSessionDataTask *  task, NSError *  error) {
         
@@ -77,8 +79,16 @@
     NSString *URL = [NSString stringWithFormat:@"%@%@",BaseURL,[self actionWithConnectionActionType:actionType]];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];//如果报接受类型不一致请替换一致text/html或别的
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];//如果报接受类型不一致请替换一致text/html或别的
     manager.requestSerializer=[AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+  
+    
+//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+//    
+//    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    [manager.requestSerializer setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+//     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];
+//    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
     [manager POST:URL parameters:requestDictionary progress:nil success:^(NSURLSessionDataTask *  task, id   responseObject) {
 //        id dict=[NSJSONSerialization  JSONObjectWithData:responseObject options:0 error:nil];
@@ -182,8 +192,29 @@
             break;
         case VerisonInfo:
             url = @"/rs/app/update/check";
+             break;
         case GetVerisonInfo:
             url = @"/rs/app/update/info";
+             break;
+        case AddStation:
+            url = @"/rs/app/station/list";
+             break;
+        case Gettree:
+            url = @"/rs/app/organ/tree";
+             break;
+        case GetInterestList:
+            url = @"/rs/app/interest/getList";
+            break;
+        case AddInterestStation:
+            url = @"/rs/app/interest/saveInterest";
+            break;
+        case DeleteInterestStation:
+            url = @"/rs/app/interest/cancelRever";
+            break;
+        case SearchInterestStation:
+            url = @"/rs/app/interest/list";
+            break;
+            
         default:
             break;
     }

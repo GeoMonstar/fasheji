@@ -108,6 +108,8 @@ typedef NS_ENUM(NSInteger, LoginStatusType) {
 
 @property (nonatomic, retain)NSArray *list;
 
+
+
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 

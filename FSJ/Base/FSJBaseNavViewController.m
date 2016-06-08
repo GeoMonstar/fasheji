@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self createUI];
+    [self createNav];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -26,7 +26,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (void)createUI{
+- (void)createNav{
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];

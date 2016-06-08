@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createWeb];
-    [self createUI];
+    [self createNav];
     //[SVProgressHUD showInfoWithStatus:@"数据加载中" maskType:SVProgressHUDMaskTypeGradient];
 }
 - (void)createWeb{
@@ -38,7 +38,7 @@
     [myWeb loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0]];
     [self.view addSubview:myWeb];
 }
-- (void)createUI{
+- (void)createNav{
     self.title = @"统计";
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
@@ -74,6 +74,6 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
 
     [SVProgressHUD showErrorWithStatus:@"网络连接失败"];
-    //[self createUI];
+   
 }
 @end

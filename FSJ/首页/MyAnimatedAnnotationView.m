@@ -7,7 +7,7 @@
 //
 
 #import "MyAnimatedAnnotationView.h"
-#import "FSJMapViewController.h"
+
 @implementation MyAnimatedAnnotationView
 @synthesize annotationImageView = _annotationImageView;
 @synthesize annotationImages = _annotationImages;

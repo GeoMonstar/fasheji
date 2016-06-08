@@ -14,7 +14,7 @@
 /**
  * 由model 设置cell 的回调
  */
-typedef void(^TableViewCellConfigureBlock) (PopcellviewTableViewCell * cell,WBPopMenuModel * model);
+typedef void(^TableViewCellConfigureBlock) (UITableViewCell * cell,WBPopMenuModel * model);
 
 /**
  * 数据源管理类的封装

@@ -25,8 +25,8 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="检测值：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pvj-4h-9Tk">
-                        <rect key="frame" x="13" y="48" width="299" height="14"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <rect key="frame" x="13" y="51" width="299" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -35,7 +35,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="opw-vc-NNg"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -52,7 +52,7 @@
                     <constraint firstItem="pvj-4h-9Tk" firstAttribute="leading" secondItem="w0V-DG-ow5" secondAttribute="leading" id="Wf9-Xc-Wzh"/>
                     <constraint firstItem="w0V-DG-ow5" firstAttribute="leading" secondItem="cwp-vT-vs1" secondAttribute="leading" id="Yg1-PM-ooG"/>
                     <constraint firstItem="w0V-DG-ow5" firstAttribute="width" secondItem="cwp-vT-vs1" secondAttribute="width" id="cGh-mn-TK3"/>
-                    <constraint firstItem="pvj-4h-9Tk" firstAttribute="top" secondItem="w0V-DG-ow5" secondAttribute="bottom" constant="5" id="geu-Ww-ywF"/>
+                    <constraint firstItem="pvj-4h-9Tk" firstAttribute="top" secondItem="w0V-DG-ow5" secondAttribute="bottom" constant="8" id="geu-Ww-ywF"/>
                     <constraint firstItem="cwp-vT-vs1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="hkb-ZG-DNi"/>
                     <constraint firstItem="pvj-4h-9Tk" firstAttribute="width" secondItem="w0V-DG-ow5" secondAttribute="width" id="xRc-eh-dY8"/>
                 </constraints>

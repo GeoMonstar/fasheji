@@ -15,4 +15,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *fsjImg;
 @property (nonatomic, strong)FSJOneFSJ *item;
 + (FSJOneFSJTableViewCell *)initWith:(UITableView *)tableView;
++ (instancetype)cellAllocWithTableView:(UITableView *)tableView;
 @end

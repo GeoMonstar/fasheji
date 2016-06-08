@@ -11,5 +11,5 @@ typedef void(^titleBlock) (NSString *str);
 
 @interface FSJMapViewController : FSJBaseViewController
 
-@property (nonatomic,copy)titleBlock block;
+
 @end

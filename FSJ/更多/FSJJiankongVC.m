@@ -14,12 +14,12 @@
 #import "FSJZhengji.h"
 #import "FSJGongxiao.h"
 #import "FSJGongxiaoDetail.h"
-
+#import "FSJTitleBtn.h"
+#import "FSJJKPopView.h"
 @interface FSJJiankongVC ()
 {
     NSString *navTitle;
     UIScrollView *mainScro;
-    //NSString * titleStr;
     NSString * url;
     NSString * jwtStr;
     NSMutableArray *btnArr;
@@ -27,9 +27,14 @@
     NSMutableArray *subviewArr;
     NSMutableArray *indexArr;
     NSString *  index;
+  
+    NSInteger _currentDataIndex;
     
+    FSJJKPopView *popview;
 }
 @property (strong,nonatomic) HMSegmentedControl *segmentedControl;
+@property (strong,nonatomic) FSJTitleBtn *titleBtn;
+@property (retain,nonatomic) NSArray *nameArr;
 @end
 @implementation FSJJiankongVC
 - (void)viewDidLoad{
@@ -42,8 +47,9 @@
   jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
   mainScro  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH)];
   mainScro.backgroundColor = SystemLightGrayColor;
-    [self createViewWith:@"db" andfirst:YES];
-     [self createUI];
+    
+     [self createViewWith:@"db" andfirst:YES];
+     [self createNav];
 }
 - (void)createViewWith:(NSString *)str andfirst:(BOOL)first{
     //[SVProgressHUD showWithStatus:@"加载中"];
@@ -202,6 +208,7 @@
         }
 
         else{
+            
             [SVProgressHUD showErrorWithStatus:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
@@ -250,7 +257,9 @@
     }];
 }
 - (void)creatViewThirdwith:(NSString *)str{
-    NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr};
+    //NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr};
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.fsjId,@"transId",self.addressId,@"ip",str,@"from",jwtStr,@"jwt", nil];
+    
     [FSJNetworking networkingGETWithActionType:GetZhengji requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJJiankongBase *basemodel = [FSJJiankongBase initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.data != nil){
@@ -389,8 +398,7 @@
                 break;
         }
         [arr addObject:str];
-        //[arr addObject:[NSString stringWithFormat:@"%ld",a]];
-        //num = num *2;
+       
         b = b/2;
     }
     return arr;
@@ -429,12 +437,12 @@
      [SVProgressHUD dismiss];
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void)createUI{
+- (void)createNav{
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     UIButton *myButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    myButton.frame = CGRectMake(0, 0, 15, 15);
+    myButton.frame = CGRectMake(0, 0, 10, 15);
     [myButton setBackgroundImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
     UIButton *rButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rButton.frame = CGRectMake(0, 0, 18, 18);
@@ -445,14 +453,66 @@
     [myButton addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = item1;
     self.navigationItem.rightBarButtonItem = item2;
-    self.title = navTitle;
+    self.nameArr = @[@"整机",@"前置放大单元",@"功率放大单元",@"工作状态"];
+    self.titleBtn = [FSJTitleBtn buttonWithType:UIButtonTypeCustom];
+    self.titleBtn.frame = CGRectMake(WIDTH/2-72.5, 20, 145, 40);
+    self.titleBtn.titleLabel.textAlignment = 1;
+    [self.titleBtn setTitle:self.nameArr[0] forState:UIControlStateNormal];
+    
+    [self.titleBtn setImage:[UIImage imageNamed:@"navshang"] forState:UIControlStateNormal];
+    [self.titleBtn setImage:[UIImage imageNamed:@"navxia"] forState:UIControlStateSelected];
+    [self.titleBtn addTarget:self action:@selector(showPop:) forControlEvents:UIControlEventTouchUpInside];
+    self.titleBtn.enabled = YES;
+    [self.titleBtn setTintColor:SystemWhiteColor];
+    [[[UIApplication  sharedApplication]keyWindow] addSubview: self.titleBtn];
+    popview = [[FSJJKPopView alloc]initPopWith:CGRectMake(0, 48, WIDTH, HEIGH) andDataSource:self.nameArr];
+    FSJWeakSelf(weakself);
+    popview.popshow = ^(BOOL hidden){
+        if (hidden == NO) {
+           weakself.titleBtn.selected = !weakself.titleBtn.selected;
+        }
+    };
+}
+- (void)showPop:(UIButton *)sender{
+    sender.selected = !sender.selected;
+    
+    if (sender.selected == YES) {
+        
+       [[[UIApplication  sharedApplication]keyWindow] addSubview: popview];
+       // [self.view addSubview:popview];
+        FSJWeakSelf(weakself);
+        popview.selectIndex = ^(NSInteger arrindex){
+             sender.selected = !sender.selected;
+            [weakself.titleBtn setTitle:weakself.nameArr[arrindex-500] forState:UIControlStateNormal];
+            weakself.JiankongType = arrindex-500;
+            for (UIView *view in weakself.view.subviews) {
+                    [view removeFromSuperview];
+            }
+            [weakself createViewWith:@"db" andfirst:YES];
+            NSLog(@"%ld",arrindex);
+        };
+    }
+    else{
+        
+        [popview removeFromSuperview];
+    }
+    
 }
 - (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [self.titleBtn removeFromSuperview];
+    [popview removeFromSuperview];
     [SVProgressHUD dismiss];
 }
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = NO;
+}
+
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+  
 }
 @end

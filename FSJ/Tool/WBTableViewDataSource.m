@@ -42,7 +42,7 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    PopcellviewTableViewCell * cell = [[self.Cellclass class]cellAllocWithTableView:tableView];
+    UITableViewCell * cell = [[self.Cellclass class]cellAllocWithTableView:tableView];
     self.configureCellBlock(cell,self.modelArray[indexPath.row]);
     return cell;
 }

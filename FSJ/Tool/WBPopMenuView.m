@@ -38,20 +38,16 @@
         self.menuWidth = menuWidth;
         self.menuItem = items;
         self.action = [action copy];
-        self.tableViewDataSource = [[WBTableViewDataSource alloc]initWithItems:items cellClass:[PopcellviewTableViewCell class] configureCellBlock:^(PopcellviewTableViewCell *cell, WBPopMenuModel *model) {
+        self.tableViewDataSource = [[WBTableViewDataSource alloc]initWithItems:items cellClass:[PopcellviewTableViewCell class] configureCellBlock:^(UITableViewCell *cell, WBPopMenuModel *model) {
             PopcellviewTableViewCell * tableViewCell = (PopcellviewTableViewCell *)cell;
-            //tableViewCell.imageView.image =[UIImage imageNamed:model.image];
-            //tableViewCell.textLabel.text = model.title;
             tableViewCell.nameLabel.text = model.title;
             tableViewCell.imgView.image  = [UIImage imageNamed:model.image];
-            
         }];
         self.tableViewDelegate = [[WBTableViewDelegate alloc]initWithDidSelectRowAtIndexPath:^(NSInteger indexRow) {
             if (self.action) {
                 self.action(indexRow);
             }
         }];
-
         self.tableView = [[UITableView alloc]initWithFrame:[self menuFramewith:items.count] style:UITableViewStylePlain];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.dataSource = self.tableViewDataSource;
@@ -71,14 +67,12 @@
         self.tableView.rowHeight = PopviewCellheight;
         
         [self addSubview:self.tableView];
-        
         if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
             [self.tableView setSeparatorInset:UIEdgeInsetsZero];
         }
         if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
             [self.tableView setLayoutMargins:UIEdgeInsetsZero];
         }
-        
     }
     return self;
 }
@@ -90,8 +84,6 @@
     CGFloat heigh = PopviewCellheight * (num);
     return (CGRect){menuX,menuY,width,heigh};
 }
-
-
 - (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     [[WBPopMenuSingleton shareManager]hideMenu];

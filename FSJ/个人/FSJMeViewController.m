@@ -10,6 +10,7 @@
 #import "FSJTopTableViewCell.h"
 #import "FSJMineTableViewCell.h"
 #import "FSJChangePersonInfoViewController.h"
+#import "FSJMyFavViewController.h"
 @interface FSJMeViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     FSJUserInfo *userInfomodel;
     UITapGestureRecognizer *tap;
@@ -28,7 +29,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         _myTableView.dataSource = self;
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         _myTableView.scrollEnabled = YES;
-        _myTableView.bounces = NO;
+        _myTableView.bounces = YES;
         [_myTableView registerNib:[UINib nibWithNibName:@"FSJTopTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:MineHeaderViewCell];
         [_myTableView registerNib:[UINib nibWithNibName:@"FSJMineTableViewCell" bundle:[NSBundle mainBundle]]forCellReuseIdentifier:MineInfoTableViewCell];
     }
@@ -72,6 +73,17 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"%@",error);
+        NSLog(@"%@",error);
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (void)initTableview{
@@ -99,7 +111,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             return 7;
             break;
         case 2:
-            return 2;
+            return 3;
             break;
         default:
             return 0;
@@ -134,7 +146,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         return cell;
     }
     NSArray* temp01 = @[@"用户名:",@"真实姓名:",@"工号:",@"手机号:",@"固机号:",@"邮箱:",@"归属机构:"];
-    NSArray* temp02 = @[@"修改密码",@"检查新版本"];
+    NSArray* temp02 = @[@"修改密码",@"兴趣站点",@"检查新版本"];
     FSJMineTableViewCell *cell = [self.myTableView dequeueReusableCellWithIdentifier:MineInfoTableViewCell];
     cell.UserInfoIcon.contentMode = UIViewContentModeScaleAspectFit;
     cell.UserInfoname.font = [UIFont systemFontOfSize:14];
@@ -194,6 +206,11 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
                     cell.UserInfocontent.text = @"";
                     break;
                 case 1:
+                    cell.UserInfoIcon.image = [UIImage imageNamed:@"xingqu"];
+                    cell.UserInfoname.text = @"兴趣站点";
+                    cell.UserInfocontent.text = @"";
+                    break;
+                case 2:
                     if ([self.VersionStr isEqualToString: @""]) {
                         [self.myTableView reloadData];
                     }
@@ -251,8 +268,13 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
  
         vc.changeType = Userpwd;
     }
-    if (indexPath.section == 2 && indexPath.row == 1) {
+    if (indexPath.section == 2 && indexPath.row == 2) {
         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(updateMethod:)];
+        return;
+    }
+    if (indexPath.section == 2 && indexPath.row == 1) {
+        FSJMyFavViewController *myFav = [[FSJMyFavViewController alloc]init];
+         [self.navigationController pushViewController:myFav animated:YES];
         return;
     }
     [self.navigationController pushViewController:vc animated:YES];
@@ -261,25 +283,15 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     // app build版本
-  
         if ([app_Version isEqualToString:self.VersionStr]) {
-            UILabel *alertLabel = [[UILabel alloc]initWithFrame:CGRectMake(WIDTH/2-WIDTH*0.35, HEIGH*0.75, WIDTH*0.7, 35)];
-            alertLabel.layer.cornerRadius = 5;
-            alertLabel.layer.masksToBounds = YES;
-            alertLabel.backgroundColor = [UIColor grayColor];
-            alertLabel.textColor = [UIColor whiteColor];
-            alertLabel.textAlignment = NSTextAlignmentCenter;
-            alertLabel.text = @"已经是最新版本";
-            [self.view addSubview:alertLabel];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [alertLabel removeFromSuperview];
-            });
+
+           // [MBProgressHUD showSuccess:@"已经是最新版本"];
+            [MBProgressHUD showTextMessage:@"已经是最新版本"];
         }
         else{
             NSDictionary *getdic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
             [FSJNetworking networkingGETWithActionType:GetVerisonInfo requestDictionary:getdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
                 NSString *logStr = [responseObject objectForKey:@"log"];
-                
                 UIAlertController *acView = [UIAlertController alertControllerWithTitle:@"发现新版本" message:logStr preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
                 UIAlertAction *yes = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -293,13 +305,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             } failure:^(NSURLSessionDataTask *operation, NSError *error) {
                 NSLog(@"%@",error);
             }];
-            
-            
-            
-           
         }
-    
-    
 }
 #pragma mark -- 按钮响应
 - (void)logout:(UIButton *)sender{
@@ -328,6 +334,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 - (void)changeIcon:(UIButton *)sender{
     UIActionSheet* mysheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"照相",@"从相册中选择", nil];
+    
     mysheet.delegate = self;
     mysheet.frame = CGRectMake(0, self.view.frame.size.height-200, WIDTH, 200);
     [mysheet showInView:self.view];
@@ -433,6 +440,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         [SVProgressHUD showErrorWithStatus:@"网络连接失败"];
         NSLog(@"%@", error);
+        
     }];
 
 }

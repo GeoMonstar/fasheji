@@ -85,6 +85,37 @@ typedef NS_ENUM(NSInteger, NetworkConnectionActionType){
      *  @brief 版本信息
      */
     GetVerisonInfo,
+    /**
+     *  @brief Add发射站
+     */
+    AddStation,
+    
+    /**
+     *  @brief 获取机构
+     */
+    Gettree,
+    
+    /**
+     *  @brief 获取已经添加的站点列表
+     */
+    GetInterestList,
+    
+    /**
+     *  @brief 添加收藏站点
+     */
+    AddInterestStation,
+    
+    /**
+     *  @brief 删除站点列表
+     */
+    DeleteInterestStation,
+    
+    /**
+     *  @brief 搜索站点列表
+     */
+    SearchInterestStation,
+    
+    
     
 };
 typedef NS_ENUM(NSInteger, UploadActionType) {

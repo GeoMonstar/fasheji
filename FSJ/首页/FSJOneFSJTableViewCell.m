@@ -53,7 +53,15 @@
     return cell;
 
 }
-
++ (instancetype) cellAllocWithTableView:(UITableView *)tableView {
+    
+    FSJOneFSJTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FSJOneFSJTableViewCell"];
+    if (cell == nil) {
+        cell = [[[self class] alloc] initWithStyle:0 reuseIdentifier:NSStringFromClass([self class])];
+        // cell = [[[self class]alloc]dequeueReusableCellWithIdentifier:NSStringFromClass([self class])];
+    }
+    return cell;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
