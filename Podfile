@@ -11,3 +11,4 @@ pod 'BaiduMapKit’,’2.10.2’
 pod 'Pgyer'
 pod 'PgyUpdate'
 pod 'HMSegmentedControl'
+pod 'IQKeyboardManager'

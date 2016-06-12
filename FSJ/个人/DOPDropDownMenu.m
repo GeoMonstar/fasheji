@@ -300,7 +300,7 @@
         _origin = origin;
         _currentSelectedMenudIndex = -1;
         _show = NO;
-        _fontSize = 14;
+        _fontSize = 12;
         _cellStyle = UITableViewCellStyleValue1;
         _separatorColor = kSeparatorColor;
         _textColor = kTextColor;

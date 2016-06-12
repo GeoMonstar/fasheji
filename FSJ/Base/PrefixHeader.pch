@@ -28,7 +28,7 @@
 #import "WBPopMenuSingleton.h"
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>
-
+#import <IQKeyboardManager.h>
 #import <HMSegmentedControl.h>
 #import "RealReachability.h"
 #pragma mark - class
@@ -42,6 +42,7 @@
 #import "DOPDropDownMenu.h"
 #import "Header.h"
 #import "FSJBaseViewController.h"
+#import "JSDropDownMenu.h"
 #pragma mark - Category
 
 #import "MQTTKit.h"

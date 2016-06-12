@@ -52,7 +52,7 @@
      [self createNav];
 }
 - (void)createViewWith:(NSString *)str andfirst:(BOOL)first{
-    //[SVProgressHUD showWithStatus:@"加载中"];
+   
     switch (self.JiankongType) {
         case Qianji:
             if (first) {
@@ -208,8 +208,8 @@
         }
 
         else{
-            
-            [SVProgressHUD showErrorWithStatus:@"无返回数据"];
+          
+            [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSArray *array = error.userInfo.allValues;
@@ -241,7 +241,7 @@
         }
        
         else{
-         [SVProgressHUD showErrorWithStatus:@"无返回数据"];
+         [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSArray *array = error.userInfo.allValues;
@@ -281,7 +281,7 @@
         }
         
         else{
-            [SVProgressHUD showErrorWithStatus:@"无返回数据"];
+            [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSArray *array = error.userInfo.allValues;
@@ -332,7 +332,7 @@
         }
      
         else{
-            [SVProgressHUD showErrorWithStatus:@"无返回数据"];
+            [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSArray *array = error.userInfo.allValues;

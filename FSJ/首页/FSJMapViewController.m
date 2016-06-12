@@ -20,6 +20,7 @@
 #import "FSJTransPoint.h"
 #import "FSJPopHeadview.h"
 #import "FSJNoDataTableViewCell.h"
+#import "FSJJiankongVC.h"
 #define tableviewHeight self.view.bounds.size.height/4+50
 #define tableviewY      self.view.bounds.size.height/4*3 -50
 #define moveDistance    self.view.bounds.size.height/4
@@ -1597,7 +1598,15 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
         else{
             FSJOneFSJTableViewCell *cell = [FSJOneFSJTableViewCell initWith:tableView];
-            cell.item = allsite[indexPath.row];;
+            cell.item = allsite[indexPath.row];
+            cell.ShebeiClicked = ^(void){
+                FSJOneFSJ *model = allsite[indexPath.row];
+                FSJJiankongVC *jiankong = [[FSJJiankongVC alloc]init];
+                jiankong.JiankongType = Zhengji;
+                jiankong.fsjId = model.transId;
+                jiankong.addressId = model.ipAddr;
+            [self.navigationController pushViewController:jiankong animated:YES];
+            };
             return cell;
         }
       }

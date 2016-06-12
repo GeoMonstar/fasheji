@@ -93,6 +93,7 @@
 		85B8DF5A1CBE578600532974 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 85B8DF591CBE578600532974 /* UIImage+Color.m */; };
 		85BCBF3A1C994C0000686D07 /* FSJPeopleManagimentviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BCBF391C994C0000686D07 /* FSJPeopleManagimentviewController.m */; };
 		85BCBF3D1C994F2C00686D07 /* FSJBaseMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BCBF3C1C994F2C00686D07 /* FSJBaseMoreViewController.m */; };
+		85BCF89B1D0D3EDA002AD434 /* JSDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BCF89A1D0D3EDA002AD434 /* JSDropDownMenu.m */; };
 		85C8FA221CFD6F3C00F1E018 /* FSJMaintableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C8FA211CFD6F3C00F1E018 /* FSJMaintableViewDataSource.m */; };
 		85C8FA251CFD6F6200F1E018 /* FSJMainTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C8FA241CFD6F6200F1E018 /* FSJMainTableViewDelegate.m */; };
 		85C8FA281CFD7B8600F1E018 /* FSJMainTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C8FA271CFD7B8600F1E018 /* FSJMainTableView.m */; };
@@ -307,6 +308,8 @@
 		85BCBF391C994C0000686D07 /* FSJPeopleManagimentviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJPeopleManagimentviewController.m; sourceTree = "<group>"; };
 		85BCBF3B1C994F2C00686D07 /* FSJBaseMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSJBaseMoreViewController.h; path = "../更多/FSJBaseMoreViewController.h"; sourceTree = "<group>"; };
 		85BCBF3C1C994F2C00686D07 /* FSJBaseMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSJBaseMoreViewController.m; path = "../更多/FSJBaseMoreViewController.m"; sourceTree = "<group>"; };
+		85BCF8991D0D3EDA002AD434 /* JSDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSDropDownMenu.h; sourceTree = "<group>"; };
+		85BCF89A1D0D3EDA002AD434 /* JSDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSDropDownMenu.m; sourceTree = "<group>"; };
 		85C8FA201CFD6F3C00F1E018 /* FSJMaintableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSJMaintableViewDataSource.h; path = "../首页/FSJMaintableViewDataSource.h"; sourceTree = "<group>"; };
 		85C8FA211CFD6F3C00F1E018 /* FSJMaintableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSJMaintableViewDataSource.m; path = "../首页/FSJMaintableViewDataSource.m"; sourceTree = "<group>"; };
 		85C8FA231CFD6F6200F1E018 /* FSJMainTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSJMainTableViewDelegate.h; path = "../首页/FSJMainTableViewDelegate.h"; sourceTree = "<group>"; };
@@ -886,6 +889,8 @@
 		85F5DD4F1C8FC7AB00F2D4FC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				85BCF8991D0D3EDA002AD434 /* JSDropDownMenu.h */,
+				85BCF89A1D0D3EDA002AD434 /* JSDropDownMenu.m */,
 				85F59C341D06A79700D3DD48 /* DOPDropDownMenu.h */,
 				85F59C351D06A79700D3DD48 /* DOPDropDownMenu.m */,
 				8547E4391D02793E0050EFD0 /* FSJMulitiSelectCell.h */,
@@ -1140,6 +1145,7 @@
 				85381E1A1CBF7FC70080F027 /* WBPopMenuSingleton.m in Sources */,
 				85589C331CDC897200ADAAC1 /* ReachStateWWAN.m in Sources */,
 				85F59C361D06A79700D3DD48 /* DOPDropDownMenu.m in Sources */,
+				85BCF89B1D0D3EDA002AD434 /* JSDropDownMenu.m in Sources */,
 				856CA1C41CF7E5B0008C6B16 /* FSJUpdateView.m in Sources */,
 				85CBED2F1CCA0D0600C4CD8C /* logging_mosq.c in Sources */,
 				85CA7D511C9810E2005F22C4 /* FSJCollectionViewCell.m in Sources */,

@@ -12,12 +12,14 @@
 #import "FSJDetailTableViewCell.h"
 #import "FSJSecondDetailTableViewCell.h"
 #import "FSJJiankongVC.h"
-@interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>{
+#import "FSJOganTree.h"
+#import "FSJStationInfo.h"
+@interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>{
     UISearchBar     *mysearchBar;
     FSJJiankongVC   *jiankong;
     NSString        *jwt;
     //NSMutableArray *dataArray;
-    NSDictionary    *dic;
+    NSDictionary    *netdic;
     NSString        *url;
     NSInteger       count;
     FSJPeopleManagerDetailViewController *detail;
@@ -27,9 +29,28 @@
     NSString        *placeHolder;
     NSArray         *jiankongArr;
     NSArray         *jiankongimgArr;
+    
+    NSMutableArray *firstNameArr;
+    NSMutableArray *seconNamedArr;
+    NSMutableArray *thridNameArr;
+    NSMutableArray *forthNameArr;
+    
+    NSInteger columnNumber;
+    NSString *FirstLevelStr;
+    NSString *onceOrangId;
+    NSString *twiceOrangId;
+    NSString *thirdOrangId;
+    
+    NSInteger TableHeight;
 }
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *myTable;
+
+@property (nonatomic,strong)NSMutableArray *firstArr;
+@property (nonatomic,strong)NSMutableArray *secondArr;
+@property (nonatomic,strong)NSMutableArray *thridArr;
+@property (nonatomic,strong)NSMutableArray *forthArr;
+@property (nonatomic,strong)DOPDropDownMenu *menu;
 @end
 
 @implementation FSJPeopleManagimentviewController
@@ -41,7 +62,7 @@
 }
 - (UITableView *)myTable{
     if (_myTable == nil) {
-        _myTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH) style:UITableViewStyleGrouped];
+        _myTable = [[UITableView alloc]initWithFrame:CGRectMake(0, TableHeight, WIDTH, HEIGH) style:UITableViewStyleGrouped];
         _myTable.delegate = self;
         _myTable.dataSource = self;
     }
@@ -49,40 +70,94 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    firstNameArr = @[].mutableCopy;
+    seconNamedArr = @[].mutableCopy;
+    thridNameArr = @[].mutableCopy;
+    forthNameArr = @[].mutableCopy;
+    self.thridArr = @[].mutableCopy;
+    self.secondArr = @[].mutableCopy;
+    self.firstArr = @[].mutableCopy;
+    self.forthArr = @[].mutableCopy;
+    
     self.view.backgroundColor = SystemWhiteColor;
     count = 1;
     [self createNav];
+    [self getInterest];
     jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
-    [self createTableView];
+    if(self.InfoType == Warning || self.InfoType == Warned ){
+        TableHeight = 0;
+    }else{
+        TableHeight =44;
+        [self getTree];
+    }
+    
+    [self createTableViewWithorganId:@""andstationId:@""];
+    
 }
-- (void)createTableView{
+- (void)getInterest{
+    
+    NSDictionary *dic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
+    [FSJNetworking networkingGETWithActionType:GetInterestList requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+        FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+        NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
+        
+        if ([model.status isEqualToString:@"200"]) {
+            
+            for (NSDictionary *dict in model.list) {
+                 NSString *namestr = [dict objectForKey:@"sname"];
+                if ([gradeType isEqualToString:@"1"]) {
+                   
+                    [forthNameArr addObject:namestr];
+                    
+                     [self.forthArr addObject:dict];
+                }
+                if ([gradeType isEqualToString:@"2"]) {
+                      [thridNameArr addObject:namestr];
+                    [self.thridArr addObject:dict];
+                    
+                }
+                if ([gradeType isEqualToString:@"3"]) {
+                    [seconNamedArr addObject:namestr];
+                    
+                    [self.secondArr addObject:dict];
+                }
+               
+            }
+            
+           
+    
+        }
+    }failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        [MBProgressHUD showError:[NSString stringWithFormat:@"%@",error]];
+    }];
+}
+- (void)createTableViewWithorganId:(NSString *)organId andstationId:(NSString *)stationIdStr{
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"oneCELL"];
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJSecondDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"twoCELL"];
     [self.view addSubview:self.myTable];
     if (self.InfoType == PeopleManage) {
         placeHolder = @"请输入发射站名称";
-        dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"stationId":stationIdStr,@"organId":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/station/manager/list";
     }
     if (self.InfoType == StationManage) {
         placeHolder = @"请输入发射站名称";
-        dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
-        //url = @"/rs/app/station/list";
-         url = @"/rs/app/interest/lis";
+        netdic = @{@"stationId":stationIdStr,@"organId":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        url = @"/rs/app/station/list";
     }
     if (self.InfoType == FSJManage) {
         placeHolder = @"请输入发射机名称";
-        dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"stationId":stationIdStr,@"organId":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/station/transmitter/list";
     }
     if (self.InfoType == Warning) {
         placeHolder = @"请输入发射站、发射机名称";
-        dic = @{@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"organId":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/alarm/list";
     }
     if (self.InfoType == Warned) {
          placeHolder = @"请输入发射站、发射机名称";
-        dic = @{@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"organId":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/alarm/history/list";
     }
     FSJWeakSelf(weakself);
@@ -92,29 +167,29 @@
      [mysearchBar setPlaceholder:placeHolder];
     
     // 设置表格视图的触底加载(上拉刷新)
-    self.myTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        isDraggingDown = NO;
-        if (weakself.dataArray.count > 0) {
-            [weakself loadDataWhenReachingBottom];
-        }
-        else {
-            [weakself endRefreshing];
-        }
-    }];
+//    self.myTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+//        isDraggingDown = NO;
+//        if (weakself.dataArray.count > 0) {
+//            [weakself loadDataWhenReachingBottom];
+//        }
+//        else {
+//            [weakself endRefreshing];
+//        }
+//    }];
     [self loadDataWhenDraggingDown];
-    [self startNetworkWith:url andDic:dic];
+    [self startNetworkWith:url andDic:netdic];
 }
 - (void) loadDataWhenDraggingDown {
     count =1;
     isDraggingDown = YES;
-     [self startNetworkWith:url andDic:dic];
+     [self startNetworkWith:url andDic:netdic];
 }
 // 触底加载数据的方法
 - (void) loadDataWhenReachingBottom {
     count ++;
     isDraggingDown = NO;
     
-    [self startNetworkWith:url andDic:dic];
+    [self startNetworkWith:url andDic:netdic];
 }
 // 结束下拉或上拉刷新状态
 - (void) endRefreshing {
@@ -127,10 +202,8 @@
 }
 - (void)startNetworkWith:(NSString *)neturl andDic:(NSDictionary *)dict{
     NSLog(@"%ld",(long)count);
-    //[SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
-    //[SVProgressHUD showWithStatus:@"加载中"];
+    
     [FSJNetworking networkingGETWithURL:neturl requestDictionary:dict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
          NSMutableArray *tempArray = [NSMutableArray array];
         if ([model.status isEqualToString:@"200"]) {
@@ -141,6 +214,7 @@
             if (tempArray.count >0) {
                 
                 if (count == 1 && self.dataArray.count >0) {
+                    
                     [self.dataArray removeAllObjects];
                 }
                 [self.dataArray addObjectsFromArray:tempArray];
@@ -148,11 +222,10 @@
                     [self.myTable reloadData];
                      [self endRefreshing];
                 });
-                //[SVProgressHUD showSuccessWithStatus:model.message];
-                // 键盘控制
-                // [mysearchBar resignFirstResponder];
+                
             }else{
-                //[SVProgressHUD showInfoWithStatus:@"数据加载完成"];
+                [self.dataArray removeAllObjects];
+                [self.myTable reloadData];
                 [self endRefreshing];
             }
         }
@@ -346,9 +419,7 @@
     self.navigationItem.rightBarButtonItem = item2;
     self.navigationController.navigationBar.tintColor = SystemWhiteColor;
     mysearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,WIDTH*0.73,35)];
-    
     mysearchBar.delegate = self;
-    
     mysearchBar.backgroundColor = [UIColor clearColor];
     mysearchBar.searchBarStyle =UISearchBarStyleDefault;
     mysearchBar.barTintColor = [UIColor whiteColor];
@@ -384,21 +455,20 @@
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
-    [self createTableView];
+    [self createTableViewWithorganId:@""andstationId:@""];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;{
     if ([mysearchBar.text isEqualToString:@""]) {
-//      [SVProgressHUD showErrorWithStatus:@"请输入查询内容"];
         return;
     }
     else{
-        [self createTableView];
+        [self createTableViewWithorganId:@""andstationId:@""];
     }
 }
 - (void)cancelBtn:(UIButton *)sender{
     [mysearchBar resignFirstResponder];
     mysearchBar.text = @"";
-    [self createTableView];
+    [self createTableViewWithorganId:@""andstationId:@""];
 }
 + (NSString *)actionWithMoreInfoType:(MoreInfoType)actionType{
     NSString *url = @"";
@@ -434,5 +504,384 @@
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
     //mysearchBar.text = @"";
+}
+- (void)getTree{
+    NSDictionary *dic = @{@"jwt":jwt};
+    [FSJNetworking networkingGETWithActionType:Gettree requestDictionary:dic
+                                       success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+                                           FSJOganTree *model = [FSJOganTree initWithDictionary:responseObject];
+                                           NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
+                                           
+                                           if ([gradeType isEqualToString:@"1"] ) {
+                                              
+                                               [forthNameArr insertObject:@"兴趣站点" atIndex:0];
+                                               onceOrangId = @"1";
+                                               columnNumber = 4;
+                                               self.firstArr  = model.province.mutableCopy;
+                                               self.secondArr = model.city.mutableCopy;
+                                               self.thridArr  = model.county.mutableCopy;
+                                               for (NSDictionary *dic in self.firstArr) {
+                                                   FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
+                                                   [firstNameArr addObject:model.name];
+                                               }
+                                               for (NSDictionary *dic in self.secondArr) {
+                                                   FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
+                                                   [seconNamedArr addObject:model.name];
+                                               }
+                                               for (NSDictionary *dic in self.thridArr) {
+                                                   FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
+                                                   [thridNameArr addObject:model.name];
+                                               }
+                                               // [firstNameArr insertObject:@"全部" atIndex:0];
+                                               [seconNamedArr insertObject:@"全部" atIndex:0];
+                                               [thridNameArr insertObject:@"全部" atIndex:0];
+                                           }
+                                           
+                                           if ([gradeType isEqualToString:@"2"]) {
+                                               columnNumber = 3;
+                                              
+                                               [thridNameArr insertObject:@"兴趣站点" atIndex:0];
+                                               onceOrangId = [model.province[0] objectForKey:@"organId"];
+                                               self.firstArr  = model.city.mutableCopy;
+                                               self.secondArr = model.county.mutableCopy;
+                                               for (NSDictionary *dic in self.firstArr) {
+                                                   
+                                                   FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
+                                                   [firstNameArr addObject:model.name];
+                                               }
+                                               for (NSDictionary *dic in self.secondArr) {
+                                                   FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
+                                                   [seconNamedArr addObject:model.name];
+                                               }
+                                               [firstNameArr  insertObject:@"全部" atIndex:0];
+                                               [seconNamedArr insertObject:@"全部" atIndex:0];
+                                           }
+                                           if ([gradeType isEqualToString:@"3"]) {
+                                               columnNumber = 2;
+                                                [seconNamedArr insertObject:@"兴趣站点" atIndex:0];
+                                               onceOrangId =  [model.city[0] objectForKey:@"organId"];
+                                              
+                                               self.firstArr =model.county.mutableCopy;
+                                               
+                                               for (NSDictionary *dic in self.firstArr) {
+                                                   FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
+                                                   [firstNameArr addObject:model.name];
+                                               }
+                                               [firstNameArr insertObject:@"全部" atIndex:0];
+                                           }
+                                           dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                               [self createPop];
+                                           });
+                                           
+                                       }failure:^(NSURLSessionDataTask *operation, NSError *error) {
+                                           NSArray *array = error.userInfo.allValues;
+                                           NSHTTPURLResponse *response = array[0];
+                                           if (response.statusCode ==401 ) {
+                                               [SVProgressHUD showInfoWithStatus:AccountChanged];
+                                               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                   [self.navigationController popToRootViewControllerAnimated:YES];
+                                                   [[EGOCache globalCache]clearCache];
+                                                   [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+                                               });
+                                           }
+                                       }];
+}
+
+- (void)createPop{
+    self.menu=[[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+    self.menu.delegate = self;
+    self.menu.dataSource = self;
+    [self.view addSubview: self.menu];
+}
+#pragma mark -- DOPDropDownMenuDataSource & DOPDropDownMenuDelegate
+- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu
+{
+    return columnNumber;
+}
+
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column
+{
+   // if (thridNameArr.count >0) {
+        if (column == 0) {
+            return firstNameArr.count>0?firstNameArr.count:0;
+        }else if (column == 1){
+            return seconNamedArr.count>0?seconNamedArr.count:0;
+        }else if (column == 2){
+            return thridNameArr.count>0?thridNameArr.count:0;
+        }
+        else {
+            return forthNameArr.count>0?forthNameArr.count:0;
+        }
+//    }else{
+//        if (column == 0) {
+//            return firstNameArr.count;
+//        }else if (column == 1){
+//            return seconNamedArr.count;
+//        }
+//    }
+    
+    return 0;
+}
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+   // if (thridNameArr.count >0) {
+        if (indexPath.column == 0) {
+            return firstNameArr[indexPath.row];
+        } else if (indexPath.column == 1){
+            return seconNamedArr[indexPath.row];
+        } else if (indexPath.column ==2){
+            return thridNameArr[indexPath.row];
+        }else{
+            return forthNameArr[indexPath.row];
+        }
+//    }else{
+//        if (indexPath.column == 0) {
+//            return firstNameArr[indexPath.row];
+//        } else if (indexPath.column == 1){
+//            return seconNamedArr[indexPath.row];
+//        }
+//    }
+    return nil;
+}
+
+
+- (NSString *)menu:(DOPDropDownMenu *)menu imageNameForRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    return nil;
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu imageNameForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    return nil;
+}
+
+
+- (NSString *)menu:(DOPDropDownMenu *)menu detailTextForRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    return nil;
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu detailTextForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    return nil;
+}
+
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column
+{
+    
+    return 0;
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    return nil;
+}
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    if (self.dataArray.count>0) {
+        [self.dataArray removeAllObjects];
+    }
+    NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
+    NSString *tempOrganId;
+    if ([gradeType isEqualToString:@"1"]){
+        //点击第一列
+        if (indexPath.column ==0) {
+            [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+            if (indexPath.row !=0) {
+                NSDictionary *dic = self.firstArr[indexPath.row];
+                twiceOrangId = [dic objectForKey:@"organId"];
+                FirstLevelStr = [dic objectForKey:@"organId"];
+                NSLog(@"organId = %@",FirstLevelStr);
+                [seconNamedArr removeAllObjects];
+                for (NSDictionary *temp in self.secondArr) {
+                    if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
+                        [seconNamedArr addObject:[temp objectForKey:@"name"]];
+                        
+                    }
+                }
+                [thridNameArr removeAllObjects];
+                for (NSDictionary *temp in self.thridArr) {
+                    if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
+                        [thridNameArr addObject:[temp objectForKey:@"name"]];
+                    }
+                    else{
+                        for (NSDictionary *dic in self.secondArr) {
+                            if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
+                                if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
+                                    [thridNameArr addObject:[temp objectForKey:@"name"]];
+                                }
+                            }
+                        }
+                    }
+                }
+                [thridNameArr insertObject:@"全部" atIndex:0];
+                [seconNamedArr insertObject:@"全部" atIndex:0];
+                //[self.menu reloadData];
+            }
+            else{
+                twiceOrangId = @"";
+                [seconNamedArr removeAllObjects];
+                [thridNameArr removeAllObjects];
+                for (NSDictionary *temp in self.secondArr) {
+                    [seconNamedArr addObject:[temp objectForKey:@"name"]];
+                }
+                [seconNamedArr insertObject:@"全部" atIndex:0];
+                
+                for (NSDictionary *temp in self.thridArr) {
+                    [thridNameArr addObject:[temp objectForKey:@"name"]];
+                }
+                [thridNameArr insertObject:@"全部" atIndex:0];
+                
+                [self.menu reloadData];
+            }
+        }
+        //点击第二列
+        if (indexPath.column ==1) {
+            if ([twiceOrangId isEqualToString:@""]||twiceOrangId == nil) {
+                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+            }else{
+                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
+            }
+            
+            if (indexPath.row !=0) {
+                NSDictionary *dic = self.secondArr[indexPath.row-1];
+                thirdOrangId = [dic objectForKey:@"organId"];
+                [thridNameArr removeAllObjects];
+                for (NSDictionary *temp in self.thridArr) {
+                    if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
+                        [thridNameArr addObject:[temp objectForKey:@"name"]];
+                        
+                    }
+                }
+                [thridNameArr insertObject:@"全部" atIndex:0];
+            }
+            else{
+                thirdOrangId = @"";
+                [thridNameArr removeAllObjects];
+                for (NSDictionary *temp in self.thridArr) {
+                    
+                    if (seconNamedArr.count == 1) {
+                        
+                        if ([[temp objectForKey:@"parentId"] isEqualToString:FirstLevelStr]){
+                            [thridNameArr addObject:[temp objectForKey:@"name"]];
+                        }
+                    }else{
+                        
+                        for (NSDictionary *dic in self.secondArr) {
+                            if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
+                                if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
+                                    [thridNameArr addObject:[temp objectForKey:@"name"]];
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                [thridNameArr insertObject:@"全部" atIndex:0];
+            }
+        }
+        //点击第三列
+        if(indexPath.column == 2){
+            if (seconNamedArr.count == 1) {
+                if(thirdOrangId ==nil ||[thirdOrangId isEqualToString:@""]){
+                    [self reloadDatawithDataArray:self.secondArr andNameArray:thridNameArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
+                }else if (twiceOrangId ==nil ||[thirdOrangId isEqualToString:@""]) {
+                    [self reloadDatawithDataArray:self.secondArr andNameArray:thridNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+                }else{
+                    [self reloadDatawithDataArray:self.secondArr andNameArray:thridNameArr and:tempOrganId and:thirdOrangId andIndexPath:indexPath];
+                }
+                
+            }else{
+                if(thirdOrangId ==nil){
+                    [self reloadDatawithDataArray:self.thridArr andNameArray:thridNameArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
+                }else if (twiceOrangId ==nil) {
+                    [self reloadDatawithDataArray:self.thridArr andNameArray:thridNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+                }else{
+                    [self reloadDatawithDataArray:self.thridArr andNameArray:thridNameArr and:tempOrganId and:thirdOrangId andIndexPath:indexPath];
+                }
+            }
+            NSLog(@"%@",thridNameArr[indexPath.row]);
+            //点击第四列
+        } if(indexPath.column == 3){
+            if (indexPath.row == 0) {
+                [self createTableViewWithorganId:@""andstationId:@""];
+            }else{
+            NSDictionary *tempDict = self.forthArr[indexPath.row-1];
+            [self createTableViewWithorganId:@""andstationId:[tempDict objectForKey:@"stationId"]];
+            }
+        }
+        
+    }
+    if ([gradeType isEqualToString:@"2"]){
+        if (indexPath.column == 0) {
+            [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+            if (indexPath.row != 0) {
+                NSDictionary *dic = self.firstArr[indexPath.row-1];
+                [seconNamedArr removeAllObjects];
+                for (NSDictionary *temp in self.secondArr) {
+                    if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
+                        [seconNamedArr addObject:[temp objectForKey:@"name"]];
+                        twiceOrangId = [temp objectForKey:@"parentId"];
+                    }
+                }
+                [seconNamedArr insertObject:@"全部" atIndex:0];
+            }
+            else{
+                twiceOrangId = @"";
+                [seconNamedArr removeAllObjects];
+                for (NSDictionary *temp in self.secondArr) {
+                    [seconNamedArr addObject:[temp objectForKey:@"name"]];
+                }
+                [seconNamedArr insertObject:@"全部" atIndex:0];
+            }
+        }
+        if(indexPath.column == 1){
+            if ([twiceOrangId isEqualToString:@""]) {
+                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+            }else{
+                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
+            }
+            NSLog(@"%@",seconNamedArr[indexPath.row]);
+        }
+        if(indexPath.column == 2){
+            if (indexPath.row == 0) {
+                [self createTableViewWithorganId:@""andstationId:@""];
+            }else{
+                NSDictionary *tempDict = self.forthArr[indexPath.row-1];
+                [self createTableViewWithorganId:@""andstationId:[tempDict objectForKey:@"stationId"]];
+            }
+        }
+    }
+    if ([gradeType isEqualToString:@"3"]){
+        if(indexPath.column == 0){
+           [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+        }
+     
+        if(indexPath.column == 1){
+            if (indexPath.row == 0) {
+                [self createTableViewWithorganId:@""andstationId:@""];
+            }else{
+                NSDictionary *tempDict = self.forthArr[indexPath.row-1];
+                [self createTableViewWithorganId:@""andstationId:[tempDict objectForKey:@"stationId"]];
+            }
+        }
+    }
+    NSLog(@"点击了 %ld - %ld 项目",(long)indexPath.column,indexPath.row);
+}
+
+//根据点击刷新数据
+- (void)reloadDatawithDataArray:(NSArray *)DataArray andNameArray:(NSArray *)NameArray and:(NSString *)tempOrganId and:(NSString *)onceOrangIdStr andIndexPath:(DOPIndexPath *)indexPath{
+    
+    for (NSDictionary *dic in DataArray) {
+        if ([NameArray[indexPath.row] isEqualToString:[dic objectForKey:@"name"]]) {
+            tempOrganId = [dic objectForKey:@"organId"];
+        }
+    }
+    if (tempOrganId == nil) {
+        [self createTableViewWithorganId:onceOrangIdStr andstationId:@""];
+    }else{
+        [self createTableViewWithorganId:tempOrganId andstationId:@""];
+    }
+    
 }
 @end

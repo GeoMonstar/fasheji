@@ -42,6 +42,17 @@
         self.window.rootViewController = nav;
     }
     [self.window makeKeyAndVisible];
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    
+    manager.enable = YES;
+    
+    manager.shouldResignOnTouchOutside = YES;
+    
+    manager.shouldToolbarUsesTextFieldTintColor = YES;
+    
+    manager.enableAutoToolbar = NO;
+    
+
     return YES;
 }
 - (void)applicationWillResignActive:(UIApplication *)application {

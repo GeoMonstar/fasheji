@@ -8,11 +8,18 @@
 
 #import "FSJOneFSJTableViewCell.h"
 #import "FSJOneFSJ.h"
+@interface FSJOneFSJTableViewCell(){
+    NSString *tranID;
+}
+
+@end
 @implementation FSJOneFSJTableViewCell
+
 @synthesize topLabel = _topLabel;
 @synthesize rusheValue = _rusheValue;
 @synthesize fansheValue = _fansheValue;
 @synthesize fsjImg = _fsjImg;
+@synthesize ShebeiBtn = _ShebeiBtn;
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -24,6 +31,7 @@
     self.fansheValue.text = item.masterPr;
     self.fansheValue.textColor = SystemGreenColor;
     self.fsjImg.contentMode = UIViewContentModeScaleAspectFit;
+    tranID = item.transId;
     [self.fsjImg sizeToFit];
     switch ([item.status integerValue]) {
         case 0:
@@ -41,8 +49,14 @@
         default:
             break;
     }
-
-
+    
+    [self.ShebeiBtn addTarget:self action:@selector(Shebeiclicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+- (void)Shebeiclicked:(UIButton *)button{
+    
+    if (self.ShebeiClicked) {
+        self.ShebeiClicked();
+    }
 }
 + (FSJOneFSJTableViewCell *)initWith:(UITableView *)tableView{
     static NSString *ID = @"CELL";
@@ -62,6 +76,7 @@
     }
     return cell;
 }
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

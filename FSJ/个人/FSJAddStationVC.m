@@ -156,30 +156,31 @@
 
 - (NSString *)menu:(DOPDropDownMenu *)menu titleForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
 {
+   
     return nil;
 }
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
 {
-    
+    if (self.dataArray.count>0) {
+        [self.dataArray removeAllObjects];
+    }
     NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
     NSString *tempOrganId;
     if ([gradeType isEqualToString:@"1"]){
         //点击第一列
         if (indexPath.column ==0) {
-            
-            //   [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
-            
-            
+        [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
             if (indexPath.row !=0) {
-                NSDictionary *dic = self.firstArr[indexPath.row-1];
+                NSDictionary *dic = self.firstArr[indexPath.row];
+                 twiceOrangId = [dic objectForKey:@"organId"];
                 FirstLevelStr = [dic objectForKey:@"organId"];
                 NSLog(@"organId = %@",FirstLevelStr);
                 [seconNamedArr removeAllObjects];
                 for (NSDictionary *temp in self.secondArr) {
                     if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
                         [seconNamedArr addObject:[temp objectForKey:@"name"]];
-                         twiceOrangId = [temp objectForKey:@"parentId"];
+                        
                     }
                 }
                 [thridNameArr removeAllObjects];
@@ -215,26 +216,24 @@
                 [thridNameArr insertObject:@"全部" atIndex:0];
                 
                 [self.menu reloadData];
-                
             }
         }
         //点击第二列
         if (indexPath.column ==1) {
-            
-//            if ([twiceOrangId isEqualToString:@""]) {
-//                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
-//            }else{
-//                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
-//            }
-
+            if ([twiceOrangId isEqualToString:@""]) {
+                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+            }else{
+                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
+            }
             
             if (indexPath.row !=0) {
                 NSDictionary *dic = self.secondArr[indexPath.row-1];
+                thirdOrangId = [dic objectForKey:@"organId"];
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.thridArr) {
                     if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
                         [thridNameArr addObject:[temp objectForKey:@"name"]];
-                         thirdOrangId = [temp objectForKey:@"parentId"];
+                        
                     }
                 }
                 [thridNameArr insertObject:@"全部" atIndex:0];
@@ -250,6 +249,7 @@
                             [thridNameArr addObject:[temp objectForKey:@"name"]];
                             }
                         }else{
+                            
                             for (NSDictionary *dic in self.secondArr) {
                                 if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
                             if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
@@ -265,16 +265,24 @@
         }
         //点击第三列
         if(indexPath.column == 2){
-           
-//            if ([twiceOrangId isEqualToString:@""]) {
-//                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
-//            }else if([thirdOrangId isEqualToString:@""]){
-//                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
-//            }else{
-//                [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:thirdOrangId andIndexPath:indexPath];
-//            }
-            
- //         [self reloadDatawithDataArray:self.thridArr andNameArray:thridNameArr and:tempOrganId and:thirdOrangId andIndexPath:indexPath];
+            if (seconNamedArr.count == 1) {
+                if(thirdOrangId ==nil ||[thirdOrangId isEqualToString:@""]){
+                    [self reloadDatawithDataArray:self.secondArr andNameArray:thridNameArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
+                }else if (twiceOrangId ==nil ||[thirdOrangId isEqualToString:@""]) {
+                    [self reloadDatawithDataArray:self.secondArr andNameArray:thridNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+                }else{
+                    [self reloadDatawithDataArray:self.secondArr andNameArray:thridNameArr and:tempOrganId and:thirdOrangId andIndexPath:indexPath];
+                }
+                
+            }else{
+            if(thirdOrangId ==nil){
+                    [self reloadDatawithDataArray:self.thridArr andNameArray:thridNameArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
+            }else if (twiceOrangId ==nil) {
+                    [self reloadDatawithDataArray:self.thridArr andNameArray:thridNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+            }else{
+                [self reloadDatawithDataArray:self.thridArr andNameArray:thridNameArr and:tempOrganId and:thirdOrangId andIndexPath:indexPath];
+            }
+        }
             NSLog(@"%@",thridNameArr[indexPath.row]);
         }
     }
@@ -315,18 +323,19 @@
         [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
         
     }
-        NSLog(@"点击了 %ld - %ld 项目",(long)indexPath.column,indexPath.row);
+    NSLog(@"点击了 %ld - %ld 项目",(long)indexPath.column,indexPath.row);
 }
 //根据点击刷新数据
 - (void)reloadDatawithDataArray:(NSArray *)DataArray andNameArray:(NSArray *)NameArray and:(NSString *)tempOrganId and:(NSString *)onceOrangIdStr andIndexPath:(DOPIndexPath *)indexPath{
     
     for (NSDictionary *dic in DataArray) {
         if ([NameArray[indexPath.row] isEqualToString:[dic objectForKey:@"name"]]) {
-            tempOrganId = [dic objectForKey:@"organId"];
+                tempOrganId = [dic objectForKey:@"organId"];
         }
     }
+    
     if (tempOrganId == nil) {
-        [self loadDatawith:onceOrangIdStr];
+       [self loadDatawith:onceOrangIdStr];
     }else{
         [self loadDatawith:tempOrganId];
     }
@@ -358,10 +367,11 @@
                         FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                         [thridNameArr addObject:model.name];
                     }
-                      [firstNameArr insertObject:@"全部" atIndex:0];
+                     // [firstNameArr insertObject:@"全部" atIndex:0];
                       [seconNamedArr insertObject:@"全部" atIndex:0];
                       [thridNameArr insertObject:@"全部" atIndex:0];
                 }
+                
                 if ([gradeType isEqualToString:@"2"]) {
                     columnNumber = 2;
                     [self loadDatawith:[model.province[0] objectForKey:@"organId"]];
@@ -406,6 +416,7 @@
                     }
                 }];
 }
+
 - (void)createNav{
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
@@ -436,7 +447,7 @@
     mysearchBar.layer.cornerRadius = 17.5;
     mysearchBar.layer.masksToBounds = YES;
     mysearchBar.barStyle =UIBarStyleBlack;
-    mysearchBar.showsCancelButton = YES;
+    //mysearchBar.showsCancelButton = YES;
     mysearchBar.placeholder = @"输入台站名称";
     for (UIView* view in mysearchBar.subviews)
     {
@@ -504,7 +515,7 @@
 - (void)loadDatawith:(NSString *)organId{
    
     NSDictionary *netdic;
-    if (mysearchBar.text == nil  ) {
+    if (mysearchBar.text == nil ) {
           netdic = @{@"jwt":jwt,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count]};
     }else{
          netdic = @{@"jwt":jwt,@"sname":mysearchBar.text,@"organId":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count]};
@@ -518,6 +529,7 @@
               
                 [tempArray addObject:dict];
             }
+            
             if (tempArray.count >0) {
                 if (count == 1 && self.dataArray.count >0) {
                     [self.dataArray removeAllObjects];
@@ -528,7 +540,9 @@
                     [self endRefreshing];
                 });
             }else{
-               
+                
+                [self.dataArray removeAllObjects];
+                [self.myTable reloadData];
                 [self endRefreshing];
             }
         }
@@ -546,7 +560,9 @@
     }];
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    [self createTableView];
+    
+    [self loadDatawith:@""];
+   // [self createTableView];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
      [self.view endEditing:YES];
@@ -555,7 +571,7 @@
         return;
     }
     else{
-        [self createTableView];
+        [self loadDatawith:@""];
     }
 }
 - (void)finshed:(UIButton *)sender{
@@ -621,11 +637,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
 }
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    mysearchBar.text = @"";
-    [mysearchBar resignFirstResponder];
-    [self.view endEditing:YES];
-}
+
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [searchView removeFromSuperview];
