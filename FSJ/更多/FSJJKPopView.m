@@ -27,7 +27,7 @@
        
         singleTap.numberOfTapsRequired = 2;
         [self addGestureRecognizer:singleTap];
-        bgview = [[UIView alloc]initWithFrame:CGRectMake(WIDTH/2-80,10 , 160,160)];
+        bgview = [[UIView alloc]initWithFrame:CGRectMake(WIDTH/2-80,10 , 160,data.count *40)];
         bgview.backgroundColor = SystemWhiteColor;
         [self addSubview:bgview];
         bgview.layer.cornerRadius = 10;

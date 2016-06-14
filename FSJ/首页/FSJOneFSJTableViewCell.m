@@ -49,6 +49,16 @@
         default:
             break;
     }
+   
+    if (iPhone5 ||iPhone4) {
+         [self.ShebeiBtn setImageEdgeInsets:UIEdgeInsetsMake(-1, 0, -2,30 )];
+    }
+    else if (iPhone6 ) {
+         [self.ShebeiBtn setImageEdgeInsets:UIEdgeInsetsMake(-1, 0, -2,50 )];
+    }
+    else if (iPhone6plus ) {
+        [self.ShebeiBtn setImageEdgeInsets:UIEdgeInsetsMake(-1, 0, -2,75 )];
+    }
     
     [self.ShebeiBtn addTarget:self action:@selector(Shebeiclicked:) forControlEvents:UIControlEventTouchUpInside];
 }

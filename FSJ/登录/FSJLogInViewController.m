@@ -40,7 +40,7 @@
     userName.placeholder = @"用户名";
     userName.borderStyle = UITextBorderStyleNone;
     userName.backgroundColor = [UIColor clearColor];
-    //userName.text =@"city";
+    userName.text =@"admin";
     [self.view addSubview:userName];
 
     userPwd = [[UITextField alloc]initWithFrame:CGRectMake(leftMagrin, HEIGH/2 + viewHeight + 24, WIDTH - leftMagrin-rightMagrin, viewHeight)];
@@ -112,7 +112,7 @@
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
     //userName.text =@"province";
-    //userPwd.text  =@"admin";
+    userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
         return;
@@ -123,13 +123,11 @@
     }
     [self.view endEditing:YES];//键盘退出
     NSDictionary *loginDict = @{@"userName":userName.text,@"password":userPwd.text};
-    [SVProgressHUD showWithStatus:@"正在登录"];
-    [FSJNetWorking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+   
+    [FSJNetworking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         model = [FSJUserInfo initWithDictionary:responseObject];
-
         if ([model.status isEqualToString: @"200"]) {
-            [SVProgressHUD showSuccessWithStatus:model.message];
-            
+           // [SVProgressHUD showSuccessWithStatus:model.message];
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:0];
             [[EGOCache globalCache]setString:model.userId   forKey:@"userId"];
             [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt"];
@@ -137,12 +135,14 @@
             [[EGOCache globalCache]setString:model.areaId   forKey:@"areaId"];
             [[EGOCache globalCache]setString:model.topic    forKey:@"topic"];
             [[EGOCache globalCache]setString:model.areaName forKey:@"areaname"];
+            [[EGOCache globalCache]setString:model.officeName forKey:@"officeName"];
              FSJMapViewController *vc = [[FSJMapViewController alloc]init];
             [self.navigationController pushViewController:vc animated:YES];
         }else{
-            [SVProgressHUD showInfoWithStatus:model.message];
+           //[MBProgressHUD showError:model.message];
+           [SVProgressHUD showInfoWithStatus:model.message];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"error = %@",error);
         [SVProgressHUD showInfoWithStatus:@"登录失败"];
     }];

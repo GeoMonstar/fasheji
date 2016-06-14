@@ -14,7 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - BaiduMapKit (2.10.2)
+  - BaiduMapKit (3.0.0)
   - EGOCache (2.1.3)
   - HMSegmentedControl (1.5.2)
   - IQKeyboardManager (4.0.3)
@@ -32,7 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - BaiduMapKit (= 2.10.2)
+  - BaiduMapKit (= 3.0.0)
   - EGOCache
   - HMSegmentedControl
   - IQKeyboardManager
@@ -48,7 +48,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  BaiduMapKit: b1706a062597c70ec62a0cca93212cba1d3017e1
+  BaiduMapKit: de2a726d5296d6b2dc0e974b683af73153608dcd
   EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
   IQKeyboardManager: be9695ffc5a52077deb4847608f338771022d6d1

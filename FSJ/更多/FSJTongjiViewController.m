@@ -58,9 +58,7 @@
     
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-       [SVProgressHUD dismiss];
-    });
+
     
 }
 
@@ -72,8 +70,6 @@
     [super viewWillDisappear:animated];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
-
-    [SVProgressHUD showErrorWithStatus:@"网络连接失败"];
-   
+    [MBProgressHUD showError:@"网络连接失败"];
 }
 @end

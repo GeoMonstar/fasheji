@@ -397,7 +397,7 @@
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     UIButton *myButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    myButton.frame = CGRectMake(0, 0, 10, 15);
+    myButton.frame = CGRectMake(0, 0, 15, 15);
     [myButton setBackgroundImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc]initWithCustomView:myButton];
     [myButton addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];

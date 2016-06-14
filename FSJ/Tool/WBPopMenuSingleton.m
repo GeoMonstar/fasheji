@@ -39,7 +39,7 @@
     }
     //UIWindow * window = [[[UIApplication sharedApplication] windows] firstObject];
    // CGRect rect = CGRectMake(0, Popviewheight * 0.06 + 20, Popviewwidth, Popviewheight * 0.87 -20);
-    CGRect rect = CGRectMake(0, 0, Popviewwidth, Popviewheight);
+    CGRect rect = CGRectMake(Popviewwidth/2, 64, Popviewwidth/2, Popviewheight);
     self.popMenuView = [[WBPopMenuView alloc]initWithFrame:rect
                                              menuWidth:width
                                                  items:item
@@ -86,9 +86,5 @@
     else{
         return;
     }
-   
 }
-
-
-
 @end

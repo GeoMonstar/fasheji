@@ -94,14 +94,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     UISearchBar *mainSearchbar;
     UIButton *userBtn;
     UIView *tabbarBg;
-    
     NSArray *gaojingArr;
     NSArray *shebeiArr;
-    
     NSArray *gaojingimgArr;
     NSArray *shebeiimgArr;
-    
-    
     NSArray *shebeiTypeArr;
     NSArray *gaojingTypeArr;
     UIView *maskview;
@@ -114,7 +110,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 @property (nonatomic, strong)UITableView *mytableView;
 @property (nonatomic, strong)BMKMapView *mapView;
 @property (strong, nonatomic) NSMutableArray *lenovoTableArray;
-@property (weak, nonatomic) IBOutlet UIButton *moreBtn;
 @property (nonatomic, strong)UITableView *LenovoTableView;
 #define FirstLevel  6.0f
 #define SecondLevel 8.0f
@@ -177,7 +172,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
          [self receiveWarnNoti];
     });
-        [self customUI];
+    [self customUI];
     [self addCustomGestures];//添加自定义的手势
     staticJwt      = [[EGOCache globalCache]stringForKey:@"jwt"];
     staticareaType = [[EGOCache globalCache]stringForKey:@"areaType"];
@@ -186,6 +181,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     staticName     = [[EGOCache globalCache]stringForKey:@"areaname"];
     statitopic     = [NSString stringWithFormat:@"%@/#",[[EGOCache globalCache]stringForKey:@"topic"]];
     NSDictionary *dic = @{@"areaId":staticareaId,@"areaType":staticareaType,@"userId":staticuserId,@"jwt":staticJwt};
+    
     
     [self getallstationInfoWith:@"" andtype:Allstationquery anddicparameter:@"keyword" andShowAnno:NO andFirst:YES];
     if ([staticareaType isEqualToString:@"1"]) {
@@ -204,20 +200,21 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     if ([staticareaType isEqualToString:@"3"]) {
         [self getCityStationWith:dic and:YES];
     }
-   //[self checkUpdate];
+    //[self checkUpdate];
 }
 #pragma mark --检查更新
 - (void)checkUpdate{
     NSString *jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
     NSDictionary *verdic = @{@"jwt":jwtStr};
-    [FSJNetworking networkingGETWithActionType:GetVerisonInfo requestDictionary:verdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+    [FSJNetworking networkingGETWithActionType:VerisonInfo requestDictionary:verdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         versionStr   = [[responseObject objectForKey:@"version"]substringFromIndex:1];
+        NSString *message =[responseObject objectForKey:@"message"];
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
         // app build版本
         
-        if ([app_Version isEqualToString:versionStr]) {
-            // [SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
+        if ([app_Version isEqualToString:versionStr]||[versionStr isEqualToString:@""]) {
+            //[SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
         }
         else{
             UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"新版本可以更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -277,7 +274,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 NSLog(@"去掉前错误数量%lu",(unsigned long)stationError.count);
             }
         }
-
         dispatch_async(dispatch_get_main_queue(), ^{
             [[EGOCache globalCache]setString:[NSString stringWithFormat:@"%ld",(long)num] forKey:arr[2]];
         });
@@ -457,7 +453,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     mainSearchbar.layer.cornerRadius = HEIGH *0.03;
     mainSearchbar.layer.masksToBounds = YES;
     mainSearchbar.barStyle =UIBarStyleBlack;
-    mainSearchbar.showsCancelButton = YES;
+    mainSearchbar.showsCancelButton = NO;
+    
     for (UIView* view in mainSearchbar.subviews)
     {
         for (UIView *v in view.subviews) {
@@ -468,6 +465,15 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             }
         }
     }
+    UIButton *quxiaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    quxiaoBtn.frame = CGRectMake(mainSearchbar.frame.size.width-45, mainSearchbar.frame.size.height/2-10, 40, 20);
+    [quxiaoBtn setTitle:@"取消" forState:UIControlStateNormal];
+    quxiaoBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [quxiaoBtn setTitleColor:SystemGrayColor forState:UIControlStateNormal];
+    [quxiaoBtn addTarget:self action:@selector(quxiao:) forControlEvents:UIControlEventTouchUpInside];
+    [mainSearchbar addSubview:quxiaoBtn];
+    
+    
     [BackgroundVIew addSubview:mainSearchbar];
     [self.mapView addSubview:BackgroundVIew];
     //[self.view insertSubview:BackgroundVIew atIndex:0];
@@ -522,20 +528,30 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             self.mytableView = nil;
         }
         if ([staticareaType isEqualToString:@"1"]) {
+            mainSearchbar.text = @"";
+            self.LenovoTableView.hidden = YES;
+            self.LenovoTableView = nil;
+            [self removeAnno];
             self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
                 self.mapView.zoomLevel = FirstLevel;
             }];
-           
-            
         }
         if ([staticareaType isEqualToString:@"2"]) {
+            mainSearchbar.text = @"";
+            self.LenovoTableView.hidden = YES;
+            self.LenovoTableView = nil;
+            [self removeAnno];
             self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
                 self.mapView.zoomLevel = SecondLevel;
-                           }];
+            }];
         }
         if ([staticareaType isEqualToString:@"3"]) {
+            mainSearchbar.text = @"";
+            self.LenovoTableView.hidden = YES;
+            self.LenovoTableView = nil;
+            [self removeAnno];
              self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
                 self.mapView.zoomLevel = ThirdtLevel;
@@ -579,11 +595,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             }
         }
        [[WBPopMenuSingleton shareManager]hideMenu];
-//        if (sender.tag == 601 && sender.selected == YES) {
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:601];
-//             });
-//        }
         if (sender.tag == 602 && sender.selected == YES) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self createPopwithName:shebeiArr andImg:shebeiimgArr andtag:602];
@@ -670,12 +681,26 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [self.view endEditing:YES];
     
 }
-
+- (void)quxiao:(UIButton *)button{
+    mainSearchbar.text = @"";
+    self.LenovoTableView.hidden = YES;
+    self.LenovoTableView = nil;
+    if (showPop == YES) {
+        [self removeAnno];
+    }else{
+        [self.view endEditing:YES];
+    }
+}
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     mainSearchbar.text = @"";
     self.LenovoTableView.hidden = YES;
     self.LenovoTableView = nil;
-    [self removeAnno];
+    if (showPop == YES) {
+        [self removeAnno];
+    }else{
+        [self.view endEditing:YES];
+    }
+   
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSLog(@"change");
@@ -815,13 +840,16 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
       
         else{
-            [SVProgressHUD showErrorWithStatus:model.message];
+          
+            
+           // [MBProgressHUD showError:model.message];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"%@",error);
         NSArray *array = error.userInfo.allValues;
         NSHTTPURLResponse *response = array[0];
         if (response.statusCode ==401 ) {
+            
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -1195,7 +1223,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 #pragma mark -- 获得发射站数据
 - (void)getCityStationWith:(NSDictionary *)dic and:(BOOL)show{
         showWarn = YES;
-
+    
     [FSJNetworking networkingGETWithActionType:AreaalarmStatus requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         if (responseObject) {
             FSJUserInfo *user = [FSJUserInfo initWithDictionary:responseObject];
@@ -1446,7 +1474,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             
             if (show && !first) {
                 [self addAnnotataionOnmapWith:allsite];
-                
             }
             else{
                  //dispatch_async(dispatch_get_main_queue(), ^{
@@ -1454,9 +1481,13 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                  //});
                  //[LGProgressHud hideAllHudInView:self.mytableView animated:HudAnimatedTypeNone];
             }
+        }else{
+            [MBProgressHUD showError:model.message];
         }
 
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        
+        
         NSArray *array = error.userInfo.allValues;
         NSHTTPURLResponse *response = array[0];
         if (response.statusCode ==401 ) {
@@ -1466,6 +1497,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [[EGOCache globalCache]clearCache];
                 [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
             });
+        }else{
+          [MBProgressHUD showError:error];
         }
     }];
 }
@@ -1535,7 +1568,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     if (indexPath.section == 0) {
         return 50;
     }
-    return 45;
+    return 50;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -1583,7 +1616,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.textColor =SystemWhiteColor;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         [cell addGestureRecognizer:cellpan];
         return cell;
     }
@@ -1601,14 +1633,13 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             cell.item = allsite[indexPath.row];
             cell.ShebeiClicked = ^(void){
                 FSJOneFSJ *model = allsite[indexPath.row];
-                FSJJiankongVC *jiankong = [[FSJJiankongVC alloc]init];
-                jiankong.JiankongType = Zhengji;
-                jiankong.fsjId = model.transId;
-                jiankong.addressId = model.ipAddr;
-            [self.navigationController pushViewController:jiankong animated:YES];
+                FSJPeopleManagerDetailViewController *detail = [[FSJPeopleManagerDetailViewController alloc]init];
+                detail.DetailInfoType = FSJManageDetail;
+                detail.managerID = model.transId;
+                [self.navigationController pushViewController:detail animated:YES];
             };
             return cell;
-        }
+         }
       }
    }
     else{
@@ -1643,10 +1674,27 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }
     else{
         FSJOneFSJ *model = allsite[indexPath.row];
-        FSJPeopleManagerDetailViewController *detail = [[FSJPeopleManagerDetailViewController alloc]init];
-        detail.DetailInfoType = FSJManageDetail;
-        detail.managerID = model.transId;
-        [self.navigationController pushViewController:detail animated:YES];
+        FSJJiankongVC *jiankong = [[FSJJiankongVC alloc]init];
+        jiankong.JiankongType = Zhengji;
+        jiankong.showZidong = YES;
+        jiankong.fsjId = model.transId;
+        jiankong.addressId = model.ipAddr;
+        NSDictionary *netdict = @{@"id":model.transId,@"jwt":staticJwt};
+        [FSJNetworking networkingGETWithURL:@"/rs/app/station/transmitter/getById" requestDictionary:netdict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+           FSJResultList * listmodel = [FSJResultList initWithDictionary:responseObject];
+            if ([listmodel.powerRate isEqualToString:@"1KW"]) {
+                jiankong.is1000W = YES;
+                }
+            else{
+                jiankong.is1000W = NO;
+                
+            }
+            [self.navigationController pushViewController:jiankong animated:YES];
+        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+            NSLog(@"%@",error);
+        }];
+       
+        
     }
 }
     else{
@@ -1658,9 +1706,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [arr addObject:model];
             }
         }
-         [self addAnnotataionOnmapWith:arr];
-         [self.view endEditing:YES];
+        [self addAnnotataionOnmapWith:arr];
+        [self.view endEditing:YES];
          mainSearchbar.text = self.lenovoTableArray[indexPath.row];
+        //[mainSearchbar becomeFirstResponder];
     }
     //取消选中效果
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -1673,16 +1722,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         me.VersionStr = versionStr;
         [self.navigationController pushViewController:me animated:YES];
         [[WBPopMenuSingleton shareManager]hideMenu];
-    // [self changeStatusWith:@[@"1/11/12/10001",@"0"]];
+    
+    
     NSLog(@"状态改变1");
 }
-//- (IBAction)MoreButton:(UIButton *)sender {
-//    FSJMoreInfomationViewController *more = [[FSJMoreInfomationViewController alloc]init];
-//     [self.navigationController pushViewController:more animated:YES];
-//    [self changeStatusWith:@[@"1/11/12/10000",@"0"]];
-//    [self changeStatusWith:@[@"1/2/3/10004",@"1"]];
-//    NSLog(@"状态改变0");
-//}
+
 #pragma mark - 添加自定义的手势（若不自定义手势，不需要下面的代码）
 - (void)addCustomGestures {
     /*
@@ -1703,7 +1747,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
      *否则影响地图内部的手势处理
      */
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    //singleTap.delegate = self;
+    singleTap.delegate = self;
     singleTap.cancelsTouchesInView = NO;
     singleTap.delaysTouchesEnded = NO;
     //[singleTap requireGestureRecognizerToFail:doubleTap];
@@ -1742,6 +1786,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 - (void)handleSingleTap:(UITapGestureRecognizer *)theSingleTap {
     NSLog(@"my handleSingleTap");
     
+    [[WBPopMenuSingleton shareManager]hideMenu];
     [maskview removeFromSuperview];
     maskview = nil;
     for (UIButton *btn in btnArr) {
@@ -1750,17 +1795,19 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             btn.selected = YES;
         }
     }
-//    [UIView animateWithDuration:1 animations:^{
-//        CGRect rect = self.mytableView.frame;
-//        if (rect.origin.y == HEIGH-50) {
-//            return;
-//        }
-//        else{
-//            rect.origin.y = HEIGH-50;
-//            rect.size.height = 50;
-//        }
-//        self.mytableView.frame = rect;
-//    }];
+
+}
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    // 判断是不是UIButton的类
+    if ([touch.view.superview isKindOfClass:[UITableViewCell class]] )
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 - (void)handleDoubleTap:(UITapGestureRecognizer *)theDoubleTap {
     NSLog(@"my handleDoubleTap");

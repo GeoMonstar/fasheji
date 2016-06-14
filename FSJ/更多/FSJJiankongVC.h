@@ -21,4 +21,5 @@ typedef NS_ENUM(NSInteger,JiankongType){
 @property (nonatomic,copy)NSString *fsjId;
 @property (nonatomic,copy)NSString *addressId;
 @property (nonatomic,assign)BOOL showZidong;
+@property (nonatomic,assign)BOOL is1000W;
 @end

@@ -149,6 +149,7 @@
             url = @"/rs/app/map/alarmStatus";
             break;
         case Allstationquery:
+           
             url = @"/rs/app/map/station/transmitter/list";
             break;
         case Onestationquery:

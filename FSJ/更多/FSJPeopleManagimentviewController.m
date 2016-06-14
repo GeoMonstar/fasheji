@@ -42,10 +42,11 @@
     NSString *thirdOrangId;
     
     NSInteger TableHeight;
+    NSString *staticOrganId;
+    NSString *staticStationId;
 }
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *myTable;
-
 @property (nonatomic,strong)NSMutableArray *firstArr;
 @property (nonatomic,strong)NSMutableArray *secondArr;
 @property (nonatomic,strong)NSMutableArray *thridArr;
@@ -62,7 +63,7 @@
 }
 - (UITableView *)myTable{
     if (_myTable == nil) {
-        _myTable = [[UITableView alloc]initWithFrame:CGRectMake(0, TableHeight, WIDTH, HEIGH) style:UITableViewStyleGrouped];
+        _myTable = [[UITableView alloc]initWithFrame:CGRectMake(0, TableHeight, WIDTH, HEIGH-TableHeight) style:UITableViewStyleGrouped];
         _myTable.delegate = self;
         _myTable.dataSource = self;
     }
@@ -106,9 +107,7 @@
             for (NSDictionary *dict in model.list) {
                  NSString *namestr = [dict objectForKey:@"sname"];
                 if ([gradeType isEqualToString:@"1"]) {
-                   
                     [forthNameArr addObject:namestr];
-                    
                      [self.forthArr addObject:dict];
                 }
                 if ([gradeType isEqualToString:@"2"]) {
@@ -121,11 +120,7 @@
                     
                     [self.secondArr addObject:dict];
                 }
-               
             }
-            
-           
-    
         }
     }failure:^(NSURLSessionDataTask *operation, NSError *error) {
         [MBProgressHUD showError:[NSString stringWithFormat:@"%@",error]];
@@ -188,7 +183,6 @@
 - (void) loadDataWhenReachingBottom {
     count ++;
     isDraggingDown = NO;
-    
     [self startNetworkWith:url andDic:netdic];
 }
 // 结束下拉或上拉刷新状态
@@ -212,9 +206,7 @@
                 [tempArray addObject:listmodle];
             }
             if (tempArray.count >0) {
-                
                 if (count == 1 && self.dataArray.count >0) {
-                    
                     [self.dataArray removeAllObjects];
                 }
                 [self.dataArray addObjectsFromArray:tempArray];
@@ -299,7 +291,6 @@
         cell.topLabel.text = [NSString stringWithFormat:@"设备名称:%@", model.tname];
         cell.secondLabel.text = [NSString stringWithFormat:@"所属区域%@",model.areaName];
         cell.thirdLabel.text = [NSString stringWithFormat:@"检测值:%@            %@",model.value,model.time];
-        
     }
     return cell;
     }
@@ -345,23 +336,13 @@
         jiankong.JiankongType = Zhengji;
         jiankong.fsjId = transmodel.transId;
         jiankong.addressId = transmodel.ipAddr;
-        
+        if ([transmodel.powerRate isEqualToString:@"1KW"]) {
+            jiankong.is1000W = YES;
+        }
+        else{
+            jiankong.is1000W = NO;
+        }
         [self.navigationController pushViewController:jiankong animated:YES];
-//        transmodel = self.dataArray[indexPath.section];
-//        jiankong = [[FSJJiankongVC alloc]init];
-//        jiankong.fsjId = transmodel.transId;
-//        jiankong.addressId = transmodel.ipAddr;
-//        if ([transmodel.powerRate isEqualToString:@"300W"]) {
-//            jiankongArr     = @[@"前置放大单元",@"工作状态"];
-//            jiankongimgArr  = @[@"clt.png",@"zhuangtai"];
-//            [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602 andShowzidong:NO];
-//        }
-//        else{
-//            jiankongArr     = @[@"前置放大单元",@"功率放大单元",@"整机",@"工作状态"];
-//            jiankongimgArr  = @[@"clt.png",@"cnu",@"zhengji",@"zhuangtai"];
-//            [self createPopwithName:jiankongArr andImg:jiankongimgArr andtag:602 andShowzidong:YES];
-//        
-//        }
         
     }
     else{
@@ -455,20 +436,25 @@
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
-    [self createTableViewWithorganId:@""andstationId:@""];
+    [self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:@""];
+    
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;{
     if ([mysearchBar.text isEqualToString:@""]) {
         return;
     }
     else{
-        [self createTableViewWithorganId:@""andstationId:@""];
+        [self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:@""];
     }
+    [mysearchBar resignFirstResponder];
+     [self.view endEditing:YES];
 }
 - (void)cancelBtn:(UIButton *)sender{
     [mysearchBar resignFirstResponder];
     mysearchBar.text = @"";
+    [self.menu reloadData];
     [self createTableViewWithorganId:@""andstationId:@""];
+    
 }
 + (NSString *)actionWithMoreInfoType:(MoreInfoType)actionType{
     NSString *url = @"";
@@ -503,7 +489,7 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
-    //mysearchBar.text = @"";
+  
 }
 - (void)getTree{
     NSDictionary *dic = @{@"jwt":jwt};
@@ -553,7 +539,7 @@
                                                    FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                                                    [seconNamedArr addObject:model.name];
                                                }
-                                               [firstNameArr  insertObject:@"全部" atIndex:0];
+                                               [firstNameArr  insertObject:[[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
                                                [seconNamedArr insertObject:@"全部" atIndex:0];
                                            }
                                            if ([gradeType isEqualToString:@"3"]) {
@@ -567,7 +553,7 @@
                                                    FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                                                    [firstNameArr addObject:model.name];
                                                }
-                                               [firstNameArr insertObject:@"全部" atIndex:0];
+                                               [firstNameArr insertObject:[[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
                                            }
                                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                                [self createPop];
@@ -683,6 +669,7 @@
     }
     NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
     NSString *tempOrganId;
+    //国家级
     if ([gradeType isEqualToString:@"1"]){
         //点击第一列
         if (indexPath.column ==0) {
@@ -804,14 +791,20 @@
             //点击第四列
         } if(indexPath.column == 3){
             if (indexPath.row == 0) {
-                [self createTableViewWithorganId:@""andstationId:@""];
+                // staticStationId = @"";
+                //[self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:@""];
+                [self createTableViewWithorganId:@"" andstationId:@""];
             }else{
             NSDictionary *tempDict = self.forthArr[indexPath.row-1];
-            [self createTableViewWithorganId:@""andstationId:[tempDict objectForKey:@"stationId"]];
+                //[self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId)andstationId:[tempDict objectForKey:@"stationId"]];
+                mysearchBar.text = [tempDict objectForKey:@"sname"];
+                [self createTableViewWithorganId:@"" andstationId:[tempDict objectForKey:@"stationId"]];
+                //staticStationId = [tempDict objectForKey:@"stationId"];
+                
             }
         }
-        
     }
+    //省级
     if ([gradeType isEqualToString:@"2"]){
         if (indexPath.column == 0) {
             [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
@@ -845,24 +838,38 @@
         }
         if(indexPath.column == 2){
             if (indexPath.row == 0) {
-                [self createTableViewWithorganId:@""andstationId:@""];
+                // staticStationId = @"";
+               // [self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:@""];
+                 [self createTableViewWithorganId:@"" andstationId:@""];
             }else{
-                NSDictionary *tempDict = self.forthArr[indexPath.row-1];
-                [self createTableViewWithorganId:@""andstationId:[tempDict objectForKey:@"stationId"]];
+                NSDictionary *tempDict = self.thridArr[indexPath.row-1];
+                //[self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:[tempDict objectForKey:@"stationId"]];
+                mysearchBar.text = [tempDict objectForKey:@"sname"];
+                [self createTableViewWithorganId:@"" andstationId:[tempDict objectForKey:@"stationId"]];
+               // staticStationId = [tempDict objectForKey:@"stationId"];
+                
+                
             }
         }
     }
+    //市级
     if ([gradeType isEqualToString:@"3"]){
         if(indexPath.column == 0){
            [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
         }
-     
         if(indexPath.column == 1){
             if (indexPath.row == 0) {
-                [self createTableViewWithorganId:@""andstationId:@""];
+               // staticStationId = @"";
+               // [self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:@""];
+                
+                [self createTableViewWithorganId:@"" andstationId:@""];
             }else{
-                NSDictionary *tempDict = self.forthArr[indexPath.row-1];
-                [self createTableViewWithorganId:@""andstationId:[tempDict objectForKey:@"stationId"]];
+                NSDictionary *tempDict = self.secondArr[indexPath.row-1];
+               // [self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:[tempDict objectForKey:@"stationId"]];
+                mysearchBar.text = [tempDict objectForKey:@"sname"];
+                [self createTableViewWithorganId:@"" andstationId:[tempDict objectForKey:@"stationId"]];
+               // staticStationId = [tempDict objectForKey:@"stationId"];
+               
             }
         }
     }
@@ -871,15 +878,20 @@
 
 //根据点击刷新数据
 - (void)reloadDatawithDataArray:(NSArray *)DataArray andNameArray:(NSArray *)NameArray and:(NSString *)tempOrganId and:(NSString *)onceOrangIdStr andIndexPath:(DOPIndexPath *)indexPath{
-    
     for (NSDictionary *dic in DataArray) {
         if ([NameArray[indexPath.row] isEqualToString:[dic objectForKey:@"name"]]) {
             tempOrganId = [dic objectForKey:@"organId"];
         }
     }
     if (tempOrganId == nil) {
+        
+        staticOrganId = onceOrangIdStr;
+        //[self createTableViewWithorganId:onceOrangIdStr andstationId:(staticStationId==nil?@"":staticStationId)];
         [self createTableViewWithorganId:onceOrangIdStr andstationId:@""];
     }else{
+        
+        staticOrganId = tempOrganId;
+        //[self createTableViewWithorganId:tempOrganId andstationId:(staticStationId==nil?@"":staticStationId)];
         [self createTableViewWithorganId:tempOrganId andstationId:@""];
     }
     

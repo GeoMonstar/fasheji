@@ -31,6 +31,7 @@
     NSString *onceOrangId;
     NSString *twiceOrangId;
     NSString *thirdOrangId;
+    NSString *staticOrganId;
 }
 @property (nonatomic,strong)UITableView* myTable;
 @property (nonatomic,strong)NSMutableArray *dataArray;
@@ -335,8 +336,10 @@
     }
     
     if (tempOrganId == nil) {
+        staticOrganId = onceOrangIdStr;
        [self loadDatawith:onceOrangIdStr];
     }else{
+        staticOrganId = tempOrganId;
         [self loadDatawith:tempOrganId];
     }
 
@@ -387,7 +390,8 @@
                         FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                         [seconNamedArr addObject:model.name];
                     }
-                    [firstNameArr  insertObject:@"全部" atIndex:0];
+                   
+                    [firstNameArr  insertObject: [[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
                     [seconNamedArr insertObject:@"全部" atIndex:0];
                 }
                 if ([gradeType isEqualToString:@"3"]) {
@@ -400,7 +404,7 @@
                         FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                         [firstNameArr addObject:model.name];
                     }
-                    [firstNameArr insertObject:@"全部" atIndex:0];
+                    [firstNameArr insertObject:[[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
                 }
                 [self createPop];
                 }failure:^(NSURLSessionDataTask *operation, NSError *error) {
@@ -494,14 +498,14 @@
 - (void) loadDataWhenDraggingDown {
     count =1;
     isDraggingDown = YES;
-    [self loadDatawith:@""];
+    [self loadDatawith:staticOrganId];
 }
 // 触底加载数据的方法
 - (void) loadDataWhenReachingBottom {
     count ++;
     isDraggingDown = NO;
     
-    [self loadDatawith:@""];
+    [self loadDatawith:staticOrganId];
 }
 // 结束下拉或上拉刷新状态
 - (void) endRefreshing {
@@ -513,7 +517,7 @@
     }
 }
 - (void)loadDatawith:(NSString *)organId{
-   
+    
     NSDictionary *netdic;
     if (mysearchBar.text == nil ) {
           netdic = @{@"jwt":jwt,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count]};
@@ -560,9 +564,12 @@
     }];
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    if (staticOrganId == nil) {
+        [self loadDatawith:@""];
+    }else{
+        [self loadDatawith:staticOrganId];
+    }
     
-    [self loadDatawith:@""];
-   // [self createTableView];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
      [self.view endEditing:YES];
@@ -571,7 +578,11 @@
         return;
     }
     else{
-        [self loadDatawith:@""];
+        if (staticOrganId == nil) {
+            [self loadDatawith:@""];
+        }else{
+            [self loadDatawith:staticOrganId];
+        }
     }
 }
 - (void)finshed:(UIButton *)sender{

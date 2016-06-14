@@ -453,12 +453,16 @@
     [myButton addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = item1;
     self.navigationItem.rightBarButtonItem = item2;
-    self.nameArr = @[@"整机",@"前置放大单元",@"功率放大单元",@"工作状态"];
+    if (self.is1000W) {
+        self.nameArr = @[@"整机",@"前置放大单元",@"功率放大单元",@"工作状态"];
+    }else{
+        self.nameArr = @[@"前置放大单元",@"工作状态"];
+    }
+    
     self.titleBtn = [FSJTitleBtn buttonWithType:UIButtonTypeCustom];
     self.titleBtn.frame = CGRectMake(WIDTH/2-72.5, 20, 145, 40);
     self.titleBtn.titleLabel.textAlignment = 1;
     [self.titleBtn setTitle:self.nameArr[0] forState:UIControlStateNormal];
-    
     [self.titleBtn setImage:[UIImage imageNamed:@"navshang"] forState:UIControlStateNormal];
     [self.titleBtn setImage:[UIImage imageNamed:@"navxia"] forState:UIControlStateSelected];
     [self.titleBtn addTarget:self action:@selector(showPop:) forControlEvents:UIControlEventTouchUpInside];
@@ -477,14 +481,30 @@
     sender.selected = !sender.selected;
     
     if (sender.selected == YES) {
-        
        [[[UIApplication  sharedApplication]keyWindow] addSubview: popview];
        // [self.view addSubview:popview];
         FSJWeakSelf(weakself);
         popview.selectIndex = ^(NSInteger arrindex){
              sender.selected = !sender.selected;
             [weakself.titleBtn setTitle:weakself.nameArr[arrindex-500] forState:UIControlStateNormal];
-            weakself.JiankongType = arrindex-500;
+            switch (arrindex-500) {
+                case 0:
+                    weakself.JiankongType = Zhengji;
+                    break;
+                case 1:
+                    weakself.JiankongType = Qianji;
+                    break;
+                case 2:
+                    weakself.JiankongType = Moji;
+                    break;
+                case 3:
+                    weakself.JiankongType = Zhuangtai;
+                    break;
+                    
+                default:
+                    break;
+            }
+            
             for (UIView *view in weakself.view.subviews) {
                     [view removeFromSuperview];
             }

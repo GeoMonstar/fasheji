@@ -53,6 +53,10 @@ typedef NS_ENUM(NSInteger, LoginStatusType) {
  *  @brief  用户所属区域ID
  */
 @property (nonatomic, copy)NSString *areaId;
+/**
+ *  @brief  机构名称
+ */
+@property (nonatomic, copy)NSString *officeName;
 #pragma mark -- 个人信息类
 /**
  *  @brief  用户登录状态

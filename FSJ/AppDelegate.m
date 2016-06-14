@@ -42,6 +42,7 @@
         self.window.rootViewController = nav;
     }
     [self.window makeKeyAndVisible];
+    
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     
     manager.enable = YES;

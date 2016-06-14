@@ -37,7 +37,6 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //iconImg = [UIImage imageNamed:@"yonghutouxiang.png"];
     UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 20)];
     statusBarView.backgroundColor=SystemBlueColor;
     [self.view addSubview:statusBarView];
@@ -214,7 +213,9 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
                     if ([self.VersionStr isEqualToString: @""]) {
                         [self.myTableView reloadData];
                     }
-                    if (![app_Version isEqualToString:self.VersionStr]) {
+                    if ([app_Version isEqualToString:self.VersionStr]||[self.VersionStr isEqualToString:@""] ) {
+                        
+                    }else{
                         cell.checkLabel.hidden = NO;
                         cell.checkLabel.text = @"发现新版本";
                     }
