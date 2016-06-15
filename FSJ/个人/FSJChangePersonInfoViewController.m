@@ -130,7 +130,7 @@
     codeBtn.titleLabel.font = [UIFont systemFontOfSize:10];
     //[secondInput addSubview:codeBtn];
     returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(WIDTH *0.1, 120, WIDTH *0.8, 35);
+    returnBtn.frame = CGRectMake(WIDTH *0.1, firstInput.frame.origin.y + firstInput.frame.size.height +18 , WIDTH *0.8, 35);
     [returnBtn setTitle:@"确认" forState:UIControlStateNormal];
     [returnBtn setTitleColor:SystemWhiteColor forState:UIControlStateNormal];
     [returnBtn setBackgroundColor:SystemBlueColor];
@@ -139,7 +139,7 @@
     [returnBtn setBackgroundImage:[self createImageWithColor:SystemGrayColor] forState:UIControlStateHighlighted];
     [returnBtn addTarget:self action:@selector(changeInfo:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:firstInput];
-    [self.view addSubview:secondInput];
+    //[self.view addSubview:secondInput];
     [self.view addSubview:returnBtn];
 }
 - (void)changePwd:(UIButton *)sender{

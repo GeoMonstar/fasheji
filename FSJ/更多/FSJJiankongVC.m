@@ -30,10 +30,15 @@
   
     NSInteger _currentDataIndex;
     
+    
+    NSInteger BtnWidth;
     FSJJKPopView *popview;
 }
 @property (strong,nonatomic) HMSegmentedControl *segmentedControl;
 @property (strong,nonatomic) FSJTitleBtn *titleBtn;
+
+@property (strong,nonatomic) UILabel *titleLabel;
+@property (strong,nonatomic) UIImageView *titleImg;
 @property (retain,nonatomic) NSArray *nameArr;
 @end
 @implementation FSJJiankongVC
@@ -460,17 +465,23 @@
     }
     
     self.titleBtn = [FSJTitleBtn buttonWithType:UIButtonTypeCustom];
+    self.titleBtn.Btnwidth = 70;
+    self.titleBtn.BtnX = 30;
     self.titleBtn.frame = CGRectMake(WIDTH/2-72.5, 20, 145, 40);
     self.titleBtn.titleLabel.textAlignment = 1;
     [self.titleBtn setTitle:self.nameArr[0] forState:UIControlStateNormal];
     [self.titleBtn setImage:[UIImage imageNamed:@"navshang"] forState:UIControlStateNormal];
     [self.titleBtn setImage:[UIImage imageNamed:@"navxia"] forState:UIControlStateSelected];
+    
+
+    
     [self.titleBtn addTarget:self action:@selector(showPop:) forControlEvents:UIControlEventTouchUpInside];
     self.titleBtn.enabled = YES;
     [self.titleBtn setTintColor:SystemWhiteColor];
     [[[UIApplication  sharedApplication]keyWindow] addSubview: self.titleBtn];
     popview = [[FSJJKPopView alloc]initPopWith:CGRectMake(0, 48, WIDTH, HEIGH) andDataSource:self.nameArr];
     FSJWeakSelf(weakself);
+    
     popview.popshow = ^(BOOL hidden){
         if (hidden == NO) {
            weakself.titleBtn.selected = !weakself.titleBtn.selected;
@@ -486,19 +497,30 @@
         FSJWeakSelf(weakself);
         popview.selectIndex = ^(NSInteger arrindex){
              sender.selected = !sender.selected;
-            [weakself.titleBtn setTitle:weakself.nameArr[arrindex-500] forState:UIControlStateNormal];
+           [weakself.titleBtn setTitle:weakself.nameArr[arrindex-500] forState:UIControlStateNormal];
+            
+           // weakself.titleLabel.text = weakself.nameArr[arrindex-500];
+           // [weakself.titleLabel sizeToFit];
             switch (arrindex-500) {
                 case 0:
                     weakself.JiankongType = Zhengji;
+                    weakself.titleBtn.Btnwidth = 70;
+                    weakself.titleBtn.BtnX = 30;
                     break;
                 case 1:
                     weakself.JiankongType = Qianji;
+                    weakself.titleBtn.Btnwidth = 130;
+                    weakself.titleBtn.BtnX = 0;
                     break;
                 case 2:
                     weakself.JiankongType = Moji;
+                    weakself.titleBtn.Btnwidth = 130;
+                    weakself.titleBtn.BtnX = 0;
                     break;
                 case 3:
                     weakself.JiankongType = Zhuangtai;
+                    weakself.titleBtn.Btnwidth = 90;
+                    weakself.titleBtn.BtnX = 20;
                     break;
                     
                 default:
@@ -511,6 +533,7 @@
             [weakself createViewWith:@"db" andfirst:YES];
             NSLog(@"%ld",arrindex);
         };
+       
     }
     else{
         

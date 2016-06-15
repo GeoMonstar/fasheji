@@ -10,4 +10,5 @@
 
 @interface FSJJKPopBtn : UIButton
 
+@property (nonatomic,assign)NSInteger Btnwidth;
 @end

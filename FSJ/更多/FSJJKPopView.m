@@ -8,7 +8,7 @@
 
 #import "FSJJKPopView.h"
 #import "FSJJKPopBtn.h"
-@interface FSJJKPopView(){
+@interface FSJJKPopView()<UIGestureRecognizerDelegate>{
     UIView *bgview;
     UITapGestureRecognizer *singleTap;
 }
@@ -21,11 +21,10 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
         singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-        //singleTap.delegate = self;
+        singleTap.delegate = self;
         singleTap.cancelsTouchesInView = NO;
         singleTap.delaysTouchesEnded = NO;
-       
-        singleTap.numberOfTapsRequired = 2;
+        singleTap.numberOfTapsRequired = 1;
         [self addGestureRecognizer:singleTap];
         bgview = [[UIView alloc]initWithFrame:CGRectMake(WIDTH/2-80,10 , 160,data.count *40)];
         bgview.backgroundColor = SystemWhiteColor;
@@ -69,14 +68,28 @@
     [self hiddn];
 }
 - (void)handleSingleTap:(UIGestureRecognizer *)pan{
+    
     if (self.popshow) {
         self.popshow(NO);
     }
     [self hiddn];
 }
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    // 判断是不是UIButton的类
+    if ([touch.view isKindOfClass:[UIButton class]] )
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
 - (void)hiddn{
     [self removeFromSuperview];
 }
+
 #pragma mark 绘制三角形
 - (void)drawRect:(CGRect)rect
 

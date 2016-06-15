@@ -12,13 +12,14 @@
 
 - (CGRect)imageRectForContentRect:(CGRect)contentRect{
     CGRect rectBtn = CGRectZero;
-    rectBtn = CGRectMake(130,15,15, 10);
+    rectBtn = CGRectMake(self.BtnX+self.Btnwidth-2,15,15, 10);
     
     return rectBtn;
 }
 - (CGRect)titleRectForContentRect:(CGRect)contentRect{
     CGRect rectTitle = CGRectZero;
-    rectTitle =  CGRectMake(0, 0, 125, 40);
+    
+    rectTitle =  CGRectMake(self.BtnX, 0, self.Btnwidth, 40);
     return rectTitle;
 }
 @end

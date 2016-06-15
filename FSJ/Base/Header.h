@@ -51,6 +51,9 @@
 #define PopviewCellheight [UIScreen mainScreen].bounds.size.height * 0.1
 #define Popviewheight [UIScreen mainScreen].bounds.size.height
 #define Popviewwidth [UIScreen mainScreen].bounds.size.width
+#define SecondArrStr @"城市"
+#define ThirdArrStr @"地区"
+
 //weakSelf宏
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #ifdef DEBUG
@@ -62,7 +65,7 @@
 //#define BaseURL           @"http://119.6.203.24:8099/fsj"
 //#define BaseUploadURL @""
 #endif
-#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://infosoul.oicp.net:8080/fsj/alarm/app/statistics?userName=%@",username];
+#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://192.168.10.94:8080/fsj/alarm/app/statistics?userName=%@",username];
 #define BaseImgURL      @"http://192.168.10.94:8080"
 //#define BaseImgURL        @"http://119.6.203.24:8099/fsj"
 #define PgyAppID        @"85838383eb2e34b6a2b49fa95c94be8b"

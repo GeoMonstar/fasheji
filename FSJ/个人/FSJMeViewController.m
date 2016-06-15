@@ -213,7 +213,8 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
                     if ([self.VersionStr isEqualToString: @""]) {
                         [self.myTableView reloadData];
                     }
-                    if ([app_Version isEqualToString:self.VersionStr]||[self.VersionStr isEqualToString:@""] ) {
+                    
+                    if ([app_Version isEqualToString:self.VersionStr]) {
                         
                     }else{
                         cell.checkLabel.hidden = NO;

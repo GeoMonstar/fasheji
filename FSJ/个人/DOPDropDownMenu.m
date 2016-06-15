@@ -85,6 +85,9 @@
 @property (nonatomic, strong) UIImageView *buttomImageView; // 底部imageView
 @property (nonatomic, weak) UIView *bottomShadow;
 
+@property (nonatomic, assign) BOOL firstSelected;
+@property (nonatomic, assign) BOOL SecondtSelected;
+
 //data source
 @property (nonatomic, copy) NSArray *array;
 //layers array
@@ -434,12 +437,15 @@
 
 #pragma mark - gesture handle
 - (void)menuTapped:(UITapGestureRecognizer *)paramSender {
+    
+    
     if (_dataSource == nil) {
         return;
     }
     CGPoint touchPoint = [paramSender locationInView:self];
     //calculate index
     NSInteger tapIndex = touchPoint.x / (self.frame.size.width / _numOfMenu);
+   
     
     for (int i = 0; i < _numOfMenu; i++) {
         if (i != tapIndex) {
@@ -450,13 +456,19 @@
             }];
         }
     }
+
     
+   // NSLog(@"%ld first = %u,second = %u,show = %u",tapIndex,_firstSelected,_SecondtSelected,_show);
     if (tapIndex == _currentSelectedMenudIndex && _show) {
+        
+        
         [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
             _currentSelectedMenudIndex = tapIndex;
             _show = NO;
         }];
     } else {
+
+        
         _currentSelectedMenudIndex = tapIndex;
         [_leftTableView reloadData];
         if (_dataSource && _dataSourceFlags.numberOfItemsInRow) {
@@ -466,6 +478,7 @@
         [self animateIdicator:_indicators[tapIndex] background:_backGroundView tableView:_leftTableView title:_titles[tapIndex] forward:YES complecte:^{
             _show = YES;
         }];
+        NSLog(@"%ld first = %u,second = %u,show = %u",_currentSelectedMenudIndex,_firstSelected,_SecondtSelected,_show);
     }
 }
 

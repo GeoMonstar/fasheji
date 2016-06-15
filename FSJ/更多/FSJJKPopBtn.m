@@ -18,7 +18,7 @@
 }
 - (CGRect)titleRectForContentRect:(CGRect)contentRect{
     CGRect rectTitle = CGRectZero;
-    rectTitle =  CGRectMake(5, 0, 130, 40);
+    rectTitle =  CGRectMake(10, 0, 130, 40);
     return rectTitle;
 }
 

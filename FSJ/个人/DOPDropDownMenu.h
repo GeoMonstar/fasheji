@@ -11,6 +11,10 @@
 
 @interface DOPIndexPath : NSObject
 
+
+
+
+
 @property (nonatomic, assign) NSInteger column;
 @property (nonatomic, assign) NSInteger row;
 @property (nonatomic, assign) NSInteger item;

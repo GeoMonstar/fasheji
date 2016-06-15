@@ -184,6 +184,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     
     [self getallstationInfoWith:@"" andtype:Allstationquery anddicparameter:@"keyword" andShowAnno:NO andFirst:YES];
+    
     if ([staticareaType isEqualToString:@"1"]) {
         startpoint = self.mapView.centerCoordinate;
         [UIView animateWithDuration:1.0 animations:^{
@@ -200,7 +201,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     if ([staticareaType isEqualToString:@"3"]) {
         [self getCityStationWith:dic and:YES];
     }
-    //[self checkUpdate];
+    [self checkUpdate];
 }
 #pragma mark --检查更新
 - (void)checkUpdate{
@@ -213,7 +214,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
         // app build版本
         
-        if ([app_Version isEqualToString:versionStr]||[versionStr isEqualToString:@""]) {
+        if ([app_Version isEqualToString:versionStr]) {
             //[SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
         }
         else{
@@ -1458,6 +1459,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [FSJNetworking networkingGETWithActionType:type requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJAllFSJ *model = [FSJAllFSJ initWithDictionary:responseObject];
         NSLog(@"%@",model.message);
+        
         if ([model.status isEqualToString:@"200"]) {
            
             for (NSDictionary *dic in model.list) {
@@ -1467,7 +1469,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 
                 if (first) {
                     [allname addObject:model];
-                }
+                    }
                 
                 }
             [[EGOCache globalCache]setObject:responseObject forKey:@"array"];
@@ -1476,13 +1478,13 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [self addAnnotataionOnmapWith:allsite];
             }
             else{
-                 //dispatch_async(dispatch_get_main_queue(), ^{
+                
                   [self.mytableView reloadData];
-                 //});
-                 //[LGProgressHud hideAllHudInView:self.mytableView animated:HudAnimatedTypeNone];
+                
             }
         }else{
-            [MBProgressHUD showError:model.message];
+            
+            [MBProgressHUD showError:@"服务器数据返回错误"];
         }
 
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
@@ -1498,7 +1500,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
             });
         }else{
-          [MBProgressHUD showError:error];
+            
+          [MBProgressHUD showError:@"网络数据返回错误"];
         }
     }];
 }

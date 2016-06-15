@@ -32,6 +32,9 @@
     NSString *twiceOrangId;
     NSString *thirdOrangId;
     NSString *staticOrganId;
+    
+    BOOL firstClicked;
+    BOOL secondClicked;
 }
 @property (nonatomic,strong)UITableView* myTable;
 @property (nonatomic,strong)NSMutableArray *dataArray;
@@ -171,8 +174,10 @@
     if ([gradeType isEqualToString:@"1"]){
         //点击第一列
         if (indexPath.column ==0) {
-        [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+       [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+            
             if (indexPath.row !=0) {
+                firstClicked = YES;
                 NSDictionary *dic = self.firstArr[indexPath.row];
                  twiceOrangId = [dic objectForKey:@"organId"];
                 FirstLevelStr = [dic objectForKey:@"organId"];
@@ -187,40 +192,42 @@
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.thridArr) {
                     if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
-                        [thridNameArr addObject:[temp objectForKey:@"name"]];
+                        //北京
+                        //[thridNameArr addObject:[temp objectForKey:@"name"]];
                     }
                     else{
                         for (NSDictionary *dic in self.secondArr) {
                             if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
                                 if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
-                                    [thridNameArr addObject:[temp objectForKey:@"name"]];
+                                    //[thridNameArr addObject:[temp objectForKey:@"name"]];
                                 }
                             }
                         }
                     }
                 }
-                [thridNameArr insertObject:@"全部" atIndex:0];
-                [seconNamedArr insertObject:@"全部" atIndex:0];
+                
+                [seconNamedArr insertObject:SecondArrStr atIndex:0];
+                [thridNameArr insertObject:ThirdArrStr atIndex:0];
             }
             else{
                 twiceOrangId = @"";
                 [seconNamedArr removeAllObjects];
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.secondArr) {
-                    [seconNamedArr addObject:[temp objectForKey:@"name"]];
+                    //[seconNamedArr addObject:[temp objectForKey:@"name"]];
                 }
-                [seconNamedArr insertObject:@"全部" atIndex:0];
+                [seconNamedArr insertObject:SecondArrStr atIndex:0];
                 
                 for (NSDictionary *temp in self.thridArr) {
-                    [thridNameArr addObject:[temp objectForKey:@"name"]];
+                    //[thridNameArr addObject:[temp objectForKey:@"name"]];
                 }
-                [thridNameArr insertObject:@"全部" atIndex:0];
+                [thridNameArr insertObject:ThirdArrStr atIndex:0];
                 
                 [self.menu reloadData];
             }
         }
         //点击第二列
-        if (indexPath.column ==1) {
+        if (indexPath.column ==1 ) {
             if ([twiceOrangId isEqualToString:@""]) {
                 [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
             }else{
@@ -237,35 +244,35 @@
                         
                     }
                 }
-                [thridNameArr insertObject:@"全部" atIndex:0];
+                [thridNameArr insertObject:ThirdArrStr atIndex:0];
             }
             else{
                 thirdOrangId = @"";
                 [thridNameArr removeAllObjects];
                     for (NSDictionary *temp in self.thridArr) {
                         
-                        if (seconNamedArr.count == 1) {
-                            
+                       // if (seconNamedArr.count == 1) {
+                        //北京
                         if ([[temp objectForKey:@"parentId"] isEqualToString:FirstLevelStr]){
-                            [thridNameArr addObject:[temp objectForKey:@"name"]];
-                            }
-                        }else{
                             
-                            for (NSDictionary *dic in self.secondArr) {
-                                if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
-                            if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
-                                [thridNameArr addObject:[temp objectForKey:@"name"]];
-                                    }
-                                }
+                               [thridNameArr addObject:[temp objectForKey:@"name"]];
                             }
-                            
-                        }
+//                        }else{
+//                            
+//                            for (NSDictionary *dic in self.secondArr) {
+//                                if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
+//                            if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
+//                               // [thridNameArr addObject:[temp objectForKey:@"name"]];
+//                                    }
+//                                }
+//                            }
+//                        }
                     }
-                [thridNameArr insertObject:@"全部" atIndex:0];
+                [thridNameArr insertObject:ThirdArrStr atIndex:0];
             }
         }
         //点击第三列
-        if(indexPath.column == 2){
+        if(indexPath.column == 2 ){
             if (seconNamedArr.count == 1) {
                 if(thirdOrangId ==nil ||[thirdOrangId isEqualToString:@""]){
                     [self reloadDatawithDataArray:self.secondArr andNameArray:thridNameArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
@@ -289,8 +296,10 @@
     }
     if ([gradeType isEqualToString:@"2"]){
         if (indexPath.column == 0) {
-              [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+             [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
             if (indexPath.row != 0) {
+               
+                
                 NSDictionary *dic = self.firstArr[indexPath.row-1];
                 [seconNamedArr removeAllObjects];
                 for (NSDictionary *temp in self.secondArr) {
@@ -299,18 +308,19 @@
                          twiceOrangId = [temp objectForKey:@"parentId"];
                      }
                 }
-                 [seconNamedArr insertObject:@"全部" atIndex:0];
+                 [seconNamedArr insertObject:ThirdArrStr atIndex:0];
             }
             else{
                 twiceOrangId = @"";
                 [seconNamedArr removeAllObjects];
                 for (NSDictionary *temp in self.secondArr) {
-                    [seconNamedArr addObject:[temp objectForKey:@"name"]];
+                   // [seconNamedArr addObject:[temp objectForKey:@"name"]];
                 }
-                [seconNamedArr insertObject:@"全部" atIndex:0];
+                [seconNamedArr insertObject:ThirdArrStr atIndex:0];
             }
         }
-        if(indexPath.column == 1){
+        if(indexPath.column == 1 ){
+            
             if ([twiceOrangId isEqualToString:@""]) {
                 [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
             }else{
@@ -320,8 +330,10 @@
         }
     }
     if ([gradeType isEqualToString:@"3"]){
+      //  if (indexPath.row !=0) {
+            [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
+        //}
         
-        [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
         
     }
     NSLog(@"点击了 %ld - %ld 项目",(long)indexPath.column,indexPath.row);
@@ -364,15 +376,15 @@
                     }
                     for (NSDictionary *dic in self.secondArr) {
                         FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
-                        [seconNamedArr addObject:model.name];
+                       // [seconNamedArr addObject:model.name];
                     }
                     for (NSDictionary *dic in self.thridArr) {
                         FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
-                        [thridNameArr addObject:model.name];
+                        //[thridNameArr addObject:model.name];
                     }
-                     // [firstNameArr insertObject:@"全部" atIndex:0];
-                      [seconNamedArr insertObject:@"全部" atIndex:0];
-                      [thridNameArr insertObject:@"全部" atIndex:0];
+                    
+                      [seconNamedArr insertObject:SecondArrStr atIndex:0];
+                      [thridNameArr insertObject:ThirdArrStr atIndex:0];
                 }
                 
                 if ([gradeType isEqualToString:@"2"]) {
@@ -388,11 +400,11 @@
                     }
                     for (NSDictionary *dic in self.secondArr) {
                         FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
-                        [seconNamedArr addObject:model.name];
+                        //[seconNamedArr addObject:model.name];
                     }
                    
                     [firstNameArr  insertObject: [[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
-                    [seconNamedArr insertObject:@"全部" atIndex:0];
+                    [seconNamedArr insertObject:ThirdArrStr atIndex:0];
                 }
                 if ([gradeType isEqualToString:@"3"]) {
                     columnNumber = 1;
@@ -522,7 +534,7 @@
     if (mysearchBar.text == nil ) {
           netdic = @{@"jwt":jwt,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count]};
     }else{
-         netdic = @{@"jwt":jwt,@"sname":mysearchBar.text,@"organId":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count]};
+         netdic = @{@"jwt":jwt,@"sname":mysearchBar.text,@"organId":organId==nil?@"":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count]};
     }
     [FSJNetworking networkingGETWithActionType:SearchInterestStation requestDictionary:netdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];

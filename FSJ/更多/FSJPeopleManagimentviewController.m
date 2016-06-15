@@ -44,6 +44,10 @@
     NSInteger TableHeight;
     NSString *staticOrganId;
     NSString *staticStationId;
+    
+    BOOL firstClicked;
+    BOOL secondClicked;
+    //BOOL secondClicked;
 }
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (nonatomic,strong)UITableView *myTable;
@@ -123,7 +127,17 @@
             }
         }
     }failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        [MBProgressHUD showError:[NSString stringWithFormat:@"%@",error]];
+        
+        NSArray *array = error.userInfo.allValues;
+        NSHTTPURLResponse *response = array[0];
+        if (response.statusCode ==401 ) {
+            [SVProgressHUD showInfoWithStatus:AccountChanged];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [[EGOCache globalCache]clearCache];
+                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            });
+        }
     }];
 }
 - (void)createTableViewWithorganId:(NSString *)organId andstationId:(NSString *)stationIdStr{
@@ -132,27 +146,27 @@
     [self.view addSubview:self.myTable];
     if (self.InfoType == PeopleManage) {
         placeHolder = @"请输入发射站名称";
-        netdic = @{@"stationId":stationIdStr,@"organId":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/station/manager/list";
     }
     if (self.InfoType == StationManage) {
         placeHolder = @"请输入发射站名称";
-        netdic = @{@"stationId":stationIdStr,@"organId":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/station/list";
     }
     if (self.InfoType == FSJManage) {
         placeHolder = @"请输入发射机名称";
-        netdic = @{@"stationId":stationIdStr,@"organId":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/station/transmitter/list";
     }
     if (self.InfoType == Warning) {
         placeHolder = @"请输入发射站、发射机名称";
-        netdic = @{@"organId":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"organId":organId==nil?@"":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/alarm/list";
     }
     if (self.InfoType == Warned) {
          placeHolder = @"请输入发射站、发射机名称";
-        netdic = @{@"organId":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
         url = @"/rs/app/alarm/history/list";
     }
     FSJWeakSelf(weakself);
@@ -512,15 +526,15 @@
                                                }
                                                for (NSDictionary *dic in self.secondArr) {
                                                    FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
-                                                   [seconNamedArr addObject:model.name];
+                                                   ///[seconNamedArr addObject:model.name];
                                                }
                                                for (NSDictionary *dic in self.thridArr) {
                                                    FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
-                                                   [thridNameArr addObject:model.name];
+                                                   //[thridNameArr addObject:model.name];
                                                }
                                                // [firstNameArr insertObject:@"全部" atIndex:0];
-                                               [seconNamedArr insertObject:@"全部" atIndex:0];
-                                               [thridNameArr insertObject:@"全部" atIndex:0];
+                                               [seconNamedArr insertObject:SecondArrStr atIndex:0];
+                                               [thridNameArr insertObject:ThirdArrStr atIndex:0];
                                            }
                                            
                                            if ([gradeType isEqualToString:@"2"]) {
@@ -537,10 +551,10 @@
                                                }
                                                for (NSDictionary *dic in self.secondArr) {
                                                    FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
-                                                   [seconNamedArr addObject:model.name];
+                                                   ;                //[seconNamedArr addObject:model.name];
                                                }
                                                [firstNameArr  insertObject:[[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
-                                               [seconNamedArr insertObject:@"全部" atIndex:0];
+                                               [seconNamedArr insertObject:ThirdArrStr atIndex:0];
                                            }
                                            if ([gradeType isEqualToString:@"3"]) {
                                                columnNumber = 2;
@@ -673,6 +687,7 @@
     if ([gradeType isEqualToString:@"1"]){
         //点击第一列
         if (indexPath.column ==0) {
+            firstClicked = YES;
             [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
             if (indexPath.row !=0) {
                 NSDictionary *dic = self.firstArr[indexPath.row];
@@ -689,20 +704,20 @@
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.thridArr) {
                     if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
-                        [thridNameArr addObject:[temp objectForKey:@"name"]];
+                        //[thridNameArr addObject:[temp objectForKey:@"name"]];
                     }
                     else{
                         for (NSDictionary *dic in self.secondArr) {
                             if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
                                 if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
-                                    [thridNameArr addObject:[temp objectForKey:@"name"]];
+                                  //  [thridNameArr addObject:[temp objectForKey:@"name"]];
                                 }
                             }
                         }
                     }
                 }
-                [thridNameArr insertObject:@"全部" atIndex:0];
-                [seconNamedArr insertObject:@"全部" atIndex:0];
+                [thridNameArr insertObject:SecondArrStr atIndex:0];
+                [seconNamedArr insertObject:ThirdArrStr atIndex:0];
                 //[self.menu reloadData];
             }
             else{
@@ -710,20 +725,21 @@
                 [seconNamedArr removeAllObjects];
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.secondArr) {
-                    [seconNamedArr addObject:[temp objectForKey:@"name"]];
+                    //[seconNamedArr addObject:[temp objectForKey:@"name"]];
                 }
-                [seconNamedArr insertObject:@"全部" atIndex:0];
+                [seconNamedArr insertObject:SecondArrStr atIndex:0];
                 
                 for (NSDictionary *temp in self.thridArr) {
-                    [thridNameArr addObject:[temp objectForKey:@"name"]];
+                   // [thridNameArr addObject:[temp objectForKey:@"name"]];
                 }
-                [thridNameArr insertObject:@"全部" atIndex:0];
-                
+                [thridNameArr insertObject:ThirdArrStr atIndex:0];
                 [self.menu reloadData];
             }
         }
         //点击第二列
         if (indexPath.column ==1) {
+            
+            
             if ([twiceOrangId isEqualToString:@""]||twiceOrangId == nil) {
                 [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
             }else{
@@ -740,35 +756,37 @@
                         
                     }
                 }
-                [thridNameArr insertObject:@"全部" atIndex:0];
+                [thridNameArr insertObject:ThirdArrStr atIndex:0];
             }
             else{
                 thirdOrangId = @"";
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.thridArr) {
                     
-                    if (seconNamedArr.count == 1) {
-                        
+                    //if (seconNamedArr.count == 1) {
+                       //北京
                         if ([[temp objectForKey:@"parentId"] isEqualToString:FirstLevelStr]){
+                          
                             [thridNameArr addObject:[temp objectForKey:@"name"]];
                         }
-                    }else{
+                  //  }else{
                         
-                        for (NSDictionary *dic in self.secondArr) {
-                            if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
-                                if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
-                                    [thridNameArr addObject:[temp objectForKey:@"name"]];
-                                }
-                            }
-                        }
+//                        for (NSDictionary *dic in self.secondArr) {
+//                            if ([[dic objectForKey:@"parentId"]isEqualToString:FirstLevelStr]) {
+//                                if([[temp objectForKey:@"parentId"] isEqualToString:[dic objectForKey:@"organId"]]) {
+//                                  //  [thridNameArr addObject:[temp objectForKey:@"name"]];
+//                                }
+//                            }
+//                        }
                         
-                    }
+//                    }
                 }
-                [thridNameArr insertObject:@"全部" atIndex:0];
+                [thridNameArr insertObject:ThirdArrStr atIndex:0];
             }
         }
         //点击第三列
         if(indexPath.column == 2){
+            
             if (seconNamedArr.count == 1) {
                 if(thirdOrangId ==nil ||[thirdOrangId isEqualToString:@""]){
                     [self reloadDatawithDataArray:self.secondArr andNameArray:thridNameArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
@@ -793,10 +811,13 @@
             if (indexPath.row == 0) {
                 // staticStationId = @"";
                 //[self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:@""];
-                [self createTableViewWithorganId:@"" andstationId:@""];
+               // [self createTableViewWithorganId:@"" andstationId:@""];
             }else{
+                [self.menu reloadData];
+                
             NSDictionary *tempDict = self.forthArr[indexPath.row-1];
                 //[self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId)andstationId:[tempDict objectForKey:@"stationId"]];
+                
                 mysearchBar.text = [tempDict objectForKey:@"sname"];
                 [self createTableViewWithorganId:@"" andstationId:[tempDict objectForKey:@"stationId"]];
                 //staticStationId = [tempDict objectForKey:@"stationId"];
@@ -817,15 +838,15 @@
                         twiceOrangId = [temp objectForKey:@"parentId"];
                     }
                 }
-                [seconNamedArr insertObject:@"全部" atIndex:0];
+                [seconNamedArr insertObject:ThirdArrStr atIndex:0];
             }
             else{
                 twiceOrangId = @"";
                 [seconNamedArr removeAllObjects];
                 for (NSDictionary *temp in self.secondArr) {
-                    [seconNamedArr addObject:[temp objectForKey:@"name"]];
+                    //[seconNamedArr addObject:[temp objectForKey:@"name"]];
                 }
-                [seconNamedArr insertObject:@"全部" atIndex:0];
+                [seconNamedArr insertObject:ThirdArrStr atIndex:0];
             }
         }
         if(indexPath.column == 1){
@@ -838,10 +859,11 @@
         }
         if(indexPath.column == 2){
             if (indexPath.row == 0) {
-                // staticStationId = @"";
+              // staticStationId = @"";
                // [self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:@""];
-                 [self createTableViewWithorganId:@"" andstationId:@""];
+                 //[self createTableViewWithorganId:@"" andstationId:@""];
             }else{
+                 [self.menu reloadData];
                 NSDictionary *tempDict = self.thridArr[indexPath.row-1];
                 //[self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:[tempDict objectForKey:@"stationId"]];
                 mysearchBar.text = [tempDict objectForKey:@"sname"];
@@ -858,18 +880,19 @@
            [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
         }
         if(indexPath.column == 1){
+            
             if (indexPath.row == 0) {
                // staticStationId = @"";
                // [self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:@""];
                 
-                [self createTableViewWithorganId:@"" andstationId:@""];
+                //[self createTableViewWithorganId:@"" andstationId:@""];
             }else{
+                [self.menu reloadData];
                 NSDictionary *tempDict = self.secondArr[indexPath.row-1];
                // [self createTableViewWithorganId:(staticOrganId==nil?@"":staticOrganId) andstationId:[tempDict objectForKey:@"stationId"]];
                 mysearchBar.text = [tempDict objectForKey:@"sname"];
                 [self createTableViewWithorganId:@"" andstationId:[tempDict objectForKey:@"stationId"]];
                // staticStationId = [tempDict objectForKey:@"stationId"];
-               
             }
         }
     }

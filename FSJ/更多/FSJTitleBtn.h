@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface FSJTitleBtn : UIButton
-
+@property (nonatomic,assign)NSInteger BtnX;
+@property (nonatomic,assign)NSInteger Btnwidth;
 @end
