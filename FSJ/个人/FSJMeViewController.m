@@ -214,7 +214,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
                         [self.myTableView reloadData];
                     }
                     
-                    if ([app_Version isEqualToString:self.VersionStr]) {
+                    if ([app_Version isEqualToString:self.VersionStr] || self.VersionStr == nil) {
                         
                     }else{
                         cell.checkLabel.hidden = NO;
@@ -285,9 +285,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     // app build版本
-        if ([app_Version isEqualToString:self.VersionStr]) {
-
-           // [MBProgressHUD showSuccess:@"已经是最新版本"];
+        if ([app_Version isEqualToString:self.VersionStr] ||self.VersionStr == nil ) {
             [MBProgressHUD showTextMessage:@"已经是最新版本"];
         }
         else{

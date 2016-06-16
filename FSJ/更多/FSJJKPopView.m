@@ -19,6 +19,7 @@
 
 -  (instancetype)initPopWith:(CGRect)frame andDataSource:(NSArray *)data{
     if (self = [super initWithFrame:frame]) {
+        
         self.backgroundColor = [UIColor clearColor];
         singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
         singleTap.delegate = self;
@@ -33,6 +34,7 @@
         bgview.layer.masksToBounds = YES;
         bgview.layer.borderColor = SystemBlueColor.CGColor;
         bgview.layer.borderWidth = 1;
+        
         for (int i = 0; i<data.count; i++) {
             FSJJKPopBtn *button =  [FSJJKPopBtn buttonWithType:UIButtonTypeCustom];
             button.frame = CGRectMake(0, 40*i, 160, 40);
@@ -55,6 +57,7 @@
     return self;
 }
 - (void)clicked:(UIButton *)button{
+    
     button.selected = YES;
     for (UIButton *btn in bgview.subviews) {
         btn.selected = NO;

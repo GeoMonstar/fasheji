@@ -481,8 +481,8 @@
     [[[UIApplication  sharedApplication]keyWindow] addSubview: self.titleBtn];
     popview = [[FSJJKPopView alloc]initPopWith:CGRectMake(0, 48, WIDTH, HEIGH) andDataSource:self.nameArr];
     FSJWeakSelf(weakself);
-    
-    popview.popshow = ^(BOOL hidden){
+   
+       popview.popshow = ^(BOOL hidden){
         if (hidden == NO) {
            weakself.titleBtn.selected = !weakself.titleBtn.selected;
         }
@@ -491,9 +491,14 @@
 - (void)showPop:(UIButton *)sender{
     sender.selected = !sender.selected;
     
+    
+
+    
     if (sender.selected == YES) {
-       [[[UIApplication  sharedApplication]keyWindow] addSubview: popview];
-       // [self.view addSubview:popview];
+        
+       
+        [[[UIApplication  sharedApplication]keyWindow] addSubview: popview];
+        
         FSJWeakSelf(weakself);
         popview.selectIndex = ^(NSInteger arrindex){
              sender.selected = !sender.selected;

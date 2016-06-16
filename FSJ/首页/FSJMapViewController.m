@@ -208,13 +208,17 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     NSString *jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
     NSDictionary *verdic = @{@"jwt":jwtStr};
     [FSJNetworking networkingGETWithActionType:VerisonInfo requestDictionary:verdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        versionStr   = [[responseObject objectForKey:@"version"]substringFromIndex:1];
+         NSString *message1 =[responseObject objectForKey:@"version"];
+        
         NSString *message =[responseObject objectForKey:@"message"];
+        
+        versionStr  = [message1 isEqualToString: @""]?nil:[[responseObject objectForKey:@"version"]substringFromIndex:1];
+
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
         // app build版本
         
-        if ([app_Version isEqualToString:versionStr]) {
+        if ([app_Version isEqualToString:versionStr] ||versionStr == nil ) {
             //[SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
         }
         else{

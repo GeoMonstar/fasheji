@@ -33,14 +33,14 @@
 }
 - (void)createUI{
     mainImgview = [[UIImageView alloc]initWithFrame:CGRectMake(0,0, WIDTH, HEIGH)];
-    mainImgview.image = [UIImage imageNamed:@"login.jpg"];
+    mainImgview.image = [UIImage imageNamed:@"denglu"];
     [self.view addSubview:mainImgview];
     userName = [[UITextField alloc]initWithFrame:CGRectMake(leftMagrin, HEIGH/2, WIDTH - leftMagrin-rightMagrin, viewHeight)];
     userName.delegate =self;
     userName.placeholder = @"用户名";
     userName.borderStyle = UITextBorderStyleNone;
     userName.backgroundColor = [UIColor clearColor];
-    userName.text =@"admin";
+    //userName.text =@"admin";
     [self.view addSubview:userName];
 
     userPwd = [[UITextField alloc]initWithFrame:CGRectMake(leftMagrin, HEIGH/2 + viewHeight + 24, WIDTH - leftMagrin-rightMagrin, viewHeight)];
@@ -112,7 +112,7 @@
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
     //userName.text =@"province";
-    userPwd.text  =@"admin";
+    //userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
         return;
@@ -124,6 +124,7 @@
     [self.view endEditing:YES];//键盘退出
     NSDictionary *loginDict = @{@"userName":userName.text,@"password":userPwd.text};
    
+    
     [FSJNetworking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString: @"200"]) {
