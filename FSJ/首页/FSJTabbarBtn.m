@@ -35,7 +35,7 @@
      rectTitle = CGRectMake(Popviewwidth/8-12, Popviewheight*0.008 +Popviewheight*0.03,30, 25);
     }
     else if(iPhone4){
-     rectTitle = CGRectMake(Popviewwidth/8-6, Popviewheight*0.006 +Popviewheight*0.025,30, 25);
+     rectTitle = CGRectMake(Popviewwidth/8-10, Popviewheight*0.006 +Popviewheight*0.025,30, 25);
     }
     else{
       rectTitle = CGRectMake(Popviewwidth/8-10, Popviewheight*0.008 +Popviewheight*0.03,30, 25);

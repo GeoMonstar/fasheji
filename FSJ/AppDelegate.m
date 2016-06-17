@@ -34,7 +34,8 @@
     BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
     if (bo) {
         FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-        self.window.rootViewController = vc;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+        self.window.rootViewController = nav;
     }
     else{
         FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];

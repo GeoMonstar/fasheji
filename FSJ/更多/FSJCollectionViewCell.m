@@ -12,8 +12,5 @@
 
 @synthesize infoLabel = _infoLabel;
 @synthesize cellimage = _cellimage;
-- (void)awakeFromNib {
-    // Initialization code
-}
 
 @end

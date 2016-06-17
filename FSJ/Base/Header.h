@@ -53,7 +53,7 @@
 #define Popviewwidth [UIScreen mainScreen].bounds.size.width
 #define SecondArrStr @"城市"
 #define ThirdArrStr @"地区"
-
+#define LoginTime 60*60*24*7
 //weakSelf宏
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 #ifdef DEBUG

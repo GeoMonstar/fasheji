@@ -7,7 +7,7 @@
 //
 
 #import "FSJBaseViewController.h"
-
+#import "FSJLogInViewController.h"
 @interface FSJBaseViewController ()
 
 @end
@@ -81,7 +81,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)pop{
+    FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 /*
 #pragma mark - Navigation
 

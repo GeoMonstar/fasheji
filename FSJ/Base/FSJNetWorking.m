@@ -58,6 +58,7 @@
         success(task,responseObject);
     } failure:^(NSURLSessionDataTask *  task, NSError *  error) {
         
+        
         failure(task,error);
     }];
     return manager;
@@ -153,7 +154,7 @@
             url = @"/rs/app/map/station/transmitter/list";
             break;
         case Onestationquery:
-            url = @"rs/app/map/station/transmitter/getById";
+            url = @"/rs/app/map/station/transmitter/getById";
             break;
         case Keywordsquery:
             url = @"/rs/app/map/query";

@@ -105,6 +105,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     AppDelegate *appDelegate;
     CLLocationCoordinate2D startpoint;
     NSString * versionStr;
+    NSString * appversionStr;
 }
 
 @property (nonatomic, strong)UITableView *mytableView;
@@ -166,12 +167,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     for (BMKDistrictSearch *search in searchList) {
         search.delegate = nil;
     }
+    [SVProgressHUD dismiss];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-         [self receiveWarnNoti];
-    });
+    
     [self customUI];
     [self addCustomGestures];//添加自定义的手势
     staticJwt      = [[EGOCache globalCache]stringForKey:@"jwt"];
@@ -202,6 +202,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         [self getCityStationWith:dic and:YES];
     }
     [self checkUpdate];
+    [self receiveWarnNoti];
 }
 #pragma mark --检查更新
 - (void)checkUpdate{
@@ -212,13 +213,19 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         
         NSString *message =[responseObject objectForKey:@"message"];
         
-        versionStr  = [message1 isEqualToString: @""]?nil:[[responseObject objectForKey:@"version"]substringFromIndex:1];
-
+        versionStr  = ([message1 isEqualToString:@""]|| message1==nil)?nil:[[responseObject objectForKey:@"version"]substringFromIndex:1];;
+        if (versionStr == nil) {
+            
+        }else{
+            versionStr = [self convertStrwith:versionStr];
+            
+        }
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        appversionStr = [self convertStrwith:app_Version];
         // app build版本
         
-        if ([app_Version isEqualToString:versionStr] ||versionStr == nil ) {
+        if ([appversionStr integerValue] >=[versionStr integerValue] ||versionStr == nil ) {
             //[SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
         }
         else{
@@ -235,6 +242,22 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"%@",error);
     }];
+}
+- (NSString *)convertStrwith:(NSString *)str{
+    
+    NSString *Numstring = @"";
+    for (int i = 0; i<str.length; i++) {
+        //截取字符串中的每一个字符
+        NSString *s = [str substringWithRange:NSMakeRange(i, 1)];
+        if ([s isEqualToString:@"."]) {
+            
+        }
+        else{
+            Numstring = [Numstring stringByAppendingString:s];
+        }
+        
+    }
+    return Numstring;
 }
 #pragma mark -- 警告通知
 - (void)receiveWarnNoti{
@@ -845,16 +868,12 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
       
         else{
-          
-            
            // [MBProgressHUD showError:model.message];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSLog(@"%@",error);
         NSArray *array = error.userInfo.allValues;
         NSHTTPURLResponse *response = array[0];
         if (response.statusCode ==401 ) {
-            
             [SVProgressHUD showInfoWithStatus:AccountChanged];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -862,6 +881,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
             });
         }
+
     }];
 }
 #pragma mark --获取地级市信息
@@ -941,6 +961,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                     [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
                 });
             }
+
         }];
     }
     
@@ -1276,7 +1297,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             NSLog(@"%@",responseObject);
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        
         NSArray *array = error.userInfo.allValues;
         NSHTTPURLResponse *response = array[0];
         if (response.statusCode ==401 ) {
@@ -1287,6 +1307,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
             });
         }
+
     }];
 }
 #pragma mark -- 添加标注 Annotation
@@ -1460,6 +1481,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }    
    
     NSDictionary *dic = @{str:ID,@"pageSize":@"8",@"pageNo":@"1",@"jwt":staticJwt};
+    NSLog(@"%@",dic);
     [FSJNetworking networkingGETWithActionType:type requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJAllFSJ *model = [FSJAllFSJ initWithDictionary:responseObject];
         NSLog(@"%@",model.message);
@@ -1492,8 +1514,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
 
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        
-        
         NSArray *array = error.userInfo.allValues;
         NSHTTPURLResponse *response = array[0];
         if (response.statusCode ==401 ) {
@@ -1503,10 +1523,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [[EGOCache globalCache]clearCache];
                 [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
             });
-        }else{
-            
-          [MBProgressHUD showError:@"网络数据返回错误"];
         }
+
     }];
 }
 #pragma mark -- 添加全局标注
@@ -1727,6 +1745,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
        FSJMeViewController *me = [[FSJMeViewController alloc]init];
         me.jwtStr = staticJwt;
         me.VersionStr = versionStr;
+        me.appVersionStr =appversionStr;
         [self.navigationController pushViewController:me animated:YES];
         [[WBPopMenuSingleton shareManager]hideMenu];
     

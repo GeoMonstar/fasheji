@@ -214,7 +214,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
                         [self.myTableView reloadData];
                     }
                     
-                    if ([app_Version isEqualToString:self.VersionStr] || self.VersionStr == nil) {
+                    if ([self.appVersionStr integerValue] >=[self.VersionStr integerValue] || self.VersionStr == nil) {
                         
                     }else{
                         cell.checkLabel.hidden = NO;
@@ -285,7 +285,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     // app build版本
-        if ([app_Version isEqualToString:self.VersionStr] ||self.VersionStr == nil ) {
+        if ([self.appVersionStr integerValue] >=[self.VersionStr integerValue]||self.VersionStr == nil ) {
             [MBProgressHUD showTextMessage:@"已经是最新版本"];
         }
         else{
@@ -309,15 +309,19 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 #pragma mark -- 按钮响应
 - (void)logout:(UIButton *)sender{
-     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+   
+    
     NSDictionary *dic = @{@"jwt":self.jwtStr};
     [FSJNetworking networkingPOSTWithActionType:UserLogoutAction requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
+            [[EGOCache globalCache]clearCache];
+            [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            
+             FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
+            [self.navigationController pushViewController:vc animated:YES];
             //[SVProgressHUD showSuccessWithStatus:model.message];
-             [[EGOCache globalCache]clearCache];
-             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
+            
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSArray *array = error.userInfo.allValues;

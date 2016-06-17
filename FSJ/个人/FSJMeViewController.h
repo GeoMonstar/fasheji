@@ -12,4 +12,5 @@
 
 @property (nonatomic,copy)NSString *jwtStr;
 @property (nonatomic,copy)NSString *VersionStr;
+@property (nonatomic,copy)NSString *appVersionStr;
 @end
