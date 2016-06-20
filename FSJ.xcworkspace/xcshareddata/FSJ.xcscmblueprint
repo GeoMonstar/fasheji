@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3BE96570FCDE6DC3AC0A0B438F2FA719308CFAAC",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BBB031312B3B37163D5F21F702A8757DF98281D1" : 0,
+    "3BE96570FCDE6DC3AC0A0B438F2FA719308CFAAC" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "17A6D545-6B74-43C2-B798-FD16C8AB3C77",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BBB031312B3B37163D5F21F702A8757DF98281D1" : "FSJ%200606\/Pods\/",
+    "3BE96570FCDE6DC3AC0A0B438F2FA719308CFAAC" : "FSJ%200606\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "FSJ",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "FSJ.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:JiangqiQAQ\/FSJ.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3BE96570FCDE6DC3AC0A0B438F2FA719308CFAAC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "192.168.10.188:transmitter_ios",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BBB031312B3B37163D5F21F702A8757DF98281D1"
+    }
+  ]
+}
