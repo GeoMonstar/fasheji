@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-typedef void(^titleBlock) (NSString *str);
 
 @interface FSJMapViewController : FSJBaseViewController
 

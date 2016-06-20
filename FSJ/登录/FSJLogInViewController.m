@@ -126,11 +126,15 @@
     NSDictionary *loginDict = @{@"userName":userName.text,@"password":userPwd.text};
    
     [FSJNetworking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+        
+        [[EGOCache globalCache]setObject:responseObject forKey:@"userinfo" withTimeoutInterval:LoginTime];
+        
         model = [FSJUserInfo initWithDictionary:responseObject];
+       
         if ([model.status isEqualToString: @"200"]) {
-           // [SVProgressHUD showSuccessWithStatus:model.message];
+            
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:0];
-            [[EGOCache globalCache]setString:model.userId   forKey:@"userId" withTimeoutInterval:LoginTime];
+            
             [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt" withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.areaType forKey:@"areaType"withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.areaId   forKey:@"areaId" withTimeoutInterval:LoginTime];
@@ -138,14 +142,12 @@
             [[EGOCache globalCache]setString:model.areaName forKey:@"areaname"withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.officeName forKey:@"officeName" withTimeoutInterval:LoginTime];
              FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-            
-            
             [self.navigationController pushViewController:vc animated:YES];
             
             
         }else{
-           //[MBProgressHUD showError:model.message];
-           [SVProgressHUD showInfoWithStatus:model.message];
+           [MBProgressHUD showError:model.message];
+           
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"error = %@",error);

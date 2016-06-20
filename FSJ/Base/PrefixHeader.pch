@@ -10,6 +10,7 @@
 #define PrefixHeader_pch
 
 #pragma mark - pod
+
 #import "SVProgressHUD.h"
 #import <MJExtension.h>
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>
@@ -31,6 +32,8 @@
 #import <IQKeyboardManager.h>
 #import <HMSegmentedControl.h>
 #import "RealReachability.h"
+#import <FMDB/FMDB.h>
+
 #pragma mark - class
 #import "AppKeys.h"
 #import "FSJNetWorking.h"

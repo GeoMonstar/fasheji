@@ -174,32 +174,45 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     [self customUI];
     [self addCustomGestures];//添加自定义的手势
-    staticJwt      = [[EGOCache globalCache]stringForKey:@"jwt"];
-    staticareaType = [[EGOCache globalCache]stringForKey:@"areaType"];
-    staticareaId   = [[EGOCache globalCache]stringForKey:@"areaId"];
-    staticuserId   = [[EGOCache globalCache]stringForKey:@"userId"];
-    staticName     = [[EGOCache globalCache]stringForKey:@"areaname"];
-    statitopic     = [NSString stringWithFormat:@"%@/#",[[EGOCache globalCache]stringForKey:@"topic"]];
+    staticJwt      = [FSJUserInfo shareInstance].jwt;
+    staticareaType = [FSJUserInfo shareInstance].areaType;
+    staticareaId   = [FSJUserInfo shareInstance].areaId;
+    staticuserId   = [FSJUserInfo shareInstance].userId;
+    staticName     = [FSJUserInfo shareInstance].areaName;
+    statitopic     = [FSJUserInfo shareInstance].topic;
+    
     NSDictionary *dic = @{@"areaId":staticareaId,@"areaType":staticareaType,@"userId":staticuserId,@"jwt":staticJwt};
     
+    dispatch_queue_t serialQueue=
     
-    [self getallstationInfoWith:@"" andtype:Allstationquery anddicparameter:@"keyword" andShowAnno:NO andFirst:YES];
+    dispatch_queue_create("serial_queue",DISPATCH_QUEUE_SERIAL);
     
+    dispatch_set_target_queue(serialQueue,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0));
+    dispatch_async(serialQueue, ^{
+        [self getallstationInfoWith:@"" andtype:Allstationquery anddicparameter:@"keyword" andShowAnno:NO andFirst:YES];
+    });
     if ([staticareaType isEqualToString:@"1"]) {
         startpoint = self.mapView.centerCoordinate;
         [UIView animateWithDuration:1.0 animations:^{
             self.mapView.zoomLevel = FirstLevel;
         }];
-        [self searchWithModelwith:dic];
+        dispatch_async(serialQueue, ^{
+            [self searchWithModelwith:dic];
+        });
     }
     if ([staticareaType isEqualToString:@"2"]) {
-        [self getCtiyWithID:@[staticareaId] andName:@[staticName]];
         [UIView animateWithDuration:1.0 animations:^{
             self.mapView.zoomLevel = SecondLevel;
         }];
+        dispatch_async(serialQueue, ^{
+         [self getCtiyWithID:@[staticareaId] andName:@[staticName]];
+        });
+       
     }
     if ([staticareaType isEqualToString:@"3"]) {
-        [self getCityStationWith:dic and:YES];
+        dispatch_async(serialQueue, ^{
+            [self getCityStationWith:dic and:YES];
+        });
     }
     [self checkUpdate];
     [self receiveWarnNoti];
@@ -782,7 +795,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     showCity = YES;
     showProvince = YES;
     if ([staticareaType isEqualToString:@"1"]) {
-        if (self.mapView.zoomLevel >=SecondLevel && self.mapView.zoomLevel < ThirdtLevel ) {
+        
+        if (self.mapView.zoomLevel >= SecondLevel && self.mapView.zoomLevel < ThirdtLevel ) {
             [self.mapView addOverlays:cityoverlayNor];
             [self.mapView addOverlays:cityoverlayErr];
         }
@@ -862,13 +876,15 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [self searchWithArr:listNormal];
             });
             //获取各个城市信息
+            
             [self getCtiyWithID:listidError andName:listError];
             [self getCtiyWithID:listidNormal andName:listNormal];
+            
             NSLog(@"查询成功 ==== %@",model.status);
         }
       
         else{
-           // [MBProgressHUD showError:model.message];
+            [MBProgressHUD showError:@"服务器返回错误"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSArray *array = error.userInfo.allValues;
@@ -905,6 +921,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                  NSMutableArray *tcityidEor = @[].mutableCopy;
                 for (NSDictionary *dic in model.list) {
                     FSJOneCity *cityModel = [FSJOneCity initWithDictionary:dic];
+                    
                     [allcityName  addObject:cityModel.name];
                     [allcityModel addObject:cityModel];
                     //if([cityModel.name isEqualToString:result.address]) {
@@ -1267,6 +1284,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                     [self.mapView removeOverlays:cityoverlayErr];
                     [self.mapView removeOverlays:cityoverlayNor];
                     [self addAnimatedAnnotationWith:tstationArr and:show];
+                    
                     if (show) {
                         CLLocationCoordinate2D coor;
                         FSJResultList *model =  stationArr.firstObject;
@@ -1282,6 +1300,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 });
                 
                 [stationArr addObjectsFromArray:tstationArr];
+                
                 [tstationArr removeAllObjects];
 //                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //                    if (show) {
@@ -1480,9 +1499,11 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         [self  createTableview];
     }    
    
-    NSDictionary *dic = @{str:ID,@"pageSize":@"8",@"pageNo":@"1",@"jwt":staticJwt};
+    NSDictionary *dic = @{str:ID,@"pageSize":@"8",@"pageNo":@"1",@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
     NSLog(@"%@",dic);
+    
     [FSJNetworking networkingGETWithActionType:type requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+        
         FSJAllFSJ *model = [FSJAllFSJ initWithDictionary:responseObject];
         NSLog(@"%@",model.message);
         
@@ -1498,8 +1519,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                     }
                 
                 }
-            [[EGOCache globalCache]setObject:responseObject forKey:@"array"];
-            
+    
             if (show && !first) {
                 [self addAnnotataionOnmapWith:allsite];
             }

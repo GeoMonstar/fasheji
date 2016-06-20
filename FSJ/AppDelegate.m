@@ -21,7 +21,7 @@
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
     [[PgyManager sharedPgyManager] startManagerWithAppId:PgyAppID];
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PgyAppID];
-    //[[PgyUpdateManager sharedPgyManager] checkUpdate];
+   
     
     NSString *str = [[NSBundle mainBundle] bundleIdentifier];
     NSLog(@"%@",str);
@@ -31,16 +31,20 @@
             NSLog(@"启动失败");
     }
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    self.window.rootViewController = nav;
     BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
     if (bo) {
         FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
-        self.window.rootViewController = nav;
+//        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+//        
+//        self.window.rootViewController = nav;
+        [nav pushViewController:vc animated:YES];
     }
     else{
-        FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
-        self.window.rootViewController = nav;
+       
+        
     }
     [self.window makeKeyAndVisible];
     
@@ -69,10 +73,6 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    
-    //取消徽章
-    //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 - (void)applicationWillTerminate:(UIApplication *)application {

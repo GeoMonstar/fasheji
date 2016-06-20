@@ -112,6 +112,9 @@ typedef NS_ENUM(NSInteger, LoginStatusType) {
 
 @property (nonatomic, retain)NSArray *list;
 
+@property (nonatomic, strong)FSJUserInfo *usermodel;
+
+
 
 
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary;

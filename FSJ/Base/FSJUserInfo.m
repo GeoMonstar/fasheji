@@ -16,17 +16,28 @@
     static FSJUserInfo *_shareObj = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _shareObj = [[FSJUserInfo alloc]init];
+          _shareObj =  [self checkdatabase:_shareObj];
     });
     return _shareObj;
 }
-//- (void)setValue:(id)value forUndefinedKey:(NSString *)key{
-//    if ([key isEqualToString:@"id"]) {
-//        self.userID = value;
-//    }
-//}
++ (FSJUserInfo *)checkdatabase:(FSJUserInfo *)model{
+    
+    NSDictionary *dic = (NSDictionary *)[[EGOCache globalCache]objectForKey:@"userinfo"];
+    
+    FSJUserInfo *usermodel = [self mj_objectWithKeyValues:dic];
+    
+    return usermodel;
+    
+}
+- (void)setModel:(FSJUserInfo *)usermodel{
+
+
+}
+
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary{
+    
     FSJUserInfo *model = [self mj_objectWithKeyValues:dictionary];
+    
     return model;
 
 }
