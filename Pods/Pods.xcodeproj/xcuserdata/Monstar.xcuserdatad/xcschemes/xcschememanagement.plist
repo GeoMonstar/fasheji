@@ -9,12 +9,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>CYLTabBarController.xcscheme</key>
+		<key>EGOCache.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>EGOCache.xcscheme</key>
+		<key>FMDB.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>HMSegmentedControl.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>IQKeyboardManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -44,12 +54,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>REFrostedViewController.xcscheme</key>
+		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SDWebImage.xcscheme</key>
+		<key>SQLCipher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -64,20 +74,15 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>YYKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>09846A0F46988573DAEDDD6B55466BEA</key>
+		<key>2AB49797D14D57FA43A345254AFB9F18</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>410B25DF16EA5C5B3E2698F74F9625FB</key>
+		<key>489BE12B30E1AB5B509BCEE160ABFA22</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -87,22 +92,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6F7E59888A7293CF5612309CB641B0E2</key>
+		<key>5CCC59A3DA32DC4436DE29C5D16C0243</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>83DABE2AC962CEA0E680D3E6B67F9382</key>
+		<key>70BC44266C6FFE30D2C57129458E070B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8F74D9EA91F4C43190670066BAC37D44</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9A9CB17DE1BAAEDB947954F610912847</key>
+		<key>928353533005A4198EBDA5B700D37B64</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,17 +117,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B7B61D036CF494DF6F83315DC10DDC34</key>
+		<key>B8EC81355BB233CB46B0D560FBBEE396</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D8D63A5881850828CD40DEEA061F5A4A</key>
+		<key>C743C42395D3C33F9883CB4690B475A0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FCFB40FC810C26CFC5755E5D19DE3F33</key>
+		<key>CD92A28529578677BCCE3A41209F5290</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D638B9D6EB1F12C419CB5BCB69120921</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FE1499047D16C538F033A17CBF126846</key>
 		<dict>
 			<key>primary</key>
 			<true/>
