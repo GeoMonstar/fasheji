@@ -213,7 +213,6 @@
         }
 
         else{
-          
             [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
@@ -270,7 +269,7 @@
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.data != nil){
             [SVProgressHUD dismiss];
             FSJZhengji *model = [FSJZhengji initWithDictionary:basemodel.data];
-            NSArray *arr1 = @[MergeStr(@"发射功率(dBm)", model.po),MergeStr(@"驻波比", model.vswr),MergeStr(@"AGC电压(V)", model.agcVol)];
+            NSArray *arr1 = @[MergeStr(@"反射功率(dBm)", model.po),MergeStr(@"驻波比", model.vswr),MergeStr(@"AGC电压(V)", model.agcVol)];
             NSArray *arr2 = @[MergeStr(@"发射功率(W)", model.poW),MergeStr(@"温度", model.temperature),MergeStr(@"过激指示电压", model.overloadVol)];
             NSArray *arr3 = @[MergeStr(@"反射功率(dBm)", model.pr),MergeStr(@"总电流", model.current),MergeStr(@"电压2(V)", model.voltage2),MergeStr(@"B相电流", model.currentB),MergeStr(@"A相电压", model.voltageA),MergeStr(@"C相电压", model.voltageC)];
             NSArray *arr4 = @[MergeStr(@"不平衡功率(dBm)", model.unbalacePower),MergeStr(@"电压1(V)", model.voltage1),MergeStr(@"A相电流", model.currentA),MergeStr(@"C相电流", model.currentC),MergeStr(@"B相电压", model.voltageB),MergeStr(@"CN", model.cn)];
@@ -318,22 +317,22 @@
             NSArray *arr6 = @[MergeStr(@"视频保护", arr[5])];
             NSArray *arr7 =@[];
             if (self.showZidong == YES) {
-               arr7 = @[MergeStr(@"自动切换主设备",  (model.autoSwitch.integerValue>0?@"可以使用":@"禁用")),MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
+               arr7 = @[];
             }
             else{
                arr7 = @[MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
             }
-            NSArray *arr8 = @[MergeStr(@"开机/关机状态", (model.onoffState.integerValue>0?@"关机":@"开机")),MergeStr(@"主机/备机状态", (model.autoSwitch.integerValue>0?@"启用自动切换主备机":@"禁用自动切换主备机")),MergeStr(@"本控/遥控状态", (model.romoteState.integerValue > 0?@"遥控状态":@"本控状态")),MergeStr(@"天线/假负载", (model.anternaState.integerValue>0?@"输出至负载":@"输出至天线"))];
-            UIView *first  = [self creatViewWith:3 and:viewSpace and:arr1 and:arr2];
-            UIView *second = [self creatViewWith:2 and:(first.frame.origin.y + first.frame.size.height +viewSpace) and:arr3 and:arr4];
-            UIView *third  = [self creatViewWith:1 and:(second.frame.origin.y + second.frame.size.height +viewSpace) and:arr5 and:arr6];
-            UIView *forth  = [self creatViewWith:2 and:(third.frame.origin.y + third.frame.size.height +viewSpace) and:arr7 and:nil];
-            UIView *fifth  = [self creatViewWith:4 and:(forth.frame.origin.y + forth.frame.size.height +viewSpace) and:arr8 and:nil];
+            NSArray *arr8 = @[MergeStr(@"开机/关机状态", (model.onoffState.integerValue>0?@"关机":@"开机")),MergeStr(@"主机/备机状态", (model.autoSwitch.integerValue>0?@"启用自动切换主备机":@"禁用自动切换主备机")),MergeStr(@"本控/遥控状态", (model.romoteState.integerValue > 0?@"遥控状态":@"本控状态")),MergeStr(@"天线/假负载", (model.anternaState.integerValue>0?@"输出至负载":@"输出至天线")),MergeStr(@"自动切换主设备",  (model.autoSwitch.integerValue>0?@"可以使用":@"禁用")),MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
+            UIView *first  = [self creatViewWith:6 and:viewSpace and:arr8 and:nil];
+//            UIView *second = [self creatViewWith:2 and:(first.frame.origin.y + first.frame.size.height +viewSpace) and:arr3 and:arr4];
+//            UIView *third  = [self creatViewWith:1 and:(second.frame.origin.y + second.frame.size.height +viewSpace) and:arr5 and:arr6];
+//            UIView *forth  = [self creatViewWith:2 and:(third.frame.origin.y + third.frame.size.height +viewSpace) and:arr7 and:nil];
+//            UIView *fifth  = [self creatViewWith:4 and:(forth.frame.origin.y + forth.frame.size.height +viewSpace) and:arr8 and:nil];
             [self.view insertSubview:first atIndex:0];
-            [self.view insertSubview:second atIndex:0];
-            [self.view insertSubview:third atIndex:0];
-            [self.view insertSubview:forth atIndex:0];
-            [self.view insertSubview:fifth atIndex:0];
+//            [self.view insertSubview:second atIndex:0];
+//            [self.view insertSubview:third atIndex:0];
+//            [self.view insertSubview:forth atIndex:0];
+//            [self.view insertSubview:fifth atIndex:0];
         }
      
         else{

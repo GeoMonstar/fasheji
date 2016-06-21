@@ -671,7 +671,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                         [self btnClicked:btn];
                     }
                 }
-            
             });
          }
          else{
@@ -1074,6 +1073,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     //alert = nil;
     self.mapView.compassPosition = CGPointMake(15, 90);
 }
+#pragma mark - 地图状态改变调用此接口
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     NSLog(@"地图缩放等级 == %lf",self.mapView.zoomLevel);
     if (self.mapView.zoomLevel >=SecondLevel) {
@@ -1343,7 +1343,15 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             if (show) {
                 [self.mapView addAnnotation:annotataion];
             }
-            [stationNormal addObject:annotataion];
+            //移除重复的标注
+            for (BMKPointAnnotation *temp in stationNormal) {
+                if ([temp.subtitle isEqualToString:annotataion.subtitle]) {
+                    return;
+                }else{
+                    [stationNormal addObject:annotataion];
+                }
+            }
+           
         }
         if([model.status isEqualToString:@"1"]){
             BMKPointAnnotation *annotataion = [[BMKPointAnnotation alloc]init];
@@ -1356,7 +1364,14 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             if (show) {
                  [self.mapView addAnnotation:annotataion];
             }
-            [stationError addObject:annotataion];
+            //移除重复的标注
+            for (BMKPointAnnotation *temp in stationError) {
+                if ([temp.subtitle isEqualToString:annotataion.subtitle]) {
+                    return;
+                }else{
+                    [stationError addObject:annotataion];
+                }
+            }
         }
     }
 }
