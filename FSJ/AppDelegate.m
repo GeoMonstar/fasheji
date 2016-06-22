@@ -44,7 +44,6 @@
     }
     else{
        
-        
     }
     [self.window makeKeyAndVisible];
     

@@ -39,6 +39,7 @@
     [self.view addSubview:myWeb];
 }
 - (void)createNav{
+    
     self.title = @"统计";
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];

@@ -224,7 +224,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [FSJNetworking networkingGETWithActionType:VerisonInfo requestDictionary:verdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
          NSString *message1 =[responseObject objectForKey:@"version"];
         
-        NSString *message =[responseObject objectForKey:@"message"];
+       // NSString *message =[responseObject objectForKey:@"message"];
         
         versionStr  = ([message1 isEqualToString:@""]|| message1==nil)?nil:[[responseObject objectForKey:@"version"]substringFromIndex:1];;
         if (versionStr == nil) {

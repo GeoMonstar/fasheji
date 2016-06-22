@@ -149,43 +149,30 @@
     for (UIView *view in subviewArr) {
         [view removeFromSuperview];
     }
-//    UILabel *label1;
-//    if (show) {
-//        label1  = [[UILabel alloc]initWithFrame:CGRectMake(WIDTH *0.05, 54,  WIDTH *0.2, 35)];
-//    }
-//    else{
-//        label1 = [[UILabel alloc]initWithFrame:CGRectMake(WIDTH *0.05, 10,  WIDTH *0.2, 35)];
-//    }
-//    label1.font = [UIFont systemFontOfSize:14];
-//    label1.textAlignment = NSTextAlignmentCenter;
-//    label1.layer.cornerRadius = 5;
-//    label1.layer.masksToBounds = YES;
-//    label1.text =[NSString stringWithFormat:@"功放插件%@",str];
-//    label1.textColor = SystemWhiteColor;
-//    label1.backgroundColor = SystemBlueColor;
-    
-    NSArray *arr1 =@[MergeStr(@"输出功率(dBm)", model.outputPower),MergeStr(@"温度", model.temperature),MergeStr(@"电压1(V)", model.voltage1),MergeStr(@"AGC电压(V)", model.agcVol)];
-    NSArray *arr2 =@[MergeStr(@"输出功率(W)", model.outputPowerW),MergeStr(@"电流(A)", model.current),MergeStr(@"电压2(V)", model.voltage2),MergeStr(@"过激电压(V)", model.extreVol)];
-    NSArray *arr3 =@[MergeStr(@"类型", model.type),MergeStr(@"型号", model.modelNum),MergeStr(@"取样电流数样)", model.currentNum),MergeStr(@"驻波比", model.vswr)];
-    NSArray *arr4 =@[MergeStr(@"风扇转速(RPM)", model.fan),MergeStr(@"程序版本号", model.softwareVersion),MergeStr(@"反射功率(dBm)", model.reflectPower),MergeStr(@"推动功率", model.drivePower)];
+
     NSArray *arr = [self getfirstWith:model.status];
-    NSArray *arr5 = @[MergeStr(@"过激励保护", arr[0]),MergeStr(@"过流保护",arr[1]),MergeStr(@"驻波保护",arr[3])];
-    NSArray *arr6 = @[MergeStr(@"AGC/MGC", arr[4]),MergeStr(@"温度保护", arr[2]),MergeStr(@"功率保护",arr[7])];
+    NSArray *arr5 = @[MergeStr(@"过流保护",arr[1]),MergeStr(@"温度保护", arr[2]),MergeStr(@"驻波保护",arr[3])];
+
     NSDictionary *dic = basemodel.table[0];
     NSArray *arr7 = @[@"取样电流表",MergeStr(@"电流索引",[dic objectForKey:@"currentIndex"])];
     NSArray *arr8 = @[@"",MergeStr(@"取样值", [dic objectForKey:@"value"])];
     UIView *view1;
     if (show) {
+        NSArray *arr1 =@[MergeStr(@"输出功率(dBm)", model.outputPower),MergeStr(@"工作电流(A)", model.current),MergeStr(@"AC/DC1电压(V)", model.voltage1),MergeStr(@"风扇转速(RPM)", model.fan)];
+        NSArray *arr2 =@[MergeStr(@"输出功率(W)", model.outputPowerW),MergeStr(@"电压驻波比", model.vswr),MergeStr(@"工作温度(A)", model.temperature),@""];
          view1 = [self creatViewWith:4 and:54 and:arr1 and:arr2];
     }
     else{
+        NSArray *arr1 =@[MergeStr(@"输出功率(dBm)", model.outputPower),MergeStr(@"工作电流(A)", model.current),MergeStr(@"过激电压(V)", model.extreVol),MergeStr(@"AC/DC1电压(V)", model.voltage1)];
+        NSArray *arr2 =@[MergeStr(@"输出功率(W)", model.outputPowerW),MergeStr(@"工作温度(A)", model.temperature),MergeStr(@"自动增益电压(V)", model.agcVol),MergeStr(@"AC/DC2电压(V)", model.voltage2)];
         view1 = [self creatViewWith:4 and:10 and:arr1 and:arr2];
+    
     }
-   
-    UIView *view2 = [self creatViewWith:4 and:(viewSpace+view1.frame.origin.y + view1.frame.size.height) and:arr3 and:arr4];
-    UIView *view3 = [self creatViewWith:3 and:(viewSpace+view2.frame.origin.y + view2.frame.size.height) and:arr5 and:arr6];
+ 
+    UIView *view3 = [self creatViewWith:3 and:(viewSpace+view1.frame.origin.y + view1.frame.size.height) and:arr5 and:nil];
     UIView *view4 ;
     if (!show) {
+        
         view4 = [self creatViewWith:2 and:(viewSpace+view3.frame.origin.y + view3.frame.size.height) and:arr7 and:arr8];
         [subviewArr addObject:view4];
     }
@@ -194,12 +181,10 @@
     view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
     view1.layer.shadowOpacity = 0;
     [subviewArr addObject:view1];
-    [subviewArr addObject:view2];
+
     [subviewArr addObject:view3];
-//    [subviewArr addObject:label1];
-//    [self.view addSubview:label1];
+
     [self.view insertSubview:view1 atIndex:0];
-    [self.view insertSubview:view2 atIndex:0];
     [self.view insertSubview:view3 atIndex:0];
     [self.view insertSubview:view4 atIndex:0];
 }
@@ -210,6 +195,7 @@
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.main != nil) {
             FSJGongxiaoDetail *model = [FSJGongxiaoDetail initWithDictionary:basemodel.main];
             [self creatViewWithModel:model and:basemodel and:show and:str];
+            
         }
 
         else{
@@ -269,23 +255,51 @@
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.data != nil){
             [SVProgressHUD dismiss];
             FSJZhengji *model = [FSJZhengji initWithDictionary:basemodel.data];
-            NSArray *arr1 = @[MergeStr(@"反射功率(dBm)", model.po),MergeStr(@"驻波比", model.vswr),MergeStr(@"AGC电压(V)", model.agcVol)];
-            NSArray *arr2 = @[MergeStr(@"发射功率(W)", model.poW),MergeStr(@"温度", model.temperature),MergeStr(@"过激指示电压", model.overloadVol)];
-            NSArray *arr3 = @[MergeStr(@"反射功率(dBm)", model.pr),MergeStr(@"总电流", model.current),MergeStr(@"电压2(V)", model.voltage2),MergeStr(@"B相电流", model.currentB),MergeStr(@"A相电压", model.voltageA),MergeStr(@"C相电压", model.voltageC)];
-            NSArray *arr4 = @[MergeStr(@"不平衡功率(dBm)", model.unbalacePower),MergeStr(@"电压1(V)", model.voltage1),MergeStr(@"A相电流", model.currentA),MergeStr(@"C相电流", model.currentC),MergeStr(@"B相电压", model.voltageB),MergeStr(@"CN", model.cn)];
-            UIView *view1 = [self creatViewWith:3 and:viewSpace and:arr1 and:arr2];
-            UIView *view2 = [self creatViewWith:6 and:view1.frame.origin.y + view1.frame.size.height + viewSpace and:arr3 and:arr4];
-            view1.layer.borderColor = [UIColor orangeColor].CGColor;
-            view1.layer.borderWidth = 1;
-            view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
-            view1.layer.shadowOpacity = 0;
-            view1.layer.shadowRadius  = 0;
-            [self.view insertSubview:view1 atIndex:0];
-            [self.view insertSubview:view2 atIndex:0];
+            NSDictionary *valueDic = [responseObject objectForKey:@"value"];
+            NSString *agcStr = [valueDic objectForKey:@"agcVol"];
+            NSString *guojiStr = [valueDic objectForKey:@"extreVol"];
+            NSMutableArray *valueArr = @[].mutableCopy;
+            
+            for (NSString *str  in valueDic.allKeys) {
+                if (str.integerValue > 0) {
+                    [valueArr addObject:str];
+                }
+            }
+            //返回数据处理
+            [valueArr sortUsingComparator:^NSComparisonResult(__strong id obj1,__strong id obj2){
+                return [obj1 intValue] > [obj2 intValue];
+            }];
+            [valueArr removeObjectAtIndex:0];
+            NSArray *arr1 = @[MergeStr(@"发射功率(dBm)", model.po),MergeStr(@"反射功率(dBm)", model.pr),MergeStr(@"AGC状态",agcStr.integerValue == 1 ?@"告警":@"正常"),MergeStr(@"环境温度", model.temperature)];
+            
+            NSArray *arr2 = @[MergeStr(@"发射功率(W)", model.poW),MergeStr(@"驻波比", model.vswr),MergeStr(@"过激状态", guojiStr.integerValue == 1 ?@"告警":@"正常"),@""];
+           
+            NSMutableArray *arr3 = @[].mutableCopy;
+            [arr3 addObject:MergeStr(@"前置放大单元工作温度)", ((NSString *)[valueDic objectForKey:@"1"]).integerValue ==1?@"告警":@"正常")];
+            
+            for (int i = 0; i<valueArr.count; i++) {
+                NSInteger s  =   ((NSString *)valueArr[i]).integerValue;
+                NSString *str = [NSString stringWithFormat:@"功率放大单元%ld工作状态",s-1];
+                [arr3 addObject:MergeStr(str, ((NSString *)[valueDic objectForKey:valueArr[i]]).integerValue ==1?@"告警":@"正常") ];
+            }
+            
+            NSArray *baohuArr = [self getfirstWith:[valueDic objectForKey:@"status"]];
+            NSArray *arr4 = @[MergeStr(@"过流保护",baohuArr[1]),MergeStr(@"温度保护", baohuArr[2]),MergeStr(@"驻波保护",baohuArr[3])];
+            
+                UIView *view1 = [self creatViewWith:3 and:viewSpace and:arr1 and:arr2];
+                UIView *view2 = [self creatViewWith:valueDic.allKeys.count-2 and:view1.frame.origin.y + view1.frame.size.height + viewSpace and:arr3 and:nil ];
+                UIView *view3 = [self creatViewWith:3 and:view2.frame.origin.y +view2.frame.size.height+viewSpace and:arr4 and:nil];
+                view1.layer.borderColor = [UIColor orangeColor].CGColor;
+                view1.layer.borderWidth = 1;
+                view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
+                view1.layer.shadowOpacity = 0;
+                view1.layer.shadowRadius  = 0;
+                [self.view insertSubview:view1 atIndex:0];
+                [self.view insertSubview:view2 atIndex:0];
+                [self.view insertSubview:view3 atIndex:0];
         }
-        
-        else{
-            [MBProgressHUD showError:@"无返回数据"];
+            else{
+                [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSArray *array = error.userInfo.allValues;
@@ -308,31 +322,11 @@
         if ([basemodel.status isEqualToString:@"200"] && basemodel.data != nil) {
              [SVProgressHUD dismiss];
             FSJGongzuoStatus *model = [FSJGongzuoStatus initWithDictionary:basemodel.data];
-            NSArray *arr = [self getforthWith:model.status];
-            NSArray *arr1 = @[MergeStr(@"过激励保护", arr[0]),MergeStr(@"温度保护", arr[2]),MergeStr(@"功率保护",arr[7])];
-            NSArray *arr2 = @[MergeStr(@"过流保护",arr[1]),MergeStr(@"驻波保护",arr[3]),@""];
-            NSArray *arr3 = @[MergeStr(@"风机状态", arr[4]),MergeStr(@"当前时间", model.nowDate)];
-            NSArray *arr4 = @[MergeStr(@"机内温度(℃)", model.temperature),@""];
-            NSArray *arr5 = @[MergeStr(@"缺相保护", arr[6])];
-            NSArray *arr6 = @[MergeStr(@"视频保护", arr[5])];
-            NSArray *arr7 =@[];
-            if (self.showZidong == YES) {
-               arr7 = @[];
-            }
-            else{
-               arr7 = @[MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
-            }
             NSArray *arr8 = @[MergeStr(@"开机/关机状态", (model.onoffState.integerValue>0?@"关机":@"开机")),MergeStr(@"主机/备机状态", (model.autoSwitch.integerValue>0?@"启用自动切换主备机":@"禁用自动切换主备机")),MergeStr(@"本控/遥控状态", (model.romoteState.integerValue > 0?@"遥控状态":@"本控状态")),MergeStr(@"天线/假负载", (model.anternaState.integerValue>0?@"输出至负载":@"输出至天线")),MergeStr(@"自动切换主设备",  (model.autoSwitch.integerValue>0?@"可以使用":@"禁用")),MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
             UIView *first  = [self creatViewWith:6 and:viewSpace and:arr8 and:nil];
-//            UIView *second = [self creatViewWith:2 and:(first.frame.origin.y + first.frame.size.height +viewSpace) and:arr3 and:arr4];
-//            UIView *third  = [self creatViewWith:1 and:(second.frame.origin.y + second.frame.size.height +viewSpace) and:arr5 and:arr6];
-//            UIView *forth  = [self creatViewWith:2 and:(third.frame.origin.y + third.frame.size.height +viewSpace) and:arr7 and:nil];
-//            UIView *fifth  = [self creatViewWith:4 and:(forth.frame.origin.y + forth.frame.size.height +viewSpace) and:arr8 and:nil];
+
             [self.view insertSubview:first atIndex:0];
-//            [self.view insertSubview:second atIndex:0];
-//            [self.view insertSubview:third atIndex:0];
-//            [self.view insertSubview:forth atIndex:0];
-//            [self.view insertSubview:fifth atIndex:0];
+
         }
      
         else{
@@ -363,7 +357,7 @@
                 str = a>0?@"报警":@"正常";
                 break;
             case 1: case 2: case 3:case 7:
-                str = a>0?@"ON":@"OFF";
+                str = a>0?@"开":@"关";
                 break;
             case 5:
                 str = a>0?@"无视频输入":@"有视频输入";
@@ -375,8 +369,6 @@
                 break;
         }
         [arr addObject:str];
-        //[arr addObject:[NSString stringWithFormat:@"%ld",a]];
-        //num = num *2;
         b = b/2;
     }
     return arr;
@@ -393,7 +385,7 @@
             str = a>0?@"报警":@"正常";
             break;
             case 1: case 2: case 3:case 7:
-                str = a>0?@"ON":@"OFF";
+                str = a>0?@"开":@"关";
                 break;
             case 5:
                 str = a>0?@"无视频输入":@"有视频输入";
@@ -419,6 +411,7 @@
         
         UILabel  *label2 = [[UILabel alloc]initWithFrame:CGRectMake(smallview.frame.size.width/2+WIDTH*0.1,y+ 5+rowHeight*i, smallview.frame.size.width/2, rowHeight)];
         label2.text = secondLabel[i];
+        
         label1.backgroundColor = label2.backgroundColor = [UIColor clearColor];
         label1.font = label2.font = [UIFont systemFontOfSize:14];
         [subviewArr addObject:label1];
@@ -457,15 +450,20 @@
     [myButton addTarget:self action:@selector(backTomain:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = item1;
     self.navigationItem.rightBarButtonItem = item2;
+    self.titleBtn = [FSJTitleBtn buttonWithType:UIButtonTypeCustom];
     if (self.is1000W) {
         self.nameArr = @[@"整机",@"前置放大单元",@"功率放大单元",@"工作状态"];
+        self.titleBtn.Btnwidth = 70;
+        self.titleBtn.BtnX = 30;
     }else{
         self.nameArr = @[@"前置放大单元",@"工作状态"];
+        self.titleBtn.Btnwidth = 130;
+        self.titleBtn.BtnX = 0;
     }
     
-    self.titleBtn = [FSJTitleBtn buttonWithType:UIButtonTypeCustom];
-    self.titleBtn.Btnwidth = 70;
-    self.titleBtn.BtnX = 30;
+    
+    
+    
     self.titleBtn.frame = CGRectMake(WIDTH/2-72.5, 20, 145, 40);
     self.titleBtn.titleLabel.textAlignment = 1;
     [self.titleBtn setTitle:self.nameArr[0] forState:UIControlStateNormal];

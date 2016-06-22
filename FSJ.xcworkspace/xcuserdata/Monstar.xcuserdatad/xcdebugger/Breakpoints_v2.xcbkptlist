@@ -51,13 +51,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FSJ/&#x66f4;&#x591a;/FSJJiankongVC.m"
-            timestampString = "488169554.293277"
+            filePath = "FSJ/&#x4e2a;&#x4eba;/FSJAddStationVC.m"
+            timestampString = "488195822.704396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
-            landmarkName = "-creatViewThirdwith:"
+            startingLineNumber = "448"
+            endingLineNumber = "448"
+            landmarkName = "-createNav"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

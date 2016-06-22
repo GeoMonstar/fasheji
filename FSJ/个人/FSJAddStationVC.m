@@ -375,11 +375,11 @@
                         [firstNameArr addObject:model.name];
                     }
                     for (NSDictionary *dic in self.secondArr) {
-                        FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
+                        //FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                        // [seconNamedArr addObject:model.name];
                     }
                     for (NSDictionary *dic in self.thridArr) {
-                        FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
+                        //FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                         //[thridNameArr addObject:model.name];
                     }
                     

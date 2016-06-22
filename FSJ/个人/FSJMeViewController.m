@@ -145,14 +145,14 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         return cell;
     }
     NSArray* temp01 = @[@"用户名:",@"真实姓名:",@"工号:",@"手机号:",@"固机号:",@"邮箱:",@"归属机构:"];
-    NSArray* temp02 = @[@"修改密码",@"兴趣站点",@"检查新版本"];
+    //NSArray* temp02 = @[@"修改密码",@"兴趣站点",@"检查新版本"];
     FSJMineTableViewCell *cell = [self.myTableView dequeueReusableCellWithIdentifier:MineInfoTableViewCell];
     cell.UserInfoIcon.contentMode = UIViewContentModeScaleAspectFit;
     cell.UserInfoname.font = [UIFont systemFontOfSize:14];
     cell.UserInfocontent.font = [UIFont systemFontOfSize:14];
     cell.checkLabel.hidden = YES;
-    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+   // NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    //NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     // app build版本
     
     
@@ -197,7 +197,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             }
             break;
         case 2:
-            cell.UserInfoname.text = temp02[indexPath.row];
+            //cell.UserInfoname.text = temp02[indexPath.row];
             switch (indexPath.row) {
                 case 0:
                     cell.UserInfoIcon.image = [UIImage imageNamed:@"mima"];

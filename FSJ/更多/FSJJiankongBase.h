@@ -30,6 +30,10 @@
  *  @brief
  */
 @property (nonatomic, retain)NSArray *main;
+/**
+ *  @brief单元状态
+ */
+@property (nonatomic, retain)NSArray *value;
 
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
