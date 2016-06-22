@@ -316,7 +316,9 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
             [[EGOCache globalCache]clearCache];
-            [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:LoginTime];
+            
+            //[[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login"];
+            
              FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
             [self.navigationController pushViewController:vc animated:YES];
             //[SVProgressHUD showSuccessWithStatus:model.message];

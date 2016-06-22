@@ -174,45 +174,33 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     [self customUI];
     [self addCustomGestures];//添加自定义的手势
-    staticJwt      = [FSJUserInfo shareInstance].jwt;
-    staticareaType = [FSJUserInfo shareInstance].areaType;
-    staticareaId   = [FSJUserInfo shareInstance].areaId;
-    staticuserId   = [FSJUserInfo shareInstance].userId;
-    staticName     = [FSJUserInfo shareInstance].areaName;
-    statitopic     = [FSJUserInfo shareInstance].topic;
+    FSJUserInfo *fsjmodel = [FSJUserInfo initWithDictionary:(NSDictionary *)[[EGOCache globalCache]objectForKey:@"userinfo"]];
+    staticJwt      = fsjmodel.jwt;
+    staticareaType = fsjmodel.areaType;
+    staticareaId   = fsjmodel.areaId;
+    staticuserId   = fsjmodel.userId;
+    staticName     = fsjmodel.areaName;
+    statitopic     = fsjmodel.topic;
     
     NSDictionary *dic = @{@"areaId":staticareaId,@"areaType":staticareaType,@"userId":staticuserId,@"jwt":staticJwt};
     
-    dispatch_queue_t serialQueue=
-    
-    dispatch_queue_create("serial_queue",DISPATCH_QUEUE_SERIAL);
-    
-    dispatch_set_target_queue(serialQueue,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0));
-    dispatch_async(serialQueue, ^{
-        [self getallstationInfoWith:@"" andtype:Allstationquery anddicparameter:@"keyword" andShowAnno:NO andFirst:YES];
-    });
     if ([staticareaType isEqualToString:@"1"]) {
         startpoint = self.mapView.centerCoordinate;
         [UIView animateWithDuration:1.0 animations:^{
             self.mapView.zoomLevel = FirstLevel;
         }];
-        dispatch_async(serialQueue, ^{
             [self searchWithModelwith:dic];
-        });
+      
     }
     if ([staticareaType isEqualToString:@"2"]) {
         [UIView animateWithDuration:1.0 animations:^{
             self.mapView.zoomLevel = SecondLevel;
         }];
-        dispatch_async(serialQueue, ^{
          [self getCtiyWithID:@[staticareaId] andName:@[staticName]];
-        });
-       
+
     }
     if ([staticareaType isEqualToString:@"3"]) {
-        dispatch_async(serialQueue, ^{
-            [self getCityStationWith:dic and:YES];
-        });
+        [self getCityStationWith:dic and:YES];
     }
     [self checkUpdate];
     [self receiveWarnNoti];
@@ -742,9 +730,17 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }
    
 }
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+
+    if (allname.count == 0 ) {
+        [self getallstationInfoWith:@"" andtype:Allstationquery anddicparameter:@"keyword" andShowAnno:NO andFirst:YES];
+    }
+    
+}
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSLog(@"change");
-         [self.mapView removeAnnotations:quanjuArr];
+   
+    
+        [self.mapView removeAnnotations:quanjuArr];
     if (quanjuArr.count >0) {
         [quanjuArr removeAllObjects];
     }
@@ -1343,15 +1339,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             if (show) {
                 [self.mapView addAnnotation:annotataion];
             }
-            //移除重复的标注
-            for (BMKPointAnnotation *temp in stationNormal) {
-                if ([temp.subtitle isEqualToString:annotataion.subtitle]) {
-                    return;
-                }else{
-                    [stationNormal addObject:annotataion];
-                }
-            }
-           
+             [stationNormal addObject:annotataion];           
         }
         if([model.status isEqualToString:@"1"]){
             BMKPointAnnotation *annotataion = [[BMKPointAnnotation alloc]init];
@@ -1364,16 +1352,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             if (show) {
                  [self.mapView addAnnotation:annotataion];
             }
-            //移除重复的标注
-            for (BMKPointAnnotation *temp in stationError) {
-                if ([temp.subtitle isEqualToString:annotataion.subtitle]) {
-                    return;
-                }else{
-                    [stationError addObject:annotataion];
-                }
+            [stationError addObject:annotataion];
+            
             }
         }
-    }
 }
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
 {
@@ -1500,9 +1482,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 #pragma mark -- 查看发射机下面的所有发射机信息
 - (void)getallstationInfoWith:(NSString *)ID andtype:(NetworkConnectionActionType)type anddicparameter:(NSString *)str andShowAnno:(BOOL)show andFirst:(BOOL)first {
-//    if (allname.count >0) {
-//        [allname removeAllObjects];
-//    }
+    if (allname.count >0) {
+        [allname removeAllObjects];
+    }
     if (allsite.count >0) {
         [allsite removeAllObjects];
     }

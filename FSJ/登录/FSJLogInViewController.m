@@ -133,7 +133,7 @@
        
         if ([model.status isEqualToString: @"200"]) {
             
-            [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:0];
+            [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:LoginTime];
             
             [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt" withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.areaType forKey:@"areaType"withTimeoutInterval:LoginTime];

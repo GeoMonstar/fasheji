@@ -22,9 +22,8 @@
     [[PgyManager sharedPgyManager] startManagerWithAppId:PgyAppID];
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PgyAppID];
    
-    
     NSString *str = [[NSBundle mainBundle] bundleIdentifier];
-    NSLog(@"%@",str);
+    NSLog(@"项目ID = %@",str);
         _mapManager = [[BMKMapManager alloc]init];
         BOOL ret = [_mapManager start:BaiduMapKEy generalDelegate:self];
         if (!ret) {
@@ -34,17 +33,15 @@
     FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
     self.window.rootViewController = nav;
-    BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
-    if (bo) {
-        FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-//        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
-//        
-//        self.window.rootViewController = nav;
-        [nav pushViewController:vc animated:YES];
-    }
-    else{
-       
-    }
+//    BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
+//    if (bo) {
+//        FSJMapViewController *vc = [[FSJMapViewController alloc]init];
+//
+//        [nav pushViewController:vc animated:YES];
+//    }
+//    else{
+//       
+//    }
     [self.window makeKeyAndVisible];
     
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
@@ -75,7 +72,9 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 - (void)applicationWillTerminate:(UIApplication *)application {
-    
+    [[EGOCache globalCache]clearCache];
+
+    NSLog(@"Terminate %u",(BOOL) [[EGOCache globalCache]objectForKey:@"Login"]);
 }
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     

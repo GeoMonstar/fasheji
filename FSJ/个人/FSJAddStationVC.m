@@ -598,7 +598,11 @@
     }
 }
 - (void)finshed:(UIButton *)sender{
-    
+    if (self.selectedRows.count == 0) {
+        [mysearchBar resignFirstResponder];
+        [self.view endEditing:YES];
+    }
+    else{
     for (int i = 0 ;i<self.selectedRows.count;i++) {
         NSDictionary *dict = self.selectedRows[i];
         NSDictionary *dic = @{@"stationId":[dict objectForKey:@"stationId"],@"jwt":jwt};
@@ -611,6 +615,7 @@
         } failure:^(NSURLSessionDataTask *operation, NSError *error) {
             [MBProgressHUD showError:[NSString stringWithFormat:@"%@",error]];
         }];
+    }
     }
     NSLog(@"%ld",self.selectedRows.count);
    
