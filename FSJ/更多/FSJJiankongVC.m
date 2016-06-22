@@ -180,7 +180,7 @@
         [subviewArr addObject:view4];
     }
 //    view1.layer.borderColor = [UIColor orangeColor].CGColor;
-//    view1.layer.borderWidth = 1;
+    view1.layer.borderWidth = 1;
     view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
     view1.layer.shadowOpacity = 0;
     [subviewArr addObject:view1];
@@ -291,7 +291,7 @@
                 UIView *view2 = [self creatViewWith:valueDic.allKeys.count-2 and:view1.frame.origin.y + view1.frame.size.height + viewSpace and:arr3 and:nil ];
                 UIView *view3 = [self creatViewWith:3 and:view2.frame.origin.y +view2.frame.size.height+viewSpace and:arr4 and:nil];
 //                view1.layer.borderColor = [UIColor orangeColor].CGColor;
-//                view1.layer.borderWidth = 1;
+                view1.layer.borderWidth = 1;
                 view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
                 view1.layer.shadowOpacity = 0;
                 view1.layer.shadowRadius  = 0;
