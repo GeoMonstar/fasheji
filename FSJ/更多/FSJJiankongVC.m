@@ -152,6 +152,8 @@
 
     NSArray *arr = [self getfirstWith:model.status];
     NSArray *arr5 = @[MergeStr(@"过流保护",arr[1]),MergeStr(@"温度保护", arr[2]),MergeStr(@"驻波保护",arr[3])];
+   
+     NSArray *arr6 = @[MergeStr(@"类型", [model.type isEqualToString:@"1"]?@"前级":@"末级"),MergeStr(@"型号", model.modelNum),MergeStr(@"程序版本号",model.softwareVersion)];
 
     NSDictionary *dic = basemodel.table[0];
     NSArray *arr7 = @[@"取样电流表",MergeStr(@"电流索引",[dic objectForKey:@"currentIndex"])];
@@ -169,15 +171,16 @@
     
     }
  
-    UIView *view3 = [self creatViewWith:3 and:(viewSpace+view1.frame.origin.y + view1.frame.size.height) and:arr5 and:nil];
+
+    UIView *view3 = [self creatViewWith:3 and:(viewSpace+view1.frame.origin.y + view1.frame.size.height) and:arr5 and:arr6];
     UIView *view4 ;
     if (!show) {
         
         view4 = [self creatViewWith:2 and:(viewSpace+view3.frame.origin.y + view3.frame.size.height) and:arr7 and:arr8];
         [subviewArr addObject:view4];
     }
-    view1.layer.borderColor = [UIColor orangeColor].CGColor;
-    view1.layer.borderWidth = 1;
+//    view1.layer.borderColor = [UIColor orangeColor].CGColor;
+//    view1.layer.borderWidth = 1;
     view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
     view1.layer.shadowOpacity = 0;
     [subviewArr addObject:view1];
@@ -282,15 +285,13 @@
                 NSString *str = [NSString stringWithFormat:@"功率放大单元%ld工作状态",s-1];
                 [arr3 addObject:MergeStr(str, ((NSString *)[valueDic objectForKey:valueArr[i]]).integerValue ==1?@"告警":@"正常") ];
             }
-            
             NSArray *baohuArr = [self getfirstWith:[valueDic objectForKey:@"status"]];
             NSArray *arr4 = @[MergeStr(@"过流保护",baohuArr[1]),MergeStr(@"温度保护", baohuArr[2]),MergeStr(@"驻波保护",baohuArr[3])];
-            
                 UIView *view1 = [self creatViewWith:3 and:viewSpace and:arr1 and:arr2];
                 UIView *view2 = [self creatViewWith:valueDic.allKeys.count-2 and:view1.frame.origin.y + view1.frame.size.height + viewSpace and:arr3 and:nil ];
                 UIView *view3 = [self creatViewWith:3 and:view2.frame.origin.y +view2.frame.size.height+viewSpace and:arr4 and:nil];
-                view1.layer.borderColor = [UIColor orangeColor].CGColor;
-                view1.layer.borderWidth = 1;
+//                view1.layer.borderColor = [UIColor orangeColor].CGColor;
+//                view1.layer.borderWidth = 1;
                 view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
                 view1.layer.shadowOpacity = 0;
                 view1.layer.shadowRadius  = 0;
@@ -460,10 +461,6 @@
         self.titleBtn.Btnwidth = 130;
         self.titleBtn.BtnX = 0;
     }
-    
-    
-    
-    
     self.titleBtn.frame = CGRectMake(WIDTH/2-72.5, 20, 145, 40);
     self.titleBtn.titleLabel.textAlignment = 1;
     [self.titleBtn setTitle:self.nameArr[0] forState:UIControlStateNormal];
@@ -487,15 +484,10 @@
 }
 - (void)showPop:(UIButton *)sender{
     sender.selected = !sender.selected;
-    
-    
-
-    
     if (sender.selected == YES) {
         
        
         [[[UIApplication  sharedApplication]keyWindow] addSubview: popview];
-        
         FSJWeakSelf(weakself);
         popview.selectIndex = ^(NSInteger arrindex){
              sender.selected = !sender.selected;
@@ -503,6 +495,7 @@
             
            // weakself.titleLabel.text = weakself.nameArr[arrindex-500];
            // [weakself.titleLabel sizeToFit];
+            if (weakself.is1000W) {
             switch (arrindex-500) {
                 case 0:
                     weakself.JiankongType = Zhengji;
@@ -528,7 +521,24 @@
                 default:
                     break;
             }
-            
+            }else{
+                switch (arrindex-500) {
+                    case 0:
+                        weakself.JiankongType = Qianji;
+                        weakself.titleBtn.Btnwidth = 130;
+                        weakself.titleBtn.BtnX = 0;
+                        break;
+                    case 1:
+                        weakself.JiankongType = Zhuangtai;
+                        weakself.titleBtn.Btnwidth = 90;
+                        weakself.titleBtn.BtnX = 20;
+                        break;
+                        
+                    default:
+                        break;
+                
+                }
+            }
             for (UIView *view in weakself.view.subviews) {
                     [view removeFromSuperview];
             }
