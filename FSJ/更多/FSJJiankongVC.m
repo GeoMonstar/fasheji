@@ -174,15 +174,18 @@
 
     UIView *view3 = [self creatViewWith:3 and:(viewSpace+view1.frame.origin.y + view1.frame.size.height) and:arr5 and:arr6];
     UIView *view4 ;
-    if (!show) {
+    if (dic) {
         
         view4 = [self creatViewWith:2 and:(viewSpace+view3.frame.origin.y + view3.frame.size.height) and:arr7 and:arr8];
         [subviewArr addObject:view4];
     }
-//    view1.layer.borderColor = [UIColor orangeColor].CGColor;
-    view1.layer.borderWidth = 1;
-    view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
-    view1.layer.shadowOpacity = 0;
+//
+//    view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
+//    view1.layer.shadowOpacity = 0;
+    
+    view1.layer.shadowOffset  =  CGSizeMake(1.0f, 1.0f);
+    view1.layer.shadowOpacity = 0.5;
+    view1.layer.shadowRadius  = 1;
     [subviewArr addObject:view1];
 
     [subviewArr addObject:view3];
@@ -288,13 +291,13 @@
             NSArray *baohuArr = [self getfirstWith:[valueDic objectForKey:@"status"]];
             NSArray *arr4 = @[MergeStr(@"过流保护",baohuArr[1]),MergeStr(@"温度保护", baohuArr[2]),MergeStr(@"驻波保护",baohuArr[3])];
                 UIView *view1 = [self creatViewWith:3 and:viewSpace and:arr1 and:arr2];
-                UIView *view2 = [self creatViewWith:valueDic.allKeys.count-2 and:view1.frame.origin.y + view1.frame.size.height + viewSpace and:arr3 and:nil ];
+                UIView *view2 = [self creatViewWith:arr3.count and:view1.frame.origin.y + view1.frame.size.height + viewSpace and:arr3 and:nil ];
                 UIView *view3 = [self creatViewWith:3 and:view2.frame.origin.y +view2.frame.size.height+viewSpace and:arr4 and:nil];
-//                view1.layer.borderColor = [UIColor orangeColor].CGColor;
-                view1.layer.borderWidth = 1;
-                view1.layer.shadowOffset  = CGSizeMake(0.0f, 0.0f);
-                view1.layer.shadowOpacity = 0;
-                view1.layer.shadowRadius  = 0;
+
+            
+            view1.layer.shadowOffset  =  CGSizeMake(1.0f, 1.0f);
+            view1.layer.shadowOpacity = 0.5;
+            view1.layer.shadowRadius  = 1;
                 [self.view insertSubview:view1 atIndex:0];
                 [self.view insertSubview:view2 atIndex:0];
                 [self.view insertSubview:view3 atIndex:0];
@@ -324,7 +327,7 @@
              [SVProgressHUD dismiss];
             FSJGongzuoStatus *model = [FSJGongzuoStatus initWithDictionary:basemodel.data];
             NSArray *arr8 = @[MergeStr(@"开机/关机状态", (model.onoffState.integerValue>0?@"关机":@"开机")),MergeStr(@"主机/备机状态", (model.autoSwitch.integerValue>0?@"启用自动切换主备机":@"禁用自动切换主备机")),MergeStr(@"本控/遥控状态", (model.romoteState.integerValue > 0?@"遥控状态":@"本控状态")),MergeStr(@"天线/假负载", (model.anternaState.integerValue>0?@"输出至负载":@"输出至天线")),MergeStr(@"自动切换主设备",  (model.autoSwitch.integerValue>0?@"可以使用":@"禁用")),MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
-            UIView *first  = [self creatViewWith:6 and:viewSpace and:arr8 and:nil];
+            UIView *first  = [self creatViewWith:arr8.count and:viewSpace and:arr8 and:nil];
 
             [self.view insertSubview:first atIndex:0];
 

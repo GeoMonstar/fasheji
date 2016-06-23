@@ -106,6 +106,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     CLLocationCoordinate2D startpoint;
     NSString * versionStr;
     NSString * appversionStr;
+    UIButton *quxiaoBtn;
 }
 
 @property (nonatomic, strong)UITableView *mytableView;
@@ -174,6 +175,15 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     [self customUI];
     [self addCustomGestures];//添加自定义的手势
+    [self getData];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [self checkUpdate];
+        [self receiveWarnNoti];
+    });
+    
+}
+- (void)getData{
     FSJUserInfo *fsjmodel = [FSJUserInfo initWithDictionary:(NSDictionary *)[[EGOCache globalCache]objectForKey:@"userinfo"]];
     staticJwt      = fsjmodel.jwt;
     staticareaType = fsjmodel.areaType;
@@ -185,25 +195,28 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     NSDictionary *dic = @{@"areaId":staticareaId,@"areaType":staticareaType,@"userId":staticuserId,@"jwt":staticJwt};
     
     if ([staticareaType isEqualToString:@"1"]) {
+        [self searchWithModelwith:dic];
         startpoint = self.mapView.centerCoordinate;
         [UIView animateWithDuration:1.0 animations:^{
             self.mapView.zoomLevel = FirstLevel;
         }];
-            [self searchWithModelwith:dic];
-      
+        
+        
     }
     if ([staticareaType isEqualToString:@"2"]) {
+        
+        [self getCtiyWithID:@[staticareaId] andName:@[staticName]];
         [UIView animateWithDuration:1.0 animations:^{
             self.mapView.zoomLevel = SecondLevel;
         }];
-         [self getCtiyWithID:@[staticareaId] andName:@[staticName]];
-
+        
+        
+        
     }
     if ([staticareaType isEqualToString:@"3"]) {
         [self getCityStationWith:dic and:YES];
     }
-    [self checkUpdate];
-    [self receiveWarnNoti];
+    
 }
 #pragma mark --检查更新
 - (void)checkUpdate{
@@ -494,7 +507,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             }
         }
     }
-    UIButton *quxiaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    quxiaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     quxiaoBtn.frame = CGRectMake(mainSearchbar.frame.size.width-45, mainSearchbar.frame.size.height/2-10, 40, 20);
     [quxiaoBtn setTitle:@"取消" forState:UIControlStateNormal];
     quxiaoBtn.titleLabel.font = [UIFont systemFontOfSize:15];
@@ -556,11 +569,14 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             [self.mytableView removeFromSuperview];
             self.mytableView = nil;
         }
+         [self quxiao];
         if ([staticareaType isEqualToString:@"1"]) {
             mainSearchbar.text = @"";
             self.LenovoTableView.hidden = YES;
             self.LenovoTableView = nil;
-            [self removeAnno];
+           
+           
+      
             self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
                 self.mapView.zoomLevel = FirstLevel;
@@ -570,7 +586,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             mainSearchbar.text = @"";
             self.LenovoTableView.hidden = YES;
             self.LenovoTableView = nil;
-            [self removeAnno];
+            
             self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
                 self.mapView.zoomLevel = SecondLevel;
@@ -580,7 +596,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             mainSearchbar.text = @"";
             self.LenovoTableView.hidden = YES;
             self.LenovoTableView = nil;
-            [self removeAnno];
+            
              self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
                 self.mapView.zoomLevel = ThirdtLevel;
@@ -710,6 +726,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
 }
 - (void)quxiao:(UIButton *)button{
+    [self quxiao];
+  }
+- (void)quxiao{
     mainSearchbar.text = @"";
     self.LenovoTableView.hidden = YES;
     self.LenovoTableView = nil;
@@ -718,6 +737,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }else{
         [self.view endEditing:YES];
     }
+
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     mainSearchbar.text = @"";
@@ -801,7 +821,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             [self.mapView addAnnotations:stationError];
             
         }
-        if(self.mapView.zoomLevel < SecondLevel) {
+        if(self.mapView.zoomLevel < SecondLevel ) {
             
             [self.mapView addOverlays:overlayNor];
             [self.mapView addOverlays:overlayEor];
@@ -879,6 +899,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
       
         else{
+            
             [MBProgressHUD showError:@"服务器返回错误"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
@@ -960,6 +981,10 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 //                        NSLog(@"geo检索发送失败");
 //                    }
 //                }
+            }else{
+                
+                [MBProgressHUD showError:@"2级服务器返回错误"];
+                
             }
           
         } failure:^(NSURLSessionDataTask *operation, NSError *error) {
@@ -1305,11 +1330,13 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 //                });
             }
             else{
-                NSLog(@"%@",user.message);
+              //  NSLog(@"%@",user.message);
+                 [MBProgressHUD showError:@"3级服务器数据返回错误"];
             }
         }
         else{
-            NSLog(@"%@",responseObject);
+            [MBProgressHUD showError:@"3级服务器数据返回错误"];
+         //   NSLog(@"%@",responseObject);
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSArray *array = error.userInfo.allValues;
