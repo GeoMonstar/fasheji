@@ -32,6 +32,7 @@ NSString *keyCityErrorCount = @"kCityErrorCount";
 NSString *keyCityNorCount   = @"kCityNorCount";
 @interface FSJMapViewController ()<BMKMapViewDelegate,BMKLocationServiceDelegate,BMKDistrictSearchDelegate,BMKGeoCodeSearchDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate>
 {
+    
     UIPanGestureRecognizer *cellpan;
     UISwipeGestureRecognizer *swipdown;
     UISwipeGestureRecognizer *swipup;
@@ -175,12 +176,14 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     [self customUI];
     [self addCustomGestures];//添加自定义的手势
-    [self getData];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
+    dispatch_async(dispatch_get_main_queue(), ^{
+         [self getData];
+    });
+   
+  
         [self checkUpdate];
         [self receiveWarnNoti];
-    });
+    
     
 }
 - (void)getData{
@@ -1793,8 +1796,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         [self.navigationController pushViewController:me animated:YES];
         [[WBPopMenuSingleton shareManager]hideMenu];
     
-    
-    NSLog(@"状态改变1");
+   // NSLog(@"状态改变1");
 }
 
 #pragma mark - 添加自定义的手势（若不自定义手势，不需要下面的代码）

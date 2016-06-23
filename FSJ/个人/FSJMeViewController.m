@@ -140,7 +140,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         
         [cell.logoutBtn addTarget:self action:@selector(logout:) forControlEvents:UIControlEventTouchUpInside];
 
-        NSLog(@"图片地址url == %@",url);
+        //NSLog(@"图片地址url == %@",url);
         [cell.HeadBtn addTarget:self action:@selector(changeIcon:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
@@ -310,16 +310,17 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 #pragma mark -- 按钮响应
 - (void)logout:(UIButton *)sender{
    
-    
+    [[EGOCache globalCache]clearCache];
     NSDictionary *dic = @{@"jwt":self.jwtStr};
+    NSLog(@"退出 %@",self.jwtStr);
     [FSJNetworking networkingPOSTWithActionType:UserLogoutAction requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
-            [[EGOCache globalCache]clearCache];
+            
             
             //[[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login"];
             
-             FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
+            FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
             [self.navigationController pushViewController:vc animated:YES];
             //[SVProgressHUD showSuccessWithStatus:model.message];
             

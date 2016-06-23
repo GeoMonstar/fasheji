@@ -27,6 +27,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(endEditing:)];
     [self.view addGestureRecognizer:tap];
     [self createUI];
@@ -130,7 +131,7 @@
         [[EGOCache globalCache]setObject:responseObject forKey:@"userinfo" withTimeoutInterval:LoginTime];
         
         model = [FSJUserInfo initWithDictionary:responseObject];
-       
+        NSLog(@"登录结果%@",responseObject);
         if ([model.status isEqualToString: @"200"]) {
             
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:LoginTime];
