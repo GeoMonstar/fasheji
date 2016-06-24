@@ -64,7 +64,7 @@
                  [self creatViewFirstWith:@"clt" andWith:NO];
             }
             else{
-                [self shuanxinViewFirstWith:@"1" andWith:NO];
+                [self shuanxinViewFirstWith:@"1" andWith:NO andfrom:@"device"];
             }
             navTitle = @"前置放大单元";
             break;
@@ -73,7 +73,7 @@
                 [self creatViewFirstWith:@"cnu" andWith:YES];
             }
             else{
-                [self shuanxinViewFirstWith:index andWith:YES];
+                [self shuanxinViewFirstWith:index andWith:YES andfrom:@"device"];
             }
              navTitle = @"功率放大单元";
             break;
@@ -142,7 +142,7 @@
             }
         }
         index = [NSString stringWithFormat:@"%ld",sender.tag-600+2];
-        [self shuanxinViewFirstWith:index andWith:YES];
+        [self shuanxinViewFirstWith:index andWith:YES andfrom:@"db"];
     }
 }
 - (void)creatViewWithModel:(FSJGongxiaoDetail *)model and:(FSJGongxiao *)basemodel and:(BOOL)show and:(NSString *)str{
@@ -166,7 +166,7 @@
     }
     else{
         NSArray *arr1 =@[MergeStr(@"输出功率(dBm)", model.outputPower),MergeStr(@"工作电流(A)", model.current),MergeStr(@"过激电压(V)", model.extreVol),MergeStr(@"AC/DC1电压(V)", model.voltage1)];
-        NSArray *arr2 =@[MergeStr(@"输出功率(W)", model.outputPowerW),MergeStr(@"工作温度(A)", model.temperature),MergeStr(@"自动增益电压(V)", model.agcVol),MergeStr(@"AC/DC2电压(V)", model.voltage2)];
+        NSArray *arr2 =@[MergeStr(@"输出功率(W)", model.outputPowerW),MergeStr(@"工作温度(A)", model.temperature),MergeStr(@"AGC电压(V)", model.agcVol),MergeStr(@"AC/DC2电压(V)", model.voltage2)];
         view1 = [self creatViewWith:4 and:10 and:arr1 and:arr2];
     
     }
@@ -194,8 +194,8 @@
     [self.view insertSubview:view3 atIndex:0];
     [self.view insertSubview:view4 atIndex:0];
 }
-- (void)shuanxinViewFirstWith:(NSString *)str andWith:(BOOL)show{
-    NSDictionary *dic= @{@"transId":self.fsjId,@"ip":self.addressId,@"from":@"device",@"jwt":jwtStr,@"index":str};
+- (void)shuanxinViewFirstWith:(NSString *)str andWith:(BOOL)show andfrom:(NSString *)from{
+    NSDictionary *dic= @{@"transId":self.fsjId,@"ip":self.addressId,@"from":from,@"jwt":jwtStr,@"index":str};
     [FSJNetworking networkingGETWithActionType:GetGongxiaoDetail requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJGongxiao *basemodel = [FSJGongxiao initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.main != nil) {
@@ -288,9 +288,10 @@
                 NSString *str = [NSString stringWithFormat:@"功率放大单元%ld工作状态",s-1];
                 [arr3 addObject:MergeStr(str, ((NSString *)[valueDic objectForKey:valueArr[i]]).integerValue ==1?@"告警":@"正常") ];
             }
-            NSArray *baohuArr = [self getfirstWith:[valueDic objectForKey:@"status"]];
+            
+            NSArray *baohuArr = [self getfirstWith:[responseObject objectForKey:@"status"]];
             NSArray *arr4 = @[MergeStr(@"过流保护",baohuArr[1]),MergeStr(@"温度保护", baohuArr[2]),MergeStr(@"驻波保护",baohuArr[3])];
-                UIView *view1 = [self creatViewWith:3 and:viewSpace and:arr1 and:arr2];
+                UIView *view1 = [self creatViewWith:arr1.count and:viewSpace and:arr1 and:arr2];
                 UIView *view2 = [self creatViewWith:arr3.count and:view1.frame.origin.y + view1.frame.size.height + viewSpace and:arr3 and:nil ];
                 UIView *view3 = [self creatViewWith:3 and:view2.frame.origin.y +view2.frame.size.height+viewSpace and:arr4 and:nil];
 
@@ -326,7 +327,9 @@
         if ([basemodel.status isEqualToString:@"200"] && basemodel.data != nil) {
              [SVProgressHUD dismiss];
             FSJGongzuoStatus *model = [FSJGongzuoStatus initWithDictionary:basemodel.data];
-            NSArray *arr8 = @[MergeStr(@"开机/关机状态", (model.onoffState.integerValue>0?@"关机":@"开机")),MergeStr(@"主机/备机状态", (model.autoSwitch.integerValue>0?@"启用自动切换主备机":@"禁用自动切换主备机")),MergeStr(@"本控/遥控状态", (model.romoteState.integerValue > 0?@"遥控状态":@"本控状态")),MergeStr(@"天线/假负载", (model.anternaState.integerValue>0?@"输出至负载":@"输出至天线")),MergeStr(@"自动切换主设备",  (model.autoSwitch.integerValue>0?@"可以使用":@"禁用")),MergeStr(@"警告开关", (model.alarmSwitch.integerValue>0?@"禁用设备告警检测":@"使用告警检测"))];
+
+            NSArray *arr8 = @[MergeStr(@"开机/关机状态", (model.onoffState.integerValue>0?@"关机":@"开机")),MergeStr(@"主机/备机状态", (model.autoSwitch.integerValue>0?@"备机":@"开机")),MergeStr(@"本控/遥控状态", (model.romoteState.integerValue > 0?@"遥控":@"本控")),MergeStr(@"天线/假负载", (model.anternaState.integerValue>0?@"负载":@"天线")),MergeStr(@"自动切换主设备",  (model.autoSwitch.integerValue>0?@"启用":@"禁用")),MergeStr(@"告警开关", (model.alarmSwitch.integerValue>1?(model.alarmSwitch.integerValue>2?@"清除设备的告警记录表":@"允许设备的告警检测"):@"禁用设备告警检测"))];
+            
             UIView *first  = [self creatViewWith:arr8.count and:viewSpace and:arr8 and:nil];
 
             [self.view insertSubview:first atIndex:0];
@@ -355,13 +358,14 @@
     NSInteger b = str.integerValue;
     for (int i = 0; i < 8; i ++) {
         NSInteger a =  b%num;
+        NSLog(@"%ld",a);
         NSString *str;
         switch (i) {
             case 0:case 6:
                 str = a>0?@"报警":@"正常";
                 break;
             case 1: case 2: case 3:case 7:
-                str = a>0?@"开":@"关";
+                str = a>0?@"ON":@"OFF";
                 break;
             case 5:
                 str = a>0?@"无视频输入":@"有视频输入";
@@ -389,7 +393,7 @@
             str = a>0?@"报警":@"正常";
             break;
             case 1: case 2: case 3:case 7:
-                str = a>0?@"开":@"关";
+                str = a>0?@"ON":@"OFF";
                 break;
             case 5:
                 str = a>0?@"无视频输入":@"有视频输入";

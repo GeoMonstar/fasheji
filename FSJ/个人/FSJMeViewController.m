@@ -144,7 +144,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         [cell.HeadBtn addTarget:self action:@selector(changeIcon:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
-    NSArray* temp01 = @[@"用户名:",@"真实姓名:",@"工号:",@"手机号:",@"固机号:",@"邮箱:",@"归属机构:"];
+    NSArray* temp01 = @[@"用户名:",@"真实姓名:",@"工号:",@"手机号:",@"固话:",@"邮箱:",@"归属机构:"];
     //NSArray* temp02 = @[@"修改密码",@"兴趣站点",@"检查新版本"];
     FSJMineTableViewCell *cell = [self.myTableView dequeueReusableCellWithIdentifier:MineInfoTableViewCell];
     cell.UserInfoIcon.contentMode = UIViewContentModeScaleAspectFit;

@@ -173,18 +173,13 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self customUI];
     [self addCustomGestures];//添加自定义的手势
     dispatch_async(dispatch_get_main_queue(), ^{
          [self getData];
     });
-   
-  
-        [self checkUpdate];
-        [self receiveWarnNoti];
-    
-    
+    [self checkUpdate];
+    [self receiveWarnNoti];
 }
 - (void)getData{
     FSJUserInfo *fsjmodel = [FSJUserInfo initWithDictionary:(NSDictionary *)[[EGOCache globalCache]objectForKey:@"userinfo"]];
@@ -1551,9 +1546,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                 [self addAnnotataionOnmapWith:allsite];
             }
             else{
-                
                   [self.mytableView reloadData];
-                
             }
         }else{
             

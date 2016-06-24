@@ -41,7 +41,7 @@
     userName.placeholder = @"用户名";
     userName.borderStyle = UITextBorderStyleNone;
     userName.backgroundColor = [UIColor clearColor];
-    userName.text =@"admin";
+    //userName.text =@"admin";
     [self.view addSubview:userName];
 
     userPwd = [[UITextField alloc]initWithFrame:CGRectMake(leftMagrin, HEIGH/2 + viewHeight + 24, WIDTH - leftMagrin-rightMagrin, viewHeight)];
@@ -135,13 +135,14 @@
         if ([model.status isEqualToString: @"200"]) {
             
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:LoginTime];
-            
+            [[EGOCache globalCache]setString:userName.text forKey:@"url"];
             [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt" withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.areaType forKey:@"areaType"withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.areaId   forKey:@"areaId" withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.topic    forKey:@"topic" withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.areaName forKey:@"areaname"withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.officeName forKey:@"officeName" withTimeoutInterval:LoginTime];
+            [[EGOCache globalCache]setString:model.officeName forKey:@"userId" withTimeoutInterval:LoginTime];
              FSJMapViewController *vc = [[FSJMapViewController alloc]init];
             [self.navigationController pushViewController:vc animated:YES];
             

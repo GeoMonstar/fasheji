@@ -35,6 +35,7 @@
     thirdInput = nil;
     returnBtn = nil;
     codeBtn = nil;
+    [SVProgressHUD dismiss];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -64,8 +65,8 @@
             dicStr = @"mobile";
             break;
         case 2:
-            [self createUIwith:@"固机号"];
-            titleStr = @"更改固机号";
+            [self createUIwith:@"固话号"];
+            titleStr = @"更改固话号";
             dicStr = @"phone";
             break;
         case 3:
@@ -192,9 +193,9 @@
         [SVProgressHUD showErrorWithStatus:@"补全信息"];
     }
     else{
-        if ([secondInput.text isEqualToString:@""]) {
-            [SVProgressHUD showErrorWithStatus:@"请输入验证码"];
-        }else{
+//        if ([secondInput.text isEqualToString:@""]) {
+//            [SVProgressHUD showErrorWithStatus:@"请输入验证码"];
+//        }else{
             NSDictionary *dic = @{@"jwt":jwtStr,dicStr:firstInput.text};
             [FSJNetworking networkingPOSTWithActionType:UserInfoChange requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
                 FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
@@ -208,7 +209,7 @@
                 [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
             }];
         }
-    }
+ //   }
 }
 
 - (void)createNav{

@@ -51,11 +51,12 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];//如果报接受类型不一致请替换一致text/html或别的
     manager.requestSerializer=[AFJSONRequestSerializer serializer];//申明请求的数据是json类型
-    NSLog(@"%@",URL);
+    NSLog(@"%@ %ld %@",URL,(long)actionType,requestDictionary);
     
     [manager GET:URL parameters:requestDictionary progress:nil success:^(NSURLSessionDataTask *  task, id   responseObject) {
         
         success(task,responseObject);
+        
     } failure:^(NSURLSessionDataTask *  task, NSError *  error) {
         
         

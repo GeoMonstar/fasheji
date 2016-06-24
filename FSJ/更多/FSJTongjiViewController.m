@@ -26,13 +26,14 @@
 }
 - (void)createWeb{
     [myWeb removeFromSuperview];
-    myWeb = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH)];
+    myWeb = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH-64)];
     myWeb.delegate = self;
-    userName = [[EGOCache globalCache]stringForKey:@"userId"];
-    NSString *urlStr =  BaseTongjiurl(userName);
+    
+    NSString *urlStr =  BaseTongjiurl([[EGOCache globalCache]stringForKey:@"url"]);
+    
     NSURL *url = [[NSURL alloc] initWithString:urlStr];
-    myWeb.scalesPageToFit = YES;
-    myWeb.scrollView.contentSize = CGSizeMake(WIDTH, HEIGH*1.5);
+    //myWeb.scalesPageToFit = YES;
+    //myWeb.scrollView.contentSize = CGSizeMake(WIDTH, HEIGH+64);
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [myWeb loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0]];
@@ -59,7 +60,15 @@
     
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-
+    CGFloat documentWidth = [[myWeb stringByEvaluatingJavaScriptFromString:@"document.getElementById('content').offsetWidth"] floatValue];
+    CGFloat documentHeight = [[myWeb stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"content\").offsetHeight;"] floatValue];
+    NSLog(@"documentSize = {%f, %f}", documentWidth, documentHeight);
+    
+    CGRect frame = webView.frame;
+    CGSize fittingSize = [webView sizeThatFits:CGSizeZero];
+    frame.size = fittingSize;
+   
+    webView.frame = frame;
     
 }
 
