@@ -5,7 +5,7 @@
 //  Created by Monstar on 16/4/25.
 //  Copyright © 2016年 Monstar. All rights reserved.
 //
-#define MergeStr(str,model)  [NSString stringWithFormat:@"%@:%@",str,model]
+
 #define rowHeight 28
 #define viewSpace 17
 #import "FSJJiankongVC.h"

@@ -221,25 +221,32 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     NSString *jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
     NSDictionary *verdic = @{@"jwt":jwtStr};
     [FSJNetworking networkingGETWithActionType:VerisonInfo requestDictionary:verdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-         NSString *message1 =[responseObject objectForKey:@"version"];
+         NSString *versionNum =[responseObject objectForKey:@"updateNum"];
         
-       // NSString *message =[responseObject objectForKey:@"message"];
+        NSString *message =[responseObject objectForKey:@"version"];
         
-        versionStr  = ([message1 isEqualToString:@""]|| message1==nil)?nil:[[responseObject objectForKey:@"version"]substringFromIndex:1];;
+        versionStr  = ([message isEqualToString:@""]|| message==nil)?nil:[[responseObject objectForKey:@"version"]substringFromIndex:1];;
         if (versionStr == nil) {
             
         }else{
             versionStr = [self convertStrwith:versionStr];
             
         }
+        
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        NSString *app_Versionnum = [infoDictionary objectForKey:@"CFBundleVersion"];
         appversionStr = [self convertStrwith:app_Version];
         // app build版本
-        
-        if ([appversionStr integerValue] >=[versionStr integerValue] ||versionStr == nil ) {
-            //[SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
+        versionStr = versionNum;
+        appversionStr = app_Versionnum;
+        if ([versionStr integerValue] <= [appversionStr integerValue]) {
+            
         }
+//        if ([appversionStr integerValue] >=[versionStr integerValue] ||versionStr == nil ) {
+//            //[SVProgressHUD showInfoWithStatus:@"当前已经是最新版本"];
+//        }
         else{
             UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"新版本可以更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];

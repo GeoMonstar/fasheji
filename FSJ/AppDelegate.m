@@ -36,11 +36,9 @@
 //    BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
 //    if (bo) {
 //        FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-//
 //        [nav pushViewController:vc animated:YES];
 //    }
 //    else{
-//       
 //    }
     [self.window makeKeyAndVisible];
     

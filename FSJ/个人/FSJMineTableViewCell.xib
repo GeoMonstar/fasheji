@@ -40,7 +40,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aw8-mx-jpa">
-                        <rect key="frame" x="268" y="8" width="44" height="27"/>
+                        <rect key="frame" x="232" y="8" width="80" height="27"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="zRV-Xl-WF8"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -73,6 +76,7 @@
                         <exclude reference="PQM-ao-6Ui"/>
                         <exclude reference="cha-fL-8gP"/>
                         <exclude reference="lh7-tt-dzz"/>
+                        <exclude reference="hoU-Tb-i9H"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
@@ -82,7 +86,7 @@
                 <outlet property="UserInfoname" destination="kG5-C0-o0F" id="PLN-SX-SCy"/>
                 <outlet property="checkLabel" destination="Aw8-mx-jpa" id="qV3-KV-d4C"/>
             </connections>
-            <point key="canvasLocation" x="403" y="338"/>
+            <point key="canvasLocation" x="348" y="254"/>
         </tableViewCell>
     </objects>
 </document>

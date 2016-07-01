@@ -210,11 +210,11 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
                     cell.UserInfocontent.text = @"";
                     break;
                 case 2:
-                    if ([self.VersionStr isEqualToString: @""]) {
-                        [self.myTableView reloadData];
-                    }
-                    
-                    if ([self.appVersionStr integerValue] >=[self.VersionStr integerValue] || self.VersionStr == nil) {
+//                    if ([self.VersionStr isEqualToString: @""]) {
+//                        [self.myTableView reloadData];
+//                    }
+//                    else{}
+                    if ([self.appVersionStr integerValue] >=[self.VersionStr integerValue] ){
                         
                     }else{
                         cell.checkLabel.hidden = NO;
@@ -285,7 +285,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     // app build版本
-        if ([self.appVersionStr integerValue] >=[self.VersionStr integerValue]||self.VersionStr == nil ) {
+        if ([self.appVersionStr integerValue] >=[self.VersionStr integerValue] ) {
             [MBProgressHUD showTextMessage:@"已经是最新版本"];
         }
         else{

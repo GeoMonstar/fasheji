@@ -113,7 +113,9 @@
 }
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
-    //userName.text =@"province";
+    
+    
+    
     userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
@@ -127,13 +129,11 @@
     NSDictionary *loginDict = @{@"userName":userName.text,@"password":userPwd.text};
    
     [FSJNetworking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        
         [[EGOCache globalCache]setObject:responseObject forKey:@"userinfo" withTimeoutInterval:LoginTime];
-        
         model = [FSJUserInfo initWithDictionary:responseObject];
         NSLog(@"登录结果%@",responseObject);
         if ([model.status isEqualToString: @"200"]) {
-            
+
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:userName.text forKey:@"url"];
             [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt" withTimeoutInterval:LoginTime];

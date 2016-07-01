@@ -215,7 +215,7 @@
 		85381E1F1CBF834D0080F027 /* PopcellviewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopcellviewTableViewCell.h; sourceTree = "<group>"; };
 		85381E201CBF834D0080F027 /* PopcellviewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopcellviewTableViewCell.m; sourceTree = "<group>"; };
 		85381E211CBF834D0080F027 /* PopcellviewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopcellviewTableViewCell.xib; sourceTree = "<group>"; };
-		8547E4381D02704B0050EFD0 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		8547E4381D02704B0050EFD0 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Header.h; path = Base/Header.h; sourceTree = "<group>"; };
 		8547E4391D02793E0050EFD0 /* FSJMulitiSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJMulitiSelectCell.h; sourceTree = "<group>"; };
 		8547E43A1D02793E0050EFD0 /* FSJMulitiSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJMulitiSelectCell.m; sourceTree = "<group>"; };
 		854D50DA1C9665FA001C963F /* FSJAllFSJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJAllFSJ.h; sourceTree = "<group>"; };
@@ -292,7 +292,7 @@
 		859DF5811C89237100107467 /* NSString+RegexCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexCategory.m"; sourceTree = "<group>"; };
 		859DF59D1C892D3D00107467 /* AppKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppKeys.h; sourceTree = "<group>"; };
 		859DF59E1C892D3D00107467 /* AppKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppKeys.m; sourceTree = "<group>"; };
-		859DF5A31C89327800107467 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		859DF5A31C89327800107467 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = Base/PrefixHeader.pch; sourceTree = "<group>"; };
 		859DF5A41C8933BC00107467 /* UIView+LoadFromNib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LoadFromNib.h"; sourceTree = "<group>"; };
 		859DF5A51C8933BC00107467 /* UIView+LoadFromNib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LoadFromNib.m"; sourceTree = "<group>"; };
 		859FD8F31C8E6F3600AFA615 /* FSJResultList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJResultList.h; sourceTree = "<group>"; };
@@ -457,6 +457,8 @@
 			children = (
 				8528A5E01C87E61D009A258D /* AppDelegate.h */,
 				8528A5E11C87E61D009A258D /* AppDelegate.m */,
+				859DF5A31C89327800107467 /* PrefixHeader.pch */,
+				8547E4381D02704B0050EFD0 /* Header.h */,
 				859DF57F1C8920F300107467 /* 登录 */,
 				8528A6231C884742009A258D /* 首页 */,
 				8528A6221C884736009A258D /* 个人 */,
@@ -522,8 +524,6 @@
 		8528A6041C87E961009A258D /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				859DF5A31C89327800107467 /* PrefixHeader.pch */,
-				8547E4381D02704B0050EFD0 /* Header.h */,
 				85589C371CDC936200ADAAC1 /* FSJBaseViewController.h */,
 				85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */,
 				8528A6081C87ECDE009A258D /* FSJUserInfo.h */,

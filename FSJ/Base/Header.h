@@ -48,6 +48,8 @@
 #define SystemWhiteColor [UIColor colorWithRed:(255/255.0) green:(255/255.0) blue:(255/255.0) alpha:1]
 #define SystemGreenColor [UIColor colorWithRed:(130/255.0) green:(191/255.0) blue:(21/255.0) alpha:1]
 #define SystemLightGrayColor [UIColor colorWithRed:(235/255.0) green:(235/255.0) blue:(244/255.0) alpha:1]
+
+#define MergeStr(str,model)  [NSString stringWithFormat:@"%@:%@",str,model]
 #define PopviewCellheight [UIScreen mainScreen].bounds.size.height * 0.1
 #define Popviewheight [UIScreen mainScreen].bounds.size.height
 #define Popviewwidth [UIScreen mainScreen].bounds.size.width

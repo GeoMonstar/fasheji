@@ -67,7 +67,7 @@
     CGRect frame = webView.frame;
     CGSize fittingSize = [webView sizeThatFits:CGSizeZero];
     frame.size = fittingSize;
-   
+   // frame.size.width = WIDTH;
     webView.frame = frame;
     
 }
