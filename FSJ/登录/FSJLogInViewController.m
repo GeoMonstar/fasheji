@@ -116,7 +116,7 @@
     
     
     
-    userPwd.text  =@"admin";
+    //userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
         return;

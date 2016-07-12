@@ -178,7 +178,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     dispatch_async(dispatch_get_main_queue(), ^{
          [self getData];
     });
-    [self checkUpdate];
+    //[self checkUpdate];
     [self receiveWarnNoti];
 }
 - (void)getData{

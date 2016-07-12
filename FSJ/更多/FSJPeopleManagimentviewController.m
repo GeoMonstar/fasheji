@@ -103,6 +103,7 @@
     
     NSDictionary *dic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
     [FSJNetworking networkingGETWithActionType:GetInterestList requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+        
         FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
         NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
         

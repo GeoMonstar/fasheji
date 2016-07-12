@@ -168,11 +168,24 @@
     }
 
 }
+- (BOOL)isNotMobileNumber:(NSString *)mobileNum{
+    NSString * MOBILE = @"^((13[0-9])|(15[^4])|(18[0-9])|(1[4,7][0-9]))\\d{8}$";
+    
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    if ([regextestmobile evaluateWithObject:mobileNum] == YES)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
 - (void)changeInfo:(UIButton *)sender{
     
     switch (self.changeType) {
         case 1:
-            if (![firstInput.text isMobileNumber]) {
+            if ([self isNotMobileNumber:firstInput.text]) {
                 [SVProgressHUD showErrorWithStatus:@"请输入正确手机号"];
                firstInput.text = @"";
                 return;

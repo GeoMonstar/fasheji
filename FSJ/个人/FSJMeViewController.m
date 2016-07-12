@@ -63,7 +63,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             if (userInfomodel.photo) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.myTableView reloadData];
-                //NSLog(@"最终 == %@",userInfomodel.photo);
+                NSLog(@"最终 == %@",userInfomodel.photo);
             });
            }
         }
