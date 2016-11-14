@@ -17,7 +17,7 @@
     UIButton *loginBtn;
     UIView *firstView;
     UIView *secondView;
-    FSJUserInfo * model;
+    FSJCommonModel * model;
 }
 @end
 @implementation FSJLogInViewController
@@ -41,7 +41,7 @@
     userName.placeholder = @"用户名";
     userName.borderStyle = UITextBorderStyleNone;
     userName.backgroundColor = [UIColor clearColor];
-    //userName.text =@"admin";
+    //userName.text =@"city";
     [self.view addSubview:userName];
 
     userPwd = [[UITextField alloc]initWithFrame:CGRectMake(leftMagrin, HEIGH/2 + viewHeight + 24, WIDTH - leftMagrin-rightMagrin, viewHeight)];
@@ -103,7 +103,7 @@
             CGRect frame = tempView.frame;
             frame.origin.y += 80;
             [UIView animateWithDuration:0.3 animations:^{tempView.frame = frame;}];
-            // NSLog(@"%f,%@",tempView.frame.origin.y,NSStringFromClass(tempView.class));
+            //NSLog(@"%f,%@",tempView.frame.origin.y,NSStringFromClass(tempView.class));
         }
     }
 }
@@ -113,9 +113,7 @@
 }
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
-    
-    
-    
+    sender.enabled = NO;
     //userPwd.text  =@"admin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
@@ -129,11 +127,14 @@
     NSDictionary *loginDict = @{@"userName":userName.text,@"password":userPwd.text};
    
     [FSJNetworking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+    
         [[EGOCache globalCache]setObject:responseObject forKey:@"userinfo" withTimeoutInterval:LoginTime];
-        model = [FSJUserInfo initWithDictionary:responseObject];
+        model = [FSJCommonModel initWithDictionary:responseObject];
+        [FSJUserInfo shareInstance].usermodel = model;
         NSLog(@"登录结果%@",responseObject);
         if ([model.status isEqualToString: @"200"]) {
-
+            [MBProgressHUD showSuccess:model.message];
+            [MBProgressHUD hideHUD];
             [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:userName.text forKey:@"url"];
             [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt" withTimeoutInterval:LoginTime];
@@ -143,20 +144,19 @@
             [[EGOCache globalCache]setString:model.areaName forKey:@"areaname"withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.officeName forKey:@"officeName" withTimeoutInterval:LoginTime];
             [[EGOCache globalCache]setString:model.officeName forKey:@"userId" withTimeoutInterval:LoginTime];
+            
              FSJMapViewController *vc = [[FSJMapViewController alloc]init];
             [self.navigationController pushViewController:vc animated:YES];
             
             
         }else{
            [MBProgressHUD showError:model.message];
-           
+            sender.enabled = YES;
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"error = %@",error);
         [SVProgressHUD showInfoWithStatus:@"登录失败"];
     }];
-  //  }
-    
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

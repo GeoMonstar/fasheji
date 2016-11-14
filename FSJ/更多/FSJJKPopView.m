@@ -110,6 +110,7 @@
     
     CGContextBeginPath(context);//标记
     
+    
     CGContextMoveToPoint(context,
                          self.frame.size.width*0.5 + 10 , 10);//设置起点
     

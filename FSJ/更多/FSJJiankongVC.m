@@ -419,7 +419,6 @@
         
         UILabel  *label2 = [[UILabel alloc]initWithFrame:CGRectMake(smallview.frame.size.width/2+WIDTH*0.1,y+ 5+rowHeight*i, smallview.frame.size.width/2, rowHeight)];
         label2.text = secondLabel[i];
-        
         label1.backgroundColor = label2.backgroundColor = [UIColor clearColor];
         label1.font = label2.font = [UIFont systemFontOfSize:14];
         [subviewArr addObject:label1];

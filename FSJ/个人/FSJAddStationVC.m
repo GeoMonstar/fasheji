@@ -537,7 +537,7 @@
          netdic = @{@"jwt":jwt,@"sname":mysearchBar.text,@"organId":organId==nil?@"":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count]};
     }
     [FSJNetworking networkingGETWithActionType:SearchInterestStation requestDictionary:netdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+        FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
         
         NSMutableArray *tempArray = @[].mutableCopy;
         if ([model.status isEqualToString:@"200"]) {
@@ -615,7 +615,7 @@
         } failure:^(NSURLSessionDataTask *operation, NSError *error) {
             [MBProgressHUD showError:[NSString stringWithFormat:@"%@",error]];
         }];
-    }
+        }
     }
     NSLog(@"%ld",self.selectedRows.count);
    

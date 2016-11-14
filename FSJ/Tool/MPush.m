@@ -11,7 +11,7 @@
 
 int kQos = 2;
 
-static NSString * const kHost      = @"119.6.203.24";
+static NSString * const kHost      = @"47.89.38.215";
 static int const kPort             = 2017;
 
 //static NSString * const kHost      = @"192.168.10.188";

@@ -12,7 +12,7 @@
 #import "FSJChangePersonInfoViewController.h"
 #import "FSJMyFavViewController.h"
 @interface FSJMeViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
-    FSJUserInfo *userInfomodel;
+    FSJCommonModel *userInfomodel;
     UITapGestureRecognizer *tap;
    
 }
@@ -59,7 +59,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     NSDictionary *dic = @{@"jwt":_jwtStr};
     [FSJNetworking networkingGETWithActionType:UserInfoPreview requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         if (responseObject) {
-            userInfomodel = [FSJUserInfo initWithDictionary:responseObject];
+            userInfomodel = [FSJCommonModel initWithDictionary:responseObject];
             if (userInfomodel.photo) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.myTableView reloadData];
@@ -309,12 +309,12 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
 }
 #pragma mark -- 按钮响应
 - (void)logout:(UIButton *)sender{
-   
+    [[FSJUserInfo shareInstance]deleteUserAccount];
     [[EGOCache globalCache]clearCache];
     NSDictionary *dic = @{@"jwt":self.jwtStr};
     NSLog(@"退出 %@",self.jwtStr);
     [FSJNetworking networkingPOSTWithActionType:UserLogoutAction requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+        FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
             
             
@@ -399,35 +399,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     [self doUpload:data];
      [picker dismissViewControllerAnimated:YES completion:nil];
 }
-//- (void)updateData:(NSData *)data{ 
-//    NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,@"/rs/user/upload/photo"];
-//    NSString *filename = [NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]];
-//    NSLog(@"filename = %@", filename);
-//    NSDictionary *dict = @{@"jwt":self.jwtStr};
-//    NSURLRequest * request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:url parameters:dict   constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//        [formData appendPartWithFileData:data name:@"file" fileName:@"user.png" mimeType:@"image/jpeg"];
-//    }];
-//       AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-//           NSProgress *progress = nil;
-//    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-//        if (error) {
-//            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
-//            NSLog(@"Error: %@", error);
-//        } else {
-//            FSJUserInfo * tempuser = [FSJUserInfo initWithDictionary:responseObject];
-//            if ([tempuser.status isEqualToString:@"200"]) {
-//                [SVProgressHUD showSuccessWithStatus:@"头像上传成功"];
-//                    [self getUserInfo];
-//            
-//            }else{
-//                [SVProgressHUD showErrorWithStatus:tempuser.message];
-//                NSLog(@"上传头像错误信息 = %@",tempuser.message);
-//                }
-//            }
-//        }];
-//        [uploadTask resume];
-//     
-//}
+
 - (void)doUpload:(NSData *) imageData {
     [SVProgressHUD showWithStatus:@"头像修改中"];
     //参数注意
@@ -435,7 +407,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
     [FSJNetworking networkingPostIconWithActionType:UserIconUpload requestDictionary:dict formdata:^(id<AFMultipartFormData> formData) {
          [formData appendPartWithFileData:imageData name:@"file" fileName:@"user.png" mimeType:@"image/jpeg"];
     } success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        FSJUserInfo * tempuser = [FSJUserInfo initWithDictionary:responseObject];
+        FSJCommonModel * tempuser = [FSJCommonModel initWithDictionary:responseObject];
         if ([tempuser.status isEqualToString:@"200"]) {
             [SVProgressHUD showSuccessWithStatus:@"头像上传成功"];
             [self getUserInfo];

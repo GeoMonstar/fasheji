@@ -30,7 +30,6 @@
     myWeb.delegate = self;
     
     NSString *urlStr =  BaseTongjiurl([[EGOCache globalCache]stringForKey:@"url"]);
-    
     NSURL *url = [[NSURL alloc] initWithString:urlStr];
     //myWeb.scalesPageToFit = YES;
     //myWeb.scrollView.contentSize = CGSizeMake(WIDTH, HEIGH+64);

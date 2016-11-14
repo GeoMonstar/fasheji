@@ -84,6 +84,7 @@
 		858869E01CD095E70066CDCA /* FSJJiankongBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 858869DF1CD095E70066CDCA /* FSJJiankongBase.m */; };
 		858AB7CD1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 858AB7CB1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.m */; };
 		858AB7CE1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 858AB7CC1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.xib */; };
+		858CB7CB1D3CA7A1005F8D70 /* FSJCommonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 858CB7CA1D3CA7A0005F8D70 /* FSJCommonModel.m */; };
 		859DF5821C89237100107467 /* NSString+RegexCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 859DF5811C89237100107467 /* NSString+RegexCategory.m */; };
 		859DF59F1C892D3D00107467 /* AppKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 859DF59E1C892D3D00107467 /* AppKeys.m */; };
 		859DF5A61C8933BC00107467 /* UIView+LoadFromNib.m in Sources */ = {isa = PBXBuildFile; fileRef = 859DF5A51C8933BC00107467 /* UIView+LoadFromNib.m */; };
@@ -288,6 +289,8 @@
 		858AB7CA1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJtoplineTableViewCell.h; sourceTree = "<group>"; };
 		858AB7CB1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJtoplineTableViewCell.m; sourceTree = "<group>"; };
 		858AB7CC1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSJtoplineTableViewCell.xib; sourceTree = "<group>"; };
+		858CB7C91D3CA7A0005F8D70 /* FSJCommonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJCommonModel.h; sourceTree = "<group>"; };
+		858CB7CA1D3CA7A0005F8D70 /* FSJCommonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJCommonModel.m; sourceTree = "<group>"; };
 		859DF5801C89237100107467 /* NSString+RegexCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexCategory.h"; sourceTree = "<group>"; };
 		859DF5811C89237100107467 /* NSString+RegexCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexCategory.m"; sourceTree = "<group>"; };
 		859DF59D1C892D3D00107467 /* AppKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppKeys.h; sourceTree = "<group>"; };
@@ -432,6 +435,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8503A5891DBEF55D00A2469B /* other */ = {
+			isa = PBXGroup;
+			children = (
+				8554C87E1CCDC7480095D180 /* FSJTransPoint.h */,
+				8554C87F1CCDC7480095D180 /* FSJTransPoint.mm */,
+				8528A61E1C8815DD009A258D /* GTMDefines.h */,
+				8528A61F1C8815FB009A258D /* GTMBase64.h */,
+				8528A6201C8815FB009A258D /* GTMBase64.m */,
+				8528A6181C8812DF009A258D /* CQEncrypt.h */,
+				8528A6191C8812DF009A258D /* CQEncrypt.m */,
+				8528A6151C88128F009A258D /* FSJDES.h */,
+				8528A6161C88128F009A258D /* FSJDES.m */,
+			);
+			name = other;
+			sourceTree = "<group>";
+		};
 		8528A5D11C87E61D009A258D = {
 			isa = PBXGroup;
 			children = (
@@ -493,30 +512,11 @@
 		8528A6021C87E945009A258D /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				8503A5891DBEF55D00A2469B /* other */,
+				85CBED0E1CCA0D0600C4CD8C /* mosquitto */,
+				853ABD181D58855B00032EBB /* category */,
 				85589C0E1CDC897200ADAAC1 /* RealReachability */,
 				85589C0D1CDC88FC00ADAAC1 /* PopView */,
-				8554C87E1CCDC7480095D180 /* FSJTransPoint.h */,
-				8554C87F1CCDC7480095D180 /* FSJTransPoint.mm */,
-				85CBED0E1CCA0D0600C4CD8C /* mosquitto */,
-				855377DE1CC610F700A13942 /* NSString+SelfSize.h */,
-				855377DF1CC610F700A13942 /* NSString+SelfSize.m */,
-				85B8DF581CBE578600532974 /* UIImage+Color.h */,
-				85B8DF591CBE578600532974 /* UIImage+Color.m */,
-				859DF5801C89237100107467 /* NSString+RegexCategory.h */,
-				859DF5811C89237100107467 /* NSString+RegexCategory.m */,
-				8528A61E1C8815DD009A258D /* GTMDefines.h */,
-				8528A61F1C8815FB009A258D /* GTMBase64.h */,
-				8528A6201C8815FB009A258D /* GTMBase64.m */,
-				8528A6181C8812DF009A258D /* CQEncrypt.h */,
-				8528A6191C8812DF009A258D /* CQEncrypt.m */,
-				8528A6151C88128F009A258D /* FSJDES.h */,
-				8528A6161C88128F009A258D /* FSJDES.m */,
-				859DF5A41C8933BC00107467 /* UIView+LoadFromNib.h */,
-				859DF5A51C8933BC00107467 /* UIView+LoadFromNib.m */,
-				85D6C7B71CC0EF6200606270 /* UIButton+Img.h */,
-				85D6C7B81CC0EF6200606270 /* UIButton+Img.m */,
-				8554E9AE1CFE7AF40088B411 /* MBProgressHUD+HUDTools.h */,
-				8554E9AF1CFE7AF40088B411 /* MBProgressHUD+HUDTools.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -528,6 +528,8 @@
 				85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */,
 				8528A6081C87ECDE009A258D /* FSJUserInfo.h */,
 				8528A6091C87ECDE009A258D /* FSJUserInfo.m */,
+				858CB7C91D3CA7A0005F8D70 /* FSJCommonModel.h */,
+				858CB7CA1D3CA7A0005F8D70 /* FSJCommonModel.m */,
 				859FD8F31C8E6F3600AFA615 /* FSJResultList.h */,
 				859FD8F41C8E6F3600AFA615 /* FSJResultList.m */,
 				8528A60B1C880A7E009A258D /* FSJBaseModel.h */,
@@ -562,6 +564,25 @@
 				859DF5AA1C896FF900107467 /* VC */,
 			);
 			path = "首页";
+			sourceTree = "<group>";
+		};
+		853ABD181D58855B00032EBB /* category */ = {
+			isa = PBXGroup;
+			children = (
+				859DF5801C89237100107467 /* NSString+RegexCategory.h */,
+				859DF5811C89237100107467 /* NSString+RegexCategory.m */,
+				855377DE1CC610F700A13942 /* NSString+SelfSize.h */,
+				855377DF1CC610F700A13942 /* NSString+SelfSize.m */,
+				85B8DF581CBE578600532974 /* UIImage+Color.h */,
+				85B8DF591CBE578600532974 /* UIImage+Color.m */,
+				859DF5A41C8933BC00107467 /* UIView+LoadFromNib.h */,
+				859DF5A51C8933BC00107467 /* UIView+LoadFromNib.m */,
+				85D6C7B71CC0EF6200606270 /* UIButton+Img.h */,
+				85D6C7B81CC0EF6200606270 /* UIButton+Img.m */,
+				8554E9AE1CFE7AF40088B411 /* MBProgressHUD+HUDTools.h */,
+				8554E9AF1CFE7AF40088B411 /* MBProgressHUD+HUDTools.m */,
+			);
+			name = category;
 			sourceTree = "<group>";
 		};
 		8554C8811CCDF78C0095D180 /* 监控 */ = {
@@ -1176,6 +1197,7 @@
 				859DF5821C89237100107467 /* NSString+RegexCategory.m in Sources */,
 				8558835F1D056C42002E1933 /* FSJJKPopBtn.m in Sources */,
 				85381E1D1CBF7FC70080F027 /* WBTableViewDataSource.m in Sources */,
+				858CB7CB1D3CA7A1005F8D70 /* FSJCommonModel.m in Sources */,
 				85CBED351CCA0D0600C4CD8C /* read_handle.c in Sources */,
 				85CBED381CCA0D0600C4CD8C /* send_client_mosq.c in Sources */,
 				85CBED3B1CCA0D0600C4CD8C /* thread_mosq.c in Sources */,

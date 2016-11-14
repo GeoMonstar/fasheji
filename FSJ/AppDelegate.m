@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "FSJLogInViewController.h"
 #import "FSJMapViewController.h"
+#import "FSJUserInfo.h"
 //#define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
 #define BaiduMapKEy @"G4u27joqchFtv5iVTn5KPwXp"
 @interface AppDelegate ()<BMKGeneralDelegate>{
@@ -29,17 +30,38 @@
         if (!ret) {
             NSLog(@"启动失败");
     }
+    
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
-    self.window.rootViewController = nav;
-//    BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
+    FSJLogInViewController *lvc = [[FSJLogInViewController alloc]init];
+    FSJMapViewController *vc = [[FSJMapViewController alloc]init];
+    UINavigationController *lnav = [[UINavigationController alloc]initWithRootViewController:lvc];
+   
+     self.window.rootViewController = lnav;
+    //    BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
 //    if (bo) {
 //        FSJMapViewController *vc = [[FSJMapViewController alloc]init];
 //        [nav pushViewController:vc animated:YES];
 //    }
 //    else{
 //    }
+
+//    BOOL isLogin = [FSJUserInfo shareInstance].userAccountStatus;
+//    
+//    if(isLogin){
+//        //账户已经登录
+//        NSLog(@"已经登录");
+//        //将本地用户信息读取出来
+//        [[FSJUserInfo shareInstance] userAccount];
+//        [FSJUserInfo shareInstance].statusType = StatusWithLogin;
+//
+//        FSJMapViewController *vc = [[FSJMapViewController alloc]init];
+//        [lnav pushViewController:vc animated:YES];
+//       
+//    }else{
+//
+//        NSLog(@"未登录");
+//    }
+
     [self.window makeKeyAndVisible];
     
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];

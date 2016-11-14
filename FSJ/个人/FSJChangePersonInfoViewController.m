@@ -148,7 +148,7 @@
         if ([secondInput.text isEqualToString:thirdInput.text]) {
         NSDictionary *dic = @{@"jwt":jwtStr,@"oldPassword":firstInput.text,@"newPassword":secondInput.text};
          [FSJNetworking networkingPOSTWithActionType:UserPwdChange requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-             FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+             FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
                          if ([model.status isEqualToString:@"200"]) {
                              [SVProgressHUD showSuccessWithStatus:model.message];
                          }
@@ -211,7 +211,7 @@
 //        }else{
             NSDictionary *dic = @{@"jwt":jwtStr,dicStr:firstInput.text};
             [FSJNetworking networkingPOSTWithActionType:UserInfoChange requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-                FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+                FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
                         if ([model.status isEqualToString:@"200"]) {
                             [SVProgressHUD showSuccessWithStatus:model.message];
                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

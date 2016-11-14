@@ -104,7 +104,7 @@
     NSDictionary *dic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
     [FSJNetworking networkingGETWithActionType:GetInterestList requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         
-        FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+        FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
         NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
         
         if ([model.status isEqualToString:@"200"]) {
@@ -213,7 +213,7 @@
     NSLog(@"%ld",(long)count);
     
     [FSJNetworking networkingGETWithURL:neturl requestDictionary:dict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+        FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
          NSMutableArray *tempArray = [NSMutableArray array];
         if ([model.status isEqualToString:@"200"]) {
             for (NSDictionary *dict in model.list) {
@@ -304,7 +304,7 @@
     }
     if (self.InfoType == Warning || self.InfoType == Warned) {
         cell.topLabel.text = [NSString stringWithFormat:@"设备名称:%@", model.tname];
-        cell.secondLabel.text = [NSString stringWithFormat:@"所属区域%@",model.areaName];
+        cell.secondLabel.text = [NSString stringWithFormat:@"所属区域: %@",model.areaName];
         cell.thirdLabel.text = [NSString stringWithFormat:@"检测值:%@            %@",model.value,model.time];
     }
     return cell;
@@ -348,11 +348,12 @@
         transmodel = self.dataArray[indexPath.section];
         jiankong =[[FSJJiankongVC alloc]init];
         jiankong.showZidong = YES;
-        jiankong.JiankongType = Zhengji;
+        
         jiankong.fsjId = transmodel.transId;
         jiankong.addressId = transmodel.ipAddr;
         if ([transmodel.powerRate isEqualToString:@"1KW"]) {
             jiankong.is1000W = YES;
+            jiankong.JiankongType = Zhengji;
         }
         else{
             jiankong.is1000W = NO;

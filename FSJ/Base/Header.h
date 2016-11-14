@@ -58,24 +58,26 @@
 #define LoginTime 60*60*24*7
 //weakSelf宏
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
+
 #ifdef DEBUG
 //#define BaseURL         @"http://192.168.10.94:8080/fsj"
-#define BaseURL           @"http://119.6.203.24:8099/fsj"
-#define BaseUploadURL     @""
+#define BaseURL           @"http://47.89.38.215:6688/fsj"
+
 #else
 //#define BaseURL         @"http://192.168.10.94:8080/fsj"
-#define BaseURL           @"http://119.6.203.24:8099/fsj"
+#define BaseURL         @"http://47.89.38.215:6688/fsj"
 
-//#define BaseUploadURL @""
+
 #endif
 //#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://192.168.10.94:8080/fsj/alarm/app/statistics?userName=%@",username];
-#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://119.6.203.24:8099/fsj/alarm/app/statistics?userName=%@",username];
+#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://47.89.38.215:6688/fsj/alarm/app/statistics?userName=%@",username];
 
 //#define BaseImgURL      @"http://192.168.10.94:8080"
-#define BaseImgURL        @"http://119.6.203.24:8099"
+#define BaseImgURL      @"http://47.89.38.215:6688"
+
 #define PgyAppID        @"85838383eb2e34b6a2b49fa95c94be8b"
 #define THWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
-///Users/jiangdake/Library/Developer/Xcode/DerivedData
+///Users/Monstar/Library/Developer/Xcode/DerivedData
 #define AccountChanged @"该用户已在其他设备登录"
 
 #endif /* Header_h */

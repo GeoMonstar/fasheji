@@ -48,7 +48,7 @@
     
     NSDictionary *dic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
     [FSJNetworking networkingGETWithActionType:GetInterestList requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+        FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
         
         if (self.dataArray.count >0) {
             [self.dataArray removeAllObjects];

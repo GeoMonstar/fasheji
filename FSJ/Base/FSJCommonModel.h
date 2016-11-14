@@ -1,27 +1,15 @@
 //
-//  FSJUserInfo.h
+//  FJSCommonModel.h
 //  FSJ
 //
-//  Created by Monstar on 16/3/3.
+//  Created by Monstar on 16/7/18.
 //  Copyright © 2016年 Monstar. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-//#import "FSJResultList.h"
-#import "FSJCommonModel.h"
-typedef NS_ENUM(NSInteger, LoginStatusType) {
-    StatusWithLoginOut,//登入
-    StatusWithLogin,//登出
-};
-@interface FSJUserInfo : NSObject
-
-+ (FSJUserInfo *)shareInstance;
-
-#pragma mark -- 登录类
-/**
- *  @brief  用户登录状态
- */
-@property (nonatomic, assign) LoginStatusType statusType;
+#import "FSJResultList.h"
+#import "FSJBaseModel.h"
+@interface FSJCommonModel : FSJBaseModel
 /**
  *  @brief  推送频道
  */
@@ -118,22 +106,5 @@ typedef NS_ENUM(NSInteger, LoginStatusType) {
 
 @property (nonatomic, retain)NSArray *list;
 
-@property (nonatomic, strong)FSJCommonModel *usermodel;
-
-
-
-
-- (FSJCommonModel *)userAccount;
-
-
-
-- (NSString *)userName;
-
-- (NSString *)userID;
-
-- (void)setUserInfomationWithUserName:(NSString *)userName userId:(NSString *)userId;
-
-- (void)deleteUserAccount;
-
-- (BOOL)userAccountStatus;
++ (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @end

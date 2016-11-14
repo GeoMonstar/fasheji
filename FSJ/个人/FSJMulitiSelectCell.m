@@ -9,7 +9,7 @@
 #import "FSJMulitiSelectCell.h"
 @interface FSJMulitiSelectCell ()
 //选中按钮
-@property (nonatomic,retain) UIButton *selectBtn;
+@property (nonatomic,strong) UIButton *selectBtn;
 
 @end
 @implementation FSJMulitiSelectCell

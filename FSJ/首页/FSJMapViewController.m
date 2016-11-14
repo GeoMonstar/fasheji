@@ -175,46 +175,46 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [super viewDidLoad];
     [self customUI];
     [self addCustomGestures];//添加自定义的手势
-    dispatch_async(dispatch_get_main_queue(), ^{
-         [self getData];
-    });
-    //[self checkUpdate];
+    [self getData];
+    [self checkUpdate];
     [self receiveWarnNoti];
 }
 - (void)getData{
-    FSJUserInfo *fsjmodel = [FSJUserInfo initWithDictionary:(NSDictionary *)[[EGOCache globalCache]objectForKey:@"userinfo"]];
-    staticJwt      = fsjmodel.jwt;
-    staticareaType = fsjmodel.areaType;
-    staticareaId   = fsjmodel.areaId;
-    staticuserId   = fsjmodel.userId;
-    staticName     = fsjmodel.areaName;
-    statitopic     = fsjmodel.topic;
+//    FSJCommonModel *fsjmodel = [FSJCommonModel initWithDictionary:(NSDictionary *)[[EGOCache globalCache]objectForKey:@"userinfo"]];
+//    NSString *jwtss =[FSJUserInfo shareInstance].usermodel.jwt;
+    
+    staticJwt      = [FSJUserInfo shareInstance].usermodel.jwt;
+    staticareaType = [FSJUserInfo shareInstance].usermodel.areaType;
+    staticareaId   = [FSJUserInfo shareInstance].usermodel.areaId;
+    staticuserId   = [FSJUserInfo shareInstance].usermodel.userId;
+    staticName     = [FSJUserInfo shareInstance].usermodel.areaName;
+    statitopic     = [FSJUserInfo shareInstance].usermodel.topic;
     
     NSDictionary *dic = @{@"areaId":staticareaId,@"areaType":staticareaType,@"userId":staticuserId,@"jwt":staticJwt};
     
     if ([staticareaType isEqualToString:@"1"]) {
-        [self searchWithModelwith:dic];
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [self searchWithModelwith:dic];
+        });
         startpoint = self.mapView.centerCoordinate;
         [UIView animateWithDuration:1.0 animations:^{
             self.mapView.zoomLevel = FirstLevel;
         }];
-        
-        
     }
     if ([staticareaType isEqualToString:@"2"]) {
-        
-        [self getCtiyWithID:@[staticareaId] andName:@[staticName]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [self getCtiyWithID:@[staticareaId] andName:@[staticName]];
+        });
         [UIView animateWithDuration:1.0 animations:^{
             self.mapView.zoomLevel = SecondLevel;
         }];
-        
-        
-        
+
     }
     if ([staticareaType isEqualToString:@"3"]) {
-        [self getCityStationWith:dic and:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [self getCityStationWith:dic and:YES];
+        });
     }
-    
 }
 #pragma mark --检查更新
 - (void)checkUpdate{
@@ -234,7 +234,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         }
         
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-        
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
         NSString *app_Versionnum = [infoDictionary objectForKey:@"CFBundleVersion"];
         appversionStr = [self convertStrwith:app_Version];
@@ -290,7 +289,8 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             [weakself changeStatusWith:[message payloadString]];
         });
     }];
-    [appDelegate.client connectToHost:@"119.6.203.24" completionHandler:^(MQTTConnectionReturnCode code) {
+    
+    [appDelegate.client connectToHost:@"47.89.38.215" completionHandler:^(MQTTConnectionReturnCode code) {
         if (code == ConnectionAccepted) {
             [appDelegate.client subscribe:statitopic withCompletionHandler:nil];
         }
@@ -601,8 +601,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             mainSearchbar.text = @"";
             self.LenovoTableView.hidden = YES;
             self.LenovoTableView = nil;
-            
-             self.mapView.centerCoordinate = startpoint;
+            self.mapView.centerCoordinate = startpoint;
             [UIView animateWithDuration:0.618 animations:^{
                 self.mapView.zoomLevel = ThirdtLevel;
             }];
@@ -873,7 +872,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 
     showProvince = YES;
     [FSJNetworking networkingGETWithActionType:NationalarmStatus requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+        FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
             for (NSDictionary *dic in model.list) {
                 FSJResultList *listmodel = [FSJResultList initWithDictionary:dic];
@@ -930,7 +929,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         NSMutableArray *modelArr = @[].mutableCopy;
         NSDictionary *requestdic = @{@"areaId":arrID[i],@"areaType":@"2",@"userId":staticuserId,@"jwt":staticJwt};
         [FSJNetworking networkingGETWithActionType:AreaalarmStatus requestDictionary:requestdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-            FSJUserInfo *model = [FSJUserInfo initWithDictionary:responseObject];
+            FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
             if ([model.status isEqualToString:@"200"]) {
 //                [cityNormal   removeAllObjects];
 //                [cityError    removeAllObjects];
@@ -1101,6 +1100,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 #pragma mark - 地图状态改变调用此接口
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+  
     NSLog(@"地图缩放等级 == %lf",self.mapView.zoomLevel);
     if (self.mapView.zoomLevel >=SecondLevel) {
         
@@ -1295,7 +1295,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     
     [FSJNetworking networkingGETWithActionType:AreaalarmStatus requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         if (responseObject) {
-            FSJUserInfo *user = [FSJUserInfo initWithDictionary:responseObject];
+            FSJCommonModel *user = [FSJCommonModel initWithDictionary:responseObject];
             //获取警告数量
             //warnNumber = (int)[user.alarmTotal integerValue];
             NSMutableArray *tstationArr = @[].mutableCopy;
@@ -1747,7 +1747,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     else{
         FSJOneFSJ *model = allsite[indexPath.row];
         FSJJiankongVC *jiankong = [[FSJJiankongVC alloc]init];
-        jiankong.JiankongType = Zhengji;
+       
         jiankong.showZidong = YES;
         jiankong.fsjId = model.transId;
         jiankong.addressId = model.ipAddr;
@@ -1756,6 +1756,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
            FSJResultList * listmodel = [FSJResultList initWithDictionary:responseObject];
             if ([listmodel.powerRate isEqualToString:@"1KW"]) {
                 jiankong.is1000W = YES;
+                 jiankong.JiankongType = Zhengji;
                 }
             else{
                 jiankong.is1000W = NO;
@@ -1785,6 +1786,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }
     //取消选中效果
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 #pragma mark -- 导航
 - (void)UserInfo:(UIButton *)sender {

@@ -59,7 +59,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:0.32 animations:^{
            self.popMenuView.tableView.transform = CGAffineTransformMakeTranslation(0, 0);
-           // self.popMenuView.tableView.transform = CGAffineTransformMakeScale(1, 1);
+            //self.popMenuView.tableView.transform = CGAffineTransformMakeScale(1, 1);
             
             //self.popMenuView.tableView.transform = CGAffineTransformScale(self.popMenuView.tableView.transform, 1, 1);
         }];
