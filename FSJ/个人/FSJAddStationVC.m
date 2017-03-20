@@ -70,8 +70,8 @@
     firstNameArr = @[].mutableCopy;
     seconNamedArr = @[].mutableCopy;
     thridNameArr = @[].mutableCopy;
-    userLevel = [[EGOCache globalCache]stringForKey:@"areaType"];
-    jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
+    userLevel = [[FSJUserInfo shareInstance] userAccount].areaType;
+    jwt = [[FSJUserInfo shareInstance] userAccount].jwt;
     [self createTableView];
     [self createNav];
     [self getTree];
@@ -169,7 +169,7 @@
     if (self.dataArray.count>0) {
         [self.dataArray removeAllObjects];
     }
-    NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
+    NSString *gradeType = [[FSJUserInfo shareInstance] userAccount].areaType;
     NSString *tempOrganId;
     if ([gradeType isEqualToString:@"1"]){
         //点击第一列
@@ -330,13 +330,9 @@
         }
     }
     if ([gradeType isEqualToString:@"3"]){
-      //  if (indexPath.row !=0) {
             [self reloadDatawithDataArray:self.firstArr andNameArray:firstNameArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
-        //}
-        
-        
     }
-    NSLog(@"点击了 %ld - %ld 项目",(long)indexPath.column,indexPath.row);
+    
 }
 //根据点击刷新数据
 - (void)reloadDatawithDataArray:(NSArray *)DataArray andNameArray:(NSArray *)NameArray and:(NSString *)tempOrganId and:(NSString *)onceOrangIdStr andIndexPath:(DOPIndexPath *)indexPath{
@@ -346,7 +342,6 @@
                 tempOrganId = [dic objectForKey:@"organId"];
         }
     }
-    
     if (tempOrganId == nil) {
         staticOrganId = onceOrangIdStr;
        [self loadDatawith:onceOrangIdStr];
@@ -361,7 +356,7 @@
     [FSJNetworking networkingGETWithActionType:Gettree requestDictionary:dic
             success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
            FSJOganTree *model = [FSJOganTree initWithDictionary:responseObject];
-                NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
+                NSString *gradeType =[[FSJUserInfo shareInstance] userAccount].areaType;
                 
                 if ([gradeType isEqualToString:@"1"] ) {
                     [self loadDatawith:@"1"];
@@ -403,7 +398,7 @@
                         //[seconNamedArr addObject:model.name];
                     }
                    
-                    [firstNameArr  insertObject: [[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
+                    [firstNameArr  insertObject: [[FSJUserInfo shareInstance] userAccount].areaType atIndex:0];
                     [seconNamedArr insertObject:ThirdArrStr atIndex:0];
                 }
                 if ([gradeType isEqualToString:@"3"]) {
@@ -416,20 +411,11 @@
                         FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                         [firstNameArr addObject:model.name];
                     }
-                    [firstNameArr insertObject:[[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
+                    [firstNameArr insertObject:[[FSJUserInfo shareInstance] userAccount].officeName atIndex:0];
                 }
                 [self createPop];
                 }failure:^(NSURLSessionDataTask *operation, NSError *error) {
-                    NSArray *array = error.userInfo.allValues;
-                    NSHTTPURLResponse *response = array[0];
-                    if (response.statusCode ==401 ) {
-                        [SVProgressHUD showInfoWithStatus:AccountChanged];
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [self.navigationController popToRootViewControllerAnimated:YES];
-                            [[EGOCache globalCache]clearCache];
-                            [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-                        });
-                    }
+                    
                 }];
 }
 
@@ -495,16 +481,6 @@
         [weakself loadDataWhenDraggingDown];
     }];
     
-//    self.myTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-//        isDraggingDown = NO;
-//        
-//        if (weakself.dataArray.count > 0) {
-//            [weakself loadDataWhenReachingBottom];
-//        }
-//        else {
-//            [weakself endRefreshing];
-//        }
-//    }];
     
 }
 - (void) loadDataWhenDraggingDown {
@@ -563,16 +539,7 @@
             }
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+        
     }];
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
@@ -584,18 +551,18 @@
     
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
     [mysearchBar resignFirstResponder];
-    if ([mysearchBar.text isEqualToString:@""]) {
-        return;
-    }
-    else{
-        if (staticOrganId == nil) {
-            [self loadDatawith:@""];
-        }else{
-            [self loadDatawith:staticOrganId];
+        if ([mysearchBar.text isEqualToString:@""]) {
+            return;
         }
-    }
+        else{
+            if (staticOrganId == nil) {
+                [self loadDatawith:@""];
+            }else{
+                [self loadDatawith:staticOrganId];
+            }
+        }
 }
 - (void)finshed:(UIButton *)sender{
     if (self.selectedRows.count == 0) {
@@ -603,22 +570,20 @@
         [self.view endEditing:YES];
     }
     else{
-    for (int i = 0 ;i<self.selectedRows.count;i++) {
-        NSDictionary *dict = self.selectedRows[i];
-        NSDictionary *dic = @{@"stationId":[dict objectForKey:@"stationId"],@"jwt":jwt};
-        [FSJNetworking networkingPOSTWithActionType:AddInterestStation requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-            NSLog(@"%@",[responseObject objectForKey:@"message"]);
-            if (i == self.selectedRows.count-1) {
+        for (int i = 0 ;i<self.selectedRows.count;i++) {
+            NSDictionary *dict = self.selectedRows[i];
+            NSDictionary *dic = @{@"stationId":[dict objectForKey:@"stationId"],@"jwt":jwt};
+            [FSJNetworking networkingPOSTWithActionType:AddInterestStation requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+                //NSLog(@"%@",[responseObject objectForKey:@"message"]);
+                if (i == self.selectedRows.count-1) {
                  [self.navigationController popViewControllerAnimated:YES];
                 [MBProgressHUD showSuccess:@"添加成功"];
-            }
-        } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-            [MBProgressHUD showError:[NSString stringWithFormat:@"%@",error]];
-        }];
+                }
+            }failure:^(NSURLSessionDataTask *operation, NSError *error) {
+                [MBProgressHUD showError:[NSString stringWithFormat:@"%@",error]];
+            }];
         }
     }
-    NSLog(@"%ld",self.selectedRows.count);
-   
 }
 
 - (void)backTomain:(UIButton *)sender{
@@ -668,6 +633,11 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    
+    
     [searchView removeFromSuperview];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = NO;
 }
 @end

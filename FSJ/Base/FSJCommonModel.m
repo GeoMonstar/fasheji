@@ -9,7 +9,7 @@
 #import "FSJCommonModel.h"
 
 @implementation FSJCommonModel
-
+MJExtensionCodingImplementation
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary{
     FSJCommonModel *model = [self mj_objectWithKeyValues:dictionary];
     

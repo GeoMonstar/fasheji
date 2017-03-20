@@ -8,6 +8,7 @@
 
 #import "FSJBaseViewController.h"
 #import "FSJLogInViewController.h"
+#import "JPFPSStatus.h"
 @interface FSJBaseViewController ()
 
 @end
@@ -15,11 +16,24 @@
 @implementation FSJBaseViewController
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    self.navigationController.navigationBarHidden = YES;
+    
+    self.navigationController.navigationBarHidden = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(networkChanged:)
                                                  name:kRealReachabilityChangedNotification
                                                object:nil];
+   
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(logout:) name:kNotificationWithLogout object:nil];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = YES;
+
+}
+- (void)logout:(NSNotification *)notification{
+    FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:nil];
+
 }
 - (void)networkChanged:(NSNotification *)notification
 {
@@ -74,6 +88,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //[[JPFPSStatus sharedInstance]open];
     // Do any additional setup after loading the view.
 }
 
@@ -81,10 +97,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (void)pop{
-    FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
-}
+
 /*
 #pragma mark - Navigation
 

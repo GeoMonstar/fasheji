@@ -29,10 +29,9 @@
     myWeb = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH-64)];
     myWeb.delegate = self;
     
-    NSString *urlStr =  BaseTongjiurl([[EGOCache globalCache]stringForKey:@"url"]);
+    NSString *urlStr =  BaseTongjiurl([[FSJUserInfo shareInstance]userAccount].areaType);
     NSURL *url = [[NSURL alloc] initWithString:urlStr];
-    //myWeb.scalesPageToFit = YES;
-    //myWeb.scrollView.contentSize = CGSizeMake(WIDTH, HEIGH+64);
+ 
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [myWeb loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20.0]];
@@ -78,7 +77,7 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
+- (void)webView:(UIWebView *)webView didFailLoadWithError:( NSError *)error{
     [MBProgressHUD showError:@"网络连接失败"];
 }
 @end

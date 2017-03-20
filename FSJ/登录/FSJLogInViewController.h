@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FSJLogInViewController : UIViewController<NSCoding>
+@interface FSJLogInViewController : UIViewController
 
 @end

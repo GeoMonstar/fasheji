@@ -10,6 +10,13 @@
 
 @implementation FSJBaseModel
 
-MJCodingImplementation
+MJExtensionCodingImplementation
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key{
+    
+}
 
++ (instancetype)initWithDictionary:(NSDictionary *)dictionary{
+    FSJBaseModel *model = [FSJBaseModel mj_objectWithKeyValues:dictionary];
+    return model;
+}
 @end

@@ -44,7 +44,7 @@
     [super viewDidLoad];
     [self createNav];
     self.view.backgroundColor = SystemGrayColor;
-    jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
+    jwt = [[FSJUserInfo shareInstance] userAccount].jwt;
     [self ctreateTableView];
 }
 - (void)ctreateTableView{
@@ -100,16 +100,7 @@
             [SVProgressHUD showErrorWithStatus:model.message];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+        
     }];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

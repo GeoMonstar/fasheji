@@ -7,14 +7,13 @@
 //
 
 #import "FSJNetworking.h"
-
+#import "FSJLogInViewController.h"
 @implementation FSJNetworking
 #pragma mark --GET
 +(AFHTTPSessionManager *)networkingGETWithURL:(NSString *)URL
                             requestDictionary:(NSDictionary *)requestDictionary
                                       success:(void (^)(NSURLSessionDataTask *operation, NSDictionary* responseObject))success
                                       failure:(void (^)(NSURLSessionDataTask * operation, NSError *error))failure{
-    
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:requestDictionary options:NSJSONWritingPrettyPrinted error:&error];
     if (jsonData) {
@@ -23,17 +22,27 @@
         NSLog(@"JSON字符串转换失败:%@ ,error: %@",requestDictionary,error);
     }
     NSString  *getURL =[NSString stringWithFormat:@"%@%@",BaseURL,URL];
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-//    manager.requestSerializer=[AFJSONRequestSerializer serializer];
     
     AFHTTPSessionManager *manager = [self getManager];
     
     [manager GET:getURL parameters:requestDictionary progress:nil success:^(NSURLSessionDataTask *  task, id   responseObject) {
         success(task,responseObject);
     } failure:^(NSURLSessionDataTask *  task, NSError *  error) {
-        failure(task,error);
+        //failure(task,error);
+        NSArray *array = error.userInfo.allValues;
+        id response = array[0];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            //登录冲突
+            if ([[response valueForKey:@"statusCode"]integerValue] == 401) {
+                [MBProgressHUD showError:kAccountChanged];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter]postNotificationName:kNotificationWithLogout object:nil userInfo:nil];
+                    
+                });
+            }
+        }else{
+            [MBProgressHUD showError:@"网络异常"];
+        }
     }];
     return manager;
 }
@@ -52,12 +61,24 @@
 
     
     AFHTTPSessionManager *manager = [self getManager];
-    NSLog(@"%@ %ld %@",URL,(long)actionType,requestDictionary);
-    
     [manager GET:URL parameters:requestDictionary progress:nil success:^(NSURLSessionDataTask *  task, id   responseObject) {
         success(task,responseObject);
     } failure:^(NSURLSessionDataTask *  task, NSError *  error) {
-        failure(task,error);
+        //failure(task,error);
+        //登出
+        
+        NSArray *array = error.userInfo.allValues;
+        id response = array[0];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            if ([[response valueForKey:@"statusCode"]integerValue] == 401) {
+                [MBProgressHUD showError:kAccountChanged];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter]postNotificationName:kNotificationWithLogout object:nil userInfo:nil];
+                });
+            }
+        }else{
+           [MBProgressHUD showError:@"网络异常"];
+        }
     }];
     return manager;
 }
@@ -76,14 +97,10 @@
         NSLog(@"JSON字符串转换失败:%@ ,error: %@",requestDictionary,error);
     }
     NSString *URL = [NSString stringWithFormat:@"%@%@",BaseURL,[self actionWithConnectionActionType:actionType]];
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];//如果报接受类型不一致请替换一致text/html或别的
-//    manager.requestSerializer=[AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+
     AFHTTPSessionManager *manager = [self getManager];
     [manager POST:URL parameters:requestDictionary progress:nil success:^(NSURLSessionDataTask *  task, id   responseObject) {
-//        id dict=[NSJSONSerialization  JSONObjectWithData:responseObject options:0 error:nil];
-//        NSLog(@"获取到的数据为：%@",dict);
+
         success(task,responseObject);
     } failure:^(NSURLSessionDataTask *  task, NSError *  error) {
         failure(task,error);
@@ -221,7 +238,36 @@
         case SearchInterestStation:
             url = @"/rs/app/interest/list";
             break;
-            
+        case ShebeiJiegou50W:
+            url = @"/rs/app/device/tcpip/struct";
+            break;
+        case ShebeiInfo50W:
+            url = @"/rs/app/device/tcpip/info";
+            break;
+        case TongxinJiekou50W:
+            url = @"/rs/app/device/tcpip/communicate";
+            break;
+        case ZhengjiKongzhi50W:
+            url = @"/rs/app/device/tcpip/control";
+            break;
+        case ZhengjiStatus50W:
+            url = @"/rs/app/device/tcpip/state";
+            break;
+        case Dianyuan50W:
+            url = @"/rs/app/device/tcpip/power";
+            break;
+        case GongFang50W:
+            url = @"/rs/app/device/tcpip/amp";
+            break;
+        case Jiliqi50W:
+            url = @"/rs/app/device/tcpip/actuator";
+            break;
+        case Jietiao50W:
+            url = @"/rs/app/device/tcpip/inputrf";
+            break;
+        case Tongdao50W:
+            url = @"/rs/app/device/tcpip/pipe";
+            break;
         default:
             break;
     }

@@ -114,9 +114,46 @@ typedef NS_ENUM(NSInteger, NetworkConnectionActionType){
      *  @brief 搜索站点列表
      */
     SearchInterestStation,
-    
-    
-    
+    /**
+     *  @brief 设备结构
+     */
+    ShebeiJiegou50W,
+    /**
+     *  @brief 设备信息
+     */
+    ShebeiInfo50W,
+    /**
+     *  @brief 通信接口
+     */
+    TongxinJiekou50W,
+    /**
+     *  @brief 整机控制
+     */
+    ZhengjiKongzhi50W,
+    /**
+     *  @brief 整机状态
+     */
+    ZhengjiStatus50W,
+    /**
+     *  @brief 电源
+     */
+    Dianyuan50W,
+    /**
+     *  @brief 功放
+     */
+    GongFang50W,
+    /**
+     *  @brief 激励器
+     */
+    Jiliqi50W,
+    /**
+     *  @brief 解调
+     */
+    Jietiao50W,
+    /**
+     *  @brief 通道
+     */
+    Tongdao50W,
 };
 typedef NS_ENUM(NSInteger, UploadActionType) {
     UserHeaderImageAction = 1 <<4,

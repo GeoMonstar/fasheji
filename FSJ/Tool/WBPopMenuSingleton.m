@@ -37,8 +37,7 @@
     if (self.popMenuView != nil) {
         [weakSelf hideMenu];
     }
-    //UIWindow * window = [[[UIApplication sharedApplication] windows] firstObject];
-   // CGRect rect = CGRectMake(0, Popviewheight * 0.06 + 20, Popviewwidth, Popviewheight * 0.87 -20);
+    
     CGRect rect = CGRectMake(Popviewwidth/2, 64, Popviewwidth/2, Popviewheight);
     self.popMenuView = [[WBPopMenuView alloc]initWithFrame:rect
                                              menuWidth:width
@@ -69,7 +68,9 @@
     [[WBPopMenuSingleton shareManager]hideMenu];
 }
 - (void) hideMenu {
+    
     if (self.popMenuView) {
+        
         [UIView animateWithDuration:0.1 animations:^{
             self.popMenuView.tableView.transform = CGAffineTransformMakeTranslation(0, Popviewheight);
             
@@ -79,6 +80,7 @@
                 [self.popMenuView removeFromSuperview];
                 self.popMenuView.tableView = nil;
                 self.popMenuView = nil;
+                
            });
         }];
         

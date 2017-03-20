@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FSJResultList.h"
 #import "FSJBaseModel.h"
-@interface FSJCommonModel : FSJBaseModel
+@interface FSJCommonModel : NSObject<NSCoding>
 /**
  *  @brief  推送频道
  */
@@ -35,7 +35,7 @@
  */
 @property (nonatomic, copy)NSString *status;
 /**
- *  @brief  认证参数
+ *  @brief  token
  */
 @property (nonatomic, copy)NSString *jwt;
 /**
@@ -88,6 +88,8 @@
  *  @brief  照片
  */
 @property (nonatomic, copy) NSString *photo;
+
+
 
 #pragma mark -- 管理人员查询
 /**

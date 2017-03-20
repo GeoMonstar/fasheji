@@ -9,5 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <MJExtension.h>
 @interface FSJBaseModel : NSObject<NSCoding>
+//
+//
+@property (nonatomic, copy)NSString *message;
 
+@property (nonatomic, copy)NSString *state;
+
+@property (nonatomic, copy)NSString *status;
+
+
++ (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @end

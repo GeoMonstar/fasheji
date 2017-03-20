@@ -8,22 +8,13 @@
 
 #ifndef Header_h
 #define Header_h
-#define  HORIZONTAL_LINE(grayView,x,y,color,super_view)   UIView *grayView=[[UIView alloc]initWithFrame:CGRectMake(x, y, JDScreenWidthCurOri, 1)];grayView.backgroundColor=color;[super_view addSubview:grayView];
 
-#define MYLABEL(label,X,Y,WIDTH,HEIGHT,text_s,NST,fontSize,color,numberOfLs,super_view)  UILabel *label=[[UILabel alloc]initWithFrame:CGRectMake(X, Y, WIDTH, HEIGHT)];label.text=text_s;label.textAlignment=NST;label.font=[UIFont systemFontOfSize:fontSize];label.textColor=color;label.numberOfLines=numberOfLs;[super_view addSubview:label];
-
-#define MYLABEL_(label,X,Y,WIDTH,HEIGHT,text_s,NST,fontSize,color,numberOfLs,super_view)  label=[[UILabel alloc]initWithFrame:CGRectMake(X, Y, WIDTH, HEIGHT)];label.text=text_s;label.textAlignment=NST;label.font=[UIFont systemFontOfSize:fontSize];label.textColor=color;label.numberOfLines=numberOfLs;[super_view addSubview:label];
-
-#define MYBUTTON(button,X,Y,WIDTH,HEIGHT,normalColor,title,selector,BGCOLOR,TAG,size,title_selColor,selTitle,super_view)  UIButton *button=[UIButton  buttonWithType:UIButtonTypeCustom];button.frame=CGRectMake(X, Y, WIDTH, HEIGHT);[button setTitleColor:normalColor forState:UIControlStateNormal];[button setTitle:title forState:UIControlStateNormal];[button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];button.backgroundColor=BGCOLOR;button.tag=TAG;button.titleLabel.font=[UIFont systemFontOfSize:size];[button setTitleColor:title_selColor forState:UIControlStateSelected];[button setTitle:selTitle forState:UIControlStateSelected];[super_view addSubview:button];
-
-#define MYBUTTON_(button,X,Y,WIDTH,HEIGHT,normalColor,title,selector,BGCOLOR,TAG,title_selColor,selTitle,super_view)  button=[UIButton  buttonWithType:UIButtonTypeCustom];button.frame=CGRectMake(X, Y, WIDTH, HEIGHT);[button setTitleColor:normalColor forState:UIControlStateNormal];[button setTitle:title forState:UIControlStateNormal];[button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];button.backgroundColor=BGCOLOR;button.tag=TAG;[button setTitleColor:title_selColor forState:UIControlStateSelected];[button setTitle:selTitle forState:UIControlStateSelected];[super_view addSubview:button];
-
-#define MYTABLEVIEW_(tableview,X,Y,WIDTH,HEIGHT,TableViewStyle,bgColor,sepColor,super_view)   tableview=[[UITableView alloc]initWithFrame:CGRectMake(X,Y,WIDTH,HEIGHT) style:UITableViewStylePlain];tableview.delegate=self;tableview.dataSource=self;tableview.backgroundColor=bgColor;tableview.separatorColor=sepColor;[super_view addSubview:tableview];
-
-#define MYVIEW(view,X,Y,WIDTH,HEIGHT,bgColor,super_view)   UIView *view=[[UIView alloc]initWithFrame:CGRectMake(X,Y,WIDTH,HEIGHT)];view.backgroundColor=bgColor;[super_view addSubview:view];
-
-#define MYVIEW_(view,X,Y,WIDTH,HEIGHT,bgColor,super_view)   view=[[UIView alloc]initWithFrame:CGRectMake(X,Y,WIDTH,HEIGHT)];view.backgroundColor=bgColor;[super_view addSubview:view];
-
+// 日志输出
+#ifdef DEBUG
+#define VVDLog(format, ...) NSLog((@"\n[函数名:%s]" "[行号:%d]  \n" format), __FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define VVDLog(format, ...);
+#endif
 
 #define PUSHVC(JDAboutMeViewController)   JDAboutMeViewController *aboutMeVC = [[JDAboutMeViewController alloc]init];[self.navigationController pushViewController:aboutMeVC animated:YES];
 
@@ -60,11 +51,12 @@
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 
 #ifdef DEBUG
-//#define BaseURL         @"http://192.168.10.94:8080/fsj"
-#define BaseURL           @"http://47.89.38.215:6688/fsj"
+#define BaseURL         @"http://192.168.10.94:8080/fsj"
+#define BaseImgURL      @"http://192.168.10.94:8080"
 
 #else
-//#define BaseURL         @"http://192.168.10.94:8080/fsj"
+
+#define BaseImgURL      @"http://47.89.38.215:6688"
 #define BaseURL         @"http://47.89.38.215:6688/fsj"
 
 
@@ -72,12 +64,32 @@
 //#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://192.168.10.94:8080/fsj/alarm/app/statistics?userName=%@",username];
 #define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://47.89.38.215:6688/fsj/alarm/app/statistics?userName=%@",username];
 
-//#define BaseImgURL      @"http://192.168.10.94:8080"
-#define BaseImgURL      @"http://47.89.38.215:6688"
+
+
 
 #define PgyAppID        @"85838383eb2e34b6a2b49fa95c94be8b"
 #define THWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 ///Users/Monstar/Library/Developer/Xcode/DerivedData
-#define AccountChanged @"该用户已在其他设备登录"
+
+#define kAccountChanged @"该用户已在其他设备登录"
+
+#define kNotificationWithLogout @"kNotificationWithLogout"
+
+#define kAppIdentifierID @"kAppIdentifierID"
+
+#define kAppUserInfo @"kAppUserInfo"
+
+#define kAppUserAccount @"kAppUserAccount"
+
+#define kAppUserPassKey @"kAppUserPassKey"
+
+#define kAPPUserID @"kAPPUserID"
+
+#define kGestureControl @"kGestureControl"
+
+
+
+
+
 
 #endif /* Header_h */

@@ -42,7 +42,7 @@
     self.view.backgroundColor = SystemLightGrayColor;
     self.navigationController.navigationBarHidden = NO;
     firstInput.delegate = self;
-    jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
+    jwtStr = [[FSJUserInfo shareInstance] userAccount].jwt;
 //    if(self.changeType == Username){
 //        [self createUIwith:@"姓名"];
 //        titleStr = @"更改姓名";

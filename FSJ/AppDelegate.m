@@ -9,6 +9,7 @@
 #import "FSJLogInViewController.h"
 #import "FSJMapViewController.h"
 #import "FSJUserInfo.h"
+
 //#define BaiduMapKEy @"LuciFxMX26SzSnd3zEZEfb8R"
 #define BaiduMapKEy @"G4u27joqchFtv5iVTn5KPwXp"
 @interface AppDelegate ()<BMKGeneralDelegate>{
@@ -18,52 +19,19 @@
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
      [GLobalRealReachability startNotifier];
-    //carsh
+    //蒲公英
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
     [[PgyManager sharedPgyManager] startManagerWithAppId:PgyAppID];
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PgyAppID];
-   
-    NSString *str = [[NSBundle mainBundle] bundleIdentifier];
-    NSLog(@"项目ID = %@",str);
+    
+    //百度地图
         _mapManager = [[BMKMapManager alloc]init];
         BOOL ret = [_mapManager start:BaiduMapKEy generalDelegate:self];
         if (!ret) {
-            NSLog(@"启动失败");
+            VVDLog(@"百度地图启动失败");
     }
     
-    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    FSJLogInViewController *lvc = [[FSJLogInViewController alloc]init];
-    FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-    UINavigationController *lnav = [[UINavigationController alloc]initWithRootViewController:lvc];
-   
-     self.window.rootViewController = lnav;
-    //    BOOL bo =(BOOL) [[EGOCache globalCache]objectForKey:@"Login"];
-//    if (bo) {
-//        FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-//        [nav pushViewController:vc animated:YES];
-//    }
-//    else{
-//    }
-
-//    BOOL isLogin = [FSJUserInfo shareInstance].userAccountStatus;
-//    
-//    if(isLogin){
-//        //账户已经登录
-//        NSLog(@"已经登录");
-//        //将本地用户信息读取出来
-//        [[FSJUserInfo shareInstance] userAccount];
-//        [FSJUserInfo shareInstance].statusType = StatusWithLogin;
-//
-//        FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-//        [lnav pushViewController:vc animated:YES];
-//       
-//    }else{
-//
-//        NSLog(@"未登录");
-//    }
-
-    [self.window makeKeyAndVisible];
-    
+    //键盘
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     
     manager.enable = YES;
@@ -74,7 +42,17 @@
     
     manager.enableAutoToolbar = NO;
     
-
+    //登录
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    FSJLogInViewController *lvc = [[FSJLogInViewController alloc]init];
+    
+    UINavigationController *lnav = [[UINavigationController alloc]initWithRootViewController:lvc];
+    
+    self.window.rootViewController = lnav;
+    
+    [self.window makeKeyAndVisible];
+    //fps
+    
     return YES;
 }
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		850729A41D017F4300FDE7C4 /* FSJAddStationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 850729A31D017F4300FDE7C4 /* FSJAddStationVC.m */; };
+		850819361E1E2475007922FD /* FSJDistrictResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 850819351E1E2475007922FD /* FSJDistrictResultModel.m */; };
+		8508193C1E1E2DFF007922FD /* JQBaseNav.m in Sources */ = {isa = PBXBuildFile; fileRef = 8508193B1E1E2DFF007922FD /* JQBaseNav.m */; };
 		850EAC111C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 850EAC0F1C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.m */; };
 		850EAC121C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 850EAC101C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.xib */; };
 		850EAC151C9A4C19002C577E /* FSJPeopleManagerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 850EAC141C9A4C19002C577E /* FSJPeopleManagerDetailViewController.m */; };
@@ -60,6 +62,7 @@
 		8554C8941CCE153F0095D180 /* FSJGongxiao.m in Sources */ = {isa = PBXBuildFile; fileRef = 8554C8931CCE153F0095D180 /* FSJGongxiao.m */; };
 		8554C8971CCE17570095D180 /* FSJGongxiaoDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8554C8961CCE17570095D180 /* FSJGongxiaoDetail.m */; };
 		8554E9B01CFE7AF40088B411 /* MBProgressHUD+HUDTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 8554E9AF1CFE7AF40088B411 /* MBProgressHUD+HUDTools.m */; };
+		85570EFF1E7A655E009D2967 /* FSJJiankong50W.m in Sources */ = {isa = PBXBuildFile; fileRef = 85570EFE1E7A655E009D2967 /* FSJJiankong50W.m */; };
 		8558834D1D05474C002E1933 /* FSJTitleBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 8558834C1D05474C002E1933 /* FSJTitleBtn.m */; };
 		8558835C1D0569A6002E1933 /* FSJJKPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8558835B1D0569A6002E1933 /* FSJJKPopView.m */; };
 		8558835F1D056C42002E1933 /* FSJJKPopBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 8558835E1D056C42002E1933 /* FSJJKPopBtn.m */; };
@@ -76,6 +79,8 @@
 		85589C351CDC897200ADAAC1 /* PingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C281CDC897200ADAAC1 /* PingHelper.m */; };
 		85589C361CDC897200ADAAC1 /* RealReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C2A1CDC897200ADAAC1 /* RealReachability.m */; };
 		85589C391CDC936200ADAAC1 /* FSJBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */; };
+		85644E6D1E7B879400EAF04B /* FSJShebeiInfo50W.m in Sources */ = {isa = PBXBuildFile; fileRef = 85644E6C1E7B879300EAF04B /* FSJShebeiInfo50W.m */; };
+		8565CB651E2733E300CD9897 /* JPFPSStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 8565CB641E2733E300CD9897 /* JPFPSStatus.m */; };
 		856CA1C41CF7E5B0008C6B16 /* FSJUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 856CA1C31CF7E5B0008C6B16 /* FSJUpdateView.m */; };
 		856F3D311CE9CB3400CDCB96 /* FSJNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 856F3D301CE9CB3400CDCB96 /* FSJNetworking.m */; };
 		85743C071CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85743C051CC726E0007F55B7 /* FSJSecondDetailTableViewCell.m */; };
@@ -86,21 +91,16 @@
 		858AB7CE1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 858AB7CC1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.xib */; };
 		858CB7CB1D3CA7A1005F8D70 /* FSJCommonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 858CB7CA1D3CA7A0005F8D70 /* FSJCommonModel.m */; };
 		859DF5821C89237100107467 /* NSString+RegexCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 859DF5811C89237100107467 /* NSString+RegexCategory.m */; };
-		859DF59F1C892D3D00107467 /* AppKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 859DF59E1C892D3D00107467 /* AppKeys.m */; };
 		859DF5A61C8933BC00107467 /* UIView+LoadFromNib.m in Sources */ = {isa = PBXBuildFile; fileRef = 859DF5A51C8933BC00107467 /* UIView+LoadFromNib.m */; };
 		859FD8F51C8E6F3600AFA615 /* FSJResultList.m in Sources */ = {isa = PBXBuildFile; fileRef = 859FD8F41C8E6F3600AFA615 /* FSJResultList.m */; };
 		85AAE8F51C917CAF00E6B415 /* MyAnimatedAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85AAE8F41C917CAF00E6B415 /* MyAnimatedAnnotationView.m */; };
-		85B7E7031C9D329000D037FE /* FSJBaseNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85B7E7021C9D329000D037FE /* FSJBaseNavViewController.m */; };
 		85B8DF5A1CBE578600532974 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 85B8DF591CBE578600532974 /* UIImage+Color.m */; };
 		85BCBF3A1C994C0000686D07 /* FSJPeopleManagimentviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BCBF391C994C0000686D07 /* FSJPeopleManagimentviewController.m */; };
-		85BCBF3D1C994F2C00686D07 /* FSJBaseMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BCBF3C1C994F2C00686D07 /* FSJBaseMoreViewController.m */; };
 		85C8FA221CFD6F3C00F1E018 /* FSJMaintableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C8FA211CFD6F3C00F1E018 /* FSJMaintableViewDataSource.m */; };
 		85C8FA251CFD6F6200F1E018 /* FSJMainTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C8FA241CFD6F6200F1E018 /* FSJMainTableViewDelegate.m */; };
 		85C8FA281CFD7B8600F1E018 /* FSJMainTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C8FA271CFD7B8600F1E018 /* FSJMainTableView.m */; };
 		85C912321CD88D0800AC97C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85C912311CD88D0800AC97C7 /* Assets.xcassets */; };
 		85C912371CD8911F00AC97C7 /* FSJPopHeadview.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C912361CD8911F00AC97C7 /* FSJPopHeadview.m */; };
-		85CA7D511C9810E2005F22C4 /* FSJCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85CA7D4F1C9810E2005F22C4 /* FSJCollectionViewCell.m */; };
-		85CA7D521C9810E2005F22C4 /* FSJCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CA7D501C9810E2005F22C4 /* FSJCollectionViewCell.xib */; };
 		85CBED0D1CC9FCF400C4CD8C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 85CBED0C1CC9FCF400C4CD8C /* libsqlite3.tbd */; };
 		85CBED2F1CCA0D0600C4CD8C /* logging_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 85CBED101CCA0D0600C4CD8C /* logging_mosq.c */; };
 		85CBED301CCA0D0600C4CD8C /* memory_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 85CBED121CCA0D0600C4CD8C /* memory_mosq.c */; };
@@ -120,9 +120,6 @@
 		85CBED3E1CCA0D0600C4CD8C /* util_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 85CBED2B1CCA0D0600C4CD8C /* util_mosq.c */; };
 		85CBED3F1CCA0D0600C4CD8C /* will_mosq.c in Sources */ = {isa = PBXBuildFile; fileRef = 85CBED2D1CCA0D0600C4CD8C /* will_mosq.c */; };
 		85CD7BC31CBE42BF00C39EB0 /* FSJMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85CD7BC21CBE42BF00C39EB0 /* FSJMapViewController.m */; };
-		85CEBF311CC9D39E0030828A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85CEBF301CC9D39E0030828A /* libPods.a */; };
-		85D5BC6E1C98F1B200D8EA7E /* ReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85D5BC6D1C98F1B200D8EA7E /* ReusableView.m */; };
-		85D5BC791C98F8EA00D8EA7E /* FSJMoreInfomationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85D5BC781C98F8EA00D8EA7E /* FSJMoreInfomationViewController.m */; };
 		85D6C7AF1CC0CBD800606270 /* FSJDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85D6C7AD1CC0CBD800606270 /* FSJDetailTableViewCell.m */; };
 		85D6C7B01CC0CBD800606270 /* FSJDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85D6C7AE1CC0CBD800606270 /* FSJDetailTableViewCell.xib */; };
 		85D6C7B31CC0EB7900606270 /* FSJTabbarBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 85D6C7B21CC0EB7900606270 /* FSJTabbarBtn.m */; };
@@ -134,6 +131,7 @@
 		85F59C331D06A3A200D3DD48 /* FSJOganTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F59C321D06A3A200D3DD48 /* FSJOganTree.m */; };
 		85F59C361D06A79700D3DD48 /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F59C351D06A79700D3DD48 /* DOPDropDownMenu.m */; };
 		85F5DD531C8FC7C400F2D4FC /* FSJMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F5DD521C8FC7C400F2D4FC /* FSJMeViewController.m */; };
+		96C88403116BF1145109FCD1 /* libPods-FSJ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2CCCC6DC83CCEB199CBE857 /* libPods-FSJ.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,9 +145,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		27CEA4A9C7AEAE4DC3150391 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		484F5C6D1B721279C0C16EB9 /* Pods-FSJ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSJ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSJ/Pods-FSJ.debug.xcconfig"; sourceTree = "<group>"; };
+		706B42E7373BD2E4BE258080 /* Pods-FSJ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSJ.release.xcconfig"; path = "Pods/Target Support Files/Pods-FSJ/Pods-FSJ.release.xcconfig"; sourceTree = "<group>"; };
 		850729A21D017F4300FDE7C4 /* FSJAddStationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJAddStationVC.h; sourceTree = "<group>"; };
 		850729A31D017F4300FDE7C4 /* FSJAddStationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJAddStationVC.m; sourceTree = "<group>"; };
+		850819341E1E2475007922FD /* FSJDistrictResultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJDistrictResultModel.h; sourceTree = "<group>"; };
+		850819351E1E2475007922FD /* FSJDistrictResultModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJDistrictResultModel.m; sourceTree = "<group>"; };
+		8508193A1E1E2DFF007922FD /* JQBaseNav.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JQBaseNav.h; sourceTree = "<group>"; };
+		8508193B1E1E2DFF007922FD /* JQBaseNav.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JQBaseNav.m; sourceTree = "<group>"; };
 		850EAC0E1C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJPeopleManagerDetailTableViewCell.h; sourceTree = "<group>"; };
 		850EAC0F1C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJPeopleManagerDetailTableViewCell.m; sourceTree = "<group>"; };
 		850EAC101C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSJPeopleManagerDetailTableViewCell.xib; sourceTree = "<group>"; };
@@ -242,6 +245,8 @@
 		8554C8961CCE17570095D180 /* FSJGongxiaoDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJGongxiaoDetail.m; sourceTree = "<group>"; };
 		8554E9AE1CFE7AF40088B411 /* MBProgressHUD+HUDTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+HUDTools.h"; sourceTree = "<group>"; };
 		8554E9AF1CFE7AF40088B411 /* MBProgressHUD+HUDTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+HUDTools.m"; sourceTree = "<group>"; };
+		85570EFD1E7A655E009D2967 /* FSJJiankong50W.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJJiankong50W.h; sourceTree = "<group>"; };
+		85570EFE1E7A655E009D2967 /* FSJJiankong50W.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJJiankong50W.m; sourceTree = "<group>"; };
 		8558834B1D05474C002E1933 /* FSJTitleBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJTitleBtn.h; sourceTree = "<group>"; };
 		8558834C1D05474C002E1933 /* FSJTitleBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJTitleBtn.m; sourceTree = "<group>"; };
 		8558835A1D0569A6002E1933 /* FSJJKPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJJKPopView.h; sourceTree = "<group>"; };
@@ -275,6 +280,10 @@
 		85589C2A1CDC897200ADAAC1 /* RealReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealReachability.m; sourceTree = "<group>"; };
 		85589C371CDC936200ADAAC1 /* FSJBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSJBaseViewController.h; path = ../FSJBaseViewController.h; sourceTree = "<group>"; };
 		85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSJBaseViewController.m; path = ../FSJBaseViewController.m; sourceTree = "<group>"; };
+		85644E6B1E7B879300EAF04B /* FSJShebeiInfo50W.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJShebeiInfo50W.h; sourceTree = "<group>"; };
+		85644E6C1E7B879300EAF04B /* FSJShebeiInfo50W.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJShebeiInfo50W.m; sourceTree = "<group>"; };
+		8565CB631E2733E300CD9897 /* JPFPSStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPFPSStatus.h; sourceTree = "<group>"; };
+		8565CB641E2733E300CD9897 /* JPFPSStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPFPSStatus.m; sourceTree = "<group>"; };
 		856CA1C21CF7E5B0008C6B16 /* FSJUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJUpdateView.h; sourceTree = "<group>"; };
 		856CA1C31CF7E5B0008C6B16 /* FSJUpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJUpdateView.m; sourceTree = "<group>"; };
 		856F3D2F1CE9CB3400CDCB96 /* FSJNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJNetworking.h; sourceTree = "<group>"; };
@@ -293,8 +302,6 @@
 		858CB7CA1D3CA7A0005F8D70 /* FSJCommonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJCommonModel.m; sourceTree = "<group>"; };
 		859DF5801C89237100107467 /* NSString+RegexCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegexCategory.h"; sourceTree = "<group>"; };
 		859DF5811C89237100107467 /* NSString+RegexCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegexCategory.m"; sourceTree = "<group>"; };
-		859DF59D1C892D3D00107467 /* AppKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppKeys.h; sourceTree = "<group>"; };
-		859DF59E1C892D3D00107467 /* AppKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppKeys.m; sourceTree = "<group>"; };
 		859DF5A31C89327800107467 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = Base/PrefixHeader.pch; sourceTree = "<group>"; };
 		859DF5A41C8933BC00107467 /* UIView+LoadFromNib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LoadFromNib.h"; sourceTree = "<group>"; };
 		859DF5A51C8933BC00107467 /* UIView+LoadFromNib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LoadFromNib.m"; sourceTree = "<group>"; };
@@ -302,14 +309,10 @@
 		859FD8F41C8E6F3600AFA615 /* FSJResultList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJResultList.m; sourceTree = "<group>"; };
 		85AAE8F31C917CAF00E6B415 /* MyAnimatedAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnimatedAnnotationView.h; sourceTree = "<group>"; };
 		85AAE8F41C917CAF00E6B415 /* MyAnimatedAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnimatedAnnotationView.m; sourceTree = "<group>"; };
-		85B7E7011C9D329000D037FE /* FSJBaseNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJBaseNavViewController.h; sourceTree = "<group>"; };
-		85B7E7021C9D329000D037FE /* FSJBaseNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJBaseNavViewController.m; sourceTree = "<group>"; };
 		85B8DF581CBE578600532974 /* UIImage+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
 		85B8DF591CBE578600532974 /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
 		85BCBF381C994C0000686D07 /* FSJPeopleManagimentviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJPeopleManagimentviewController.h; sourceTree = "<group>"; };
 		85BCBF391C994C0000686D07 /* FSJPeopleManagimentviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJPeopleManagimentviewController.m; sourceTree = "<group>"; };
-		85BCBF3B1C994F2C00686D07 /* FSJBaseMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSJBaseMoreViewController.h; path = "../更多/FSJBaseMoreViewController.h"; sourceTree = "<group>"; };
-		85BCBF3C1C994F2C00686D07 /* FSJBaseMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSJBaseMoreViewController.m; path = "../更多/FSJBaseMoreViewController.m"; sourceTree = "<group>"; };
 		85C8FA201CFD6F3C00F1E018 /* FSJMaintableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSJMaintableViewDataSource.h; path = "../首页/FSJMaintableViewDataSource.h"; sourceTree = "<group>"; };
 		85C8FA211CFD6F3C00F1E018 /* FSJMaintableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSJMaintableViewDataSource.m; path = "../首页/FSJMaintableViewDataSource.m"; sourceTree = "<group>"; };
 		85C8FA231CFD6F6200F1E018 /* FSJMainTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSJMainTableViewDelegate.h; path = "../首页/FSJMainTableViewDelegate.h"; sourceTree = "<group>"; };
@@ -319,9 +322,6 @@
 		85C912311CD88D0800AC97C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85C912351CD8911F00AC97C7 /* FSJPopHeadview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJPopHeadview.h; sourceTree = "<group>"; };
 		85C912361CD8911F00AC97C7 /* FSJPopHeadview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJPopHeadview.m; sourceTree = "<group>"; };
-		85CA7D4E1C9810E2005F22C4 /* FSJCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJCollectionViewCell.h; sourceTree = "<group>"; };
-		85CA7D4F1C9810E2005F22C4 /* FSJCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJCollectionViewCell.m; sourceTree = "<group>"; };
-		85CA7D501C9810E2005F22C4 /* FSJCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSJCollectionViewCell.xib; sourceTree = "<group>"; };
 		85CBED0C1CC9FCF400C4CD8C /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		85CBED0F1CCA0D0600C4CD8C /* dummypthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dummypthread.h; sourceTree = "<group>"; };
 		85CBED101CCA0D0600C4CD8C /* logging_mosq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = logging_mosq.c; sourceTree = "<group>"; };
@@ -358,10 +358,6 @@
 		85CD7BC11CBE42BF00C39EB0 /* FSJMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJMapViewController.h; sourceTree = "<group>"; };
 		85CD7BC21CBE42BF00C39EB0 /* FSJMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJMapViewController.m; sourceTree = "<group>"; };
 		85CEBF301CC9D39E0030828A /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		85D5BC6C1C98F1B200D8EA7E /* ReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReusableView.h; sourceTree = "<group>"; };
-		85D5BC6D1C98F1B200D8EA7E /* ReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReusableView.m; sourceTree = "<group>"; };
-		85D5BC771C98F8EA00D8EA7E /* FSJMoreInfomationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJMoreInfomationViewController.h; sourceTree = "<group>"; };
-		85D5BC781C98F8EA00D8EA7E /* FSJMoreInfomationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJMoreInfomationViewController.m; sourceTree = "<group>"; };
 		85D6C7AC1CC0CBD800606270 /* FSJDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJDetailTableViewCell.h; sourceTree = "<group>"; };
 		85D6C7AD1CC0CBD800606270 /* FSJDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJDetailTableViewCell.m; sourceTree = "<group>"; };
 		85D6C7AE1CC0CBD800606270 /* FSJDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSJDetailTableViewCell.xib; sourceTree = "<group>"; };
@@ -383,7 +379,7 @@
 		85F5DD511C8FC7C400F2D4FC /* FSJMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJMeViewController.h; sourceTree = "<group>"; };
 		85F5DD521C8FC7C400F2D4FC /* FSJMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJMeViewController.m; sourceTree = "<group>"; };
 		85FA22981C9FF6C700AF8B98 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		BD35A0F952D4C417086A9283 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B2CCCC6DC83CCEB199CBE857 /* libPods-FSJ.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSJ.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -402,7 +398,7 @@
 				851A2CB71CCB17BA00C955D2 /* CoreGraphics.framework in Frameworks */,
 				851A2CB51CCB16CC00C955D2 /* CoreData.framework in Frameworks */,
 				85CBED0D1CC9FCF400C4CD8C /* libsqlite3.tbd in Frameworks */,
-				85CEBF311CC9D39E0030828A /* libPods.a in Frameworks */,
+				96C88403116BF1145109FCD1 /* libPods-FSJ.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +412,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39F15A49261E8E5ADB9EFD75 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				484F5C6D1B721279C0C16EB9 /* Pods-FSJ.debug.xcconfig */,
+				706B42E7373BD2E4BE258080 /* Pods-FSJ.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7D4CF488D366D52090717CD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,6 +436,7 @@
 				851A2CB41CCB16CC00C955D2 /* CoreData.framework */,
 				85CBED0C1CC9FCF400C4CD8C /* libsqlite3.tbd */,
 				85CEBF301CC9D39E0030828A /* libPods.a */,
+				B2CCCC6DC83CCEB199CBE857 /* libPods-FSJ.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -457,8 +463,8 @@
 				8528A5DC1C87E61D009A258D /* FSJ */,
 				8528A5F61C87E61E009A258D /* FSJUITests */,
 				8528A5DB1C87E61D009A258D /* Products */,
-				CDC1E60F0881682BBC22A017 /* Pods */,
 				7D4CF488D366D52090717CD6 /* Frameworks */,
+				39F15A49261E8E5ADB9EFD75 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -512,6 +518,7 @@
 		8528A6021C87E945009A258D /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				8565CB621E2733E300CD9897 /* JPFPSStatus */,
 				8503A5891DBEF55D00A2469B /* other */,
 				85CBED0E1CCA0D0600C4CD8C /* mosquitto */,
 				853ABD181D58855B00032EBB /* category */,
@@ -524,6 +531,8 @@
 		8528A6041C87E961009A258D /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				8508193A1E1E2DFF007922FD /* JQBaseNav.h */,
+				8508193B1E1E2DFF007922FD /* JQBaseNav.m */,
 				85589C371CDC936200ADAAC1 /* FSJBaseViewController.h */,
 				85589C381CDC936200ADAAC1 /* FSJBaseViewController.m */,
 				8528A6081C87ECDE009A258D /* FSJUserInfo.h */,
@@ -534,12 +543,6 @@
 				859FD8F41C8E6F3600AFA615 /* FSJResultList.m */,
 				8528A60B1C880A7E009A258D /* FSJBaseModel.h */,
 				8528A60C1C880A7E009A258D /* FSJBaseModel.m */,
-				85B7E7011C9D329000D037FE /* FSJBaseNavViewController.h */,
-				85B7E7021C9D329000D037FE /* FSJBaseNavViewController.m */,
-				85BCBF3B1C994F2C00686D07 /* FSJBaseMoreViewController.h */,
-				85BCBF3C1C994F2C00686D07 /* FSJBaseMoreViewController.m */,
-				859DF59D1C892D3D00107467 /* AppKeys.h */,
-				859DF59E1C892D3D00107467 /* AppKeys.m */,
 				856F3D2F1CE9CB3400CDCB96 /* FSJNetworking.h */,
 				856F3D301CE9CB3400CDCB96 /* FSJNetworking.m */,
 			);
@@ -592,6 +595,8 @@
 				8554C88E1CCE10EC0095D180 /* Model */,
 				8554C8851CCDFE9F0095D180 /* FSJJiankongVC.h */,
 				8554C8861CCDFE9F0095D180 /* FSJJiankongVC.m */,
+				85570EFD1E7A655E009D2967 /* FSJJiankong50W.h */,
+				85570EFE1E7A655E009D2967 /* FSJJiankong50W.m */,
 			);
 			name = "监控";
 			sourceTree = "<group>";
@@ -599,6 +604,8 @@
 		8554C88E1CCE10EC0095D180 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				85644E6B1E7B879300EAF04B /* FSJShebeiInfo50W.h */,
+				85644E6C1E7B879300EAF04B /* FSJShebeiInfo50W.m */,
 				858869DE1CD095E70066CDCA /* FSJJiankongBase.h */,
 				858869DF1CD095E70066CDCA /* FSJJiankongBase.m */,
 				8554C88B1CCE0BDC0095D180 /* FSJGongzuoStatus.h */,
@@ -702,6 +709,15 @@
 			path = Ping;
 			sourceTree = "<group>";
 		};
+		8565CB621E2733E300CD9897 /* JPFPSStatus */ = {
+			isa = PBXGroup;
+			children = (
+				8565CB631E2733E300CD9897 /* JPFPSStatus.h */,
+				8565CB641E2733E300CD9897 /* JPFPSStatus.m */,
+			);
+			path = JPFPSStatus;
+			sourceTree = "<group>";
+		};
 		859DF57F1C8920F300107467 /* 登录 */ = {
 			isa = PBXGroup;
 			children = (
@@ -728,6 +744,8 @@
 				854D50DE1C966625001C963F /* FSJOneFSJ.m */,
 				851DAEF01CA54760002E8BFD /* FSJOneCity.h */,
 				851DAEF11CA54760002E8BFD /* FSJOneCity.m */,
+				850819341E1E2475007922FD /* FSJDistrictResultModel.h */,
+				850819351E1E2475007922FD /* FSJDistrictResultModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -760,16 +778,6 @@
 			name = View;
 			sourceTree = "<group>";
 		};
-		85BCBF3F1C995E5400686D07 /* 主界面 废弃 */ = {
-			isa = PBXGroup;
-			children = (
-				85CA7D391C97FBFF005F22C4 /* Controller */,
-				85CA7D381C97FBFD005F22C4 /* View */,
-				85CA7D371C97FBFA005F22C4 /* Model */,
-			);
-			name = "主界面 废弃";
-			sourceTree = "<group>";
-		};
 		85BCBF401C995E6200686D07 /* 设备，告警 */ = {
 			isa = PBXGroup;
 			children = (
@@ -792,38 +800,9 @@
 			children = (
 				8554C8811CCDF78C0095D180 /* 监控 */,
 				85BCBF401C995E6200686D07 /* 设备，告警 */,
-				85BCBF3F1C995E5400686D07 /* 主界面 废弃 */,
 			);
 			name = "详情信息";
 			path = "更多";
-			sourceTree = "<group>";
-		};
-		85CA7D371C97FBFA005F22C4 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		85CA7D381C97FBFD005F22C4 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				85D5BC6C1C98F1B200D8EA7E /* ReusableView.h */,
-				85D5BC6D1C98F1B200D8EA7E /* ReusableView.m */,
-				85CA7D4E1C9810E2005F22C4 /* FSJCollectionViewCell.h */,
-				85CA7D4F1C9810E2005F22C4 /* FSJCollectionViewCell.m */,
-				85CA7D501C9810E2005F22C4 /* FSJCollectionViewCell.xib */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		85CA7D391C97FBFF005F22C4 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				85D5BC771C98F8EA00D8EA7E /* FSJMoreInfomationViewController.h */,
-				85D5BC781C98F8EA00D8EA7E /* FSJMoreInfomationViewController.m */,
-			);
-			name = Controller;
 			sourceTree = "<group>";
 		};
 		85CBED0E1CCA0D0600C4CD8C /* mosquitto */ = {
@@ -938,15 +917,6 @@
 			name = VC;
 			sourceTree = "<group>";
 		};
-		CDC1E60F0881682BBC22A017 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BD35A0F952D4C417086A9283 /* Pods.debug.xcconfig */,
-				27CEA4A9C7AEAE4DC3150391 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -954,12 +924,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8528A5FC1C87E61E009A258D /* Build configuration list for PBXNativeTarget "FSJ" */;
 			buildPhases = (
-				9C30ADB6E44D176E48EB4DB9 /* Check Pods Manifest.lock */,
+				B70DB44D4F507F5B4CAE64DD /* [CP] Check Pods Manifest.lock */,
 				8528A5D61C87E61D009A258D /* Sources */,
 				8528A5D71C87E61D009A258D /* Frameworks */,
 				8528A5D81C87E61D009A258D /* Resources */,
-				6F066D446CF7DB8F70DC16F6 /* Embed Pods Frameworks */,
-				B03D8B0F55A7B56A59995013 /* Copy Pods Resources */,
+				18E8AAB5CB4E1C8B51E2F96C /* [CP] Embed Pods Frameworks */,
+				4889E41DB91C1256F2539CA2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1040,7 +1010,6 @@
 			files = (
 				85743C081CC726E0007F55B7 /* FSJSecondDetailTableViewCell.xib in Resources */,
 				8512B93B1C929D6800DCB952 /* FSJTopTableViewCell.xib in Resources */,
-				85CA7D521C9810E2005F22C4 /* FSJCollectionViewCell.xib in Resources */,
 				85381E231CBF834D0080F027 /* PopcellviewTableViewCell.xib in Resources */,
 				85C912321CD88D0800AC97C7 /* Assets.xcassets in Resources */,
 				85D6C7B01CC0CBD800606270 /* FSJDetailTableViewCell.xib in Resources */,
@@ -1063,49 +1032,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6F066D446CF7DB8F70DC16F6 /* Embed Pods Frameworks */ = {
+		18E8AAB5CB4E1C8B51E2F96C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSJ/Pods-FSJ-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9C30ADB6E44D176E48EB4DB9 /* Check Pods Manifest.lock */ = {
+		4889E41DB91C1256F2539CA2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSJ/Pods-FSJ-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B70DB44D4F507F5B4CAE64DD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		B03D8B0F55A7B56A59995013 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1140,6 +1109,7 @@
 				859FD8F51C8E6F3600AFA615 /* FSJResultList.m in Sources */,
 				8512B93A1C929D6800DCB952 /* FSJTopTableViewCell.m in Sources */,
 				85CBED331CCA0D0600C4CD8C /* mosquitto.c in Sources */,
+				8508193C1E1E2DFF007922FD /* JQBaseNav.m in Sources */,
 				8528A60A1C87ECDE009A258D /* FSJUserInfo.m in Sources */,
 				85589C2F1CDC897200ADAAC1 /* ReachStateLoading.m in Sources */,
 				85C8FA221CFD6F3C00F1E018 /* FSJMaintableViewDataSource.m in Sources */,
@@ -1155,23 +1125,22 @@
 				85CBED3E1CCA0D0600C4CD8C /* util_mosq.c in Sources */,
 				85CBED311CCA0D0600C4CD8C /* messages_mosq.c in Sources */,
 				85CBED3D1CCA0D0600C4CD8C /* tls_mosq.c in Sources */,
+				8565CB651E2733E300CD9897 /* JPFPSStatus.m in Sources */,
 				850EAC111C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.m in Sources */,
 				8554C8971CCE17570095D180 /* FSJGongxiaoDetail.m in Sources */,
-				85B7E7031C9D329000D037FE /* FSJBaseNavViewController.m in Sources */,
 				85381E1A1CBF7FC70080F027 /* WBPopMenuSingleton.m in Sources */,
 				85589C331CDC897200ADAAC1 /* ReachStateWWAN.m in Sources */,
 				85F59C361D06A79700D3DD48 /* DOPDropDownMenu.m in Sources */,
 				856CA1C41CF7E5B0008C6B16 /* FSJUpdateView.m in Sources */,
+				85570EFF1E7A655E009D2967 /* FSJJiankong50W.m in Sources */,
 				85CBED2F1CCA0D0600C4CD8C /* logging_mosq.c in Sources */,
-				85CA7D511C9810E2005F22C4 /* FSJCollectionViewCell.m in Sources */,
 				85CBED391CCA0D0600C4CD8C /* send_mosq.c in Sources */,
+				850819361E1E2475007922FD /* FSJDistrictResultModel.m in Sources */,
 				858869E01CD095E70066CDCA /* FSJJiankongBase.m in Sources */,
 				8528A6171C88128F009A258D /* FSJDES.m in Sources */,
 				85C8FA251CFD6F6200F1E018 /* FSJMainTableViewDelegate.m in Sources */,
 				85CD7BC31CBE42BF00C39EB0 /* FSJMapViewController.m in Sources */,
 				85F59C2D1D06727300D3DD48 /* FSJInterestModel.m in Sources */,
-				85D5BC791C98F8EA00D8EA7E /* FSJMoreInfomationViewController.m in Sources */,
-				85BCBF3D1C994F2C00686D07 /* FSJBaseMoreViewController.m in Sources */,
 				8512B93F1C929D8F00DCB952 /* FSJMineTableViewCell.m in Sources */,
 				8528A5DF1C87E61D009A258D /* main.m in Sources */,
 				85589C301CDC897200ADAAC1 /* ReachStateUnloaded.m in Sources */,
@@ -1188,8 +1157,8 @@
 				85DC38321CFFE2BE0098DE29 /* FSJNoDataTableViewCell.m in Sources */,
 				85381E1B1CBF7FC70080F027 /* WBPopMenuView.m in Sources */,
 				8554C8871CCDFE9F0095D180 /* FSJJiankongVC.m in Sources */,
+				85644E6D1E7B879400EAF04B /* FSJShebeiInfo50W.m in Sources */,
 				85F59C301D069F8B00D3DD48 /* FSJStationInfo.m in Sources */,
-				859DF59F1C892D3D00107467 /* AppKeys.m in Sources */,
 				851A2CCA1CCB229E00C955D2 /* MQTTKit.m in Sources */,
 				8528A61A1C8812DF009A258D /* CQEncrypt.m in Sources */,
 				8534BBD41C9BF3B700A1EC9B /* FSJLogInViewController.m in Sources */,
@@ -1213,7 +1182,6 @@
 				85CBED3F1CCA0D0600C4CD8C /* will_mosq.c in Sources */,
 				85C912371CD8911F00AC97C7 /* FSJPopHeadview.m in Sources */,
 				85CBED321CCA0D0600C4CD8C /* mopush.c in Sources */,
-				85D5BC6E1C98F1B200D8EA7E /* ReusableView.m in Sources */,
 				85CBED3C1CCA0D0600C4CD8C /* time_mosq.c in Sources */,
 				85BCBF3A1C994C0000686D07 /* FSJPeopleManagimentviewController.m in Sources */,
 				8582A7691D011F5300FDDBE0 /* FSJMyFavViewController.m in Sources */,
@@ -1341,11 +1309,12 @@
 		};
 		8528A5FD1C87E61E009A258D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD35A0F952D4C417086A9283 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 484F5C6D1B721279C0C16EB9 /* Pods-FSJ.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = K27J6825RJ;
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FSJ/Base/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1378,17 +1347,19 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		8528A5FE1C87E61E009A258D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 27CEA4A9C7AEAE4DC3150391 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 706B42E7373BD2E4BE258080 /* Pods-FSJ.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = K27J6825RJ;
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FSJ/Base/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1421,6 +1392,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

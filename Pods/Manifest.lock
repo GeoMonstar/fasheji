@@ -21,11 +21,11 @@ PODS:
     - FMDB/common
     - SQLCipher
   - HMSegmentedControl (1.5.2)
-  - IQKeyboardManager (4.0.3)
+  - IQKeyboardManager (4.0.4)
   - Masonry (1.0.1)
-  - MBProgressHUD (0.9.2)
-  - MJExtension (3.0.10)
-  - MJRefresh (3.1.9)
+  - MBProgressHUD (1.0.0)
+  - MJExtension (3.0.13)
+  - MJRefresh (3.1.12)
   - Pgyer (2.8.4)
   - PgyUpdate (1.2)
   - SDWebImage (3.8.1):
@@ -36,7 +36,7 @@ PODS:
   - SQLCipher/common (3.4.0)
   - SQLCipher/standard (3.4.0):
     - SQLCipher/common
-  - SSKeychain (1.4.0)
+  - SSKeychain (1.4.1)
   - SVProgressHUD (2.0.3)
 
 DEPENDENCIES:
@@ -62,16 +62,18 @@ SPEC CHECKSUMS:
   EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
-  IQKeyboardManager: be9695ffc5a52077deb4847608f338771022d6d1
+  IQKeyboardManager: 4a6f83b540283c2645aaeba2bd8dc0f09b5c77f8
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
-  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
-  MJRefresh: c5f1f1653e5a1b932c90f78074f2bc86f3f9bd5e
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   Pgyer: 26edfcc8da6da6383fabfdbccd2f77c623b9d6eb
   PgyUpdate: a42e82cec5ad4e992af390e9d494f6fc62db65e4
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   SQLCipher: 4c768761421736a247ed6cf412d9045615d53dff
-  SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
+  SSKeychain: 55cc80f66f5c73da827e3077f02e43528897db41
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 51a9c3f0b51ce20405930c46d211d2604dfa0b2e
+
+COCOAPODS: 1.0.1

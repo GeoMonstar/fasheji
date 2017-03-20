@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FSJMyFavViewController : UIViewController
+@interface FSJMyFavViewController : FSJBaseViewController
 
 @end

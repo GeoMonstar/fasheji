@@ -44,13 +44,10 @@
     //注:先改变状态再发送通知
     self.statusType = StatusWithLogin;
     //存入UserInfo
-//    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:usermodel];
-//    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-//    [ud setObject:data forKey:kAppUserInfo];
-//    [ud synchronize];
+
     [[EGOCache globalCache]setObject:(NSDictionary *)usermodel forKey:kAppUserInfo];
     //登录后触发通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationWithLogin object:nil];
+    
 
 }
 
@@ -147,7 +144,7 @@
     [ud removeObjectForKey:kAppUserInfo];
     [ud synchronize];
     //登出后触发通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationWithLogout object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:kNotificationWithLogout object:nil];
 }
 #pragma mark-删除用户名
 - (BOOL)deleteUsername{

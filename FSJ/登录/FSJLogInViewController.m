@@ -114,7 +114,8 @@
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
     sender.enabled = NO;
-    //userPwd.text  =@"admin";
+    userPwd.text  =@"000000";
+    userName.text  =@"Superadmin";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
         return;
@@ -127,42 +128,36 @@
     NSDictionary *loginDict = @{@"userName":userName.text,@"password":userPwd.text};
    
     [FSJNetworking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-    
-        [[EGOCache globalCache]setObject:responseObject forKey:@"userinfo" withTimeoutInterval:LoginTime];
+        sender.enabled = YES;
+       
+       
+        
         model = [FSJCommonModel initWithDictionary:responseObject];
-        [FSJUserInfo shareInstance].usermodel = model;
-        NSLog(@"登录结果%@",responseObject);
+        
         if ([model.status isEqualToString: @"200"]) {
-            [MBProgressHUD showSuccess:model.message];
-            [MBProgressHUD hideHUD];
-            [[EGOCache globalCache]setObject:[NSNumber numberWithBool:YES] forKey:@"Login" withTimeoutInterval:LoginTime];
-            [[EGOCache globalCache]setString:userName.text forKey:@"url"];
-            [[EGOCache globalCache]setString:model.jwt      forKey:@"jwt" withTimeoutInterval:LoginTime];
-            [[EGOCache globalCache]setString:model.areaType forKey:@"areaType"withTimeoutInterval:LoginTime];
-            [[EGOCache globalCache]setString:model.areaId   forKey:@"areaId" withTimeoutInterval:LoginTime];
-            [[EGOCache globalCache]setString:model.topic    forKey:@"topic" withTimeoutInterval:LoginTime];
-            [[EGOCache globalCache]setString:model.areaName forKey:@"areaname"withTimeoutInterval:LoginTime];
-            [[EGOCache globalCache]setString:model.officeName forKey:@"officeName" withTimeoutInterval:LoginTime];
-            [[EGOCache globalCache]setString:model.officeName forKey:@"userId" withTimeoutInterval:LoginTime];
-            
+        
+             [MBProgressHUD showSuccess:model.message];
+             [FSJUserInfo shareInstance].usermodel = model;
              FSJMapViewController *vc = [[FSJMapViewController alloc]init];
-            [self.navigationController pushViewController:vc animated:YES];
-            
+             JQBaseNav *lnav = [[JQBaseNav alloc]initWithRootViewController:vc];
+
+             [UIApplication sharedApplication].keyWindow.rootViewController = lnav;
+            //[self.navigationController pushViewController:vc animated:YES];
             
         }else{
            [MBProgressHUD showError:model.message];
-            sender.enabled = YES;
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+        sender.enabled = YES;
         NSLog(@"error = %@",error);
-        [SVProgressHUD showInfoWithStatus:@"登录失败"];
+        [MBProgressHUD showError:@"登录失败"];
     }];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     userName.text =@"";
     userPwd.text  =@"";
-    [SVProgressHUD dismiss];
+ 
 }
 @end
 

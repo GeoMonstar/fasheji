@@ -63,26 +63,15 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             if (userInfomodel.photo) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.myTableView reloadData];
-                NSLog(@"最终 == %@",userInfomodel.photo);
+                
             });
            }
         }
         else{
-            NSLog(@"返回数据为空");
+            [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSLog(@"%@",error);
-        NSLog(@"%@",error);
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+    
     }];
 }
 - (void)initTableview{
@@ -138,7 +127,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
        // [cell.HeadBtn setBackgroundImage:iconImg forState:UIControlStateNormal];
         [cell.HeadBtn sd_setBackgroundImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"yonghutouxiang.png"]];
         
-        [cell.logoutBtn addTarget:self action:@selector(logout:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.logoutBtn addTarget:self action:@selector(userlogout:) forControlEvents:UIControlEventTouchUpInside];
 
         //NSLog(@"图片地址url == %@",url);
         [cell.HeadBtn addTarget:self action:@selector(changeIcon:) forControlEvents:UIControlEventTouchUpInside];
@@ -289,7 +278,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             [MBProgressHUD showTextMessage:@"已经是最新版本"];
         }
         else{
-            NSDictionary *getdic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
+            NSDictionary *getdic = @{@"jwt":[[FSJUserInfo shareInstance]userAccount].jwt};
             [FSJNetworking networkingGETWithActionType:GetVerisonInfo requestDictionary:getdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
                 NSString *logStr = [responseObject objectForKey:@"log"];
                 UIAlertController *acView = [UIAlertController alertControllerWithTitle:@"发现新版本" message:logStr preferredStyle:UIAlertControllerStyleAlert];
@@ -308,11 +297,11 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
         }
 }
 #pragma mark -- 按钮响应
-- (void)logout:(UIButton *)sender{
+- (void)userlogout:(UIButton *)sender{
     [[FSJUserInfo shareInstance]deleteUserAccount];
     [[EGOCache globalCache]clearCache];
     NSDictionary *dic = @{@"jwt":self.jwtStr};
-    NSLog(@"退出 %@",self.jwtStr);
+    
     [FSJNetworking networkingPOSTWithActionType:UserLogoutAction requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"]) {
@@ -326,16 +315,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+        
     }];
 }
 - (void)changeIcon:(UIButton *)sender{

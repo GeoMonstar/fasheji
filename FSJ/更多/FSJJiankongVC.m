@@ -27,41 +27,38 @@
     NSMutableArray *subviewArr;
     NSMutableArray *indexArr;
     NSString *  index;
-  
     NSInteger _currentDataIndex;
-    
-    
     NSInteger BtnWidth;
     FSJJKPopView *popview;
 }
+
 @property (strong,nonatomic) HMSegmentedControl *segmentedControl;
 @property (strong,nonatomic) FSJTitleBtn *titleBtn;
-
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (strong,nonatomic) UIImageView *titleImg;
 @property (retain,nonatomic) NSArray *nameArr;
 @end
 @implementation FSJJiankongVC
 - (void)viewDidLoad{
-  [super viewDidLoad];
+    [super viewDidLoad];
     btnArr  = @[].mutableCopy;
     viewArr = @[].mutableCopy;
     subviewArr = @[].mutableCopy;
     self.view.backgroundColor = SystemLightGrayColor;
-  index = @"2";
-  jwtStr = [[EGOCache globalCache]stringForKey:@"jwt"];
-  mainScro  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH)];
-  mainScro.backgroundColor = SystemLightGrayColor;
+    index = @"2";
+    jwtStr = [[FSJUserInfo shareInstance] userAccount].jwt;
+    mainScro  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGH)];
+    mainScro.backgroundColor = SystemLightGrayColor;
     
-     [self createViewWith:@"db" andfirst:YES];
-     [self createNav];
+    [self createViewWith:@"db" andfirst:YES];
+    [self createNav];
 }
 - (void)createViewWith:(NSString *)str andfirst:(BOOL)first{
    
     switch (self.JiankongType) {
         case Qianji:
             if (first) {
-                 [self creatViewFirstWith:@"clt" andWith:NO];
+                [self creatViewFirstWith:@"clt" andWith:NO];
             }
             else{
                 [self shuanxinViewFirstWith:@"1" andWith:NO andfrom:@"device"];
@@ -75,7 +72,7 @@
             else{
                 [self shuanxinViewFirstWith:index andWith:YES andfrom:@"device"];
             }
-             navTitle = @"功率放大单元";
+            navTitle = @"功率放大单元";
             break;
         case Zhuangtai:
             [self creatViewFourwith:str];
@@ -208,16 +205,7 @@
             [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+       
     }];
 }
 - (void)creatViewFirstWith:(NSString *)str andWith:(BOOL)show{
@@ -240,16 +228,7 @@
          [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+        
     }];
 }
 - (void)creatViewThirdwith:(NSString *)str{
@@ -307,16 +286,7 @@
                 [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+        
     }];
 }
 - (void)creatViewFourwith:(NSString *)str{
@@ -340,16 +310,7 @@
             [MBProgressHUD showError:@"无返回数据"];
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+        
     }];
 }
 - (NSArray *)getfirstWith:(NSString*)str{
@@ -358,7 +319,7 @@
     NSInteger b = str.integerValue;
     for (int i = 0; i < 8; i ++) {
         NSInteger a =  b%num;
-        NSLog(@"%ld",a);
+        
         NSString *str;
         switch (i) {
             case 0:case 6:
@@ -438,7 +399,7 @@
     [self createViewWith:@"device" andfirst:NO];
 }
 - (void)backTomain:(UIButton *)sender{
-     [SVProgressHUD dismiss];
+    [SVProgressHUD dismiss];
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)createNav{
@@ -472,8 +433,6 @@
     [self.titleBtn setTitle:self.nameArr[0] forState:UIControlStateNormal];
     [self.titleBtn setImage:[UIImage imageNamed:@"navshang"] forState:UIControlStateNormal];
     [self.titleBtn setImage:[UIImage imageNamed:@"navxia"] forState:UIControlStateSelected];
-    
-
     
     [self.titleBtn addTarget:self action:@selector(showPop:) forControlEvents:UIControlEventTouchUpInside];
     self.titleBtn.enabled = YES;
@@ -549,9 +508,8 @@
                     [view removeFromSuperview];
             }
             [weakself createViewWith:@"db" andfirst:YES];
-            NSLog(@"%ld",arrindex);
+            
         };
-       
     }
     else{
         
@@ -569,9 +527,6 @@
     [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = NO;
 }
-
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
   

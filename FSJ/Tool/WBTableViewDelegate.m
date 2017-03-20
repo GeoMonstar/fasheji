@@ -42,7 +42,7 @@
     cell.transform = CGAffineTransformMakeScale(0.0001, 0.0001);
     
     //设置动画时间为0.25秒,xy方向缩放的最终值为1
-    [UIView animateWithDuration:1 animations:^{
+    [UIView animateWithDuration:0.45 animations:^{
         cell.transform = CGAffineTransformMakeScale(1, 1);
     }];
 

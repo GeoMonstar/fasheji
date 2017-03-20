@@ -46,7 +46,7 @@
 }
 - (void)initUI {
     
-    NSDictionary *dic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
+    NSDictionary *dic = @{@"jwt":[[FSJUserInfo shareInstance] userAccount].jwt};
     [FSJNetworking networkingGETWithActionType:GetInterestList requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
         
@@ -101,7 +101,7 @@
     UITableViewRowAction *deleteRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
         NSDictionary *dic = self.dataArray[indexPath.row];
-        NSDictionary *dict = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"],@"interestId":[dic objectForKey:@"interestId"]};
+        NSDictionary *dict = @{@"jwt":[[FSJUserInfo shareInstance] userAccount].jwt,@"interestId":[dic objectForKey:@"interestId"]};
         [FSJNetworking networkingGETWithActionType:DeleteInterestStation requestDictionary:dict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
             [MBProgressHUD showSuccess:@"删除成功"];
             [self initUI];
@@ -116,9 +116,14 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+      [[NSNotificationCenter defaultCenter]postNotificationName:kGestureControl object:nil userInfo:@{@"canPan":@"0"}];
     [self initUI];
 }
-
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+     [[NSNotificationCenter defaultCenter]postNotificationName:kGestureControl object:nil userInfo:@{@"canPan":@"1"}];
+}
 - (void)createNav{
     [self.navigationController.navigationBar setBackgroundColor:SystemBlueColor];
     [self.navigationController.navigationBar setBarTintColor:SystemBlueColor];
@@ -145,5 +150,9 @@
 - (void)backTomain:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];
     
+}
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 @end

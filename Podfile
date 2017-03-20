@@ -1,5 +1,8 @@
 platform :ios, '8.0'
 
+
+target ‘FSJ’ do
+
 pod 'AFNetworking'
 pod 'Masonry'
 pod 'SVProgressHUD'
@@ -15,3 +18,6 @@ pod 'PgyUpdate'
 pod 'HMSegmentedControl'
 pod 'IQKeyboardManager'
 pod 'FMDB/SQLCipher','2.5'
+
+
+end

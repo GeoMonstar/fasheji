@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FSJAddStationVC : UIViewController
+@interface FSJAddStationVC : FSJBaseViewController
 
 @end

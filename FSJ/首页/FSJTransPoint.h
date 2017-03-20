@@ -10,8 +10,5 @@
 
 @interface FSJTransPoint : NSObject
 
-
-
-
 + (BMKPolygon *)transferPathStringToPolygon:(NSArray *)paths;
 @end

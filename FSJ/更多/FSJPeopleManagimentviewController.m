@@ -14,6 +14,7 @@
 #import "FSJJiankongVC.h"
 #import "FSJOganTree.h"
 #import "FSJStationInfo.h"
+#import "FSJJiankong50W.h"
 @interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>{
     UISearchBar     *mysearchBar;
     FSJJiankongVC   *jiankong;
@@ -67,7 +68,7 @@
 }
 - (UITableView *)myTable{
     if (_myTable == nil) {
-        _myTable = [[UITableView alloc]initWithFrame:CGRectMake(0, TableHeight, WIDTH, HEIGH-TableHeight) style:UITableViewStyleGrouped];
+        _myTable = [[UITableView alloc]initWithFrame:CGRectMake(0, TableHeight, WIDTH, HEIGH-TableHeight-64) style:UITableViewStyleGrouped];
         _myTable.delegate = self;
         _myTable.dataSource = self;
     }
@@ -88,7 +89,7 @@
     count = 1;
     [self createNav];
     [self getInterest];
-    jwt = [[EGOCache globalCache]stringForKey:@"jwt"];
+    jwt = [[FSJUserInfo shareInstance] userAccount].jwt;
     if(self.InfoType == Warning || self.InfoType == Warned ){
         TableHeight = 0;
     }else{
@@ -101,11 +102,11 @@
 }
 - (void)getInterest{
     
-    NSDictionary *dic = @{@"jwt":[[EGOCache globalCache]stringForKey:@"jwt"]};
+    NSDictionary *dic = @{@"jwt":[[FSJUserInfo shareInstance] userAccount].jwt};
     [FSJNetworking networkingGETWithActionType:GetInterestList requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         
         FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
-        NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
+        NSString *gradeType = [[FSJUserInfo shareInstance] userAccount].areaType;
         
         if ([model.status isEqualToString:@"200"]) {
             
@@ -126,19 +127,11 @@
                     [self.secondArr addObject:dict];
                 }
             }
+        }else{
+            [MBProgressHUD showError:@"无返回数据"];
         }
     }failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+       
     }];
 }
 - (void)createTableViewWithorganId:(NSString *)organId andstationId:(NSString *)stationIdStr{
@@ -210,7 +203,6 @@
     }
 }
 - (void)startNetworkWith:(NSString *)neturl andDic:(NSDictionary *)dict{
-    NSLog(@"%ld",(long)count);
     
     [FSJNetworking networkingGETWithURL:neturl requestDictionary:dict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
@@ -237,16 +229,7 @@
             }
         }
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        NSArray *array = error.userInfo.allValues;
-        NSHTTPURLResponse *response = array[0];
-        if (response.statusCode ==401 ) {
-            [SVProgressHUD showInfoWithStatus:AccountChanged];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [[EGOCache globalCache]clearCache];
-                [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-            });
-        }
+        
     }];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -354,12 +337,20 @@
         if ([transmodel.powerRate isEqualToString:@"1KW"]) {
             jiankong.is1000W = YES;
             jiankong.JiankongType = Zhengji;
+             [self.navigationController pushViewController:jiankong animated:YES];
+        }else if ([transmodel.powerRate isEqualToString:@"50W"]){
+            
+            FSJJiankong50W *jk500vc = [[FSJJiankong50W alloc]init];
+            jk500vc.fsjId = transmodel.transId;
+            jk500vc.addressId = transmodel.ipAddr;
+            [self.navigationController pushViewController:jk500vc animated:YES];
         }
         else{
-            jiankong.is1000W = NO;
+            //jiankong.is1000W = NO;
+            //[self.navigationController pushViewController:jiankong animated:YES];
+            [MBProgressHUD showError:@"功能开发中"];
         }
-        [self.navigationController pushViewController:jiankong animated:YES];
-        
+       
     }
     else{
     detail = [[FSJPeopleManagerDetailViewController alloc]init];
@@ -511,8 +502,11 @@
     NSDictionary *dic = @{@"jwt":jwt};
     [FSJNetworking networkingGETWithActionType:Gettree requestDictionary:dic
                                        success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
+                                           if (responseObject) {
+                                               
+                                           
                                            FSJOganTree *model = [FSJOganTree initWithDictionary:responseObject];
-                                           NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
+                                           NSString *gradeType = [[FSJUserInfo shareInstance] userAccount].areaType;
                                            
                                            if ([gradeType isEqualToString:@"1"] ) {
                                               
@@ -555,7 +549,7 @@
                                                    FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                                                    ;                //[seconNamedArr addObject:model.name];
                                                }
-                                               [firstNameArr  insertObject:[[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
+                                               [firstNameArr  insertObject:[[FSJUserInfo shareInstance] userAccount].officeName atIndex:0];
                                                [seconNamedArr insertObject:ThirdArrStr atIndex:0];
                                            }
                                            if ([gradeType isEqualToString:@"3"]) {
@@ -569,23 +563,17 @@
                                                    FSJStationInfo *model = [FSJStationInfo initWithDictionary:dic];
                                                    [firstNameArr addObject:model.name];
                                                }
-                                               [firstNameArr insertObject:[[EGOCache globalCache]stringForKey:@"officeName"] atIndex:0];
+                                               [firstNameArr insertObject:[[FSJUserInfo shareInstance] userAccount].officeName atIndex:0];
                                            }
                                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                                [self createPop];
                                            });
+                                           }else{
+                                               [MBProgressHUD showError:@"无返回数据"];
+                                           }
                                            
                                        }failure:^(NSURLSessionDataTask *operation, NSError *error) {
-                                           NSArray *array = error.userInfo.allValues;
-                                           NSHTTPURLResponse *response = array[0];
-                                           if (response.statusCode ==401 ) {
-                                               [SVProgressHUD showInfoWithStatus:AccountChanged];
-                                               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.618 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                   [self.navigationController popToRootViewControllerAnimated:YES];
-                                                   [[EGOCache globalCache]clearCache];
-                                                   [[EGOCache globalCache]setObject:[NSNumber numberWithBool:NO] forKey:@"Login" withTimeoutInterval:0];
-                                               });
-                                           }
+                                           
                                        }];
 }
 
@@ -683,7 +671,7 @@
     if (self.dataArray.count>0) {
         [self.dataArray removeAllObjects];
     }
-    NSString *gradeType = [[EGOCache globalCache]stringForKey:@"areaType"];
+    NSString *gradeType = [[FSJUserInfo shareInstance] userAccount].areaType;
     NSString *tempOrganId;
     //国家级
     if ([gradeType isEqualToString:@"1"]){
@@ -898,7 +886,7 @@
             }
         }
     }
-    NSLog(@"点击了 %ld - %ld 项目",(long)indexPath.column,indexPath.row);
+    
 }
 
 //根据点击刷新数据
