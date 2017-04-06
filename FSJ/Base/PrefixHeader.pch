@@ -39,6 +39,7 @@
 #import <FMDB/FMDB.h>
 
 #pragma mark - class
+#import "FSJJiankongBase.h"
 #import "JQBaseNav.h"
 #import "FSJNetWorking.h"
 #import "FSJUserInfo.h"
@@ -51,6 +52,9 @@
 #import "FSJBaseViewController.h"
 #import "FSJLogInViewController.h"
 #import "MQTTKit.h"
+#import "JQLayoutButton.h"
+#import "Request.h"
+#import "JQAPIConfigure.h"
 #pragma mark - Category
 
 

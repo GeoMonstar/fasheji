@@ -238,9 +238,6 @@
         case SearchInterestStation:
             url = @"/rs/app/interest/list";
             break;
-        case ShebeiJiegou50W:
-            url = @"/rs/app/device/tcpip/struct";
-            break;
         case ShebeiInfo50W:
             url = @"/rs/app/device/tcpip/info";
             break;
@@ -248,7 +245,7 @@
             url = @"/rs/app/device/tcpip/communicate";
             break;
         case ZhengjiKongzhi50W:
-            url = @"/rs/app/device/tcpip/control";
+            url = @"/rs/app/device/tcpip/stateControl";
             break;
         case ZhengjiStatus50W:
             url = @"/rs/app/device/tcpip/state";
@@ -267,6 +264,12 @@
             break;
         case Tongdao50W:
             url = @"/rs/app/device/tcpip/pipe";
+            break;
+        case DTUabnormal50W:
+            url = @"/rs/app/device/tcpip/dtuunusual";
+            break;
+        case DTUnormal50W:
+            url = @"/rs/app/device/tcpip/dtuusual";
             break;
         default:
             break;

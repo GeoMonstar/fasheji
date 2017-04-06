@@ -154,6 +154,16 @@ typedef NS_ENUM(NSInteger, NetworkConnectionActionType){
      *  @brief 通道
      */
     Tongdao50W,
+    /**
+     *  @brief DTU不常用参数
+
+     */
+    DTUabnormal50W,
+    /**
+     *  @brief DTU正常用参数
+
+     */
+    DTUnormal50W,
 };
 typedef NS_ENUM(NSInteger, UploadActionType) {
     UserHeaderImageAction = 1 <<4,

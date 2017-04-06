@@ -15,12 +15,13 @@
 #import "FSJOganTree.h"
 #import "FSJStationInfo.h"
 #import "FSJJiankong50W.h"
+
 @interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>{
     UISearchBar     *mysearchBar;
     FSJJiankongVC   *jiankong;
     NSString        *jwt;
     //NSMutableArray *dataArray;
-    NSDictionary    *netdic;
+    NSMutableDictionary    *netdic;
     NSString        *url;
     NSInteger       count;
     FSJPeopleManagerDetailViewController *detail;
@@ -48,6 +49,7 @@
     
     BOOL firstClicked;
     BOOL secondClicked;
+    NSInteger datacount;
     //BOOL secondClicked;
 }
 @property (nonatomic,strong)NSMutableArray *dataArray;
@@ -140,27 +142,27 @@
     [self.view addSubview:self.myTable];
     if (self.InfoType == PeopleManage) {
         placeHolder = @"请输入发射站名称";
-        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt}.mutableCopy;
         url = @"/rs/app/station/manager/list";
     }
     if (self.InfoType == StationManage) {
         placeHolder = @"请输入发射站名称";
-        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt}.mutableCopy;
         url = @"/rs/app/station/list";
     }
     if (self.InfoType == FSJManage) {
         placeHolder = @"请输入发射机名称";
-        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"stationId":stationIdStr,@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt}.mutableCopy;
         url = @"/rs/app/station/transmitter/list";
     }
     if (self.InfoType == Warning) {
         placeHolder = @"请输入发射站、发射机名称";
-        netdic = @{@"organId":organId==nil?@"":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"organId":organId==nil?@"":organId,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt}.mutableCopy;
         url = @"/rs/app/alarm/list";
     }
     if (self.InfoType == Warned) {
          placeHolder = @"请输入发射站、发射机名称";
-        netdic = @{@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt};
+        netdic = @{@"organId":organId==nil?@"":organId,@"sname":mysearchBar.text,@"pageSize":@"8",@"pageNo":[NSString stringWithFormat:@"%ld",(long)count],@"jwt":jwt}.mutableCopy;
         url = @"/rs/app/alarm/history/list";
     }
     FSJWeakSelf(weakself);
@@ -170,27 +172,33 @@
      [mysearchBar setPlaceholder:placeHolder];
     
     // 设置表格视图的触底加载(上拉刷新)
-//    self.myTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-//        isDraggingDown = NO;
-//        if (weakself.dataArray.count > 0) {
-//            [weakself loadDataWhenReachingBottom];
-//        }
-//        else {
-//            [weakself endRefreshing];
-//        }
-//    }];
-    [self loadDataWhenDraggingDown];
+    self.myTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        isDraggingDown = NO;
+        VVDLog(@"dataArray.count == %ld",8*count);
+        
+        if (weakself.dataArray.count > 0 &&weakself.dataArray.count == 8*count ) {
+            [weakself loadDataWhenReachingBottom];
+        }
+        else {
+            [weakself endRefreshing];
+        }
+    }];
+   // [self loadDataWhenDraggingDown];
     [self startNetworkWith:url andDic:netdic];
 }
 - (void) loadDataWhenDraggingDown {
     count =1;
     isDraggingDown = YES;
-     [self startNetworkWith:url andDic:netdic];
+    
+    [netdic setValue:[NSString stringWithFormat:@"%ld",(long)count] forKey:@"pageNo"];
+    [self startNetworkWith:url andDic:netdic];
 }
 // 触底加载数据的方法
 - (void) loadDataWhenReachingBottom {
     count ++;
     isDraggingDown = NO;
+    
+    [netdic setValue:[NSString stringWithFormat:@"%ld",(long)count] forKey:@"pageNo"];
     [self startNetworkWith:url andDic:netdic];
 }
 // 结束下拉或上拉刷新状态

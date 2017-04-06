@@ -10,13 +10,10 @@
 
 typedef NS_ENUM(NSInteger,Jiankong50WType){
     ShebeiInfo,
+    Jiliqi,
+    Fasheji,
     TongxinJiekou,
-    ZhengjiControl,
-    ZhengjiStatus,
-    Dianyuan,
-    Gongfang,
-    Jiliqi
-    
+    WuxianZhongduan,
 };
 @interface FSJJiankong50W : FSJBaseViewController
 

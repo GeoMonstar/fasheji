@@ -110,6 +110,7 @@
 
 @end
 @interface FSJZhengjistatus50W : FSJJiankongBase
+
 @property (nonatomic, copy)NSString *tProtectTemp;
 
 @property (nonatomic, copy)NSString *tProtectreflect;
@@ -162,24 +163,16 @@
 
 @property (nonatomic, copy)NSString *tRfRefVal;
 
-@end
-@interface FSJZhengjicontrol50W : FSJJiankongBase
+@property (nonatomic, copy)NSString *tmasterInputPower;
 
-@property (nonatomic, copy)NSString *transOn;
+@property (nonatomic, copy)NSString *ampDrivVol;
 
-@property (nonatomic, copy)NSString *maxOnOff;
+@property (nonatomic, copy)NSString *ampPowVol;
 
-@property (nonatomic, copy)NSString *isAutomation;
-
-@property (nonatomic, copy)NSString *masterControl;
-
-@property (nonatomic, copy)NSString *ipMask;
-
-@property (nonatomic, copy)NSString *ipGateway;
-
-@property (nonatomic, copy)NSString *localIp;
+@property (nonatomic, copy)NSString *ampTemperature;
 
 @end
+
 
 @interface FSJShebeijiegoul50W : FSJJiankongBase
 
@@ -207,19 +200,6 @@
 
 @end
 
-
-//"ampPowVol": "",  ---功率管工作电压
-//"ampTemperature": "",   --功放温度
-//"ampOutputPow": 24.43,   --输出功率
-//"ampCurr2": "",       --功率管电流2
-//"ampInputPow": 0.47,   ---输入功率
-//"ampCurr1": "",    --功率管电流1
-//"ampFan1": "",    风扇转速1
-//"ampFan2": "",   风扇转速2
-//"ampFan3": "",   风扇转速3
-//"ampDrivVol": "",   推动管工作电压
-//"ampFan4": "",   风扇转速4
-//"ampDrivCurr": ""    推动管工作电流
 
 @interface FSJGongfang50W : FSJJiankongBase
 
@@ -306,5 +286,130 @@
 @property (nonatomic, copy)NSString *str17;
 
 @property (nonatomic, copy)NSString *str18;
+
+@end
+
+
+
+@interface FSJTongdao50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *eChOutputCarrWay;
+
+@property (nonatomic, copy)NSString *eChOutputMixMode;
+
+@property (nonatomic, copy)NSString *eChOutputFreq;
+
+@property (nonatomic, copy)NSString *eChLevelAtte;
+
+@property (nonatomic, copy)NSString *eChSingleNetDelay;
+
+@property (nonatomic, copy)NSString *eChOutputLDPCQAM;
+
+@property (nonatomic, copy)NSString *eChOutputPNPh;
+
+@property (nonatomic, copy)NSString *eChOutputFrameMode;
+
+@property (nonatomic, copy)NSString *eChOutputPilotSwitch;
+
+@property (nonatomic, copy)NSString *eChOutputStoneSwitch;
+
+@property (nonatomic, copy)NSString *eChCodeStreamStatus;
+
+@property (nonatomic, copy)NSString *eChOutputNetWay;
+
+@end
+
+
+@interface FSJJietiao50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *eRFInputStatus;
+
+@property (nonatomic, copy)NSString *eDemoRFIQ;
+
+@property (nonatomic, copy)NSString *eRFInputSingleNetDelay;
+
+@property (nonatomic, copy)NSString *eRFInputSNR;
+
+@property (nonatomic, copy)NSString *eRFInputRate;
+
+@property (nonatomic, copy)NSString *eDemoRFBroadBand;
+
+@property (nonatomic, copy)NSString *eDemoRFFreq;
+
+@end
+
+@interface FSJZhengjicontrol50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *tWorkAuto;
+
+@property (nonatomic, copy)NSString *protSwitch0;
+
+@property (nonatomic, copy)NSString *protSwitch1;
+
+@property (nonatomic, copy)NSString *protSwitch2;
+
+@property (nonatomic, copy)NSString *protSwitch3;
+
+@property (nonatomic, copy)NSString *protSwitch4;
+
+@property (nonatomic, copy)NSString *protSwitch5;
+
+@property (nonatomic, copy)NSString *protSwitch6;
+
+@property (nonatomic, copy)NSString *protSwitch7;
+
+@property (nonatomic, retain)NSArray *scheduleMon;
+@property (nonatomic, retain)NSArray *scheduleTue;
+@property (nonatomic, retain)NSArray *scheduleWed;
+@property (nonatomic, retain)NSArray *scheduleThurs;
+@property (nonatomic, retain)NSArray *scheduleFri;
+@property (nonatomic, retain)NSArray *scheduleSat;
+@property (nonatomic, retain)NSArray *scheduleSun;
+
+@end
+@interface FSJDTUnormal50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *spy_domin;
+
+@property (nonatomic, copy)NSString *heartbeat;
+
+@property (nonatomic, copy)NSString *dtu_id;
+
+@property (nonatomic, copy)NSString *spy_ip;
+
+@property (nonatomic, copy)NSString *dtu_pwd;
+
+@property (nonatomic, copy)NSString *spy_port;
+
+@end
+@interface FSJDTUabNormal50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *network;
+
+@property (nonatomic, copy)NSString *dtu_login_mode;
+
+@property (nonatomic, copy)NSString *seri_param;
+
+@property (nonatomic, copy)NSString *dns_ip;
+
+@property (nonatomic, copy)NSString *seri_date;
+
+@property (nonatomic, copy)NSString *seri_flow;
+
+@property (nonatomic, copy)NSString *dtu_phone_num;
+
+@property (nonatomic, copy)NSString *data_2name;
+
+@property (nonatomic, copy)NSString *data_3ip;
+
+@property (nonatomic, copy)NSString *data_2ip;
+
+@property (nonatomic, copy)NSString *apn_name;
+
+@property (nonatomic, copy)NSString *data_3name;
+
+@property (nonatomic, copy)NSString *apn_pwd;
+
+@property (nonatomic, copy)NSString *apn_username;
 
 @end

@@ -9,6 +9,9 @@
 #ifndef Header_h
 #define Header_h
 
+
+// 懒加载
+#define FSJ_LAZY(object, assignment) (object = object ?: assignment)
 // 日志输出
 #ifdef DEBUG
 #define VVDLog(format, ...) NSLog((@"\n[函数名:%s]" "[行号:%d]  \n" format), __FUNCTION__, __LINE__, ##__VA_ARGS__);
