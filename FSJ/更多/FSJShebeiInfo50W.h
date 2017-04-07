@@ -231,6 +231,12 @@
 @end
 @interface FSJJiliqi50W : FSJJiankongBase
 
+@property (nonatomic, strong)NSDictionary *rf;
+
+@property (nonatomic, strong)NSDictionary *pipe;
+
+@property (nonatomic, strong)NSDictionary *secondStatus;
+
 
 @property (nonatomic, copy)NSString *eInputCodeRate;
 
@@ -288,8 +294,75 @@
 @property (nonatomic, copy)NSString *str18;
 
 @end
+@interface FSJJiliqiStatus50W : FSJJiankongBase
 
+@property (nonatomic, copy)NSString *eStatus;
 
+@property (nonatomic, copy)NSString *GPS;
+
+@property (nonatomic, copy)NSString *inputStatus1;
+
+@property (nonatomic, copy)NSString *inputStatus2;
+
+@property (nonatomic, copy)NSString *inputStatus3;
+
+@property (nonatomic, copy)NSString *inputStatus4;
+
+@property (nonatomic, copy)NSString *outStatus1;
+
+@property (nonatomic, copy)NSString *outStatus2;
+
+@property (nonatomic, copy)NSString *outStatus3;
+
+@property (nonatomic, copy)NSString *outStatus4;
+@end
+
+@interface FSJJiliqiRf50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *eDemoRFFreq;
+
+@property (nonatomic, copy)NSString *eDemoRFBroadBand;
+
+@property (nonatomic, copy)NSString *eDemoRFIQ;
+
+@property (nonatomic, copy)NSString *eRFInputSNR;
+
+@property (nonatomic, copy)NSString *eRFInputRate;
+
+@property (nonatomic, copy)NSString *eRFInputStatus;
+
+@property (nonatomic, copy)NSString *eRFInputSingleNetDelay;
+@end
+@interface FSJJiliqiPipe50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *eChOutputCarrWay;
+
+@property (nonatomic, copy)NSString *eChOutputMixMode;
+
+@property (nonatomic, copy)NSString *eChLevelAtte;
+
+@property (nonatomic, copy)NSString *eChOutputLDPCQAM;
+
+@property (nonatomic, copy)NSString *eChAddrDelay;
+
+@property (nonatomic, copy)NSString *eChOutputFrameMode;
+
+@property (nonatomic, copy)NSString *eChOutputPilotSwitch;
+
+@property (nonatomic, copy)NSString *eChCodeStreamStatus;
+
+@property (nonatomic, copy)NSString *eChOutputFreq;
+
+@property (nonatomic, copy)NSString *eChSingleNetDelay;
+
+@property (nonatomic, copy)NSString *eChAddrDelaySwitch;
+
+@property (nonatomic, copy)NSString *eChOutputPNPh;
+
+@property (nonatomic, copy)NSString *eChOutputStoneSwitch;
+
+@property (nonatomic, copy)NSString *eChOutputNetWay;
+@end
 
 @interface FSJTongdao50W : FSJJiankongBase
 

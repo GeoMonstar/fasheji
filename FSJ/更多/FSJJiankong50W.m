@@ -7,16 +7,15 @@
 //
 
 #import "FSJJiankong50W.h"
-#import "FSJJiankongBase.h"
-#import "FSJGongzuoStatus.h"
-#import "FSJZhengji.h"
-#import "FSJGongxiao.h"
-#import "FSJGongxiaoDetail.h"
+
 #import "FSJTitleBtn.h"
 #import "FSJJKPopView.h"
 #import "FSJShebeiInfo50W.h"
 #import "FSJScrollBtnView.h"
+#import "HYBLoopScrollView.h"
+#import "FSJPageView.h"
 #define rowHeight 23
+#define pageHeight 80
 #define viewSpace 17
 #define dbStr @"db"
 #define deviceStr @"device"
@@ -38,6 +37,7 @@
     NSInteger _currentDataIndex;
     NSInteger BtnWidth;
     FSJJKPopView *popview;
+    NSString *fromStr;
     BOOL isJiliqi;
 }
 
@@ -53,7 +53,8 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     NSArray *titleArray = @[@"系统信息",@"调制解调器",@"发射机",@"通信接口",@"无线终端"];
-    
+    //控制参数from
+    fromStr = dbStr;
     btnArr  = @[].mutableCopy;
     secondbtnArr = @[].mutableCopy;
     viewArr = @[].mutableCopy;
@@ -76,7 +77,8 @@
             navTitle = @"系统信息";
             break;
         case Jiliqi:
-            [self createJiliqiwith:str];
+            [self createJiliqiHeader];
+            [self createJiliqiwith:str andindex:1];
             navTitle = @"调制解调器";
             isJiliqi = YES;
             break;
@@ -142,7 +144,7 @@
     NSArray *arr1 = @[MergeStr(@"DTU ID",FSJDTUnormal50WModel.dtu_id),MergeStr(@"监控IP",FSJDTUnormal50WModel.spy_ip),MergeStr(@"监控IP",FSJDTUnormal50WModel.spy_port)];
     NSArray *arr2 = @[MergeStr(@"DTU 密码",FSJDTUnormal50WModel.dtu_pwd),MergeStr(@"监控域名",FSJDTUnormal50WModel.spy_domin),MergeStr(@"心跳包间隔",FSJDTUnormal50WModel.heartbeat)];
     
-    UIView *view1 = [self creatViewWith:arr1.count and:44+10 and:arr1 and:arr2];
+    UIView *view1 = [self creatWiderViewWith:arr1.count and:44+10 and:arr1 and:arr2];
     
     [subviewArr addObject:view1];
     [self.view insertSubview:view1 atIndex:0];
@@ -188,21 +190,54 @@
                       MergeStr(@"数据采集中心3IP",FSJDTUabNormal50WModel.data_3ip),
                       MergeStr(@"DTU电话号码",FSJDTUabNormal50WModel.dtu_phone_num),
                       ];
-    UIView *view1 = [self creatViewWith:arr1.count and:44+10 and:arr1 and:arr2];
+    UIView *view1 = [self creatWiderViewWith:arr1.count and:44+10 and:arr1 and:arr2];
     [subviewArr addObject:view1];
     [self.view insertSubview:view1 atIndex:0];
 }
 #pragma mark -- 调制解调器
-- (void)createJiliqiwith:(NSString *)str{
-     FSJScrollBtnView *fashejiView = [[FSJScrollBtnView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 44) andItemFrame:CGRectMake(0, 0, WIDTH/4, 44) andtitleColor:[UIColor blackColor] andselTitleColor:SystemBlueColor andbgColor:SystemWhiteColor andselBgColor:SystemWhiteColor andviewTag:1003 andtitleArray:@[@"输入参数",@"输出参数",@"单凭网参数",@"工作状态"] andViewDirection:0];
-      [self.view addSubview:fashejiView];
+- (void)createJiliqiHeader{
+    FSJScrollBtnView *fashejiView = [[FSJScrollBtnView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 44) andItemFrame:CGRectMake(0, 0, WIDTH/4, 44) andtitleColor:[UIColor blackColor] andselTitleColor:SystemBlueColor andbgColor:SystemWhiteColor andselBgColor:SystemWhiteColor andviewTag:1003 andtitleArray:@[@"通用参数",@"输入参数",@"输出参数",@"单凭网参数",@"工作状态"] andViewDirection:0];
+    fashejiView.delegate = self;
+    //pageView 分页控制
+    NSArray *arr = @[@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1",@"1"];
+    FSJPageView *pageView = [[FSJPageView alloc]initWithFrame:CGRectMake(0, 44, WIDTH, pageHeight) andLabelArray:arr andColumnNum:2 andRownNum:2 anditemSize:CGSizeMake(WIDTH/2, rowHeight)];
+    [self.view addSubview:pageView];
+    [self.view addSubview:fashejiView];
+}
+- (void)createJiliqiwith:(NSString *)str andindex:(NSInteger)selectedIndex{
+    
+    //请求
     NSDictionary *dic = @{@"deviceId":self.fsjId,@"jwt":jwtStr,@"from":str};
     [SVProgressHUD showWithStatus:@"加载中"];
     [FSJNetworking networkingGETWithActionType:Jiliqi50W requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJJiankongBase *model = [FSJJiankongBase initWithDictionary:responseObject];
         if ([model.status isEqualToString:@"200"] ) {
             FSJJiliqi50W *basemodel = [FSJJiliqi50W initWithDictionary:model.data];
-            //[self createJiliqiwithModel:basemodel andindex:selfindex andfrom:str];
+            NSMutableArray *rfArr = @[].mutableCopy;
+            for (NSDictionary *rfDic in basemodel.rf.allValues) {
+                FSJJiliqiRf50W *rfmodel = [FSJJiliqiRf50W initWithDictionary:rfDic];
+                [rfArr addObject:rfmodel];
+            }
+            switch (selectedIndex) {
+                case 1:
+                   [self createJiliqiViewwith:basemodel];
+                    break;
+                case 2:
+                   [self createRfViewwith:rfArr and:1];
+                    break;
+                case 3:
+                    
+                    break;
+                case 4:
+                    
+                    break;
+                case 5:
+                    
+                    break;
+
+                default:
+                    break;
+            }
         }else{
             [MBProgressHUD showError:model.message];
         }
@@ -212,6 +247,54 @@
     }];
 
 }
+
+#pragma mark --- 调制解调器&&通用参数
+- (void)createJiliqiViewwith:(FSJJiliqi50W *)jiliqimodel{
+    for (UIView *view in subviewArr) {
+        [view removeFromSuperview];
+    }
+    NSArray *arr1 = @[MergeStr(@"序列号",jiliqimodel.eCpuNum),
+                      MergeStr(@"激励器温度",jiliqimodel.eTemper),
+                      MergeStr(@"射频输出总衰减",jiliqimodel.eSingleFreNetAddr),
+                      MergeStr(@"激励器类型",jiliqimodel.eType),
+                      MergeStr(@"射频输出总开关",jiliqimodel.eRFOutputSwitch)];
+    
+    UIView *view1 = [self creatWiderViewWith:arr1.count and:44+10+80+10 and:arr1 and:nil];
+    VVDLog(@"view Y=== %f",view1.frame.origin.y);
+    [subviewArr addObject:view1];
+    [self.view insertSubview:view1 atIndex:0];
+    
+}
+#pragma mark --- 调制解调器&&输入参数
+- (void)createRfViewwith:(NSArray *)rfArr and:(NSInteger)rfindex{
+    for (UIView *view in subviewArr) {
+        [view removeFromSuperview];
+    }
+     FSJScrollBtnView *fashejiView = [[FSJScrollBtnView alloc]initWithFrame:CGRectMake(0, 44+10+10+10, WIDTH/4, 250) andItemFrame:CGRectMake(0, 0, WIDTH/4, 60) andtitleColor:[UIColor blackColor] andselTitleColor:[UIColor blackColor] andbgColor:SystemLightGrayColor andselBgColor:SystemWhiteColor andviewTag:10032 andtitleArray:@[@"Tuner1",@"Tuner2",@"Tuner3",@"Tuner4",@"工作状态"] andViewDirection:1];
+    FSJJiliqiRf50W *rfmodel = rfArr[rfindex-1];
+    NSArray *arr1 = @[MergeStr(@"输入频率",rfmodel.eDemoRFFreq),
+                      MergeStr(@"输入宽带",rfmodel.eDemoRFBroadBand),
+                      MergeStr(@"输入IQ倒置",rfmodel.eDemoRFIQ),
+                      MergeStr(@"输入信噪比",rfmodel.eRFInputSNR),
+                      MergeStr(@"输入码率",rfmodel.eRFInputRate),
+                      MergeStr(@"输入状态",rfmodel.eRFInputStatus),
+                      MergeStr(@"输入RF1单频网适配器延时",rfmodel.eRFInputSingleNetDelay),];
+    
+    UIView *view1 = [self creatLeftViewWith:arr1.count and:44+10+80+10 and:arr1 and:nil];
+    [subviewArr addObject:view1];
+    [self.view insertSubview:view1 atIndex:0];
+    VVDLog(@"view Y=== %f",view1.frame.origin.y);
+    VVDLog(@"fashejiView Y=== %f",fashejiView.frame.origin.y);
+    [subviewArr addObject:fashejiView];
+    [self.view insertSubview:fashejiView atIndex:0];
+}
+
+#pragma mark --- 调制解调器&&输出参数
+
+#pragma mark --- 调制解调器&&单频网参数
+
+#pragma mark --- 调制解调器&&工作状态
+
 - (void)createJiliqiwithModel:(FSJJiliqi50W *)FSJJiliqimodel andindex:(NSInteger)jiliqiIndex andfrom:(NSString *)fromStr{
     for (UIView *view in subviewArr) {
         [view removeFromSuperview];
@@ -493,9 +576,8 @@
     for (UIView *view in subviewArr) {
         [view removeFromSuperview];
     }
-
-    
-    NSArray *arr1 = @[MergeStr(@"设备名称",ShebeiInfomodel.devName),MergeStr(@"生产厂家",ShebeiInfomodel.manuFactory)];
+    NSArray *arr1 = @[MergeStr(@"设备名称",ShebeiInfomodel.devName),
+                      MergeStr(@"生产厂家",ShebeiInfomodel.manuFactory)];
     NSArray *arr2 = @[MergeStr(@"台站编码",ShebeiInfomodel.addrNo),@""];
     
     NSArray *arr3 = @[MergeStr(@"硬件版本号",ShebeiInfomodel.hardwareVersion),
@@ -504,13 +586,12 @@
                       MergeStr(@"纬度",ShebeiInfomodel.latVal),
                       MergeStr(@"CPU序列号",ShebeiInfomodel.cpuNo)
                       ];
-    
     NSArray *arr4 = @[MergeStr(@"软件版本号",ShebeiInfomodel.softwareVersion),
                       MergeStr(@"高度",ShebeiInfomodel.altitude),
                       MergeStr(@"设备经度指示",[ShebeiInfomodel.lonFlag isEqualToString:@"0"]?@"东经":@"西经"),
                       MergeStr(@"经度",ShebeiInfomodel.lonVal),@""];
-    
-    NSArray *arr5 = @[MergeStr(@"产品序列号",ShebeiInfomodel.serialNum),MergeStr(@"设备类型",ShebeiInfomodel.shebeitype)];
+    NSArray *arr5 = @[MergeStr(@"产品序列号",ShebeiInfomodel.serialNum),
+                      MergeStr(@"设备类型",ShebeiInfomodel.shebeitype)];
     
     NSArray *arr6 = @[MergeStr(@"功率等级",ShebeiInfomodel.transDev),@""];
    
@@ -556,37 +637,47 @@
     [self.view insertSubview:view1 atIndex:0];
 }
 #pragma mark -- 内容
-- (UIView *)creatViewWith:(NSInteger)num and:(CGFloat)y and:(NSArray*)firstLabel and:(NSArray*) secondLabel{
-    UIView *smallview = [[UIView alloc]initWithFrame:CGRectMake(WIDTH *0.05, y, WIDTH *0.9, rowHeight *num + 10)];
+- (UIView *)creatViewWith:(NSInteger)num and:(CGFloat)y and:(NSArray*)firstLabel and:(NSArray*) secondLabel andbgFrame:(CGRect)bgfame{
+    UIView *smallview = [[UIView alloc]initWithFrame:bgfame];
     smallview.backgroundColor = SystemWhiteColor;
     smallview.layer.shadowOffset  =  CGSizeMake(1.0f, 1.0f);
     smallview.layer.shadowOpacity = 0.5;
     smallview.layer.shadowRadius  = 1;
-
+    
     for (int i = 0; i < num; i ++) {
-        UILabel  *label1 = [[UILabel alloc]initWithFrame:CGRectMake(3, 5+rowHeight*i , smallview.frame.size.width, rowHeight)];
+        UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(bgfame.origin.x==0?12:5, 5+rowHeight*i , smallview.frame.size.width, rowHeight)];
         label1.text = firstLabel[i];
         
-        UILabel  *label2 = [[UILabel alloc]initWithFrame:CGRectMake(smallview.frame.size.width/2+WIDTH*0.05, 5+rowHeight*i, smallview.frame.size.width/2, rowHeight)];
+        UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(smallview.frame.size.width/2+WIDTH*0.05, 5+rowHeight*i, smallview.frame.size.width/2, rowHeight)];
         label2.text = secondLabel[i];
         label1.backgroundColor = label2.backgroundColor = [UIColor clearColor];
         label1.font = label2.font = [UIFont systemFontOfSize:14];
         [subviewArr addObject:label1];
         [subviewArr addObject:label2];
-
+        
         [smallview addSubview:label1];
         [smallview addSubview:label2];
     }
     return smallview;
 }
-
+- (UIView *)creatViewWith:(NSInteger)num and:(CGFloat)y and:(NSArray*)firstLabel and:(NSArray*) secondLabel{
+    return  [self creatViewWith:num and:y and:firstLabel and:secondLabel andbgFrame:CGRectMake(WIDTH *0.05, y, WIDTH *0.9, rowHeight *num + 10)];
+    
+}
+- (UIView *)creatWiderViewWith:(NSInteger)num and:(CGFloat)y and:(NSArray*)firstLabel and:(NSArray*) secondLabel{
+    return  [self creatViewWith:num and:y and:firstLabel and:secondLabel andbgFrame:CGRectMake(0, y, WIDTH, rowHeight *num + 10)];
+}
+- (UIView *)creatLeftViewWith:(NSInteger)num and:(CGFloat)y and:(NSArray*)firstLabel and:(NSArray*) secondLabel{
+    return  [self creatViewWith:num and:y and:firstLabel and:secondLabel andbgFrame:CGRectMake(WIDTH/4, y, WIDTH*3/4, rowHeight *num + 10)];
+}
 - (void)shuaxin:(UIButton *)sender{
     for (UIView *view in self.view.subviews) {
         if (view.frame.origin.y >0 ) {
             [view removeFromSuperview];
         }
     }
-    [self createViewWithFrom:deviceStr];
+    fromStr = deviceStr;
+    [self createViewWithFrom:fromStr];
 }
 - (void)backTomain:(UIButton *)sender{
    
@@ -635,6 +726,7 @@
     };
 }
 - (void)showPop:(UIButton *)sender{
+    
     sender.selected = !sender.selected;
     if (sender.selected == YES) {
         [[[UIApplication  sharedApplication]keyWindow] addSubview: popview];
@@ -677,8 +769,8 @@
             for (UIView *view in weakself.view.subviews) {
                 [view removeFromSuperview];
             }
-            
-            [weakself createViewWithFrom:dbStr];
+            fromStr = dbStr;
+            [weakself createViewWithFrom:fromStr];
         };
     }
     else{
@@ -707,10 +799,10 @@
     if (viewTag == 1001) {
         switch (index) {
             case 1:
-                [self createZhengjistatusWith:dbStr];
+                [self createZhengjistatusWith:fromStr];
                 break;
             case 2:
-                [self createZhengjiControlwith:dbStr];
+                [self createZhengjiControlwith:fromStr];
                 break;
             default:
                 break;
@@ -720,14 +812,18 @@
         
         switch (index) {
             case 1:
-                [self createDTUnormal50WWith:dbStr];
+                [self createDTUnormal50WWith:fromStr];
                 break;
             case 2:
-                [self createDTUabnormal50With:dbStr];
+                [self createDTUabnormal50With:fromStr];
                 break;
             default:
                 break;
         }
+    }
+    if (viewTag == 1003) {
+        [self createJiliqiwith:fromStr andindex:index];
+        
     }
     
 }

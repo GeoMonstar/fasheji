@@ -92,7 +92,42 @@
     return model;
     
 }
++ (NSDictionary *)replacedKeyFromPropertyName
+
+{
+    return @{@"secondStatus": @"status"};
+    
+}
 @end
+@implementation FSJJiliqiStatus50W
++ (instancetype)initWithDictionary:(NSDictionary *)dictionary{
+    
+    FSJJiliqiStatus50W *model = [self mj_objectWithKeyValues:dictionary];
+    
+    return model;
+    
+}
+@end
+
+@implementation FSJJiliqiRf50W
++ (instancetype)initWithDictionary:(NSDictionary *)dictionary{
+    
+    FSJJiliqiRf50W *model = [self mj_objectWithKeyValues:dictionary];
+    
+    return model;
+    
+}
+@end
+@implementation FSJJiliqiPipe50W
++ (instancetype)initWithDictionary:(NSDictionary *)dictionary{
+    
+    FSJJiliqiPipe50W *model = [self mj_objectWithKeyValues:dictionary];
+    
+    return model;
+    
+}
+@end
+
 @implementation FSJTongdao50W
 
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary{
