@@ -41,7 +41,7 @@
 /**
  *  @brief 设备类型
  */
-@property (nonatomic, copy)NSString *type;
+@property (nonatomic, copy)NSString *shebeitype;
 /**
  *  @brief 设备经度
  */

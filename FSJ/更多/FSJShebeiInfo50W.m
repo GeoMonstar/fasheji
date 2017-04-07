@@ -19,7 +19,7 @@
 + (NSDictionary *)replacedKeyFromPropertyName
 
 {
-    return @{@"idStr": @"id"};
+    return @{@"idStr": @"id",@"shebeitype":@"type"};
     
 }
 
