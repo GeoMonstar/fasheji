@@ -9,9 +9,19 @@
 #import <UIKit/UIKit.h>
 
 @interface FSJPageView : UIView
+
+@property (nonatomic, assign) NSTimeInterval timeInterval;
+
+
 - (instancetype)initWithFrame:(CGRect)mainframe
                 andLabelArray:(NSArray *)labelArrays
+               andStatusArray:(NSArray *)statusArrays
                  andColumnNum:(NSInteger)columnNum
                    andRownNum:(NSInteger)rowNum
-                  anditemSize:(CGSize)itemSize;
+                  anditemSize:(CGSize)itemSize
+                  andiamgeX:(CGFloat)imageX;
+- (void)pauseTimer;
+
+- (void)startTimer;
+
 @end

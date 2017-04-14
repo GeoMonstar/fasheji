@@ -107,6 +107,12 @@
     return model;
     
 }
++ (NSDictionary *)replacedKeyFromPropertyName
+
+{
+    return @{@"onepps": @"1pps"};
+    
+}
 @end
 
 @implementation FSJJiliqiRf50W
@@ -126,6 +132,17 @@
     return model;
     
 }
+@end
+@implementation FSJJiliqiLunbo50W
++ (instancetype)initWithDictionary:(NSDictionary *)dictionary{
+    
+    FSJJiliqiLunbo50W *model = [self mj_objectWithKeyValues:dictionary];
+    
+    return model;
+    
+}
+
+
 @end
 
 @implementation FSJTongdao50W

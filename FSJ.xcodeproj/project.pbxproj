@@ -41,10 +41,6 @@
 		8528A6171C88128F009A258D /* FSJDES.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6161C88128F009A258D /* FSJDES.m */; };
 		8528A61A1C8812DF009A258D /* CQEncrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6191C8812DF009A258D /* CQEncrypt.m */; };
 		8528A6211C8815FB009A258D /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6201C8815FB009A258D /* GTMBase64.m */; };
-		852F50861E9738E000C0889B /* HYBLoadImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 852F507F1E9738E000C0889B /* HYBLoadImageView.m */; };
-		852F50871E9738E000C0889B /* HYBLoopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 852F50811E9738E000C0889B /* HYBLoopScrollView.m */; };
-		852F50881E9738E000C0889B /* HYBPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 852F50831E9738E000C0889B /* HYBPageControl.m */; };
-		852F50891E9738E000C0889B /* UIView+HYBUIViewCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 852F50851E9738E000C0889B /* UIView+HYBUIViewCommon.m */; };
 		852F508C1E973FC900C0889B /* FSJPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 852F508B1E973FC900C0889B /* FSJPageView.m */; };
 		8534BBD41C9BF3B700A1EC9B /* FSJLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8534BBD31C9BF3B700A1EC9B /* FSJLogInViewController.m */; };
 		85381E191CBF7FC70080F027 /* WBPopMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85381E0E1CBF7FC70080F027 /* WBPopMenuModel.m */; };
@@ -217,14 +213,6 @@
 		8528A61E1C8815DD009A258D /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		8528A61F1C8815FB009A258D /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		8528A6201C8815FB009A258D /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
-		852F507E1E9738E000C0889B /* HYBLoadImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBLoadImageView.h; sourceTree = "<group>"; };
-		852F507F1E9738E000C0889B /* HYBLoadImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYBLoadImageView.m; sourceTree = "<group>"; };
-		852F50801E9738E000C0889B /* HYBLoopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBLoopScrollView.h; sourceTree = "<group>"; };
-		852F50811E9738E000C0889B /* HYBLoopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYBLoopScrollView.m; sourceTree = "<group>"; };
-		852F50821E9738E000C0889B /* HYBPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBPageControl.h; sourceTree = "<group>"; };
-		852F50831E9738E000C0889B /* HYBPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYBPageControl.m; sourceTree = "<group>"; };
-		852F50841E9738E000C0889B /* UIView+HYBUIViewCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HYBUIViewCommon.h"; sourceTree = "<group>"; };
-		852F50851E9738E000C0889B /* UIView+HYBUIViewCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HYBUIViewCommon.m"; sourceTree = "<group>"; };
 		852F508A1E973FC900C0889B /* FSJPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJPageView.h; sourceTree = "<group>"; };
 		852F508B1E973FC900C0889B /* FSJPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJPageView.m; sourceTree = "<group>"; };
 		8534BBD21C9BF3B700A1EC9B /* FSJLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJLogInViewController.h; sourceTree = "<group>"; };
@@ -558,7 +546,6 @@
 		8528A6021C87E945009A258D /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				852F507D1E9738E000C0889B /* HYBLoopScrollView */,
 				8576A8D51E8111B7000392BB /* 图文按钮 */,
 				8565CB621E2733E300CD9897 /* JPFPSStatus */,
 				8503A5891DBEF55D00A2469B /* other */,
@@ -609,21 +596,6 @@
 				859DF5AA1C896FF900107467 /* VC */,
 			);
 			path = "首页";
-			sourceTree = "<group>";
-		};
-		852F507D1E9738E000C0889B /* HYBLoopScrollView */ = {
-			isa = PBXGroup;
-			children = (
-				852F507E1E9738E000C0889B /* HYBLoadImageView.h */,
-				852F507F1E9738E000C0889B /* HYBLoadImageView.m */,
-				852F50801E9738E000C0889B /* HYBLoopScrollView.h */,
-				852F50811E9738E000C0889B /* HYBLoopScrollView.m */,
-				852F50821E9738E000C0889B /* HYBPageControl.h */,
-				852F50831E9738E000C0889B /* HYBPageControl.m */,
-				852F50841E9738E000C0889B /* UIView+HYBUIViewCommon.h */,
-				852F50851E9738E000C0889B /* UIView+HYBUIViewCommon.m */,
-			);
-			path = HYBLoopScrollView;
 			sourceTree = "<group>";
 		};
 		853ABD181D58855B00032EBB /* category */ = {
@@ -1184,7 +1156,6 @@
 				85CBED371CCA0D0600C4CD8C /* read_handle_shared.c in Sources */,
 				8524DFFA1CABAF7700859546 /* MPush.m in Sources */,
 				85D6C7B91CC0EF6200606270 /* UIButton+Img.m in Sources */,
-				852F50871E9738E000C0889B /* HYBLoopScrollView.m in Sources */,
 				850EAC1E1C9A7D9D002C577E /* FSJChangePersonInfoViewController.m in Sources */,
 				85589C311CDC897200ADAAC1 /* ReachStateUnReachable.m in Sources */,
 				850EAC211C9AB660002C577E /* FSJTongjiViewController.m in Sources */,
@@ -1234,7 +1205,6 @@
 				858869E01CD095E70066CDCA /* FSJJiankongBase.m in Sources */,
 				8528A6171C88128F009A258D /* FSJDES.m in Sources */,
 				85C8FA251CFD6F6200F1E018 /* FSJMainTableViewDelegate.m in Sources */,
-				852F50881E9738E000C0889B /* HYBPageControl.m in Sources */,
 				85CD7BC31CBE42BF00C39EB0 /* FSJMapViewController.m in Sources */,
 				85F59C2D1D06727300D3DD48 /* FSJInterestModel.m in Sources */,
 				8512B93F1C929D8F00DCB952 /* FSJMineTableViewCell.m in Sources */,
@@ -1260,10 +1230,8 @@
 				8528A61A1C8812DF009A258D /* CQEncrypt.m in Sources */,
 				8534BBD41C9BF3B700A1EC9B /* FSJLogInViewController.m in Sources */,
 				8554C8911CCE117F0095D180 /* FSJZhengji.m in Sources */,
-				852F50861E9738E000C0889B /* HYBLoadImageView.m in Sources */,
 				859DF5821C89237100107467 /* NSString+RegexCategory.m in Sources */,
 				8558835F1D056C42002E1933 /* FSJJKPopBtn.m in Sources */,
-				852F50891E9738E000C0889B /* UIView+HYBUIViewCommon.m in Sources */,
 				85381E1D1CBF7FC70080F027 /* WBTableViewDataSource.m in Sources */,
 				858CB7CB1D3CA7A1005F8D70 /* FSJCommonModel.m in Sources */,
 				85CE152C1E94E3D900D318B3 /* FSJScrollBtnView.m in Sources */,

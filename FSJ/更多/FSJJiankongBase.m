@@ -15,7 +15,13 @@
     return model;
     
 }
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key{
 
+- (id)mj_newValueFromOldValue:(id)oldValue property:(MJProperty *)property
+{
+    if (oldValue == NULL) {
+        return @"";
+    }
+    return oldValue;
 }
+
 @end

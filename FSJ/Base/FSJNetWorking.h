@@ -143,9 +143,29 @@ typedef NS_ENUM(NSInteger, NetworkConnectionActionType){
      */
     GongFang50W,
     /**
-     *  @brief 激励器
+     *  @brief 激励器-通用参数
      */
-    Jiliqi50W,
+    JiliqiTongyong50W,
+    /**
+     *  @brief 激励器-轮播
+     */
+    JiliqiLunbo50W,
+    /**
+     *  @brief 激励器-输入参数
+     */
+    JiliqiInput50W,
+    /**
+     *  @brief 激励器-输出参数
+     */
+    JiliqiOutput50W,
+    /**
+     *  @brief 激励器-单频网
+     */
+    JiliqiDanpin50W,
+    /**
+     *  @brief 激励器-工作状态
+     */
+    JiliqiWorkStatus50W,
     /**
      *  @brief 解调
      */

@@ -1347,9 +1347,9 @@ NSString *keyCityNorCount   = @"kCityNorCount";
 }
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view{
     //[self getallstationInfoWith:view.annotation.title];
-    NSString *lat = [NSString stringWithFormat:@"%lf",view.annotation.coordinate.latitude];
-    NSString *lon = [NSString stringWithFormat:@"%lf",view.annotation.coordinate.longitude];
-    
+//    NSString *lat = [NSString stringWithFormat:@"%lf",view.annotation.coordinate.latitude];
+//    NSString *lon = [NSString stringWithFormat:@"%lf",view.annotation.coordinate.longitude];
+//    
     
     if ([view.annotation.title isEqualToString:@"zc"] ||  [view.annotation.title isEqualToString:@"gj"]) {
         for (FSJResultList *tempmodel in stationArr) {

@@ -62,6 +62,12 @@
     
     AFHTTPSessionManager *manager = [self getManager];
     [manager GET:URL parameters:requestDictionary progress:nil success:^(NSURLSessionDataTask *  task, id   responseObject) {
+        
+//        NSDictionary *datadic = [responseObject objectForKey:@"data"];
+//        if (datadic!= nil && datadic.allKeys.count ==0) {
+//            [MBProgressHUD showError:@"数据为空"];
+//            return;
+//        }
         success(task,responseObject);
     } failure:^(NSURLSessionDataTask *  task, NSError *  error) {
         //failure(task,error);
@@ -256,8 +262,23 @@
         case GongFang50W:
             url = @"/rs/app/device/tcpip/amp";
             break;
-        case Jiliqi50W:
+        case JiliqiTongyong50W:
             url = @"/rs/app/device/tcpip/actuator";
+            break;
+        case JiliqiLunbo50W:
+            url = @"/rs/app/device/tcpip/statusMult";
+            break;
+        case JiliqiInput50W:
+            url = @"/rs/app/device/tcpip/inputParam";
+            break;
+        case JiliqiOutput50W:
+            url = @"/rs/app/device/tcpip/outputParam";
+            break;
+        case JiliqiDanpin50W:
+            url = @"/rs/app/device/tcpip/single";
+            break;
+        case JiliqiWorkStatus50W:
+            url = @"/rs/app/device/tcpip/status";
             break;
         case Jietiao50W:
             url = @"/rs/app/device/tcpip/inputrf";
@@ -273,6 +294,7 @@
             break;
         default:
             break;
+
     }
     return url;
 }

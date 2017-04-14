@@ -24,6 +24,8 @@
                 andselBgColor:(UIColor *)selBgColor
                    andviewTag:(NSInteger)viewTag
                 andtitleArray:(NSArray *)titleArray
-             andViewDirection:(NSInteger)direction;
+             andViewDirection:(NSInteger)direction
+                andShowshadow:(BOOL)showShadow
+               andSelectIndex:(NSInteger)selectedIndex;
 
 @end

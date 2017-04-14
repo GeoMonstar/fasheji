@@ -240,6 +240,7 @@
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.data != nil){
             [SVProgressHUD dismiss];
             FSJZhengji *model = [FSJZhengji initWithDictionary:basemodel.data];
+            
             NSDictionary *valueDic = [responseObject objectForKey:@"value"];
             NSString *agcStr = [valueDic objectForKey:@"agcVol"];
             NSString *guojiStr = [valueDic objectForKey:@"extreVol"];

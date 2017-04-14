@@ -171,6 +171,8 @@
 
 @property (nonatomic, copy)NSString *ampTemperature;
 
+@property (nonatomic, copy)NSString *ampInputPow;
+
 @end
 
 
@@ -296,25 +298,28 @@
 @end
 @interface FSJJiliqiStatus50W : FSJJiankongBase
 
-@property (nonatomic, copy)NSString *eStatus;
+@property (nonatomic, copy)NSString *over;
+
+@property (nonatomic, copy)NSString *SIP1;
+
+@property (nonatomic, copy)NSString *oven;
+
+@property (nonatomic, copy)NSString *temper;
+
+@property (nonatomic, copy)NSString *onepps;
+
+@property (nonatomic, copy)NSString *GPSlock;
 
 @property (nonatomic, copy)NSString *GPS;
 
-@property (nonatomic, copy)NSString *inputStatus1;
+@property (nonatomic, copy)NSString *store;
 
-@property (nonatomic, copy)NSString *inputStatus2;
+@property (nonatomic, copy)NSString *SIP4;
 
-@property (nonatomic, copy)NSString *inputStatus3;
+@property (nonatomic, copy)NSString *SIP2;
+@property (nonatomic, copy)NSString *SIP3;
 
-@property (nonatomic, copy)NSString *inputStatus4;
 
-@property (nonatomic, copy)NSString *outStatus1;
-
-@property (nonatomic, copy)NSString *outStatus2;
-
-@property (nonatomic, copy)NSString *outStatus3;
-
-@property (nonatomic, copy)NSString *outStatus4;
 @end
 
 @interface FSJJiliqiRf50W : FSJJiankongBase
@@ -362,7 +367,50 @@
 @property (nonatomic, copy)NSString *eChOutputStoneSwitch;
 
 @property (nonatomic, copy)NSString *eChOutputNetWay;
+
+@property (nonatomic, copy)NSString *eRFInputSingleNetDelay;
 @end
+
+
+@interface FSJJiliqiLunbo50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *eStatus;
+
+@property (nonatomic, copy)NSString *GPS;
+
+@property (nonatomic, copy)NSString *inputStatus1;
+
+@property (nonatomic, copy)NSString *inputStatus2;
+
+@property (nonatomic, copy)NSString *inputStatus3;
+
+@property (nonatomic, copy)NSString *inputStatus4;
+
+@property (nonatomic, copy)NSString *outStatus1;
+
+@property (nonatomic, copy)NSString *outStatus2;
+
+@property (nonatomic, copy)NSString *outStatus3;
+
+@property (nonatomic, copy)NSString *outStatus4;
+
+@property (nonatomic, copy)NSString *input1Freq;
+
+@property (nonatomic, copy)NSString *input2Freq;
+
+@property (nonatomic, copy)NSString *input3Freq;
+
+@property (nonatomic, copy)NSString *input4Freq;
+
+@property (nonatomic, copy)NSString *output1Freq;
+
+@property (nonatomic, copy)NSString *output2Freq;
+
+@property (nonatomic, copy)NSString *output3Freq;
+
+@property (nonatomic, copy)NSString *output4Freq;
+@end
+
 
 @interface FSJTongdao50W : FSJJiankongBase
 
@@ -423,13 +471,13 @@
 
 @property (nonatomic, copy)NSString *protSwitch3;
 
-@property (nonatomic, copy)NSString *protSwitch4;
+@property (nonatomic, copy)NSString *tempThre;
 
-@property (nonatomic, copy)NSString *protSwitch5;
+@property (nonatomic, copy)NSString *tCuurThre;
 
-@property (nonatomic, copy)NSString *protSwitch6;
+@property (nonatomic, copy)NSString *tInputPowThreHigh;
 
-@property (nonatomic, copy)NSString *protSwitch7;
+@property (nonatomic, copy)NSString *vswrHigh;
 
 @property (nonatomic, retain)NSArray *scheduleMon;
 @property (nonatomic, retain)NSArray *scheduleTue;

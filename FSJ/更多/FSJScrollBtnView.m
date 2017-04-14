@@ -15,7 +15,7 @@
    
     NSInteger currentIndex;
 }
-@property (nonatomic, assign)NSInteger selectedIndex;
+@property (nonatomic, assign)NSInteger selIndex;
 @end
 @implementation FSJScrollBtnView
 
@@ -27,14 +27,16 @@
                 andselBgColor:(UIColor *)selBgColor
                    andviewTag:(NSInteger)viewTag
                 andtitleArray:(NSArray *)titleArray
-             andViewDirection:(NSInteger)direction{
+             andViewDirection:(NSInteger)direction
+                andShowshadow:(BOOL)showShadow
+               andSelectIndex:(NSInteger)selectedIndex{
 
     if (self = [super initWithFrame:mainframe]){
         aviewTag = viewTag;
         btnArr = @[].mutableCopy;
         viewArr = @[].mutableCopy;
         
-        UIScrollView *scroView = [[UIScrollView alloc]initWithFrame:mainframe];
+        UIScrollView *scroView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, mainframe.size.width, mainframe.size.height)];
         
         if (direction == 0) {
              scroView.contentSize = CGSizeMake(mainframe.size.width/4*titleArray.count, mainframe.size.height);
@@ -50,11 +52,11 @@
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             //根据方向布局按钮
             if (direction == 0) {
-                btn.frame = CGRectMake( mainframe.size.width/4 *i, 0, mainframe.size.width/4, mainframe.size.height);
+                btn.frame = CGRectMake(mainframe.size.width/4 *i, 0, mainframe.size.width/4, mainframe.size.height);
             }else{
                 btn.frame = CGRectMake( 0, mainframe.size.height/4 *i, mainframe.size.width, mainframe.size.height/4);
             }
-            btn.titleLabel.font = [UIFont systemFontOfSize:16];
+            btn.titleLabel.font = [UIFont systemFontOfSize:15];
             
             [btn setTitle:[NSString stringWithFormat:@"%@", titleArray[i]] forState:UIControlStateNormal];
             
@@ -66,16 +68,18 @@
             [btn addTarget:self action:@selector(changIndex:) forControlEvents:UIControlEventTouchUpInside];
             
             [btnArr addObject:btn];
-            if (btn.tag == 601) {
+            if (btn.tag == 600+selectedIndex) {
                 btn.selected =YES;
             }
             [scroView addSubview:btn];
         }
-        self.selectedIndex = 1;
-        
-        self.layer.shadowOffset  =  CGSizeMake(1.0f, 1.0f);
-        self.layer.shadowOpacity = 0.5;
-        self.layer.shadowRadius  = 1;
+       
+        if (showShadow) {
+            self.layer.shadowOffset  =  CGSizeMake(1.0f, 1.0f);
+            self.layer.shadowOpacity = 0.5;
+            self.layer.shadowRadius  = 1;
+        }
+       
         [self addSubview:scroView];
        
     }
@@ -84,14 +88,14 @@
 
 - (void)changIndex:(UIButton *)sender{
     
-    if (sender.tag-600 == self.selectedIndex) {
+    if (sender.tag-600 == self.selIndex) {
         return;
     }
     else{
-         self.selectedIndex = sender.tag -600;
+         self.selIndex = sender.tag -600;
         for (UIButton *btn in btnArr) {
             
-            if (btn.tag - 600  == self.selectedIndex) {
+            if (btn.tag - 600  == self.selIndex) {
                 btn.selected = YES;
             }else{
                 btn.selected = NO;

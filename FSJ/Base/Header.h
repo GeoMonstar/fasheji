@@ -42,8 +42,11 @@
 #define SystemWhiteColor [UIColor colorWithRed:(255/255.0) green:(255/255.0) blue:(255/255.0) alpha:1]
 #define SystemGreenColor [UIColor colorWithRed:(130/255.0) green:(191/255.0) blue:(21/255.0) alpha:1]
 #define SystemLightGrayColor [UIColor colorWithRed:(235/255.0) green:(235/255.0) blue:(244/255.0) alpha:1]
+#define SystemYellowColor [UIColor colorWithRed:(245/255.0) green:(206/255.0) blue:(88/255.0) alpha:1]
+#define SystemGreenColor [UIColor colorWithRed:(112/255.0) green:(178/255.0) blue:(52/255.0) alpha:1]
 
 #define MergeStr(str,model)  [NSString stringWithFormat:@"%@:%@",str,model]
+#define MergeStr1(str,model)  [NSString stringWithFormat:@"%@%@",str,model]
 #define PopviewCellheight [UIScreen mainScreen].bounds.size.height * 0.1
 #define Popviewheight [UIScreen mainScreen].bounds.size.height
 #define Popviewwidth [UIScreen mainScreen].bounds.size.width
@@ -58,9 +61,11 @@
 #define BaseImgURL      @"http://192.168.10.94:8080"
 
 #else
+#define BaseURL         @"http://192.168.10.94:8080/fsj"
+#define BaseImgURL      @"http://192.168.10.94:8080"
 
-#define BaseImgURL      @"http://47.89.38.215:6688"
-#define BaseURL         @"http://47.89.38.215:6688/fsj"
+//#define BaseImgURL      @"http://47.89.38.215:6688"
+//#define BaseURL         @"http://47.89.38.215:6688/fsj"
 
 
 #endif
