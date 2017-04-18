@@ -51,7 +51,7 @@
     self.window.rootViewController = lnav;
     
     [self.window makeKeyAndVisible];
-    //fps
+   
     
     return YES;
 }

@@ -896,8 +896,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             
             [self getCtiyWithID:listidError andName:listError];
             [self getCtiyWithID:listidNormal andName:listNormal];
-            
-            
         }
       
         else{

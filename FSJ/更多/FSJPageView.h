@@ -13,13 +13,15 @@
 @property (nonatomic, assign) NSTimeInterval timeInterval;
 
 
+
 - (instancetype)initWithFrame:(CGRect)mainframe
                 andLabelArray:(NSArray *)labelArrays
                andStatusArray:(NSArray *)statusArrays
                  andColumnNum:(NSInteger)columnNum
                    andRownNum:(NSInteger)rowNum
                   anditemSize:(CGSize)itemSize
-                  andiamgeX:(CGFloat)imageX;
+                    andiamgeX:(CGFloat)imageX
+                  andShowPage:(BOOL)showPage;
 - (void)pauseTimer;
 
 - (void)startTimer;

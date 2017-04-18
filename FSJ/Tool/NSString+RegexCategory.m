@@ -13,6 +13,7 @@
 #pragma mark - 正则相关
 - (BOOL)isValidateByRegex:(NSString *)regex{
     NSPredicate *pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    
     return [pre evaluateWithObject:self];
 }
 
@@ -90,15 +91,32 @@
      *  小灵通 区号：010,020,021,022,023,024,025,027,028,029 还有未设置的新区号xxx
      */
 //    NSString *mobileNoRegex = @"^1((3\\d|5[0-35-9]|8[025-9])\\d|70[059])\\d{7}$";//除4以外的所有个位整数，不能使用[^4,\\d]匹配，这里是否iOS Bug?
-    NSString *mobileNoRegex = @"1[0-9]{10}";
-    NSString *phsRegex =@"^0(10|2[0-57-9]|\\d{3})\\d{7,8}$";
+//    NSString *mobileNoRegex = @"1[0-9]{10}";
+//    NSString *phsRegex =@"^0(10|2[0-57-9]|\\d{3})\\d{7,8}$";
+//    
+//    BOOL ret = [self isValidateByRegex:mobileNoRegex];
+//    BOOL ret1 = [self isValidateByRegex:phsRegex];
+//    return (ret || ret1);
+    NSString * MOBILE = @"^((13[0-9])|(15[^4])|(18[0-9])|(1[4,7][0-9]))\\d{8}$";
     
-    BOOL ret = [self isValidateByRegex:mobileNoRegex];
-    BOOL ret1 = [self isValidateByRegex:phsRegex];
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    if ([regextestmobile evaluateWithObject:self] == YES)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
     
-    return (ret || ret1);
 }
-
+//固定电话
+- (BOOL)isPhoneNumber{
+    NSString * PHS = @"^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
+    
+   return [self isValidateByRegex:PHS];
+    
+}
 //邮箱
 - (BOOL)isEmailAddress{
     NSString *emailRegex = @"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";

@@ -20,14 +20,15 @@
 
 @end
 @implementation FSJPageView
-
 - (instancetype)initWithFrame:(CGRect)mainframe
                 andLabelArray:(NSArray *)labelArrays
                andStatusArray:(NSArray *)statusArrays
                  andColumnNum:(NSInteger)columnNum
                    andRownNum:(NSInteger)rowNum
                   anditemSize:(CGSize)itemSize
-                    andiamgeX:(CGFloat)imageX{
+                    andiamgeX:(CGFloat)imageX
+                  andShowPage:(BOOL)showPage{
+    
     if (self = [super initWithFrame:mainframe]){
         //总页数
         self.timer = nil;
@@ -49,16 +50,15 @@
             
             UILabel *pagelabel = [[UILabel alloc]initWithFrame:CGRectMake(15  + i/rowNum * mainframe.size.width/2, 10 + i%rowNum*(itemSize.height+5),itemSize.width, itemSize.height)];
             
-
-            if ([statusArrays[i] isEqualToString:@"3"] ) {
-                
-            }else{
+            
+            if ([statusArrays[i] isEqualToString:@"0"]||[statusArrays[i] isEqualToString:@"1"] ||[statusArrays[i] isEqualToString:@""] ) {
                 UIImage *statusimage = [UIImage imageWithColor:[statusArrays[i] isEqualToString:@"0"]?SystemGreenColor:[UIColor redColor]];
                 UIImageView *statusimageView = [[UIImageView alloc]initWithFrame:CGRectMake(pagelabel.frame.origin.x + imageX,pagelabel.frame.origin.y +5,itemSize.height-10, itemSize.height-10)];
                 statusimageView.image = statusimage;
                 statusimageView.layer.cornerRadius = (itemSize.height-10)/2;
                 statusimageView.clipsToBounds = YES;
                 [mainScroView addSubview:statusimageView];
+            }else{
             }
             pagelabel.text = labelArrays[i];
             pagelabel.font = [UIFont systemFontOfSize:14];
@@ -71,13 +71,14 @@
         pageCtrl.currentPageIndicatorTintColor = SystemBlueColor;
         [pageCtrl addTarget:self action:@selector(pageTurn:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:mainScroView];
-        [self addSubview:pageCtrl];
+        if (showPage) {
+            [self addSubview:pageCtrl];
+        }
+       
     }
     return self;
-
-
-
 }
+
 
 - (instancetype) init {
     if (self = [super init]) {
@@ -117,7 +118,6 @@
         CFRunLoopTimerInvalidate(self.timer);
         CFRunLoopRemoveTimer(CFRunLoopGetCurrent(), self.timer, kCFRunLoopCommonModes);
     }
-    
     THWeakSelf(weakself);
     CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent() + self.timeInterval, self.timeInterval, 0, 0, ^(CFRunLoopTimerRef timer) {
         [weakself autoScroll];

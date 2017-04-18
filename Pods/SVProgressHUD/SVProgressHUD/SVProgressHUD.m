@@ -1234,11 +1234,12 @@ static const CGFloat SVProgressHUDDefaultAnimationDuration = 0.15;
 
 - (UIControl*)overlayView {
     if(!_overlayView) {
+        CGRect overlayViewRect = CGRectMake(0, 64, self.bounds.size.width, self.bounds.size.height);
 #if !defined(SV_APP_EXTENSIONS)
         CGRect windowBounds = [[[UIApplication sharedApplication] delegate] window].bounds;
-        _overlayView = [[UIControl alloc] initWithFrame:windowBounds];
+        _overlayView = [[UIControl alloc] initWithFrame:overlayViewRect];
 #else
-        _overlayView = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _overlayView = [[UIControl alloc] initWithFrame:overlayViewRect];
 #endif
         _overlayView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _overlayView.backgroundColor = [UIColor clearColor];

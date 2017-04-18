@@ -184,16 +184,30 @@
 - (void)changeInfo:(UIButton *)sender{
     
     switch (self.changeType) {
+        case 0:
+            if (firstInput.text.length ==0||firstInput.text.length <2 ||firstInput.text.length>16) {
+                [SVProgressHUD showErrorWithStatus:@"真实姓名不能为空,长度2-16字符"];
+                firstInput.text = @"";
+                return;
+            };
+            break;
         case 1:
-            if ([self isNotMobileNumber:firstInput.text]) {
-                [SVProgressHUD showErrorWithStatus:@"请输入正确手机号"];
+            if (![firstInput.text isMobileNumber]) {
+                [SVProgressHUD showErrorWithStatus:@"手机号码不能为空;长度为11字符"];
                firstInput.text = @"";
                 return;
             };
             break;
+        case 2:
+            if (![firstInput.text isPhoneNumber]) {
+                [SVProgressHUD showErrorWithStatus:@"固话不能为空"];
+                firstInput.text = @"";
+                return;
+            };
+            break;
         case 3:
-            if (![firstInput.text isEmailAddress]) {
-                [SVProgressHUD showErrorWithStatus:@"请输入正确邮箱地址"];
+            if (![firstInput.text isEmailAddress] ||firstInput.text.length > 30) {
+                [SVProgressHUD showErrorWithStatus:@"邮箱不能为空;长度不超过30个字符"];
                 firstInput.text = @"";
                 return;
             };
@@ -203,7 +217,7 @@
             break;
     }
     if ([firstInput.text isEqualToString:@""]) {
-        [SVProgressHUD showErrorWithStatus:@"补全信息"];
+        [SVProgressHUD showErrorWithStatus:@"请补全信息"];
     }
     else{
 //        if ([secondInput.text isEqualToString:@""]) {
@@ -218,6 +232,7 @@
                      [self.navigationController popViewControllerAnimated:YES];
                      });
                 }
+                
             } failure:^(NSURLSessionDataTask *operation, NSError *error) {
                 [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
             }];

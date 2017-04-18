@@ -96,6 +96,10 @@
  *  手机号有效性
  */
 - (BOOL)isMobileNumber;
+/**
+ *  固定电话号有效性
+ */
+- (BOOL)isPhoneNumber;
 
 /**
  *  邮箱的有效性

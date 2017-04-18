@@ -83,6 +83,7 @@
                 });
             }
         }else{
+            [SVProgressHUD dismiss];
            [MBProgressHUD showError:@"网络异常"];
         }
     }];
@@ -116,11 +117,12 @@
 + (AFHTTPSessionManager *)getManager{
 
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    
+    [manager.requestSerializer setTimeoutInterval:10];
         manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript",@"text/plain", nil];//如果报接受类型不一致请替换一致text/html或别的
     manager.requestSerializer=[AFJSONRequestSerializer serializer];//申明请求的数据是json类型
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
 //   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
 //   manager.responseSerializer = [AFHTTPResponseSerializer serializer];//申明返回的结果是json类型
 //   manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript",@"text/plain", nil];//如果报接受类型不一致请替换一致text/html或别的

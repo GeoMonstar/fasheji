@@ -15,7 +15,7 @@
 #import "FSJOganTree.h"
 #import "FSJStationInfo.h"
 #import "FSJJiankong50W.h"
-
+#import "FSJPeopleManagerDetailTableViewCell.h"
 @interface FSJPeopleManagimentviewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>{
     UISearchBar     *mysearchBar;
     FSJJiankongVC   *jiankong;
@@ -139,6 +139,7 @@
 - (void)createTableViewWithorganId:(NSString *)organId andstationId:(NSString *)stationIdStr{
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"oneCELL"];
     [self.myTable registerNib:[UINib nibWithNibName:@"FSJSecondDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"twoCELL"];
+    [self.myTable registerNib:[UINib nibWithNibName:@"FSJPeopleManagerDetailTableViewCell"bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"threeCELL"];
     [self.view addSubview:self.myTable];
     if (self.InfoType == PeopleManage) {
         placeHolder = @"请输入发射站名称";
@@ -277,6 +278,16 @@
         }
         return cell;
     }
+    if (self.InfoType == Warning || self.InfoType == Warned) {
+        FSJPeopleManagerDetailTableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"threeCELL"];
+        
+        cell.stationName.text = [NSString stringWithFormat:@"%@", model.tname];
+        cell.managerName.text = [NSString stringWithFormat:@"告警名称: %@",model.name];
+        cell.sex.text = [NSString stringWithFormat:@"告警时间: %@",model.time];
+        cell.position.text = [NSString stringWithFormat:@"所属区域: %@",model.areaName];
+        cell.telPhone.text = [NSString stringWithFormat:@"检测值:%@",model.value];
+        return cell;
+    }
     else{
     FSJSecondDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"twoCELL"];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -293,11 +304,7 @@
         cell.secondLabel.text = [NSString stringWithFormat:@"所属区域:%@",model.areaName];
         cell.thirdLabel.text = [NSString stringWithFormat:@"地址:%@",model.address];
     }
-    if (self.InfoType == Warning || self.InfoType == Warned) {
-        cell.topLabel.text = [NSString stringWithFormat:@"设备名称:%@", model.tname];
-        cell.secondLabel.text = [NSString stringWithFormat:@"所属区域: %@",model.areaName];
-        cell.thirdLabel.text = [NSString stringWithFormat:@"检测值:%@            %@",model.value,model.time];
-    }
+   
     return cell;
     }
 }

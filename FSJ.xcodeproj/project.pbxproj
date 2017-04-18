@@ -830,9 +830,6 @@
 				85BCBF391C994C0000686D07 /* FSJPeopleManagimentviewController.m */,
 				850EAC131C9A4C19002C577E /* FSJPeopleManagerDetailViewController.h */,
 				850EAC141C9A4C19002C577E /* FSJPeopleManagerDetailViewController.m */,
-				850EAC0E1C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.h */,
-				850EAC0F1C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.m */,
-				850EAC101C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.xib */,
 				850EAC1F1C9AB660002C577E /* FSJTongjiViewController.h */,
 				850EAC201C9AB660002C577E /* FSJTongjiViewController.m */,
 			);
@@ -921,6 +918,9 @@
 				858AB7CA1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.h */,
 				858AB7CB1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.m */,
 				858AB7CC1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.xib */,
+				850EAC0E1C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.h */,
+				850EAC0F1C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.m */,
+				850EAC101C9A4449002C577E /* FSJPeopleManagerDetailTableViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";

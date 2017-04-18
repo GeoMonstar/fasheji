@@ -131,7 +131,6 @@
         sender.enabled = YES;
        
        
-        
         model = [FSJCommonModel initWithDictionary:responseObject];
         
         if ([model.status isEqualToString: @"200"]) {

@@ -234,7 +234,7 @@
 - (void)creatViewThirdwith:(NSString *)str{
     //NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr};
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.fsjId,@"transId",self.addressId,@"ip",str,@"from",jwtStr,@"jwt", nil];
-    
+    [SVProgressHUD showWithStatus:@"加载中"];
     [FSJNetworking networkingGETWithActionType:GetZhengji requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         FSJJiankongBase *basemodel = [FSJJiankongBase initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"]  && basemodel.data != nil){
@@ -293,7 +293,7 @@
 - (void)creatViewFourwith:(NSString *)str{
     NSDictionary *dic = @{@"transId":self.fsjId,@"ip":self.addressId,@"from":str,@"jwt":jwtStr };
     [FSJNetworking networkingGETWithActionType:GetGongzuo requestDictionary:dic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-        
+         [SVProgressHUD showWithStatus:@"加载中"];
         FSJJiankongBase *basemodel = [FSJJiankongBase initWithDictionary:responseObject];
         if ([basemodel.status isEqualToString:@"200"] && basemodel.data != nil) {
              [SVProgressHUD dismiss];
