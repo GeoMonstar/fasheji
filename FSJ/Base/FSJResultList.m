@@ -27,4 +27,12 @@
     return model;
     
 }
+
+- (id)mj_newValueFromOldValue:(id)oldValue property:(MJProperty *)property
+{
+    if (oldValue == NULL || oldValue == nil) {
+        return @"";
+    }
+    return oldValue;
+}
 @end

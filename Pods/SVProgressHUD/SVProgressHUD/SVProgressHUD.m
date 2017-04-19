@@ -364,7 +364,7 @@ static const CGFloat SVProgressHUDDefaultAnimationDuration = 0.15;
         
         _cornerRadius = 14.0f;
         
-        _minimumDismissTimeInterval = 5.0;
+        _minimumDismissTimeInterval = 1.60;
 
         _fadeInAnimationDuration = SVProgressHUDDefaultAnimationDuration;
         _fadeOutAnimationDuration = SVProgressHUDDefaultAnimationDuration;
@@ -1191,7 +1191,7 @@ static const CGFloat SVProgressHUDDefaultAnimationDuration = 0.15;
 #pragma mark - Getters
 
 + (NSTimeInterval)displayDurationForString:(NSString*)string {
-    return MAX((float)string.length * 0.06 + 0.5, [self sharedView].minimumDismissTimeInterval);
+    return MAX((float)string.length * 0.06 + 0, [self sharedView].minimumDismissTimeInterval);
 }
 
 - (UIColor*)foregroundColorForStyle {
@@ -1233,6 +1233,7 @@ static const CGFloat SVProgressHUDDefaultAnimationDuration = 0.15;
 }
 
 - (UIControl*)overlayView {
+    
     if(!_overlayView) {
         CGRect overlayViewRect = CGRectMake(0, 64, self.bounds.size.width, self.bounds.size.height);
 #if !defined(SV_APP_EXTENSIONS)

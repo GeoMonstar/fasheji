@@ -311,36 +311,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 80;
 }
-- (void)createPopwithName:(NSArray *)nameArr andImg:(NSArray *)imgArr andtag:(NSInteger) btntag andShowzidong:(BOOL)show{
-    NSMutableArray *obj = [NSMutableArray array];
-    for (NSInteger i = 0; i < nameArr.count; i++) {
-        WBPopMenuModel * info = [WBPopMenuModel new];
-        info.image = imgArr[i];
-        info.title = nameArr[i];
-        [obj addObject:info];
-    };
-    [[WBPopMenuSingleton shareManager]showPopMenuSelecteWithFrame:200 item:obj action:^(NSInteger index) {
-    if ([nameArr[index] isEqualToString:@"前置放大单元"]) {
-           jiankong.JiankongType = Qianji;
-            };
-    if ([nameArr[index] isEqualToString:@"功率放大单元"]) {
-            jiankong.JiankongType = Moji;
-            };
-    if ([nameArr[index] isEqualToString:@"整机"]) {
-            jiankong.JiankongType = Zhengji;
-            };
-    if ([nameArr[index] isEqualToString:@"工作状态"]) {
-            jiankong.JiankongType = Zhuangtai;
-            };
-        if (show == YES) {
-            jiankong.showZidong = YES;
-        }
-        else{
-            jiankong.showZidong = NO;
-        }
-        [self.navigationController pushViewController:jiankong animated:YES];
-        }TopView:self.view alpha:0.9];
-}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.showPop == YES) {
         transmodel = self.dataArray[indexPath.section];
@@ -546,6 +517,7 @@
                                                // [firstNameArr insertObject:@"全部" atIndex:0];
                                                [seconNamedArr insertObject:SecondArrStr atIndex:0];
                                                [thridNameArr insertObject:ThirdArrStr atIndex:0];
+                                               
                                            }
                                            
                                            if ([gradeType isEqualToString:@"2"]) {
@@ -698,7 +670,7 @@
                 NSDictionary *dic = self.firstArr[indexPath.row];
                 twiceOrangId = [dic objectForKey:@"organId"];
                 FirstLevelStr = [dic objectForKey:@"organId"];
-                NSLog(@"organId = %@",FirstLevelStr);
+                VVDLog(@"organId = %@",FirstLevelStr);
                 [seconNamedArr removeAllObjects];
                 for (NSDictionary *temp in self.secondArr) {
                     if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
@@ -744,7 +716,6 @@
         //点击第二列
         if (indexPath.column ==1) {
             
-            
             if ([twiceOrangId isEqualToString:@""]||twiceOrangId == nil) {
                 [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:onceOrangId andIndexPath:indexPath];
             }else{
@@ -752,16 +723,24 @@
             }
             
             if (indexPath.row !=0) {
-                NSDictionary *dic = self.secondArr[indexPath.row-1];
-                thirdOrangId = [dic objectForKey:@"organId"];
+                NSString *keyid;
+                NSString *str = seconNamedArr[indexPath.row];
+                for (NSDictionary *dic in self.secondArr) {
+                    if ([str isEqualToString:[dic objectForKey:@"name"]]) {
+                        keyid = [dic objectForKey:@"organId"];
+                    }
+                }
+//                NSDictionary *dic = self.secondArr[indexPath.row-1];
+//                thirdOrangId = [dic objectForKey:@"organId"];
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.thridArr) {
-                    if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
+                    if ([[temp objectForKey:@"parentId"]isEqualToString:keyid]) {
                         [thridNameArr addObject:[temp objectForKey:@"name"]];
                         
                     }
                 }
                 [thridNameArr insertObject:ThirdArrStr atIndex:0];
+                
             }
             else{
                 thirdOrangId = @"";
@@ -787,7 +766,9 @@
 //                    }
                 }
                 [thridNameArr insertObject:ThirdArrStr atIndex:0];
+                
             }
+            
         }
         //点击第三列
         if(indexPath.column == 2){
@@ -810,7 +791,7 @@
                     [self reloadDatawithDataArray:self.thridArr andNameArray:thridNameArr and:tempOrganId and:thirdOrangId andIndexPath:indexPath];
                 }
             }
-            NSLog(@"%@",thridNameArr[indexPath.row]);
+            VVDLog(@"%@",thridNameArr[indexPath.row]);
             //点击第四列
         } if(indexPath.column == 3){
             if (indexPath.row == 0) {
@@ -860,7 +841,7 @@
             }else{
                 [self reloadDatawithDataArray:self.secondArr andNameArray:seconNamedArr and:tempOrganId and:twiceOrangId andIndexPath:indexPath];
             }
-            NSLog(@"%@",seconNamedArr[indexPath.row]);
+            VVDLog(@"%@",seconNamedArr[indexPath.row]);
         }
         if(indexPath.column == 2){
             if (indexPath.row == 0) {

@@ -507,7 +507,7 @@
 }
 - (void)createZhengjicontrolViewWithModel:(FSJZhengjicontrol50W *)Zhengjicontrolmodel{
     NSArray *arr1 = @[MergeStr(@"功率控制状态",[Zhengjicontrolmodel.tWorkAuto isEqualToString:@"0"]?@"手动":@"自动")];
-   // NSArray *arr2 = @[MergeStr(@"功率控制状态",@"")];
+    NSArray *arr2 = @[MergeStr(@"功率设置",Zhengjicontrolmodel.tSetOutputPow)];
     
     NSArray *arr3 = @[MergeStr(@"温度保护开关",[Zhengjicontrolmodel.protSwitch1 isEqualToString:@"0"]?@"开启":@"关闭"),
                       MergeStr(@"驻波保护开关",[Zhengjicontrolmodel.protSwitch2 isEqualToString:@"0"]?@"开启":@"关闭"),
@@ -519,7 +519,7 @@
                       MergeStr(@"过流阀值",Zhengjicontrolmodel.tCuurThre),
                       MergeStr(@"过激阀值",Zhengjicontrolmodel.tInputPowThreHigh)];
     
-    UIView *view1 = [self creatViewWith:arr1.count and:44+10 and:arr1 and:nil];
+    UIView *view1 = [self creatViewWith:arr1.count and:44+10 and:arr1 and:arr2];
     UIView *view2 = [self creatViewWith:arr3.count and:44+10+rowHeight +20  and:arr3 and:arr4];
     view1.layer.borderColor = SystemYellowColor.CGColor;
     view1.layer.borderWidth = 1;

@@ -55,6 +55,7 @@
     loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     loginBtn.frame = CGRectMake(leftMagrin, HEIGH/2+viewHeight*2+48, WIDTH-leftMagrin-rightMagrin, viewHeight);
     [loginBtn setBackgroundColor:SystemBlueColor];
+    
     [loginBtn setTitleColor:SystemWhiteColor forState:UIControlStateNormal];
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
@@ -114,14 +115,16 @@
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
     sender.enabled = NO;
-    userPwd.text  =@"000000";
-    userName.text  =@"Superadmin";
+    userPwd.text  =@"admin";
+    userName.text  =@"city";
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
+        sender.enabled = YES;
         return;
     }
     if ([userPwd.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入密码"];
+        sender.enabled = YES;
         return;
     }
     [self.view endEditing:YES];//键盘退出
@@ -129,8 +132,6 @@
    
     [FSJNetworking networkingPOSTWithActionType:LoginAction requestDictionary:loginDict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
         sender.enabled = YES;
-       
-       
         model = [FSJCommonModel initWithDictionary:responseObject];
         
         if ([model.status isEqualToString: @"200"]) {
@@ -139,7 +140,6 @@
              [FSJUserInfo shareInstance].usermodel = model;
              FSJMapViewController *vc = [[FSJMapViewController alloc]init];
              JQBaseNav *lnav = [[JQBaseNav alloc]initWithRootViewController:vc];
-
              [UIApplication sharedApplication].keyWindow.rootViewController = lnav;
             //[self.navigationController pushViewController:vc animated:YES];
             

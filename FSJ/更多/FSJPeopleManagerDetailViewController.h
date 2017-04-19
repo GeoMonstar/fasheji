@@ -18,7 +18,6 @@ typedef NS_ENUM(NSInteger, DetailInfoType){
 };
 @interface FSJPeopleManagerDetailViewController : FSJBaseViewController
 
-
 @property (nonatomic,assign)DetailInfoType DetailInfoType;
 
 @property (nonatomic ,copy)NSString *managerID;

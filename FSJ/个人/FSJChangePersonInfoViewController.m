@@ -103,7 +103,8 @@
     [returnBtn setBackgroundColor:SystemBlueColor];
     returnBtn.titleLabel.font = [UIFont systemFontOfSize:18];
         returnBtn.layer.cornerRadius = 4;
-    [returnBtn setBackgroundImage:[self createImageWithColor:SystemGrayColor] forState:UIControlStateHighlighted];
+    [returnBtn setBackgroundImage:[UIImage imageWithColor:SystemGrayColor] forState:UIControlStateHighlighted];
+    
     [returnBtn addTarget:self action:@selector(changePwd:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:firstInput];
@@ -137,7 +138,7 @@
     [returnBtn setBackgroundColor:SystemBlueColor];
     returnBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     returnBtn.layer.cornerRadius = 4;
-    [returnBtn setBackgroundImage:[self createImageWithColor:SystemGrayColor] forState:UIControlStateHighlighted];
+    [returnBtn setBackgroundImage:[UIImage imageWithColor:SystemGrayColor] forState:UIControlStateHighlighted];
     [returnBtn addTarget:self action:@selector(changeInfo:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:firstInput];
     //[self.view addSubview:secondInput];
@@ -151,10 +152,15 @@
              FSJCommonModel *model = [FSJCommonModel initWithDictionary:responseObject];
                          if ([model.status isEqualToString:@"200"]) {
                              [SVProgressHUD showSuccessWithStatus:model.message];
+                             
+                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                 [self.navigationController popViewControllerAnimated:YES];
+                             });
+                         }else{
+                             [SVProgressHUD showErrorWithStatus:model.message];
+                             return ;
                          }
-             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                 [self.navigationController popViewControllerAnimated:YES];
-             });
+             
          } failure:^(NSURLSessionDataTask *operation, NSError *error) {
              [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
          }];
@@ -183,31 +189,40 @@
 }
 - (void)changeInfo:(UIButton *)sender{
     
+    if (firstInput.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"不能为空"];
+        return;
+    }
     switch (self.changeType) {
         case 0:
-            if (firstInput.text.length ==0||firstInput.text.length <2 ||firstInput.text.length>16) {
-                [SVProgressHUD showErrorWithStatus:@"真实姓名不能为空,长度2-16字符"];
+            if (firstInput.text.length <2 ||firstInput.text.length>16) {
+                [SVProgressHUD showErrorWithStatus:@"请输入一个长度介于 2 和 16 之间的字符串"];
                 firstInput.text = @"";
                 return;
             };
             break;
         case 1:
             if (![firstInput.text isMobileNumber]) {
-                [SVProgressHUD showErrorWithStatus:@"手机号码不能为空;长度为11字符"];
+                [SVProgressHUD showErrorWithStatus:@"请输入长度为11的数字"];
                firstInput.text = @"";
                 return;
             };
             break;
         case 2:
-            if (![firstInput.text isPhoneNumber]) {
-                [SVProgressHUD showErrorWithStatus:@"固话不能为空"];
+//            if (![firstInput.text isPhoneNumber]) {
+//                [SVProgressHUD showErrorWithStatus:@"不能为空"];
+//                firstInput.text = @"";
+//                return;
+//            };
+//            break;
+        case 3:
+            if (firstInput.text.length > 30) {
+                [SVProgressHUD showErrorWithStatus:@"长度不超过30个字符"];
                 firstInput.text = @"";
                 return;
             };
-            break;
-        case 3:
-            if (![firstInput.text isEmailAddress] ||firstInput.text.length > 30) {
-                [SVProgressHUD showErrorWithStatus:@"邮箱不能为空;长度不超过30个字符"];
+            if (![firstInput.text isEmailAddress] ) {
+                [SVProgressHUD showErrorWithStatus:@"格式不正确"];
                 firstInput.text = @"";
                 return;
             };
@@ -216,10 +231,8 @@
         default:
             break;
     }
-    if ([firstInput.text isEqualToString:@""]) {
-        [SVProgressHUD showErrorWithStatus:@"请补全信息"];
-    }
-    else{
+    
+//    else{
 //        if ([secondInput.text isEqualToString:@""]) {
 //            [SVProgressHUD showErrorWithStatus:@"请输入验证码"];
 //        }else{
@@ -236,7 +249,7 @@
             } failure:^(NSURLSessionDataTask *operation, NSError *error) {
                 [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@",error]];
             }];
-        }
+      //  }
  //   }
 }
 
@@ -259,16 +272,6 @@
     [self.navigationController popViewControllerAnimated:YES];
     [SVProgressHUD dismiss];
 }
-- (UIImage*) createImageWithColor: (UIColor*) color
-{
-    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return theImage;
-}
+
 
 @end

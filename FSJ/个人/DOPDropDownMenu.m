@@ -478,7 +478,7 @@
         [self animateIdicator:_indicators[tapIndex] background:_backGroundView tableView:_leftTableView title:_titles[tapIndex] forward:YES complecte:^{
             _show = YES;
         }];
-        NSLog(@"%ld first = %u,second = %u,show = %u",_currentSelectedMenudIndex,_firstSelected,_SecondtSelected,_show);
+       // NSLog(@"%ld first = %u,second = %u,show = %u",_currentSelectedMenudIndex,_firstSelected,_SecondtSelected,_show);
     }
 }
 

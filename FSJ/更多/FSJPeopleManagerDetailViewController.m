@@ -59,7 +59,7 @@
             break;
         case 1:
             url = @"/rs/app/alarm/info";
-            sectionNum = 10;
+            sectionNum = 9;
              head = @"alarmId";
            // titleStr = @"历史警告详情";
             break;
@@ -214,30 +214,30 @@
             case 2:
                 cell.textLabel.text = [NSString stringWithFormat:@"检测值:%@",model.value];
                 break;
+//            case 3:
+//                cell.textLabel.text = [NSString stringWithFormat:@"设备类型:%@",model.deviceType];
+//                break;
             case 3:
-                cell.textLabel.text = [NSString stringWithFormat:@"设备类型:%@",model.deviceType];
-                break;
-            case 4:
                 cell.textLabel.text = [NSString stringWithFormat:@"设备IP:%@",model.ipaddr];
                 break;
-            case 5:
+            case 4:
                 cell.textLabel.text = @"告警状态:告警";
                 break;
-            case 6:
+            case 5:
                 cell.textLabel.text = [NSString stringWithFormat:@"发射机名称:%@",model.tname];
                 break;
 
-            case 7:
+            case 6:
                 cell.textLabel.text = [NSString stringWithFormat:@"告警时间:%@",model.timestamp];
                 break;
-            case 8:
+            case 7:
                 if ([model.timerecover isEqualToString:@""]) {
                     cell.textLabel.text = @"恢复时间:待定";
                 }
                 else{
                     cell.textLabel.text = [NSString stringWithFormat:@"恢复时间:%@",model.timerecover];}
                 break;
-            case 9:
+            case 8:
                 cell.textLabel.text = [NSString stringWithFormat:@"故障现象:%@",model.descript] ;
                 
                 break;
@@ -355,7 +355,7 @@
                 cell.textLabel.text = [NSString stringWithFormat:@"工作模式:%@",model.workMode];
                 break;
             case 6:
-                cell.textLabel.text = [NSString stringWithFormat:@"通讯模式:%@",model.commMode];
+                cell.textLabel.text = [NSString stringWithFormat:@"通讯模式:%@",model.commMode ];
                 break;
             case 7:
                 cell.textLabel.text = [NSString stringWithFormat:@"功率等级:%@",model.powerRate];

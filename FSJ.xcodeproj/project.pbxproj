@@ -41,6 +41,9 @@
 		8528A6171C88128F009A258D /* FSJDES.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6161C88128F009A258D /* FSJDES.m */; };
 		8528A61A1C8812DF009A258D /* CQEncrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6191C8812DF009A258D /* CQEncrypt.m */; };
 		8528A6211C8815FB009A258D /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 8528A6201C8815FB009A258D /* GTMBase64.m */; };
+		852EE7711EA70BB800F8407A /* NSArray+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 852EE76C1EA70BB800F8407A /* NSArray+Log.m */; };
+		852EE7721EA70BB800F8407A /* NSDictionary+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 852EE76E1EA70BB800F8407A /* NSDictionary+Log.m */; };
+		852EE7731EA70BB800F8407A /* NSString+unicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 852EE7701EA70BB800F8407A /* NSString+unicode.m */; };
 		852F508C1E973FC900C0889B /* FSJPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 852F508B1E973FC900C0889B /* FSJPageView.m */; };
 		8534BBD41C9BF3B700A1EC9B /* FSJLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8534BBD31C9BF3B700A1EC9B /* FSJLogInViewController.m */; };
 		85381E191CBF7FC70080F027 /* WBPopMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85381E0E1CBF7FC70080F027 /* WBPopMenuModel.m */; };
@@ -213,6 +216,12 @@
 		8528A61E1C8815DD009A258D /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		8528A61F1C8815FB009A258D /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		8528A6201C8815FB009A258D /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
+		852EE76B1EA70BB800F8407A /* NSArray+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Log.h"; sourceTree = "<group>"; };
+		852EE76C1EA70BB800F8407A /* NSArray+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Log.m"; sourceTree = "<group>"; };
+		852EE76D1EA70BB800F8407A /* NSDictionary+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Log.h"; sourceTree = "<group>"; };
+		852EE76E1EA70BB800F8407A /* NSDictionary+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Log.m"; sourceTree = "<group>"; };
+		852EE76F1EA70BB800F8407A /* NSString+unicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+unicode.h"; sourceTree = "<group>"; };
+		852EE7701EA70BB800F8407A /* NSString+unicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+unicode.m"; sourceTree = "<group>"; };
 		852F508A1E973FC900C0889B /* FSJPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJPageView.h; sourceTree = "<group>"; };
 		852F508B1E973FC900C0889B /* FSJPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSJPageView.m; sourceTree = "<group>"; };
 		8534BBD21C9BF3B700A1EC9B /* FSJLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSJLogInViewController.h; sourceTree = "<group>"; };
@@ -546,6 +555,7 @@
 		8528A6021C87E945009A258D /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				852EE76A1EA70BB800F8407A /* CNLog */,
 				8576A8D51E8111B7000392BB /* 图文按钮 */,
 				8565CB621E2733E300CD9897 /* JPFPSStatus */,
 				8503A5891DBEF55D00A2469B /* other */,
@@ -596,6 +606,19 @@
 				859DF5AA1C896FF900107467 /* VC */,
 			);
 			path = "首页";
+			sourceTree = "<group>";
+		};
+		852EE76A1EA70BB800F8407A /* CNLog */ = {
+			isa = PBXGroup;
+			children = (
+				852EE76B1EA70BB800F8407A /* NSArray+Log.h */,
+				852EE76C1EA70BB800F8407A /* NSArray+Log.m */,
+				852EE76D1EA70BB800F8407A /* NSDictionary+Log.h */,
+				852EE76E1EA70BB800F8407A /* NSDictionary+Log.m */,
+				852EE76F1EA70BB800F8407A /* NSString+unicode.h */,
+				852EE7701EA70BB800F8407A /* NSString+unicode.m */,
+			);
+			path = CNLog;
 			sourceTree = "<group>";
 		};
 		853ABD181D58855B00032EBB /* category */ = {
@@ -1162,6 +1185,7 @@
 				8554E9B01CFE7AF40088B411 /* MBProgressHUD+HUDTools.m in Sources */,
 				856F3D311CE9CB3400CDCB96 /* FSJNetworking.m in Sources */,
 				85589C391CDC936200ADAAC1 /* FSJBaseViewController.m in Sources */,
+				852EE7721EA70BB800F8407A /* NSDictionary+Log.m in Sources */,
 				8528A60D1C880A7E009A258D /* FSJBaseModel.m in Sources */,
 				85589C361CDC897200ADAAC1 /* RealReachability.m in Sources */,
 				85CE15251E94C1DC00D318B3 /* JQAPIConfigure.m in Sources */,
@@ -1182,6 +1206,7 @@
 				85F59C331D06A3A200D3DD48 /* FSJOganTree.m in Sources */,
 				85CE15281E94C1DC00D318B3 /* Request.m in Sources */,
 				858AB7CD1CC8B1E400A2FBCF /* FSJtoplineTableViewCell.m in Sources */,
+				852EE7731EA70BB800F8407A /* NSString+unicode.m in Sources */,
 				85589C2D1CDC897200ADAAC1 /* FSMStateUtil.m in Sources */,
 				8554C88D1CCE0BDC0095D180 /* FSJGongzuoStatus.m in Sources */,
 				8554C8801CCDC7480095D180 /* FSJTransPoint.mm in Sources */,
@@ -1196,6 +1221,7 @@
 				85589C331CDC897200ADAAC1 /* ReachStateWWAN.m in Sources */,
 				85F59C361D06A79700D3DD48 /* DOPDropDownMenu.m in Sources */,
 				856CA1C41CF7E5B0008C6B16 /* FSJUpdateView.m in Sources */,
+				852EE7711EA70BB800F8407A /* NSArray+Log.m in Sources */,
 				8576A8CE1E80D8B4000392BB /* FSJZhengjiControlVC.m in Sources */,
 				85570EFF1E7A655E009D2967 /* FSJJiankong50W.m in Sources */,
 				85CBED2F1CCA0D0600C4CD8C /* logging_mosq.c in Sources */,

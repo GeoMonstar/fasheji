@@ -58,24 +58,19 @@
 #define FSJWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 
 #ifdef DEBUG
-#define BaseURL         @"http://192.168.10.94:8080/fsj"
-#define BaseImgURL      @"http://192.168.10.94:8080"
+#define BaseURL         @"http://192.168.10.6:8080/fsj"
+#define BaseImgURL      @"http://192.168.10.6:8080"
+#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://192.168.10.6:8080/fsj/alarm/app/statistics?userName=%@",username];
 
 #else
-#define BaseURL         @"http://192.168.10.94:8080/fsj"
-#define BaseImgURL      @"http://192.168.10.94:8080"
 
-//#define BaseImgURL      @"http://47.89.38.215:6688"
-//#define BaseURL         @"http://47.89.38.215:6688/fsj"
+
+#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://47.89.38.215:6688/fsj/alarm/app/statistics?userName=%@",username];
+#define BaseImgURL      @"http://47.89.38.215:6688"
+#define BaseURL         @"http://47.89.38.215:6688/fsj"
 
 
 #endif
-//#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://192.168.10.94:8080/fsj/alarm/app/statistics?userName=%@",username];
-#define BaseTongjiurl(username)  [NSString stringWithFormat:@"http://47.89.38.215:6688/fsj/alarm/app/statistics?userName=%@",username];
-
-
-
-
 #define PgyAppID        @"85838383eb2e34b6a2b49fa95c94be8b"
 #define THWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self
 ///Users/Monstar/Library/Developer/Xcode/DerivedData

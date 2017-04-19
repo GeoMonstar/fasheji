@@ -127,6 +127,8 @@
 
 @property (nonatomic, copy)NSString *tWorkAuto;
 
+
+
 @property (nonatomic, copy)NSString *tInputPowThreLow;
 
 @property (nonatomic, copy)NSString *tAmpCuur;
@@ -460,6 +462,8 @@
 @end
 
 @interface FSJZhengjicontrol50W : FSJJiankongBase
+
+@property (nonatomic, copy)NSString *tSetOutputPow;
 
 @property (nonatomic, copy)NSString *tWorkAuto;
 

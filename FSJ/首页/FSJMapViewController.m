@@ -244,9 +244,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         versionStr = versionNum;
         appversionStr = app_Versionnum;
         if ([versionStr integerValue] <= [appversionStr integerValue]) {
-            
         }
-
         else{
             UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"新版本可以更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
