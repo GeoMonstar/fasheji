@@ -153,8 +153,8 @@
                          if ([model.status isEqualToString:@"200"]) {
                              [SVProgressHUD showSuccessWithStatus:model.message];
                              
-                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                 [self.navigationController popViewControllerAnimated:YES];
+                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                  [[NSNotificationCenter defaultCenter]postNotificationName:kNotificationWithLogout object:nil userInfo:nil];
                              });
                          }else{
                              [SVProgressHUD showErrorWithStatus:model.message];

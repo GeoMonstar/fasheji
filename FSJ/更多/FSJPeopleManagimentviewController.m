@@ -320,11 +320,12 @@
         
         jiankong.fsjId = transmodel.transId;
         jiankong.addressId = transmodel.ipAddr;
-        if ([transmodel.powerRate isEqualToString:@"1KW"]) {
+        
+        if ([transmodel.power isEqualToString:@"4"]) {
             jiankong.is1000W = YES;
             jiankong.JiankongType = Zhengji;
              [self.navigationController pushViewController:jiankong animated:YES];
-        }else if ([transmodel.powerRate isEqualToString:@"50W"]){
+        }else if ([transmodel.power isEqualToString:@"0"]){
             
             FSJJiankong50W *jk500vc = [[FSJJiankong50W alloc]init];
             jk500vc.fsjId = transmodel.transId;
@@ -631,13 +632,10 @@
 {
     return nil;
 }
-
-
 - (NSString *)menu:(DOPDropDownMenu *)menu detailTextForRowAtIndexPath:(DOPIndexPath *)indexPath
 {
     return nil;
 }
-
 - (NSString *)menu:(DOPDropDownMenu *)menu detailTextForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
 {
     return nil;
@@ -723,6 +721,7 @@
             }
             
             if (indexPath.row !=0) {
+                //按字典取值
                 NSString *keyid;
                 NSString *str = seconNamedArr[indexPath.row];
                 for (NSDictionary *dic in self.secondArr) {
@@ -730,8 +729,6 @@
                         keyid = [dic objectForKey:@"organId"];
                     }
                 }
-//                NSDictionary *dic = self.secondArr[indexPath.row-1];
-//                thirdOrangId = [dic objectForKey:@"organId"];
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.thridArr) {
                     if ([[temp objectForKey:@"parentId"]isEqualToString:keyid]) {

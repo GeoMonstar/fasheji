@@ -282,6 +282,7 @@ static NSString *MineHeaderViewCell = @"MineHeaderViewCell";
             [FSJNetworking networkingGETWithActionType:GetVerisonInfo requestDictionary:getdic success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
                 NSString *logStr = [responseObject objectForKey:@"log"];
                 UIAlertController *acView = [UIAlertController alertControllerWithTitle:@"发现新版本" message:logStr preferredStyle:UIAlertControllerStyleAlert];
+                
                 UIAlertAction *no = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
                 UIAlertAction *yes = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.pgyer.com/oSSb"]];

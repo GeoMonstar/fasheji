@@ -102,6 +102,10 @@
  */
 @property (nonatomic, copy)NSString *powerRate;
 /**
+ *  @brief  枚举
+ */
+@property (nonatomic, copy)NSString *power;
+/**
  *  @brief  发射站名称
  */
 @property (nonatomic, copy)NSString *sname;
@@ -226,5 +230,6 @@
  *  @brief 发射机类型
  */
 @property (nonatomic, copy)NSString *transmitterType;
+
 + (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @end

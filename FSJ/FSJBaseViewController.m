@@ -9,6 +9,7 @@
 #import "FSJBaseViewController.h"
 #import "FSJLogInViewController.h"
 #import "JPFPSStatus.h"
+#import "FSJMapViewController.h"
 @interface FSJBaseViewController ()
 
 @end
@@ -31,8 +32,12 @@
 
 }
 - (void)logout:(NSNotification *)notification{
+  
+    
+    //self.navigationController popToRootViewControllerAnimated:<#(BOOL)#>;
     FSJLogInViewController *vc = [[FSJLogInViewController alloc]init];
-    [self presentViewController:vc animated:YES completion:nil];
+    [UIApplication sharedApplication].keyWindow.rootViewController = vc;
+    //[self presentViewController:vc animated:YES completion:nil];
 
 }
 - (void)networkChanged:(NSNotification *)notification

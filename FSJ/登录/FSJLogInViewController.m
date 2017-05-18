@@ -115,8 +115,10 @@
 #pragma mark -- Login
 - (void)login:(UIButton *)sender{
     sender.enabled = NO;
-    userPwd.text  =@"admin";
-    userName.text  =@"city";
+   // userPwd.text  =@"";
+    // userName.text  =@"admin";
+   
+    
     if ([userName.text isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"请输入账号"];
         sender.enabled = YES;
@@ -138,11 +140,19 @@
         
              [MBProgressHUD showSuccess:model.message];
              [FSJUserInfo shareInstance].usermodel = model;
+            
              FSJMapViewController *vc = [[FSJMapViewController alloc]init];
              JQBaseNav *lnav = [[JQBaseNav alloc]initWithRootViewController:vc];
-             [UIApplication sharedApplication].keyWindow.rootViewController = lnav;
-            //[self.navigationController pushViewController:vc animated:YES];
             
+            if (lnav.viewControllers.count >1) {
+                //清除栈内元素
+                NSArray *arr = lnav.viewControllers;
+                lnav.viewControllers = arr[0];
+                
+             }
+            
+             [UIApplication sharedApplication].keyWindow.rootViewController = lnav;
+             VVDLog(@"总量:%ld",lnav.viewControllers.count);
         }else{
            [MBProgressHUD showError:model.message];
         }

@@ -30,7 +30,6 @@
         if (!ret) {
             VVDLog(@"百度地图启动失败");
     }
-    
     //键盘
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     

@@ -78,6 +78,7 @@
 }
 - (void)createPop{
     self.menu=[[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+    self.menu.remainMenuTitle = NO;
     self.menu.delegate = self;
     self.menu.dataSource = self;
     [self.view addSubview: self.menu];
@@ -224,6 +225,7 @@
                 [thridNameArr insertObject:ThirdArrStr atIndex:0];
                 
                 [self.menu reloadData];
+                
             }
         }
         //点击第二列
@@ -235,16 +237,32 @@
             }
             
             if (indexPath.row !=0) {
-                NSDictionary *dic = self.secondArr[indexPath.row-1];
-                thirdOrangId = [dic objectForKey:@"organId"];
+                //按字典取值
+                NSString *keyid;
+                NSString *str = seconNamedArr[indexPath.row];
+                for (NSDictionary *dic in self.secondArr) {
+                    if ([str isEqualToString:[dic objectForKey:@"name"]]) {
+                        keyid = [dic objectForKey:@"organId"];
+                    }
+                }
                 [thridNameArr removeAllObjects];
                 for (NSDictionary *temp in self.thridArr) {
-                    if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
+                    if ([[temp objectForKey:@"parentId"]isEqualToString:keyid]) {
                         [thridNameArr addObject:[temp objectForKey:@"name"]];
                         
                     }
                 }
                 [thridNameArr insertObject:ThirdArrStr atIndex:0];
+//                NSDictionary *dic = self.secondArr[indexPath.row-1];
+//                thirdOrangId = [dic objectForKey:@"organId"];
+//                [thridNameArr removeAllObjects];
+//                for (NSDictionary *temp in self.thridArr) {
+//                    if ([[temp objectForKey:@"parentId"]isEqualToString:[dic objectForKey:@"organId"]]) {
+//                        [thridNameArr addObject:[temp objectForKey:@"name"]];
+//                        
+//                    }
+//                }
+//                [thridNameArr insertObject:ThirdArrStr atIndex:0];
             }
             else{
                 thirdOrangId = @"";
@@ -398,7 +416,7 @@
                         //[seconNamedArr addObject:model.name];
                     }
                    
-                    [firstNameArr  insertObject: [[FSJUserInfo shareInstance] userAccount].areaType atIndex:0];
+                    [firstNameArr  insertObject: [[FSJUserInfo shareInstance] userAccount].officeName atIndex:0];
                     [seconNamedArr insertObject:ThirdArrStr atIndex:0];
                 }
                 if ([gradeType isEqualToString:@"3"]) {

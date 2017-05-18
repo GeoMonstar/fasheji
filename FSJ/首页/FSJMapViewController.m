@@ -149,7 +149,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
    [[NSNotificationCenter defaultCenter]postNotificationName:kGestureControl object:nil userInfo:@{@"canPan":@"0"}];
     [self.mapView viewWillAppear];
     self.mapView.delegate = self;// 此处记得不用的时候需要置nil，否则影响内存的释放
-   // locService.delegate = self;
     _geocodesearchCity.delegate = self;
     _geocodesearch.delegate = self;
 }
@@ -166,7 +165,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [super viewWillDisappear:animated];
     [self.mapView viewWillDisappear];
     self.mapView.delegate = nil; // 不用时，置nil
-    //locService.delegate = nil;
+
     _geocodesearch.delegate = nil;
     _geocodesearchCity.delegate = nil;
     
@@ -184,8 +183,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     [self receiveWarnNoti];
 }
 - (void)getData{
-
-    
     staticJwt      = [[FSJUserInfo shareInstance] userAccount].jwt;
     staticareaType = [[FSJUserInfo shareInstance] userAccount].areaType;
     staticareaId   = [[FSJUserInfo shareInstance] userAccount].areaId;
@@ -233,9 +230,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
             
         }else{
             versionStr = [self convertStrwith:versionStr];
-            
         }
-        
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
         NSString *app_Versionnum = [infoDictionary objectForKey:@"CFBundleVersion"];
@@ -317,7 +312,6 @@ NSString *keyCityNorCount   = @"kCityNorCount";
                     [stationError  removeObject:annoatation];
                     [stationNormal addObject:annoatation];
                 });
-                
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -1571,6 +1565,7 @@ NSString *keyCityNorCount   = @"kCityNorCount";
     }
     return 0;
 }
+#pragma mark -- 跳转判断--
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (tableView == self.mytableView) {
@@ -1600,12 +1595,12 @@ NSString *keyCityNorCount   = @"kCityNorCount";
         NSDictionary *netdict = @{@"id":model.transId,@"jwt":staticJwt};
         [FSJNetworking networkingGETWithURL:@"/rs/app/station/transmitter/getById" requestDictionary:netdict success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
            FSJResultList * listmodel = [FSJResultList initWithDictionary:responseObject];
-            if ([listmodel.powerRate isEqualToString:@"1KW"]) {
+            if ([listmodel.power isEqualToString:@"4"]) {
                 jiankong.is1000W = YES;
                  jiankong.JiankongType = Zhengji;
                 [self.navigationController pushViewController:jiankong animated:YES];
                 }
-            else if ([listmodel.powerRate isEqualToString:@"50W"]){
+            else if ([listmodel.power isEqualToString:@"0"]){
                 FSJJiankong50W *jk500vc = [[FSJJiankong50W alloc]init];
                 jk500vc.fsjId = model.transId;
                 jk500vc.addressId = model.ipAddr;
